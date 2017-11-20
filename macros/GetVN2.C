@@ -9,19 +9,12 @@
 #include <iostream>
 static const int ncentbins = 11;
 static const int centBins[]={0,5,10,15,20,25,30,35,40,50,60,70};
-static const double centRefBins[]={0,5,10,15,20,25,30,35,40,50,60,70};
-static const int cbins = 14;
-static const int cmin[]={0, 5,10,15,20,25,30,35,40,50,60,  0,20, 60};
-static const int cmax[]={5,10,15,20,25,30,35,40,50,60,70, 20,60,100};
 double EtaMin = -0.8;
 double EtaMax = 0.8;
 string FigDir = "";
 string FigSubDir = "";
 enum AnalType {
-    N1MCm22SUB3,       N1MCm18SUB3,        N1MCm14SUB3,      N1MCm10SUB3, 
-    N1MCm06SUB3,       N1MCm02SUB3,        N1MCp22SUB3,      N1MCp18SUB3, 
-    N1MCp14SUB3,       N1MCp10SUB3,        N1MCp06SUB3,       N1MCp02SUB3,
-         N1SUB2,            N1SUB3,                 
+         N1SUB2,            N1SUB3,           N1MCSUB2,         N1MCSUB3,         
       N112ASUB2,         N112ASUB3,          N123ASUB2,        N123ASUB3,            
          N2SUB2,            N2SUB3,             N3SUB2,           N3SUB3,     
          N4SUB2,            N4SUB3,            N42SUB2,          N42SUB3,          
@@ -45,10 +38,7 @@ enum AnalType {
          N42EFF,              LAST
 };
 string AnalNames[]={
-  "N1MCm22SUB3",     "N1MCm18SUB3",      "N1MCm14SUB3",    "N1MCm10SUB3",
-  "N1MCm06SUB3",     "N1MCm02SUB3",      "N1MCp22SUB3",    "N1MCp18SUB3", 
-  "N1MCp14SUB3",     "N1MCp10SUB3",      "N1MCp06SUB3",    "N1MCp02SUB3",
-       "N1SUB2",          "N1SUB3",              
+       "N1SUB2",          "N1SUB3",         "N1MCSUB2",       "N1MCSUB3",       
     "N112ASUB2",       "N112ASUB3",        "N123ASUB2",      "N123ASUB3",          
        "N2SUB2",          "N2SUB3",           "N3SUB2",         "N3SUB3", 
        "N4SUB2",          "N4SUB3",          "N42SUB2",        "N42SUB3",        
@@ -72,10 +62,7 @@ string AnalNames[]={
        "N42EFF",             "LAST"
 };
 string ytitle[]={
-"v_{1}\{#Psi_{1,MC} (-2.4<#eta<-2.0)\}", "v_{1}\{#Psi_{1,MC} (-2.0<#eta<-1.6)\}", "v_{1}\{#Psi_{1,MC} (-1.6<#eta<-1.2)\}", "v_{1}\{#Psi_{1,MC} (-1.2<#eta<-0.8)\}",
-"v_{1}\{#Psi_{1,MC} (-0.8<#eta<-0.4)\}",  "v_{1}\{#Psi_{1,MC} (-0.4<#eta<0.0)\}",   "v_{1}\{#Psi_{1,MC} (2.0<#eta<2.4)\}",   "v_{1}\{#Psi_{1,MC} (1.6<#eta<2.0)\}",
-  "v_{1}\{#Psi_{1,MC} (1.2<#eta<1.6)\}",   "v_{1}\{#Psi_{1,MC} (0.8<#eta<1.2)\}",   "v_{1}\{#Psi_{1,MC} (0.4<#eta<0.8)\}",   "v_{1}\{#Psi_{1,MC} (0.0<#eta<0.4)\}",
-            "v_{1}\{#Psi_{1}\}",             "v_{1}\{#Psi_{1}\}",             
+            "v_{1}\{#Psi{1}\}",             "v_{1}\{#Psi{1}\}",              "v_{1}\{#Psi{1} MC\}",              "v_{1}\{#Psi{1} MC\}",     
      "v_{1}\{#Psi{1},#Psi{2}\}",     "v_{1}\{#Psi{1},#Psi{2}\}",        "v_{1}\{#Psi{2},#Psi{3}\}",         "v_{1}\{#Psi{2},#Psi{3}\}",                        
                         "v_{2}",                        "v_{2}",                           "v_{3}",                            "v_{3}",   
                         "v_{4}",                        "v_{4}",               "v_{4}\{#Psi_{2}\}",                "v_{4}\{#Psi_{2}\}", 
@@ -114,8 +101,6 @@ bool isTight = false;
 bool rew = false;
 string stag;
 TH1D * centbins;
-TH1I * centRef;
-
 double FakeAndEff(int cent, double pt, double &eff) {
   double cb[14]={0,5,10,15,20,25,30,35,40,50,60,70,80,100};
   double cbe[6]={0,5,10,30,50,100};
@@ -216,20 +201,20 @@ TH2D * ptcntEff(TH2D * ptcnt, double cent) {
 }
 string rootFile;
 TGraphErrors * GetVNPt(int replay, int bin, double etamin, double etamax, TGraphErrors * &gA, TGraphErrors * &gB, TGraphErrors * &gspec, double *  resA, double * resB, double & vint, double & vinte, bool nonorm=false){
-  cout<<"========================== "<<AnalNames[replay]<<"  with bin,etamin,etamax: "<<bin<<"\t"<<etamin<<"\t"<<etamax<<endl;
-  TH1D * hspec = 0;
-  TH1D * xpt=0;
-  TH1D * sp=0;
-  TH1D * vn = 0;
-  TH1D * vnA = 0;
-  TH1D * vnB = 0;
-  TH1D * vn2 = 0;
-  TH1D * vnA2 = 0;
-  TH1D * vnB2 = 0;
-  TH1D * qA1=0;
-  TH1D * qB1=0;
-  TH1D * wA1=0;
-  TH1D * wB1 = 0;
+  cout<<"========================== "<<AnalNames[replay]<<endl;
+TH1D * hspec = 0;
+TH1D * xpt=0;
+TH1D * sp=0;
+TH1D * vn = 0;
+TH1D * vnA = 0;
+TH1D * vnB = 0;
+TH1D * vn2 = 0;
+TH1D * vnA2 = 0;
+TH1D * vnB2 = 0;
+TH1D * qA1=0;
+TH1D * qB1=0;
+TH1D * wA1=0;
+TH1D * wB1 = 0;
   TH2D * qAe[10];
   TH2D * qBe[10];
   TH2D * wnAe[10];
@@ -238,19 +223,16 @@ TGraphErrors * GetVNPt(int replay, int bin, double etamin, double etamax, TGraph
   TH1D * qBe1[10]={0};
   TH1D * wAe1[10]={0};
   TH1D * wBe1[10]={0};
-  TH1D * vnAe=0;
-  TH1D * vnBe=0;
-  TH1D * vne=0;
-  TH2D * ptav=0;
-  TH2D * ptcnt=0;
-  TH2D * badcnt=0;
-  TH2D * qA=0;
-  TH2D * qB=0;
-  TH2D * wnA=0;
-  TH2D * wnB=0;
-  int jmin = centRef->FindBin(cmin[bin])-1;
-  int jmax = centRef->FindBin(cmax[bin]-0.01)-1;
-  cout<<"jmin,jmax: "<<jmin<<"\t"<<jmax<<endl;
+    TH1D * vnAe=0;
+    TH1D * vnBe=0;
+    TH1D * vne=0;
+TH2D * ptav;
+TH2D * ptcnt;
+TH2D * badcnt;
+TH2D * qA;
+TH2D * qB;
+TH2D * wnA;
+TH2D * wnB;
   ANAL = replay;
   string strip = AnalNames[replay];
   bool sub2 = false;
@@ -263,92 +245,22 @@ TGraphErrors * GetVNPt(int replay, int bin, double etamin, double etamax, TGraph
     cout<<"Use 3 subevent weighting"<<endl;
   strip = strip.substr(0,strip.find("SUB3"));
   }
-  double qBA = 0;
-  double qCA = 0;
-  double qCB = 0;
-  double qBAcnt = 0;
-  double qCAcnt = 0;
-  double qCBcnt = 0;
-  double qBAe[10]={0};
-  double qCAe[10]={0};
-  double qCBe[10]={0};
-  double qBAecnt[10]={0};
-  double qCAecnt[10]={0};
-  double qCBecnt[10]={0};
-  double centcnt = 0;
-  for(int j = jmin; j<=jmax; j++) {
-    string crange = to_string(cmin[j])+"_"+to_string(cmax[j]);
-    cout<<"crange: "<<crange<<endl;
-    if(j==jmin) {
-      ptav = (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/ptav",crange.data()));
-      ptcnt = (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/ptcnt",crange.data()));
-      badcnt = (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/badcnt",crange.data()));
-      centbins = (TH1D * ) fin->Get("vnanalyzer/centres");
-      centcnt+=centbins->GetBinContent(j);
-      qA = (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qA",crange.data(),strip.data()));
-      qB = (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qB",crange.data(),strip.data()));
-      wnA = (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/wnA",crange.data(),strip.data()));
-      wnB = (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/wnB",crange.data(),strip.data()));
-      qBA += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qBA",crange.data(),strip.data())))->GetBinContent(1);
-      qBAcnt+=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qBAcnt",crange.data(),strip.data())))->GetBinContent(1);
-      qCA += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCA",crange.data(),strip.data())))->GetBinContent(1);
-      qCAcnt+=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCAcnt",crange.data(),strip.data())))->GetBinContent(1); 
-      qCB += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCB",crange.data(),strip.data())))->GetBinContent(1);
-      qCBcnt+=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCBcnt",crange.data(),strip.data())))->GetBinContent(1);
-      
-      for(int i = 0; i<10; i++) {
-	qAe[i] = (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qA_%d",crange.data(),strip.data(),i+1));
-	qBe[i] = (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qB_%d",crange.data(),strip.data(),i+1));
-	wnAe[i] = (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/wnA_%d",crange.data(),strip.data(),i+1));
-	wnBe[i] = (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/wnB_%d",crange.data(),strip.data(),i+1));
-	qBAe[i] += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qBA_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
-	qBAecnt[i]+=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qBAcnt_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
-	qCAe[i] += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCA_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
-	qCAecnt[i]+=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCAcnt_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
-	qCBe[i] += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCB_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
-	qCBecnt[i]+=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCBcnt_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
-      }
-    } else {
-      centcnt+=centbins->GetBinContent(j);
-      ptav->Add( (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/ptav",crange.data())));
-      ptcnt->Add( (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/ptcnt",crange.data())));
-      badcnt->Add( (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/badcnt",crange.data())));
-      //centbins = (TH1D * ) fin->Get("vnanalyzer/centres");
-      qA->Add( (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qA",crange.data(),strip.data())));
-      qB->Add( (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qB",crange.data(),strip.data())));
-      wnA->Add( (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/wnA",crange.data(),strip.data())));
-      wnB->Add( (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/wnB",crange.data(),strip.data())));
-      qBA += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qBA",crange.data(),strip.data())))->GetBinContent(1);
-      qBAcnt+=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qBAcnt",crange.data(),strip.data())))->GetBinContent(1);
-      qCA += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCA",crange.data(),strip.data())))->GetBinContent(1);
-      qCAcnt+=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCAcnt",crange.data(),strip.data())))->GetBinContent(1); 
-      qCB += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCB",crange.data(),strip.data())))->GetBinContent(1);
-      qCBcnt+=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCBcnt",crange.data(),strip.data())))->GetBinContent(1);
-      
-      for(int i = 0; i<10; i++) {
-	qAe[i]->Add( (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qA_%d",crange.data(),strip.data(),i+1)));
-	qBe[i]->Add( (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qB_%d",crange.data(),strip.data(),i+1)));
-	wnAe[i]->Add( (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/wnA_%d",crange.data(),strip.data(),i+1)));
-	wnBe[i]->Add( (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/wnB_%d",crange.data(),strip.data(),i+1)));
-	qBAe[i] += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qBA_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
-	qBAecnt[i]+=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qBAcnt_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
-	qCAe[i] += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCA_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
-	qCAecnt[i]+=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCAcnt_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
-	qCBe[i] += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCB_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
-	qCBecnt[i]+=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCBcnt_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
-      }
-    }
-  }
-  qBA/=qBAcnt;
-  qCA/=qCAcnt;
-  qCB/=qCBcnt;
-  for(int i = 0; i<10; i++) {
-  qBAe[i]/=qBAecnt[i];
-  qCAe[i]/=qCAecnt[i];
-  qCBe[i]/=qCBecnt[i];
-    
-  }
+  string crange = to_string(centBins[bin])+"_"+to_string(centBins[bin+1]);
+  cout<<"FILE: "<<fin->GetName()<<endl;
+  ptav = (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/ptav",crange.data()));
+  ptcnt = (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/ptcnt",crange.data()));
   ptav->Divide(ptcnt);
+   badcnt = (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/badcnt",crange.data()));
+  centbins = (TH1D * ) fin->Get("vnanalyzer/centres");
+  qA = (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qA",crange.data(),strip.data()));
+  qB = (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qB",crange.data(),strip.data()));
+  wnA = (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/wnA",crange.data(),strip.data()));
+  wnB = (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/wnB",crange.data(),strip.data()));
+  cout<<"qA: "<<strip.data()<<"\t"<<qA->GetName()<<endl;
+  cout<<"qB: "<<strip.data()<<"\t"<<qB->GetName()<<endl;
+  cout<<"wnA: "<<strip.data()<<"\t"<<wnA->GetName()<<endl;
+  cout<<"wnB: "<<strip.data()<<"\t"<<wnB->GetName()<<endl;
+
   int ietamin1=0;
   int ietamax1=0;
   int ietamin2=0;
@@ -357,8 +269,8 @@ TGraphErrors * GetVNPt(int replay, int bin, double etamin, double etamax, TGraph
   if(replay==N112ASUB2 || replay==N112ASUB3) sign=-1.;
   if(etamin*etamax<0) {
     ietamin1 = qA->GetYaxis()->FindBin(etamin);
-    ietamax1 = qA->GetYaxis()->FindBin(-0.001);
-    ietamin2 = qA->GetYaxis()->FindBin(0.);
+    ietamax1 = qA->GetYaxis()->FindBin(etamax);
+    ietamin2 = qA->GetYaxis()->FindBin(etamin);
     ietamax2 = qA->GetYaxis()->FindBin(etamax);
     qA1 = (TH1D *) qA->ProjectionX("qA1",ietamin1,ietamax1);
     qB1 = (TH1D *) qB->ProjectionX("qB1",ietamin2,ietamax2);
@@ -377,6 +289,12 @@ TGraphErrors * GetVNPt(int replay, int bin, double etamin, double etamax, TGraph
   qA1->Divide(wA1);
   qB1->Divide(wB1);
   if(!nonorm) {
+    double qBA = ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qBA",crange.data(),strip.data())))->GetBinContent(1);
+    qBA/=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qBAcnt",crange.data(),strip.data())))->GetBinContent(1);
+    double qCA = ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCA",crange.data(),strip.data())))->GetBinContent(1);
+    qCA/=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCAcnt",crange.data(),strip.data())))->GetBinContent(1); 
+    double qCB = ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCB",crange.data(),strip.data())))->GetBinContent(1);
+    qCB/=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCBcnt",crange.data(),strip.data())))->GetBinContent(1);
     qBA=fabs(qBA);
     qCA=fabs(qCA);
     qCB=fabs(qCB);
@@ -397,6 +315,10 @@ TGraphErrors * GetVNPt(int replay, int bin, double etamin, double etamax, TGraph
     }
   }
   for(int i = 0; i<10; i++) {
+    qAe[i] = (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qA_%d",crange.data(),strip.data(),i+1));
+    qBe[i] = (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qB_%d",crange.data(),strip.data(),i+1));
+    wnAe[i] = (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/wnA_%d",crange.data(),strip.data(),i+1));
+    wnBe[i] = (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/wnB_%d",crange.data(),strip.data(),i+1));
     
     qAe1[i] = (TH1D *) qAe[i]->ProjectionX(Form("qAe1_%d",i),ietamin1,ietamax1);
     qBe1[i] = (TH1D *) qBe[i]->ProjectionX(Form("qBe1_%d",i),ietamin2,ietamax2);
@@ -408,25 +330,31 @@ TGraphErrors * GetVNPt(int replay, int bin, double etamin, double etamax, TGraph
     qAe1[i]->Divide(wAe1[i]);
     qBe1[i]->Divide(wBe1[i]);
     if(!nonorm) {
-      qBAe[i]=fabs(qBAe[i]);
-      qCAe[i]=fabs(qCAe[i]);
-      qCBe[i]=fabs(qCBe[i]);
+      double qBA = ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qBA_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
+      qBA/=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qBAcnt_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
+      double qCA = ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCA_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
+      qCA/=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCAcnt_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
+      double qCB = ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCB_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
+      qCB/=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCBcnt_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
+      qBA=fabs(qBA);
+      qCA=fabs(qCA);
+      qCB=fabs(qCB);
       if(sub2) {
-	qAe[i]->Scale(1./sqrt(qBAe[i]));
-	qBe[i]->Scale(1./sqrt(qBAe[i]));  
-	resA[i+1]= sqrt(qBAe[i]);
-	resB[i+1]= sqrt(qBAe[i]);
+	qAe[i]->Scale(1./sqrt(qBA));
+	qBe[i]->Scale(1./sqrt(qBA));  
+	resA[i+1]= sqrt(qBA);
+	resB[i+1]= sqrt(qBA);
       } else {
-	qAe[i]->Scale(1./sqrt(qBAe[i]*qCAe[i]/qCBe[i]));
-	qBe[i]->Scale(1./sqrt(qBAe[i]*qCBe[i]/qCAe[i]));
-	resA[i+1]= sqrt(qBAe[i]*qCAe[i]/qCBe[i]);
-	resB[i+1]= sqrt(qBAe[i]*qCBe[i]/qCAe[i]);
+	qAe[i]->Scale(1./sqrt(qBA*qCA/qCB));
+	qBe[i]->Scale(1./sqrt(qBA*qCB/qCA));
+	resA[i+1]= sqrt(qBA*qCA/qCB);
+	resB[i+1]= sqrt(qBA*qCB/qCA);
       }
     }
   }
   if(etamin*etamax<0) {
     xpt = (TH1D *) ptav->ProjectionX("xpt",ietamin1,ietamax2);
-    double c = (cmin[bin]+cmax[bin])/2.;
+    double c = (centBins[bin+1]+centBins[bin])/2.;
     TH2D * hsEff = ptcntEff(ptcnt,c);
   
     //hsEff->Draw("colz");
@@ -434,8 +362,8 @@ TGraphErrors * GetVNPt(int replay, int bin, double etamin, double etamax, TGraph
     sp = (TH1D *) hsEff->ProjectionX("sp",ietamin1,ietamax2);
     double ebinsA = ietamax1-ietamin1+1 ;
     double ebinsB = ietamax2-ietamin2+1;
-    xpt->Scale(1./(ebinsA+ebinsB));
-    sp->Scale(1./(ebinsA+ebinsB));
+    xpt->Scale(1./(ebinsA));
+    sp->Scale(1./(ebinsA));
     if(!rew) {
       vnA = (TH1D *) qA->ProjectionX("vnA",ietamin1,ietamax1);
       vnB = (TH1D *) qB->ProjectionX("vnB",ietamin2,ietamax2);
@@ -508,7 +436,7 @@ TGraphErrors * GetVNPt(int replay, int bin, double etamin, double etamax, TGraph
     }
   } else {
     xpt = (TH1D *) ptav->ProjectionX("xpt",ietamin1,ietamax1);
-    double c = (cmin[bin]+cmax[bin])/2.;
+    double c = (centBins[bin+1]+centBins[bin])/2.;
     TH2D * hsEff = ptcntEff(ptcnt,c);
   
     //hsEff->Draw("colz");
@@ -644,13 +572,13 @@ TGraphErrors * GetVNPt(int replay, int bin, double etamin, double etamax, TGraph
       eyA[npt] = vnA->GetBinError(i);
       eyB[npt] = vnB->GetBinError(i);
       xspec[npt] = pt;
-      yspec[npt] = sp->GetBinContent(i)/sp->GetBinWidth(i)/(etamax-etamin)/centcnt;
+      yspec[npt] = sp->GetBinContent(i)/sp->GetBinWidth(i)/(etamax-etamin)/(double)centbins->GetBinContent(bin+1);
       exspec[npt] = 0;
       eyspec[npt] = 0;
-      if(sp->GetBinContent(i)>1) eyspec[npt] = sqrt(sp->GetBinContent(i))/sp->GetBinWidth(i)/(etamax-etamin)/centcnt;
+      if(sp->GetBinContent(i)>1) eyspec[npt] = sqrt(sp->GetBinContent(i))/sp->GetBinWidth(i)/(etamax-etamin)/(double)centbins->GetBinContent(bin+1);
       if(pt<3.) {
 	double eff = 0;
-	double cent = (cmin[bin] + cmax[bin])/2.;
+	double cent = (centBins[bin+1] + centBins[bin])/2.;
 	
 	double fake = FakeAndEff(cent,pt,eff);
 	wvn += y[npt]*yld->GetBinContent(i)/eff;
@@ -705,7 +633,7 @@ void GetVNCreate(int replay = N42SUB3, int bin = 0, bool NumOnly=false, bool Den
     system(Form("touch %s/%s/data/integral.dat",FigDir.data(),AnalNames[replay].data()));
     soutint = Form("%s/%s/data/integral.dat",FigDir.data(),AnalNames[replay].data());
   }
-  string cname = AnalNames[replay]+"_"+to_string(cmin[bin])+"_"+to_string(cmax[bin]);
+  string cname = AnalNames[replay]+"_"+to_string(centBins[bin])+"_"+to_string(centBins[bin+1]);
   bool chi4 = false;
   if(replay==CHI4) chi4 = true;
   bool chi5 = false;
@@ -738,17 +666,17 @@ void GetVNCreate(int replay = N42SUB3, int bin = 0, bool NumOnly=false, bool Den
   double vinte = 0;
   double vintdenom = 0;
   double vintedenom = 0;
-  double resA[cbins];
-  double resB[cbins];
-  double resAdenom[cbins];
-  double resBdenom[cbins];
-  cout<<"In create"<<endl;
+  double resA[11];
+  double resB[11];
+  double resAdenom[11];
+  double resBdenom[11];
   if(replay==N112ASUB2||replay==N112ASUB3) {
     hdenom = GetVNPt(N2SUB3, bin, EtaMin,EtaMax, hAdenom, hBdenom,nwspec2, resAdenom,resBdenom, vintdenom,vintedenom, false);
     fin->Close();
     fin = new TFile(rootFile.data(),"r");
     hpt    = GetVNPt(N112ASUB3, bin, EtaMin,EtaMax, hA, hB, nwspec, resA, resB, vint,vinte, false);
     double res = (resAdenom[0]+resBdenom[0])/2.;
+     cout<<"res: "<<res<<"\t"<<resA[0]<<"\t"<<resB[0]<<"\t"<<resAdenom[0]<<"\t"<<resBdenom[0]<<endl;
       for(int i = 0; i<hpt->GetN(); i++) {
          double ef = hpt->GetEY()[i]/hpt->GetY()[i];
          hpt->GetY()[i]/=res;
@@ -769,6 +697,7 @@ void GetVNCreate(int replay = N42SUB3, int bin = 0, bool NumOnly=false, bool Den
     fin = new TFile(rootFile.data(),"r");
     hpt    = GetVNPt(N123ASUB3, bin, EtaMin,EtaMax, hA, hB, nwspec, resA, resB, vint,vinte, false);
     double res = (resAdenom[0]+resBdenom[0])/2.;
+    cout<<"res: "<<res<<"\t"<<resA[0]<<"\t"<<resB[0]<<"\t"<<resAdenom[0]<<"\t"<<resBdenom[0]<<endl;
     for(int i = 0; i<hpt->GetN(); i++) {
        double ef = hpt->GetEY()[i]/hpt->GetY()[i];
        hpt->GetY()[i]/=res;
@@ -789,6 +718,7 @@ void GetVNCreate(int replay = N42SUB3, int bin = 0, bool NumOnly=false, bool Den
     fin = new TFile(rootFile.data(),"r");
     hpt    = GetVNPt(N42ASUB3, bin, EtaMin,EtaMax, hA, hB, nwspec, resA, resB, vint,vinte, true);
     double res = (resAdenom[0]+resBdenom[0])/2.;
+    cout<<"res: "<<res<<"\t"<<resAdenom[0]<<"\t"<<resBdenom[0]<<endl;
     for(int i = 0; i<hpt->GetN(); i++) {
        double ef = hpt->GetEY()[i]/hpt->GetY()[i];
        hpt->GetY()[i]/=res;
@@ -808,6 +738,7 @@ void GetVNCreate(int replay = N42SUB3, int bin = 0, bool NumOnly=false, bool Den
     fin = new TFile(rootFile.data(),"r");
     hpt    = GetVNPt(D24ASUB3, bin, EtaMin,EtaMax, hA, hB, nwspec, resA, resB, vint,vinte, true);
     double res = (resAdenom[0]+resBdenom[0])/2.;
+    cout<<"res: "<<res<<"\t"<<resAdenom[0]<<"\t"<<resBdenom[0]<<endl;
     for(int i = 0; i<hpt->GetN(); i++) {
        double ef = hpt->GetEY()[i]/hpt->GetY()[i];
        hpt->GetY()[i]/=res;
@@ -828,6 +759,7 @@ void GetVNCreate(int replay = N42SUB3, int bin = 0, bool NumOnly=false, bool Den
     fin = new TFile(rootFile.data(),"r");
     hpt    = GetVNPt(N62ASUB3, bin, EtaMin,EtaMax, hA, hB, nwspec, resA, resB, vint,vinte, true);
     double res = (resAdenom[0]+resBdenom[0])/2.;
+    cout<<"res: "<<res<<"\t"<<resAdenom[0]<<"\t"<<resBdenom[0]<<endl;
     for(int i = 0; i<hpt->GetN(); i++) {
        double ef = hpt->GetEY()[i]/hpt->GetY()[i];
        hpt->GetY()[i]/=res;
@@ -847,6 +779,7 @@ void GetVNCreate(int replay = N42SUB3, int bin = 0, bool NumOnly=false, bool Den
     fin = new TFile(rootFile.data(),"r");
     hpt    = GetVNPt(D26ASUB3, bin, EtaMin,EtaMax, hA, hB, nwspec, resA, resB, vint,vinte, true);
     double res = (resAdenom[0]+resBdenom[0])/2.;
+    cout<<"res: "<<res<<"\t"<<resAdenom[0]<<"\t"<<resBdenom[0]<<endl;
     for(int i = 0; i<hpt->GetN(); i++) {
        double ef = hpt->GetEY()[i]/hpt->GetY()[i];
        hpt->GetY()[i]/=res;
@@ -866,6 +799,7 @@ void GetVNCreate(int replay = N42SUB3, int bin = 0, bool NumOnly=false, bool Den
     fin = new TFile(rootFile.data(),"r");
     hpt    = GetVNPt(N63ASUB3, bin, EtaMin,EtaMax, hA, hB, nwspec, resA, resB, vint,vinte, true);
     double res = (resAdenom[0]+resBdenom[0])/2.;
+    cout<<"res: "<<res<<"\t"<<resAdenom[0]<<"\t"<<resBdenom[0]<<endl;
     for(int i = 0; i<hpt->GetN(); i++) {
        double ef = hpt->GetEY()[i]/hpt->GetY()[i];
        hpt->GetY()[i]/=res;
@@ -885,6 +819,7 @@ void GetVNCreate(int replay = N42SUB3, int bin = 0, bool NumOnly=false, bool Den
     fin = new TFile(rootFile.data(),"r");
     hpt    = GetVNPt(D34ASUB3, bin, EtaMin,EtaMax, hA, hB, nwspec, resA, resB, vint,vinte, true);
     double res = (resAdenom[0]+resBdenom[0])/2.;
+    cout<<"res: "<<res<<"\t"<<resAdenom[0]<<"\t"<<resBdenom[0]<<endl;
     for(int i = 0; i<hpt->GetN(); i++) {
        double ef = hpt->GetEY()[i]/hpt->GetY()[i];
        hpt->GetY()[i]/=res;
@@ -1163,7 +1098,7 @@ void GetVNCreate(int replay = N42SUB3, int bin = 0, bool NumOnly=false, bool Den
   }
   outint = fopen(soutint.data(),"a+");
 
-  fprintf(outint,"%d\t%d\t%15.10f\t%15.10f\n",cmin[bin],cmax[bin],vint,vinte);
+  fprintf(outint,"%d\t%d\t%15.10f\t%15.10f\n",centBins[bin],centBins[bin+1],vint,vinte);
   fclose(outint);
   double ymax = -1;
   double ymin = 1;
@@ -1178,8 +1113,10 @@ void GetVNCreate(int replay = N42SUB3, int bin = 0, bool NumOnly=false, bool Den
     if(hB->GetY()[n]-hB->GetEY()[n]<ymin) ymin = hB->GetY()[n]-hB->GetEY()[n];
 
     if(nwspec->GetY()[n]+nwspec->GetEY()[n]>ymaxspec) ymaxspec = nwspec->GetY()[n]+nwspec->GetEY()[n];
+    cout<<"n,val,ymax: "<<n<<"\t"<<hpt->GetY()[n]+hpt->GetEY()[n]<<"\t"<<ymax<<endl;
   }
 
+  cout<<"ymax: "<<ymax<<endl;
   if(ymax<0.0002) {
     ymax=0.0002;
   } else if(ymax<0.004) {
@@ -1202,6 +1139,7 @@ void GetVNCreate(int replay = N42SUB3, int bin = 0, bool NumOnly=false, bool Den
     ymax =10;
   }
 
+  cout<<"ymin: "<<ymin<<endl;
   if(ymin>0) {
     ymin=0;
   }  else if (ymin>-0.003) {
@@ -1235,70 +1173,70 @@ void GetVNCreate(int replay = N42SUB3, int bin = 0, bool NumOnly=false, bool Den
   string numdenom = "";
   if(NumOnly) numdenom=" (Numerator) ";
   if(DenomOnly) numdenom=" (Denominator) ";
-  string yt = ytitle[replay]+numdenom+" ("+to_string(cmin[bin])+" - "+to_string(cmax[bin])+"%)";
+  string yt = ytitle[replay]+numdenom+" ("+to_string(centBins[bin])+" - "+to_string(centBins[bin+1])+"%)";
   h->SetYTitle(yt.data());
   hpt->Draw("p");
   string prevname = "";
   string shengquan = "";
   if(ANAL==N2SUB3 || ANAL==N2SUB2 || ANAL==N2EFF) {
-    prevname = Form("data/EP_10_002_PtDists/v2_pt_ep_cen%d_%d_eta08.txt",cmin[bin],cmax[bin]);
-    if(cmin[bin]<=50) shengquan = Form("data/forSteveNov11/v22_%d_%d.txt",cmin[bin],cmax[bin]);
+    prevname = Form("data/EP_10_002_PtDists/v2_pt_ep_cen%d_%d_eta08.txt",centBins[bin],centBins[bin+1]);
+    if(centBins[bin]<=50) shengquan = Form("data/forSteveNov11/v22_%d_%d.txt",centBins[bin],centBins[bin+1]);
   }
   if(ANAL==N42SUB3 || ANAL==N42SUB2 || ANAL==N42EFF || ANAL==N42ASUB3 || ANAL==N42ASUB2) {
-    prevname = Form("data/hin_11_005_data/EPResults/PtDists/v4_2_%d_%d.txt",cmin[bin],cmax[bin]);
-    if(cmin[bin]<=50) shengquan = Form("data/forSteveNov11/v42_%d_%d.txt",cmin[bin],cmax[bin]);
+    prevname = Form("data/hin_11_005_data/EPResults/PtDists/v4_2_%d_%d.txt",centBins[bin],centBins[bin+1]);
+    if(centBins[bin]<=50) shengquan = Form("data/forSteveNov11/v42_%d_%d.txt",centBins[bin],centBins[bin+1]);
   }
-  if(ANAL==N3SUB3 || ANAL==N3SUB2) prevname = Form("data/hin_11_005_data/EPResults/PtDists/v3_%d_%d.txt",cmin[bin],cmax[bin]);
-  if(ANAL==N4SUB3 || ANAL==N4SUB2) prevname = Form("data/hin_11_005_data/EPResults/PtDists/v4_%d_%d.txt",cmin[bin],cmax[bin]);
-  if(ANAL==N5SUB3 || ANAL==N5SUB2) prevname = Form("data/hin_11_005_data/EPResults/PtDists/v5_%d_%d.txt",cmin[bin],cmax[bin]);
-  if(ANAL==N6SUB3 || ANAL==N6SUB2) prevname = Form("data/hin_11_005_data/EPResults/PtDists/v6_%d_%d.txt",cmin[bin],cmax[bin]);
+  if(ANAL==N3SUB3 || ANAL==N3SUB2) prevname = Form("data/hin_11_005_data/EPResults/PtDists/v3_%d_%d.txt",centBins[bin],centBins[bin+1]);
+  if(ANAL==N4SUB3 || ANAL==N4SUB2) prevname = Form("data/hin_11_005_data/EPResults/PtDists/v4_%d_%d.txt",centBins[bin],centBins[bin+1]);
+  if(ANAL==N5SUB3 || ANAL==N5SUB2) prevname = Form("data/hin_11_005_data/EPResults/PtDists/v5_%d_%d.txt",centBins[bin],centBins[bin+1]);
+  if(ANAL==N6SUB3 || ANAL==N6SUB2) prevname = Form("data/hin_11_005_data/EPResults/PtDists/v6_%d_%d.txt",centBins[bin],centBins[bin+1]);
   if(ANAL==N62SUB3 || ANAL==N62SUB2||ANAL==N62ASUB3 || ANAL==N62ASUB2) {
-    prevname = Form("data/hin_11_005_data/EPResults/PtDists/v6_2_%d_%d.txt",cmin[bin],cmax[bin]);
-    if(cmin[bin]<=50) shengquan = Form("data/forSteveNov11/v62_%d_%d.txt",cmin[bin],cmax[bin]);
+    prevname = Form("data/hin_11_005_data/EPResults/PtDists/v6_2_%d_%d.txt",centBins[bin],centBins[bin+1]);
+    if(centBins[bin]<=50) shengquan = Form("data/forSteveNov11/v62_%d_%d.txt",centBins[bin],centBins[bin+1]);
    }
   if(ANAL==N63SUB3 || ANAL==N63SUB2 || ANAL==N63ASUB2 || ANAL==N63ASUB3) {
-    if(cmin[bin]<=50) shengquan = Form("data/forSteveNov11/v63_%d_%d.txt",cmin[bin],cmax[bin]);
+    if(centBins[bin]<=50) shengquan = Form("data/forSteveNov11/v63_%d_%d.txt",centBins[bin],centBins[bin+1]);
    }
   if(ANAL==N723SUB3 || ANAL==N723SUB2 ||ANAL==N723ASUB3 || ANAL==N723ASUB2 || ANAL==N723EFF || ANAL==N723NOEFF) {
-    if(cmin[bin]<=50) shengquan = Form("data/forSteveNov11/v723_%d_%d.txt",cmin[bin],cmax[bin]);
+    if(centBins[bin]<=50) shengquan = Form("data/forSteveNov11/v723_%d_%d.txt",centBins[bin],centBins[bin+1]);
   }
   if(ANAL==N523ASUB3 || ANAL==N523ASUB2 || ANAL==N523SUB3 || ANAL==N523SUB2 ) {
-    if(cmin[bin]<=50) shengquan = Form("data/forSteveNov11/N523_%d_%d.txt",cmin[bin],cmax[bin]);
+    if(centBins[bin]<=50) shengquan = Form("data/forSteveNov11/N523_%d_%d.txt",centBins[bin],centBins[bin+1]);
   }
   if(ANAL==D2232ASUB3 || ANAL==D2232ASUB2 ) {
-    if(cmin[bin]<=50) shengquan = Form("data/forSteveNov11/D2232_%d_%d.txt",cmin[bin],cmax[bin]);
+    if(centBins[bin]<=50) shengquan = Form("data/forSteveNov11/D2232_%d_%d.txt",centBins[bin],centBins[bin+1]);
   }
   if(ANAL==D2432ASUB3 || ANAL==D2432ASUB2 ) {
-    if(cmin[bin]<=50) shengquan = Form("data/forSteveNov11/D2432_%d_%d.txt",cmin[bin],cmax[bin]);
+    if(centBins[bin]<=50) shengquan = Form("data/forSteveNov11/D2432_%d_%d.txt",centBins[bin],centBins[bin+1]);
   }
   if(ANAL==D24SUB3 || ANAL==D24SUB2 || ANAL==D24ASUB3 || ANAL==D24ASUB2 ) {
-    if(cmin[bin]<=50) shengquan = Form("data/forSteveNov11/D24_%d_%d.txt",cmin[bin],cmax[bin]);
+    if(centBins[bin]<=50) shengquan = Form("data/forSteveNov11/D24_%d_%d.txt",centBins[bin],centBins[bin+1]);
   }
   if(ANAL==D26SUB3 || ANAL==D26SUB2 ) {
-    if(cmin[bin]<=50) shengquan = Form("data/forSteveNov11/D26_%d_%d.txt",cmin[bin],cmax[bin]);
+    if(centBins[bin]<=50) shengquan = Form("data/forSteveNov11/D26_%d_%d.txt",centBins[bin],centBins[bin+1]);
   }
   if(replay == CHI4||replay == CHI4A) {
-    if(cmin[bin]<=50) shengquan = Form("data/forSteveNov11/Chi42_%d_%d.txt",cmin[bin],cmax[bin]);
+    if(centBins[bin]<=50) shengquan = Form("data/forSteveNov11/Chi42_%d_%d.txt",centBins[bin],centBins[bin+1]);
     prevname = "";
   }
   if(replay == CHI5||replay == CHI5A) {
-    if(cmin[bin]<=50) {
-      shengquan = Form("data/forSteveNov11/Chi523_%d_%d.txt",cmin[bin],cmax[bin]);
-      if(NumOnly) shengquan = Form("data/forSteveNov11/N523_%d_%d.txt",cmin[bin],cmax[bin]);
+    if(centBins[bin]<=50) {
+      shengquan = Form("data/forSteveNov11/Chi523_%d_%d.txt",centBins[bin],centBins[bin+1]);
+      if(NumOnly) shengquan = Form("data/forSteveNov11/N523_%d_%d.txt",centBins[bin],centBins[bin+1]);
     }
     prevname = "";
  
   }
   if(replay == CHI62||replay == CHI62A) {
-    if(cmin[bin]<=50) shengquan = Form("data/forSteveNov11/Chi62_%d_%d.txt",cmin[bin],cmax[bin]);
+    if(centBins[bin]<=50) shengquan = Form("data/forSteveNov11/Chi62_%d_%d.txt",centBins[bin],centBins[bin+1]);
     prevname = "";
   }
   if(replay == CHI63||replay == CHI63A) {
-    if(cmin[bin]<=50) shengquan = Form("data/forSteveNov11/Chi63_%d_%d.txt",cmin[bin],cmax[bin]);
+    if(centBins[bin]<=50) shengquan = Form("data/forSteveNov11/Chi63_%d_%d.txt",centBins[bin],centBins[bin+1]);
     prevname = "";
   }
   if(replay == CHI7 ||replay == CHI7A ||replay == CHI7EFF) {
-    if(cmin[bin]<=50) shengquan = Form("data/forSteveNov11/Chi723_%d_%d.txt",cmin[bin],cmax[bin]);
+    if(centBins[bin]<=50) shengquan = Form("data/forSteveNov11/Chi723_%d_%d.txt",centBins[bin],centBins[bin+1]);
     prevname = "";
   }
   
@@ -1310,8 +1248,7 @@ void GetVNCreate(int replay = N42SUB3, int bin = 0, bool NumOnly=false, bool Den
   leg->AddEntry(hpt,AnalNames[replay].data(),"lp");
   leg->AddEntry(hA,"HF+ only","lp");
   leg->AddEntry(hB,"HF- only","lp");
-  cout<<"leg formed"<<endl;
-  if(prevname.length()>1 && bin<11) { 
+  if(prevname.length()>1) { 
     double x[40];
     double y[40];
     double stat[40];
@@ -1331,7 +1268,7 @@ void GetVNCreate(int replay = N42SUB3, int bin = 0, bool NumOnly=false, bool Den
     leg->AddEntry(gold,"CMS Published","lp");
   }
 
-  if(shengquan.length()>1&&bin<11) { 
+  if(shengquan.length()>1) { 
     double x[40];
     double y[40];
     double stat[40];
@@ -1394,7 +1331,7 @@ void GetVNCreate(int replay = N42SUB3, int bin = 0, bool NumOnly=false, bool Den
   text->SetTextFont(43);
   text->SetTextSize(28);
   text->Draw();
-  TLatex * t2 = new TLatex(1,0.77*ymax,Form("%d - %d%c",cmin[bin],cmax[bin],'%'));
+  TLatex * t2 = new TLatex(1,0.77*ymax,Form("%d - %d%c",centBins[bin],centBins[bin+1],'%'));
   t2->SetTextFont(43);
   t2->SetTextSize(22);
   t2->Draw();
@@ -1414,55 +1351,46 @@ void GetVNCreate(int replay = N42SUB3, int bin = 0, bool NumOnly=false, bool Den
     fprintf(fout,"%5.3f\t%9.7f\t%9.7f\n",hpt->GetX()[i],hpt->GetY()[i],hpt->GetEY()[i]);
   }
   fclose(fout);
-  bool drawSpec = true;
-  if(drawSpec){
-    string c2name = "c2_"+AnalNames[replay]+"_"+to_string(cmin[bin])+"_"+to_string(cmax[bin]);
-    TCanvas * c2 = new TCanvas(c2name.data(),c2name.data(),700,500);
-    hspec = new TH1D("hspec","hspec",600,0,12);
-    hspec->SetDirectory(0);
-    hspec->SetMaximum(100*pow(10.,(double)((int) TMath::Log10(ymaxspec))));
-    hspec->SetMinimum(0.00001);
-    cout<<"c2: "<<c2<<endl;
-    c2->cd();
-    gPad->SetLogy();
-    hspec->Draw();
-    hspec->SetXTitle("p_{T} (GeV/c)");
-    hspec->SetYTitle("1/(N_{ev}) d^{2}N/dp_{T}d#eta");
-    nwspec->Draw("p");
-    double ym = hspec->GetMaximum();
-    TLatex * t4 = new TLatex(8,0.1*ym,AnalNames[replay].data());
-    t4->SetTextFont(43);
-    t4->SetTextSize(28);
-    t4->Draw();
-    TLatex * t6 = new TLatex(8,0.02*ym,Form("%d - %d%c",cmin[bin],cmax[bin],'%'));
-    t6->SetTextFont(43);
-    t6->SetTextSize(22);
-    t6->Draw();
-    TLatex * t7 = new TLatex(7.8,0.004*ym,Form("%4.1f < #eta < %4.1f",EtaMin,EtaMax));
-    t7->SetTextFont(43);
-    t7->SetTextSize(22);
-    t7->Draw();
-    if(isTight) {
-      c2->Print(Form("%s/%s/%s.pdf",FigDir.data(),AnalNames[replay].data(),c2name.data()),"pdf");
-      sspec = FigDir+"/"+AnalNames[replay]+"/data/spec_"+to_string(cmin[bin])+"_"+to_string(cmax[bin])+".dat";
-    } else {
-      c2->Print(Form("%s/%s/%s.pdf",FigDir.data(),AnalNames[replay].data(),c2name.data()),"pdf");
-      sspec = FigDir+"/"+AnalNames[replay]+"/data/spec_"+to_string(cmin[bin])+"_"+to_string(cmax[bin])+".dat";
-    }
-    }
-    if(isTight) {
-    sspec = FigDir+"/"+AnalNames[replay]+"/data/spec_"+to_string(cmin[bin])+"_"+to_string(cmax[bin])+".dat";
-    } else {
-    sspec = FigDir+"/"+AnalNames[replay]+"/data/spec_"+to_string(cmin[bin])+"_"+to_string(cmax[bin])+".dat";
-    }
+  string c2name = "c2_"+AnalNames[replay]+"_"+to_string(centBins[bin])+"_"+to_string(centBins[bin+1]);
+  TCanvas * c2 = new TCanvas(c2name.data(),c2name.data(),700,500);
+  hspec = new TH1D("hspec","hspec",600,0,12);
+  hspec->SetDirectory(0);
+  hspec->SetMaximum(100*pow(10.,(double)((int) TMath::Log10(ymaxspec))));
+  hspec->SetMinimum(0.00001);
+  cout<<"c2: "<<c2<<endl;
+  c2->cd();
+  gPad->SetLogy();
+  hspec->Draw();
+  hspec->SetXTitle("p_{T} (GeV/c)");
+  hspec->SetYTitle("1/(N_{ev}) d^{2}N/dp_{T}d#eta");
+  nwspec->Draw("p");
+  double ym = hspec->GetMaximum();
+  TLatex * t4 = new TLatex(8,0.1*ym,AnalNames[replay].data());
+  t4->SetTextFont(43);
+  t4->SetTextSize(28);
+  t4->Draw();
+  TLatex * t6 = new TLatex(8,0.02*ym,Form("%d - %d%c",centBins[bin],centBins[bin+1],'%'));
+  t6->SetTextFont(43);
+  t6->SetTextSize(22);
+  t6->Draw();
+  TLatex * t7 = new TLatex(7.8,0.004*ym,Form("%4.1f < #eta < %4.1f",EtaMin,EtaMax));
+  t7->SetTextFont(43);
+  t7->SetTextSize(22);
+  t7->Draw();
+  if(isTight) {
+    c2->Print(Form("%s/%s/%s.pdf",FigDir.data(),AnalNames[replay].data(),c2name.data()),"pdf");
+  sspec = FigDir+"/"+AnalNames[replay]+"/data/spec_"+to_string(centBins[bin])+"_"+to_string(centBins[bin+1])+".dat";
+  } else {
+    c2->Print(Form("%s/%s/%s.pdf",FigDir.data(),AnalNames[replay].data(),c2name.data()),"pdf");
+    sspec = FigDir+"/"+AnalNames[replay]+"/data/spec_"+to_string(centBins[bin])+"_"+to_string(centBins[bin+1])+".dat";
+  }
   outspec = fopen(sspec.data(),"w");
   for(int i = 0; i<nwspec->GetN(); i++) fprintf(outspec,"%7.2f\t%12.5f\t%12.5f\n",nwspec->GetX()[i],nwspec->GetY()[i],nwspec->GetEY()[i]);
 
 }
 
-void GetVN(string name="N523ASUB3", string tag="useTight", double mineta = -0.8, double maxeta = 0.8, bool override = false){
+void GetVN2(string name="N523ASUB3", string tag="useTight", double mineta = -0.8, double maxeta = 0.8, bool override = false){
   bool found = false;
-  centRef = new TH1I("centRef","centRef",11,centRefBins);
   EtaMin = mineta;
   EtaMax = maxeta;
   stag = "_"+tag;
@@ -1503,28 +1431,22 @@ void GetVN(string name="N523ASUB3", string tag="useTight", double mineta = -0.8,
     return;
   }
   FILE * ftest;
-  FigDir = Form("figures%s_%04.1f_%04.1f",stag.data(),EtaMin,EtaMax);
+  FigDir = Form("figuresFR%s_%04.1f_%04.1f",stag.data(),EtaMin,EtaMax);
   FigSubDir = FigDir+"/"+name.data();
-  if(fopen(FigDir.data(),"r")!=NULL) {
-    cout<<"Output directory "<<FigDir.data()<<" exists."<<endl;
+  if(fopen(FigDir.data(),"r")!=NULL && !override) {
+    cout<<"Output directory "<<FigSubDir.data()<<": already exists.  Delete before retrying"<<endl;
+    return;
   } else {
     system(Form("mkdir %s",FigDir.data()));
-  }
-  if((ftest=fopen(FigSubDir.data(),"r"))==NULL) {
-    system(Form("mkdir %s",FigSubDir.data()));
-  } else {
-    if(override) {
-      system(Form("rm -rf %s",FigSubDir.data()));
+    if((ftest=fopen(FigSubDir.data(),"r"))==NULL) {
+      system(Form("mkdir %s",FigSubDir.data()));
     } else {
-      cout<<"Directory "<<FigSubDir.data()<<" exists.  ABORT."<<endl;
-      return;
+      fclose(ftest);
     }
-    fclose(ftest);
   }
 
-  for(int bin = 0; bin<13; bin++) {
-   GetVNCreate(en,bin);
-    fin->Close();
-    fin = new TFile(rootFile.data(),"read");
+  for(int bin = 0; bin<11; bin++) {
+    //if(bin!=3) continue;
+    GetVNCreate(en,bin);
    }
 }
