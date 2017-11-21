@@ -112,13 +112,13 @@ double FakeAndEff( int cent, double eta, double &eff ) {
         val += hf->GetBinContent(i,etabin);
         eff += he->GetBinContent(i,etabin);
     }
-    val /=(double)(ptbinmax-ptbinmin+1);
-    eff /=(double)(ptbinmax-ptbinmin+1);
+    val/=(double)(ptbinmax-ptbinmin+1);
+    eff/=(double)(ptbinmax-ptbinmin+1);
     cen->Delete();
     cene->Delete();
     f->Close();
     e->Close();
-    return val ;
+    return val;
 }
 
 
@@ -549,6 +549,7 @@ void GetVNCreate( int replay = N1SUB3, int cbin = 0, bool NumOnly = false, bool 
     soutint = Form("%s/%s/data/eta_integral.dat",FigDir.data(),AnalNames[replay].data());
 
     string cname = "eta_"+AnalNames[replay]+"_"+to_string(cmin[cbin])+"_"+to_string(cmax[cbin]);
+    TString subtest = AnalNames[replay];
 
     TCanvas * c = new TCanvas(cname.data(),cname.data(),650,500);
 
@@ -572,7 +573,7 @@ void GetVNCreate( int replay = N1SUB3, int cbin = 0, bool NumOnly = false, bool 
     double resB[ncbins];
     double resAdenom[ncbins];
     double resBdenom[ncbins];
-    cout<<"In create (eta)"<<endl;
+    cout<<"In create"<<endl;
     if (replay==N112ASUB2 || replay==N112ASUB3) {
         hdenom = GetVNEta( N2SUB3, cbin, PtMin, PtMax, hAdenom, hBdenom, nwspec2, resAdenom, resBdenom, vintdenom, vintedenom, false );
         fin->Close();
@@ -693,8 +694,13 @@ void GetVNCreate( int replay = N1SUB3, int cbin = 0, bool NumOnly = false, bool 
     leg->SetFillColor(kWhite);
     leg->SetBorderSize(0);
     leg->AddEntry(heta,AnalNames[replay].data(),"lp");
-    leg->AddEntry(hA,"HF+ only","lp");
-    leg->AddEntry(hB,"HF- only","lp");
+    if (subtest.Contains("MC")) {
+        leg->AddEntry(hA,"track+ only","lp");
+        leg->AddEntry(hB,"track- only","lp");
+    } else {
+        leg->AddEntry(hA,"HF+ only","lp");
+        leg->AddEntry(hB,"HF- only","lp");
+    }
     cout<<"leg formed"<<endl;
     leg->Draw();
     hA->Draw("p");
@@ -748,7 +754,7 @@ void GetVNCreate( int replay = N1SUB3, int cbin = 0, bool NumOnly = false, bool 
         t6->SetTextFont(43);
         t6->SetTextSize(22);
         t6->Draw();
-        TLatex * t7 = new TLatex(7.8,0.004*ym,Form("%4.1f < #eta < %4.1f",PtMin,PtMax));
+        TLatex * t7 = new TLatex(7.8,0.004*ym,Form("%4.1f < p_{T} < %4.1f (GeV/c)",PtMin,PtMax));
         t7->SetTextFont(43);
         t7->SetTextSize(22);
         t7->Draw();
@@ -761,9 +767,9 @@ void GetVNCreate( int replay = N1SUB3, int cbin = 0, bool NumOnly = false, bool 
         }
     }
     if (isTight) {
-        sspec = FigDir+"/"+AnalNames[replay]+"/data/pT_spec_"+to_string(cmin[cbin])+"_"+to_string(cmax[cbin])+".dat";
+        sspec = FigDir+"/"+AnalNames[replay]+"/data/eta_spec_"+to_string(cmin[cbin])+"_"+to_string(cmax[cbin])+".dat";
     } else {
-        sspec = FigDir+"/"+AnalNames[replay]+"/data/pT_spec_"+to_string(cmin[cbin])+"_"+to_string(cmax[cbin])+".dat";
+        sspec = FigDir+"/"+AnalNames[replay]+"/data/eta_spec_"+to_string(cmin[cbin])+"_"+to_string(cmax[cbin])+".dat";
     }
     outspec = fopen(sspec.data(),"w");
     for (int i = 0; i<nwspec->GetN(); i++) fprintf(outspec,"%7.2f\t%12.5f\t%12.5f\n",nwspec->GetX()[i],nwspec->GetY()[i],nwspec->GetEY()[i]);
@@ -771,7 +777,7 @@ void GetVNCreate( int replay = N1SUB3, int cbin = 0, bool NumOnly = false, bool 
 }
 
 
-void EtaTest( string name="N1SUB3", string tag="useTight", double mineta = -2.4, double maxeta = 2.4, bool override = false ) {
+void GetVNIntEta( string name="N1SUB3", string tag="useTight", double mineta = -2.4, double maxeta = 2.4, bool override = false ) {
     bool found = false;
     centRef = new TH1I("centRef", "centRef", 11, centRefBins);
     EtaMin = mineta;

@@ -82,7 +82,7 @@ string stag;
 TH1D * centbins;
 TH1I * centRef;
 
-double FakeAndEff( int cent, double pt, double &eff ) {
+double FakeAndEffPt( int cent, double pt, double &eff ) {
     double cb[14] = {0, 5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70, 80, 100};
     double cbe[6] = {0, 5, 10, 30, 50, 100};
     TFile * f = 0;
@@ -112,13 +112,13 @@ double FakeAndEff( int cent, double pt, double &eff ) {
         val += hf->GetBinContent(i,ptbin);
         eff += he->GetBinContent(i,ptbin);
     }
-    val /=(double)(etabinmax-etabinmin+1);
-    eff /=(double)(etabinmax-etabinmin+1);
+    val/=(double)(etabinmax-etabinmin+1);
+    eff/=(double)(etabinmax-etabinmin+1);
     cen->Delete();
     cene->Delete();
     f->Close();
     e->Close();
-    return val ;
+    return val;
 }
 
 
@@ -587,7 +587,7 @@ TGraphErrors * GetVNPt( int replay, int cbin, double etamin, double etamax, TGra
                 double eff = 0;
                 double cent = (cmin[cbin] + cmax[cbin])/2.;
 
-                double fake = FakeAndEff(cent,pt,eff);
+                double fake = FakeAndEffPt(cent,pt,eff);
                 wvn  += y[npt]*yld->GetBinContent(i)/eff;
                 wvne += ey[npt]*yld->GetBinContent(i)/eff;
                 w    += yld->GetBinContent(i)/eff;;
@@ -645,6 +645,7 @@ void GetVNCreate( int replay = N1SUB3, int cbin = 0, bool NumOnly = false, bool 
     soutint = Form("%s/%s/data/pT_integral.dat",FigDir.data(),AnalNames[replay].data());
 
     string cname = "pT_"+AnalNames[replay]+"_"+to_string(cmin[cbin])+"_"+to_string(cmax[cbin]);
+    TString subtest = AnalNames[replay];
 
     TCanvas * c = new TCanvas(cname.data(),cname.data(),650,500);
 
@@ -795,8 +796,13 @@ void GetVNCreate( int replay = N1SUB3, int cbin = 0, bool NumOnly = false, bool 
     leg->SetFillColor(kWhite);
     leg->SetBorderSize(0);
     leg->AddEntry(hpt,AnalNames[replay].data(),"lp");
-    leg->AddEntry(hA,"HF+ only","lp");
-    leg->AddEntry(hB,"HF- only","lp");
+    if (subtest.Contains("MC")) {
+        leg->AddEntry(hA,"track+ only","lp");
+        leg->AddEntry(hB,"track- only","lp");
+    } else {
+        leg->AddEntry(hA,"HF+ only","lp");
+        leg->AddEntry(hB,"HF- only","lp");
+    }
     cout<<"leg formed"<<endl;
     leg->Draw();
     hA->Draw("p");
@@ -873,7 +879,7 @@ void GetVNCreate( int replay = N1SUB3, int cbin = 0, bool NumOnly = false, bool 
 }
 
 
-void GetVNInt( string name="N1SUB3", string tag="useTight", double mineta = -2.4, double maxeta = 2.4, bool override = false ) {
+void GetVNIntPt( string name="N1SUB3", string tag="useTight", double mineta = -2.4, double maxeta = 2.4, bool override = false ) {
     bool found = false;
     centRef = new TH1I("centRef", "centRef", 11, centRefBins);
     EtaMin = mineta;
