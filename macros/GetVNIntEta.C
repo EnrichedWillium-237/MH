@@ -823,7 +823,8 @@ void GetVNIntEta( string name="N1SUB3", string tag="useTight", double mineta = -
     if (!fopen("results","r")) system("mkdir results");
     if (!fopen(Form("results/results%s",stag.data()),"r")) system(Form("mkdir results/results%s",stag.data()));
     tfout = new TFile(Form("results/results%s/%s_eta.root",stag.data(),name.data()),"recreate");
-    TDirectory * tdeta = (TDirectory *) tfout->mkdir("VN_Eta");
+    TDirectory * tdanal = (TDirectory *) tfout->mkdir(Form("%s",name.data()));
+    TDirectory * tdeta = (TDirectory *) tdanal->mkdir("VN_Eta");
 
     for (int cbin = 0; cbin<13; cbin++) {
         GetVNCreate(en,cbin);

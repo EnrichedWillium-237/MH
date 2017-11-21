@@ -83,3 +83,11 @@ root -l -q -b 'GetVNIntEta.C+("N1SUB3","useLoose",-2.4,2.4,0.3,3.0,false)'
 root -l -q -b 'GetVNIntEta.C+("N112ASUB2","useLoose",-2.4,2.4,0.3,3.0,false)'
 root -l -q -b 'GetVNIntEta.C+("N123ASUB2","useLoose",-2.4,2.4,0.3,3.0,false)'
 root -l -q -b 'GetVNIntEta.C+("N1SUB2","useLoose",-2.4,2.4,0.3,3.0,false)'
+#
+cd results/results_useTight_-2.4_2.4/
+hadd VNInt_useTight.root N1*.root
+rm N1*.root
+#
+cd ../results_useLoose_-2.4_2.4/
+hadd VNInt_useLoose.root N1*.root
+rm N1*.root

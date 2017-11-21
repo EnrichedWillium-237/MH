@@ -912,7 +912,7 @@ void GetVNIntPt( string name="N1SUB3", string tag="useTight", double mineta = -2
         return;
     }
     FILE * ftest;
-    FigDir = Form("figures%s_%0.1f_%0.1f",stag.data(),EtaMin,EtaMax);
+    FigDir = Form("figures%s",stag.data());
     FigSubDir = FigDir+"/"+name.data();
     if (fopen(FigDir.data(),"r") != NULL) {
         cout<<"Output directory "<<FigDir.data()<<" exists."<<endl;
@@ -934,8 +934,8 @@ void GetVNIntPt( string name="N1SUB3", string tag="useTight", double mineta = -2
     if (!fopen("results","r")) system("mkdir results");
     if (!fopen(Form("results/results%s",stag.data()),"r")) system(Form("mkdir results/results%s",stag.data()));
     tfout = new TFile(Form("results/results%s/%s_pt.root",stag.data(),name.data()),"recreate");
-    cout<<"tfout: "<<tfout<<endl;
-    TDirectory * tdpt = (TDirectory *) tfout->mkdir("VN_pt");
+    TDirectory * tdanal = (TDirectory *) tfout->mkdir(Form("%s",name.data()));
+    TDirectory * tdpt = (TDirectory *) tdanal->mkdir("VN_pt");
 
     for (int cbin = 0; cbin<13; cbin++) {
         GetVNCreate(en,cbin);
