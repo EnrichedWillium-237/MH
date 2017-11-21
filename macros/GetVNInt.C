@@ -627,21 +627,21 @@ void GetVNCreate( int replay = N1SUB3, int cbin = 0, bool NumOnly = false, bool 
 
     TH1D * hspec = 0;
     FILE * ftest;
-    if (isTight) {
-        if ((ftest = fopen(Form("%s/%s",FigDir.data(),AnalNames[replay].data()),"r")) == NULL) {
-            system(Form("mkdir %s/%s",FigDir.data(),AnalNames[replay].data()));
-        } else {
-            fclose(ftest);
-        }
 
-        if ((ftest = fopen(Form("%s/%s/data",FigDir.data(),AnalNames[replay].data()),"r")) == NULL) {
-            system(Form("mkdir %s/%s/data",FigDir.data(),AnalNames[replay].data()));
-        } else {
-            fclose(ftest);
-        }
-        system(Form("touch %s/%s/data/integral.dat",FigDir.data(),AnalNames[replay].data()));
-        soutint = Form("%s/%s/data/integral.dat",FigDir.data(),AnalNames[replay].data());
+    if ((ftest = fopen(Form("%s/%s",FigDir.data(),AnalNames[replay].data()),"r")) == NULL) {
+        system(Form("mkdir %s/%s",FigDir.data(),AnalNames[replay].data()));
+    } else {
+        fclose(ftest);
     }
+
+    if ((ftest = fopen(Form("%s/%s/data",FigDir.data(),AnalNames[replay].data()),"r")) == NULL) {
+        system(Form("mkdir %s/%s/data",FigDir.data(),AnalNames[replay].data()));
+    } else {
+        fclose(ftest);
+    }
+    system(Form("touch %s/%s/data/integral.dat",FigDir.data(),AnalNames[replay].data()));
+    soutint = Form("%s/%s/data/integral.dat",FigDir.data(),AnalNames[replay].data());
+
     string cname = AnalNames[replay]+"_"+to_string(cmin[cbin])+"_"+to_string(cmax[cbin]);
 
     TCanvas * c = new TCanvas(cname.data(),cname.data(),650,500);
@@ -740,8 +740,8 @@ void GetVNCreate( int replay = N1SUB3, int cbin = 0, bool NumOnly = false, bool 
         ymax = 0.07;
     } else if (ymax<0.1) {
         ymax = 0.2;
-    } else if (ymax<0.4) {
-        ymax = 0.6;
+    } else if (ymax<0.3) {
+        ymax = 0.4;
     } else if (ymax<0.8) {
         ymax = 1.0;
     } else if (ymax < 2.) {
@@ -753,25 +753,25 @@ void GetVNCreate( int replay = N1SUB3, int cbin = 0, bool NumOnly = false, bool 
     if (ymin>0) {
         ymin=0;
     } else if (ymin>-0.003) {
-        ymin=-0.003;
+        ymin=-0.006;
     } else if (ymin>-0.005) {
-        ymin=-0.005;
-    } else if (ymin>-0.01) {
         ymin=-0.01;
+    } else if (ymin>-0.01) {
+        ymin=-0.015;
     } else if (ymin>-0.02) {
-        ymin = -0.02;
+        ymin = -0.025;
     } else if (ymin>-0.04) {
-        ymin = -0.04;
+        ymin = -0.05;
     } else if (ymin>-0.1) {
-        ymin = -0.1;
+        ymin = -0.125;
     } else if (ymin>-0.2) {
-        ymin = -0.2;
+        ymin = -0.225;
     } else if (ymin>-0.4) {
-        ymin = -0.4;
+        ymin = -0.425;
     } else if( ymin>-0.8) {
         ymin = -0.8;
     } else if( ymin > -2) {
-        ymin = -2;
+        ymin = -2.2;
     } else {
         ymin =-1;
     }
@@ -814,10 +814,10 @@ void GetVNCreate( int replay = N1SUB3, int cbin = 0, bool NumOnly = false, bool 
     t3->Draw();
     FILE * fout;
     if (isTight) {
-        c->Print(Form("%s/%s/%s.pdf",FigDir.data(),AnalNames[replay].data(),cname.data()),"pdf");
+        c->Print(Form("%s/%s/%s.png",FigDir.data(),AnalNames[replay].data(),cname.data()),"png");
         fout = fopen(Form("%s/%s/data/%s.dat",FigDir.data(),AnalNames[replay].data(),cname.data()),"w");
     } else {
-        c->Print(Form("%s/%s/%s.pdf",FigDir.data(),AnalNames[replay].data(),cname.data()),"pdf");
+        c->Print(Form("%s/%s/%s.png",FigDir.data(),AnalNames[replay].data(),cname.data()),"png");
         fout = fopen(Form("%s/%s/data/%s.dat",FigDir.data(),AnalNames[replay].data(),cname.data()),"w");
     }
     for(int i = 0; i<hpt->GetN(); i++){
@@ -853,10 +853,10 @@ void GetVNCreate( int replay = N1SUB3, int cbin = 0, bool NumOnly = false, bool 
         t7->SetTextSize(22);
         t7->Draw();
         if (isTight) {
-            c2->Print(Form("%s/%s/%s.pdf",FigDir.data(),AnalNames[replay].data(),c2name.data()),"pdf");
+            c2->Print(Form("%s/%s/%s.png",FigDir.data(),AnalNames[replay].data(),c2name.data()),"png");
             sspec = FigDir+"/"+AnalNames[replay]+"/data/spec_"+to_string(cmin[cbin])+"_"+to_string(cmax[cbin])+".dat";
         } else {
-            c2->Print(Form("%s/%s/%s.pdf",FigDir.data(),AnalNames[replay].data(),c2name.data()),"pdf");
+            c2->Print(Form("%s/%s/%s.png",FigDir.data(),AnalNames[replay].data(),c2name.data()),"png");
             sspec = FigDir+"/"+AnalNames[replay]+"/data/spec_"+to_string(cmin[cbin])+"_"+to_string(cmax[cbin])+".dat";
         }
     }
@@ -871,14 +871,13 @@ void GetVNCreate( int replay = N1SUB3, int cbin = 0, bool NumOnly = false, bool 
 }
 
 
-void AnalyzeIntV1( string name="N1SUB3", string tag="useTight", double mineta = -2.4, double maxeta = 2.4, bool override = false ) {
+void GetVNInt( string name="N1SUB3", string tag="useTight", double mineta = -2.4, double maxeta = 2.4, bool override = false ) {
     bool found = false;
     centRef = new TH1I("centRef", "centRef", 11, centRefBins);
     EtaMin = mineta;
     EtaMax = maxeta;
     stag = "_"+tag;
     rootFile = "";
-    stag = "";
     if (tag == "useTight") {
         isTight = true;
         isLoose = false;
@@ -904,7 +903,7 @@ void AnalyzeIntV1( string name="N1SUB3", string tag="useTight", double mineta = 
         return;
     }
     FILE * ftest;
-    FigDir = Form("figures%s_%04.1f_%04.1f",stag.data(),EtaMin,EtaMax);
+    FigDir = Form("figures%s_%0.1f_%0.1f",stag.data(),EtaMin,EtaMax);
     FigSubDir = FigDir+"/"+name.data();
     if (fopen(FigDir.data(),"r") != NULL) {
         cout<<"Output directory "<<FigDir.data()<<" exists."<<endl;
