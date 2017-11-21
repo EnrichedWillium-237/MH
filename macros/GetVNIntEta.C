@@ -50,11 +50,6 @@ string ytitle[] = {
     "v_{1}\{#Psi_{1}\}",                     "v_{1}\{#Psi_{1}\}",                     "v_{1}\{#Psi_{1}\}",                     "v_{1}\{#Psi_{1}\}",
     "v_{2}\{#Psi_{2}\}",                     "v_{2}\{#Psi_{2}\}",                     "v_{3}\{#Psi_{3}\}",                     "v_{3}\{#Psi_{3}\}", "LAST"};
 
-// TH1D * v1A_pT[nanals][ncentbins];
-// TH1D * v1B_pT[nanals][ncentbins];
-// TH1D * v1add_pT[nanals][ncentbins];
-// TH1D * v1sub_pT[nanals][ncentbins];
-
 
 void GraphToHist( TGraphErrors * gin, TH1D * hout ) {
     int num = gin->GetN();
@@ -72,6 +67,7 @@ string soutint;
 string sspec;
 FILE * outspec;
 TFile * fin;
+TFile * tfout;
 double fw = 1.3;
 int ANAL = -1;
 double fakescale = 1.;
@@ -158,7 +154,14 @@ TH2D * ptcntEff(TH2D * ptcnt, double cent) {
     return hsEff ;
 }
 
-
+TGraphErrors * heta;
+TGraphErrors * hdenom;
+TGraphErrors * hA;
+TGraphErrors * hB;
+TGraphErrors * hAdenom;
+TGraphErrors * hBdenom;
+TGraphErrors * nwspec;
+TGraphErrors * nwspec2;
 string rootFile;
 TGraphErrors * GetVNEta( int replay, int cbin, double ptmin, double ptmax, TGraphErrors * &gA, TGraphErrors * &gB, TGraphErrors * &gspec, double * resA, double * resB, double &vint, double &vinte, bool nonorm = false ) {
 
@@ -552,19 +555,10 @@ void GetVNCreate( int replay = N1SUB3, int cbin = 0, bool NumOnly = false, bool 
     TString subtest = AnalNames[replay];
 
     TCanvas * c = new TCanvas(cname.data(),cname.data(),650,500);
-
     h = new TH1D("h", "h", 100, -2.4, 2.4);
     h->SetDirectory(0);
     h->SetMinimum(-0.1);
     h->SetMaximum(0.1);
-    TGraphErrors * heta;
-    TGraphErrors * hdenom;
-    TGraphErrors * hA;
-    TGraphErrors * hB;
-    TGraphErrors * hAdenom;
-    TGraphErrors * hBdenom;
-    TGraphErrors * nwspec;
-    TGraphErrors * nwspec2;
     double vint = 0;
     double vinte = 0;
     double vintdenom = 0;
@@ -728,6 +722,13 @@ void GetVNCreate( int replay = N1SUB3, int cbin = 0, bool NumOnly = false, bool 
         fprintf(fout,"%5.3f\t%9.7f\t%9.7f\n",heta->GetX()[i],heta->GetY()[i],heta->GetEY()[i]);
     }
     fclose(fout);
+    //tdcent->cd();
+    // hA->SetName("vnA");
+    // hA->Write();
+    // hB->SetName("vnB");
+    // hB->Write();
+    // heta->SetName("vnComb");
+    // heta->Write();
     bool drawSpec = true;
     if (drawSpec){
         string c2name = "eta_c2_"+AnalNames[replay]+"_"+to_string(cmin[cbin])+"_"+to_string(cmax[cbin]);
@@ -770,10 +771,14 @@ void GetVNCreate( int replay = N1SUB3, int cbin = 0, bool NumOnly = false, bool 
     }
     outspec = fopen(sspec.data(),"w");
     for (int i = 0; i<nwspec->GetN(); i++) fprintf(outspec,"%7.2f\t%12.5f\t%12.5f\n",nwspec->GetX()[i],nwspec->GetY()[i],nwspec->GetEY()[i]);
+    //tfget->Close();
 
 }
 
 
+TH1D * vnA;
+TH1D * vnB;
+TH1D * vnAB;
 void GetVNIntEta( string name="N1SUB3", string tag="useTight", double mineta = -2.4, double maxeta = 2.4, double minpt = 0.3, double maxpt = 3.0, bool override = false ) {
     bool found = false;
     centRef = new TH1I("centRef", "centRef", 11, centRefBins);
@@ -781,7 +786,7 @@ void GetVNIntEta( string name="N1SUB3", string tag="useTight", double mineta = -
     EtaMax = maxeta;
     PtMin = minpt;
     PtMax = maxpt;
-    stag = "_"+tag;
+    stag = "_"+tag+"_"+Form("%0.1f_%0.1f",EtaMin,EtaMax);
     rootFile = "";
     if (tag == "useTight") {
         isTight = true;
@@ -808,16 +813,35 @@ void GetVNIntEta( string name="N1SUB3", string tag="useTight", double mineta = -
         return;
     }
     FILE * ftest;
-    FigDir = Form("figures%s_%0.1f_%0.1f",stag.data(),EtaMin,EtaMax);
+    FigDir = Form("figures%s",stag.data());
     FigSubDir = FigDir+"/"+name.data();
     if (!fopen(FigDir.data(),"r")) system(Form("mkdir %s",FigDir.data()));
     if ((ftest=fopen(FigSubDir.data(),"r")) == NULL) {
         system(Form("mkdir %s",FigSubDir.data()));
     }
 
+    if (!fopen("results","r")) system("mkdir results");
+    if (!fopen(Form("results/results%s",stag.data()),"r")) system(Form("mkdir results/results%s",stag.data()));
+    tfout = new TFile(Form("results/results%s/%s_eta.root",stag.data(),name.data()),"recreate");
+    TDirectory * tdeta = (TDirectory *) tfout->mkdir("VN_Eta");
+
     for (int cbin = 0; cbin<13; cbin++) {
         GetVNCreate(en,cbin);
+
+        TDirectory * tdcent = (TDirectory *) tdeta->mkdir(Form("%d_%d",cmin[cbin],cmax[cbin]));
+        tdcent->cd();
+        vnA = new TH1D("vnA", "", netabins, etabins);
+        GraphToHist(hA, vnA);
+        vnA->Write();
+        vnB = new TH1D("vnB", "", netabins, etabins);
+        GraphToHist(hB, vnB);
+        vnB->Write();
+        vnAB = new TH1D("vnAB", "", netabins, etabins);
+        GraphToHist(heta, vnAB);
+        vnAB->Write();
+
         fin->Close();
         fin = new TFile(rootFile.data(),"read");
     }
+    // tfout->Close();
 }

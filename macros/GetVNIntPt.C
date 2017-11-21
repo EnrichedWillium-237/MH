@@ -72,6 +72,7 @@ string soutint;
 string sspec;
 FILE * outspec;
 TFile * fin;
+TFile * tfout;
 double fw = 1.3;
 int ANAL = -1;
 double fakescale = 1.;
@@ -159,6 +160,14 @@ TH2D * ptcntEff(TH2D * ptcnt, double cent) {
 }
 
 
+TGraphErrors * hpt;
+TGraphErrors * hdenom;
+TGraphErrors * hA;
+TGraphErrors * hB;
+TGraphErrors * hAdenom;
+TGraphErrors * hBdenom;
+TGraphErrors * nwspec;
+TGraphErrors * nwspec2;
 string rootFile;
 TGraphErrors * GetVNPt( int replay, int cbin, double etamin, double etamax, TGraphErrors * &gA, TGraphErrors * &gB, TGraphErrors * &gspec, double * resA, double * resB, double &vint, double &vinte, bool nonorm = false ) {
 
@@ -653,14 +662,6 @@ void GetVNCreate( int replay = N1SUB3, int cbin = 0, bool NumOnly = false, bool 
     h->SetDirectory(0);
     h->SetMinimum(-0.05);
     h->SetMaximum(0.5);
-    TGraphErrors * hpt;
-    TGraphErrors * hdenom;
-    TGraphErrors * hA;
-    TGraphErrors * hB;
-    TGraphErrors * hAdenom;
-    TGraphErrors * hBdenom;
-    TGraphErrors * nwspec;
-    TGraphErrors * nwspec2;
     double vint = 0;
     double vinte = 0;
     double vintdenom = 0;
@@ -876,12 +877,15 @@ void GetVNCreate( int replay = N1SUB3, int cbin = 0, bool NumOnly = false, bool 
 }
 
 
+TH1D * vnA;
+TH1D * vnB;
+TH1D * vnAB;
 void GetVNIntPt( string name="N1SUB3", string tag="useTight", double mineta = -2.4, double maxeta = 2.4, bool override = false ) {
     bool found = false;
     centRef = new TH1I("centRef", "centRef", 11, centRefBins);
     EtaMin = mineta;
     EtaMax = maxeta;
-    stag = "_"+tag;
+    stag = "_"+tag+"_"+Form("%0.1f_%0.1f",EtaMin,EtaMax);
     rootFile = "";
     if (tag == "useTight") {
         isTight = true;
@@ -927,8 +931,27 @@ void GetVNIntPt( string name="N1SUB3", string tag="useTight", double mineta = -2
         fclose(ftest);
     }
 
+    if (!fopen("results","r")) system("mkdir results");
+    if (!fopen(Form("results/results%s",stag.data()),"r")) system(Form("mkdir results/results%s",stag.data()));
+    tfout = new TFile(Form("results/results%s/%s_pt.root",stag.data(),name.data()),"recreate");
+    cout<<"tfout: "<<tfout<<endl;
+    TDirectory * tdpt = (TDirectory *) tfout->mkdir("VN_pt");
+
     for (int cbin = 0; cbin<13; cbin++) {
         GetVNCreate(en,cbin);
+
+        TDirectory * tdcent = (TDirectory *) tdpt->mkdir(Form("%d_%d",cmin[cbin],cmax[cbin]));
+        tdcent->cd();
+        vnA = new TH1D("vnA", "", nptbins, ptbins);
+        GraphToHist(hA, vnA);
+        vnA->Write();
+        vnB = new TH1D("vnB", "", nptbins, ptbins);
+        GraphToHist(hB, vnB);
+        vnB->Write();
+        vnAB = new TH1D("vnAB", "", nptbins, ptbins);
+        GraphToHist(hpt, vnAB);
+        vnAB->Write();
+
         fin->Close();
         fin = new TFile(rootFile.data(),"read");
     }
