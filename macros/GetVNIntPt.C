@@ -597,7 +597,7 @@ TGraphErrors * GetVNPt( int replay, int cbin, double etamin, double etamax, TGra
     }
     vint = wvn/w;
     vinte = wvne/w;
-    cout<<"INTEGRAL: "<<vint<<"\t"<<vinte<<endl;
+    cout<<"INTEGRAL (Pt): "<<vint<<"\t"<<vinte<<endl;
 
     TGraphErrors * g = new TGraphErrors(npt, x, y, ex, ey);
     g->SetMarkerStyle(20);
@@ -669,7 +669,6 @@ void GetVNCreate( int replay = N1SUB3, int cbin = 0, bool NumOnly = false, bool 
     double resB[ncbins];
     double resAdenom[ncbins];
     double resBdenom[ncbins];
-    cout<<"In create"<<endl;
     if (replay==N112ASUB2 || replay==N112ASUB3) {
         hdenom = GetVNPt( N2SUB3, cbin, EtaMin, EtaMax, hAdenom, hBdenom, nwspec2, resAdenom, resBdenom, vintdenom, vintedenom, false );
         fin->Close();
@@ -803,7 +802,6 @@ void GetVNCreate( int replay = N1SUB3, int cbin = 0, bool NumOnly = false, bool 
         leg->AddEntry(hA,"HF+ only","lp");
         leg->AddEntry(hB,"HF- only","lp");
     }
-    cout<<"leg formed"<<endl;
     leg->Draw();
     hA->Draw("p");
     hB->Draw("p");
@@ -840,7 +838,6 @@ void GetVNCreate( int replay = N1SUB3, int cbin = 0, bool NumOnly = false, bool 
         hspec->SetDirectory(0);
         hspec->SetMaximum(100*pow(10.,(double)((int) TMath::Log10(ymaxspec))));
         hspec->SetMinimum(0.00001);
-        cout<<"c2: "<<c2<<endl;
         c2->cd();
         gPad->SetLogy();
         hspec->Draw();

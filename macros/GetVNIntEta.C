@@ -573,7 +573,6 @@ void GetVNCreate( int replay = N1SUB3, int cbin = 0, bool NumOnly = false, bool 
     double resB[ncbins];
     double resAdenom[ncbins];
     double resBdenom[ncbins];
-    cout<<"In create"<<endl;
     if (replay==N112ASUB2 || replay==N112ASUB3) {
         hdenom = GetVNEta( N2SUB3, cbin, PtMin, PtMax, hAdenom, hBdenom, nwspec2, resAdenom, resBdenom, vintdenom, vintedenom, false );
         fin->Close();
@@ -701,7 +700,6 @@ void GetVNCreate( int replay = N1SUB3, int cbin = 0, bool NumOnly = false, bool 
         leg->AddEntry(hA,"HF+ only","lp");
         leg->AddEntry(hB,"HF- only","lp");
     }
-    cout<<"leg formed"<<endl;
     leg->Draw();
     hA->Draw("p");
     hB->Draw("p");
@@ -738,7 +736,6 @@ void GetVNCreate( int replay = N1SUB3, int cbin = 0, bool NumOnly = false, bool 
         hspec->SetDirectory(0);
         hspec->SetMaximum(100*pow(10.,(double)((int) TMath::Log10(ymaxspec))));
         hspec->SetMinimum(0.00001);
-        cout<<"c2Eta: "<<c2Eta<<endl;
         c2Eta->cd();
         gPad->SetLogy();
         hspec->Draw();
@@ -777,13 +774,13 @@ void GetVNCreate( int replay = N1SUB3, int cbin = 0, bool NumOnly = false, bool 
 }
 
 
-void GetVNIntEta( string name="N1SUB3", string tag="useTight", double mineta = -2.4, double maxeta = 2.4, bool override = false ) {
+void GetVNIntEta( string name="N1SUB3", string tag="useTight", double mineta = -2.4, double maxeta = 2.4, double minpt = 0.3, double maxpt = 3.0, bool override = false ) {
     bool found = false;
     centRef = new TH1I("centRef", "centRef", 11, centRefBins);
     EtaMin = mineta;
     EtaMax = maxeta;
-    PtMin = 0.3;
-    PtMax = 3.0;
+    PtMin = minpt;
+    PtMax = maxpt;
     stag = "_"+tag;
     rootFile = "";
     if (tag == "useTight") {
@@ -816,14 +813,6 @@ void GetVNIntEta( string name="N1SUB3", string tag="useTight", double mineta = -
     if (!fopen(FigDir.data(),"r")) system(Form("mkdir %s",FigDir.data()));
     if ((ftest=fopen(FigSubDir.data(),"r")) == NULL) {
         system(Form("mkdir %s",FigSubDir.data()));
-    } else {
-        if (override) {
-            system(Form("rm -rf %s",FigSubDir.data()));
-        } else {
-            cout<<"Directory "<<FigSubDir.data()<<" exists.  ABORT."<<endl;
-            return;
-        }
-        fclose(ftest);
     }
 
     for (int cbin = 0; cbin<13; cbin++) {
