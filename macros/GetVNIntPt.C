@@ -789,7 +789,13 @@ void GetVNCreate( int replay = N1SUB3, int cbin = 0, bool NumOnly = false, bool 
     string yt = ytitle[replay]+numdenom+" ("+to_string(cmin[cbin])+" - "+to_string(cmax[cbin])+"%)";
     h->SetYTitle(yt.data());
     hpt->Draw("p");
-
+    string prevname = "";
+    string shengquan = "";
+    if (ANAL==N2SUB3 || ANAL==N2SUB2) {
+        prevname = Form("data/EP_10_002_PtDists/v2_pt_ep_cen%d_%d_eta08.txt",cmin[cbin],cmax[cbin]);
+        if(cmin[cbin]<=50) shengquan = Form("data/forSteveNov11/v22_%d_%d.txt",cmin[cbin],cmax[cbin]);
+    }
+    if (ANAL==N3SUB3 || ANAL==N3SUB2) prevname = Form("data/hin_11_005_data/EPResults/PtDists/v3_%d_%d.txt",cmin[cbin],cmax[cbin]);
     TLegend * leg = new TLegend(0.65, 0.65, 0.9, 0.9);
     leg->SetTextFont(43);
     leg->SetTextSize(20);
@@ -802,6 +808,46 @@ void GetVNCreate( int replay = N1SUB3, int cbin = 0, bool NumOnly = false, bool 
     } else {
         leg->AddEntry(hA,"HF+ only","lp");
         leg->AddEntry(hB,"HF- only","lp");
+    }
+    if (prevname.length()>1 && cbin<11) {
+        double x[40];
+        double y[40];
+        double stat[40];
+        double sys[40];
+        FILE * fin = fopen(prevname.data(),"r");
+        char buf[80];
+        int n = 0;
+        while (fgets(buf,80,fin)!=NULL) {
+            sscanf(buf,"%lf\t%lf\t%lf\t%lf",&x[n],&y[n],&stat[n],&sys[n]);
+            ++n;
+        }
+        TGraphErrors * gold = new TGraphErrors(n,x,y,0,stat);
+        gold->SetMarkerStyle(25);
+        gold->SetMarkerColor(kRed);
+        gold->SetLineColor(kRed);
+        gold->Draw("p");
+        leg->AddEntry(gold,"CMS Published","lp");
+    }
+
+    if (shengquan.length()>1 && cbin<11) {
+        double x[40];
+        double y[40];
+        double stat[40];
+        double sys[40];
+        FILE * fin = fopen(shengquan.data(),"r");
+        char buf[80];
+        int n = 0;
+        while (fgets(buf,80,fin)!=NULL) {
+            sscanf(buf,"%lf\t%lf\t%lf",&x[n],&y[n],&stat[n]);
+            x[n]+=0.05;
+            ++n;
+        }
+        TGraphErrors * sheng = new TGraphErrors(n,x,y,0,stat);
+        sheng->SetMarkerStyle(24);
+        sheng->SetMarkerColor(kGreen+2);
+        sheng->SetLineColor(kGreen+2);
+        sheng->Draw("p");
+        leg->AddEntry(sheng,"Shengquan (offset)","lp");
     }
     leg->Draw();
     hA->Draw("p");
@@ -912,7 +958,8 @@ void GetVNIntPt( string name="N1SUB3", string tag="useTight", double mineta = -2
         return;
     }
     FILE * ftest;
-    FigDir = Form("figures%s",stag.data());
+    if (!fopen("figures","r")) system("mkdir figures");
+    FigDir = Form("figures/figures%s",stag.data());
     FigSubDir = FigDir+"/"+name.data();
     if (fopen(FigDir.data(),"r") != NULL) {
         cout<<"Output directory "<<FigDir.data()<<" exists."<<endl;

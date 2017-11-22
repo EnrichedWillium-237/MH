@@ -813,7 +813,8 @@ void GetVNIntEta( string name="N1SUB3", string tag="useTight", double mineta = -
         return;
     }
     FILE * ftest;
-    FigDir = Form("figures%s",stag.data());
+    if (!fopen("figures","r")) system("mkdir figures");
+    FigDir = Form("figures/figures%s",stag.data());
     FigSubDir = FigDir+"/"+name.data();
     if (!fopen(FigDir.data(),"r")) system(Form("mkdir %s",FigDir.data()));
     if ((ftest=fopen(FigSubDir.data(),"r")) == NULL) {
