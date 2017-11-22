@@ -679,7 +679,49 @@ void GetVNCreate( int replay = N1SUB3, int cbin = 0, bool NumOnly = false, bool 
     string yt = ytitle[replay]+numdenom+" ("+to_string(cmin[cbin])+" - "+to_string(cmax[cbin])+"%)";
     h->SetYTitle(yt.data());
     heta->Draw("p");
-
+    # include "data/HIN-10-002.h"
+    TH1D * prevname = new TH1D("prevname", "", netabins, etabins);
+    if (ANAL==N2SUB3 || ANAL==N2SUB2) {
+        for (int ebin = 1; ebin<=netabins; ebin++) {
+            if (cbin == 0) {
+                prevname->SetBinContent(ebin, v2Ecent0to5[ebin-1]);
+                prevname->SetBinError(ebin, v2Ecent0to5Err[ebin-1]);
+            } else if (cbin == 1) {
+                prevname->SetBinContent(ebin, v2Ecent5to10[ebin-1]);
+                prevname->SetBinError(ebin, v2Ecent5to10Err[ebin-1]);
+            } else if (cbin == 2) {
+                prevname->SetBinContent(ebin, v2Ecent10to15[ebin-1]);
+                prevname->SetBinError(ebin, v2Ecent10to15Err[ebin-1]);
+            } else if (cbin == 3) {
+                prevname->SetBinContent(ebin, v2Ecent15to20[ebin-1]);
+                prevname->SetBinError(ebin, v2Ecent15to20Err[ebin-1]);
+            } else if (cbin == 4) {
+                prevname->SetBinContent(ebin, v2Ecent20to25[ebin-1]);
+                prevname->SetBinError(ebin, v2Ecent20to25Err[ebin-1]);
+            } else if (cbin == 5) {
+                prevname->SetBinContent(ebin, v2Ecent25to30[ebin-1]);
+                prevname->SetBinError(ebin, v2Ecent25to30Err[ebin-1]);
+            } else if (cbin == 6) {
+                prevname->SetBinContent(ebin, v2Ecent30to35[ebin-1]);
+                prevname->SetBinError(ebin, v2Ecent30to35Err[ebin-1]);
+            } else if (cbin == 7) {
+                prevname->SetBinContent(ebin, v2Ecent35to40[ebin-1]);
+                prevname->SetBinError(ebin, v2Ecent35to40Err[ebin-1]);
+            } else if (cbin == 8) {
+                prevname->SetBinContent(ebin, v2Ecent40to50[ebin-1]);
+                prevname->SetBinError(ebin, v2Ecent40to50Err[ebin-1]);
+            } else if (cbin == 9) {
+                prevname->SetBinContent(ebin, v2Ecent50to60[ebin-1]);
+                prevname->SetBinError(ebin, v2Ecent50to60Err[ebin-1]);
+            } else if (cbin == 10) {
+                prevname->SetBinContent(ebin, v2Ecent60to70[ebin-1]);
+                prevname->SetBinError(ebin, v2Ecent60to70Err[ebin-1]);
+            } else if (cbin == 11) {
+                prevname->SetBinContent(ebin, v2Ecent70to80[ebin-1]);
+                prevname->SetBinError(ebin, v2Ecent70to80Err[ebin-1]);
+            }
+        }
+    }
     TLegend * leg = new TLegend(0.65, 0.65, 0.9, 0.9);
     leg->SetTextFont(43);
     leg->SetTextSize(20);
@@ -697,6 +739,13 @@ void GetVNCreate( int replay = N1SUB3, int cbin = 0, bool NumOnly = false, bool 
     hA->Draw("p");
     hB->Draw("p");
     heta->Draw("p");
+    if (ANAL==N2SUB3 || ANAL==N2SUB2) {
+        prevname->SetMarkerStyle(25);
+        prevname->SetMarkerColor(kRed);
+        prevname->SetLineColor(kRed);
+        prevname->Draw("same p");
+        leg->AddEntry(prevname,"CMS Published","lp");
+    }
     TLatex * text = new TLatex(1,0.87*ymax,AnalNames[replay].data());
     text->SetTextFont(43);
     text->SetTextSize(28);
