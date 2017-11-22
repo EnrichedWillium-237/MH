@@ -30,7 +30,7 @@ double PtMin = 0.3;
 double PtMax = 3.0;
 string FigDir = "";
 string FigSubDir = "";
-static const int nanals = 18;
+static const int nanals = 22;
 enum AnalType {
     N1MCm22SUB3, N1MCm18SUB3, N1MCm14SUB3, N1MCm10SUB3, N1MCm06SUB3, N1MCm02SUB3,
     N1MCp22SUB3, N1MCp18SUB3, N1MCp14SUB3, N1MCp10SUB3, N1MCp06SUB3, N1MCp02SUB3,
@@ -44,16 +44,10 @@ string AnalNames[] = {
 string ytitle[] = {
     "v_{1}\{#Psi_{1,MC} (-2.4<#eta<-2.0)\}", "v_{1}\{#Psi_{1,MC} (-2.0<#eta<-1.6)\}", "v_{1}\{#Psi_{1,MC} (-1.6<#eta<-1.2)\}", "v_{1}\{#Psi_{1,MC} (-1.2<#eta<-0.8)\}",
     "v_{1}\{#Psi_{1,MC} (-0.8<#eta<-0.4)\}", "v_{1}\{#Psi_{1,MC} (-0.4<#eta<0.0)\}",
-    "v_{1}\{#Psi_{1,MC} (2.0<#eta<2.4)\}",   "v_{1}\{#Psi_{1,MC} (1.6<#eta<2.0)\}",   "v_{1}\{#Psi_{1,MC} (1.2<#eta<1.6)\}",   "v_{1}\{#Psi_{1,MC} (0.8<#eta<1.2)\}",
-    "v_{1}\{#Psi_{1,MC} (0.4<#eta<0.8)\}",   "v_{1}\{#Psi_{1,MC} (0.0<#eta<0.4)\}",
+    "v_{1}\{#Psi_{1,MC} (0.0<#eta<0.4)\}",   "v_{1}\{#Psi_{1,MC} (0.4<#eta<0.8)\}",   "v_{1}\{#Psi_{1,MC} (0.8<#eta<1.2)\}",   "v_{1}\{#Psi_{1,MC} (1.2<#eta<1.6)\}",
+    "v_{1}\{#Psi_{1,MC} (1.6<#eta<2.0)\}",   "v_{1}\{#Psi_{1,MC} (2.0<#eta<2.4)\}",
     "v_{1}\{#Psi_{1},#Psi_{2}\}",            "v_{1}\{#Psi_{1},#Psi_{2}\}",            "v_{1}\{#Psi_{2},#Psi_{3}\}",            "v_{1}\{#Psi_{2},#Psi_{3}\}",
-    "v_{1}\{#Psi_{1}\}",                     "v_{1}\{#Psi_{1}\}",                     "v_{1}\{#Psi_{1}\}",                     "v_{1}\{#Psi_{1}\}",
-    "v_{2}\{#Psi_{2}\}",                     "v_{2}\{#Psi_{2}\}",                     "v_{3}\{#Psi_{3}\}",                     "v_{3}\{#Psi_{3}\}", "LAST"};
-
-// TH1D * v1A_pT[nanals][ncentbins];
-// TH1D * v1B_pT[nanals][ncentbins];
-// TH1D * v1add_pT[nanals][ncentbins];
-// TH1D * v1sub_pT[nanals][ncentbins];
+    "v_{1}\{#Psi_{1}\}",                     "v_{1}\{#Psi_{1}\}",                     "v_{2}\{#Psi_{2}\}",                     "v_{2}\{#Psi_{2}\}",                     "v_{3}\{#Psi_{3}\}",                     "v_{3}\{#Psi_{3}\}",                     "LAST"};
 
 
 void GraphToHist( TGraphErrors * gin, TH1D * hout ) {
