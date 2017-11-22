@@ -111,3 +111,8 @@ rm VNInt_useLoose.root
 hadd VNInt_useLoose.root N1*.root N2*.root N3*.root
 rm N1*.root N2*.root N3*.root
 #
+rm *_C.so
+rm *.d
+rm *.pcm
+rm *~
+rm \#*\#
