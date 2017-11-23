@@ -1,7 +1,7 @@
-# include "TFile.h"
-# include "TGraphErrors.h"
 # include "TCanvas.h"
 # include "TF1.h"
+# include "TFile.h"
+# include "TGraphErrors.h"
 # include "TH1.h"
 # include "TH2.h"
 # include "TLatex.h"
@@ -770,13 +770,7 @@ void GetVNCreate( int replay = N1SUB3, int cbin = 0, bool NumOnly = false, bool 
         fprintf(fout,"%5.3f\t%9.7f\t%9.7f\n",heta->GetX()[i],heta->GetY()[i],heta->GetEY()[i]);
     }
     fclose(fout);
-    //tdcent->cd();
-    // hA->SetName("vnA");
-    // hA->Write();
-    // hB->SetName("vnB");
-    // hB->Write();
-    // heta->SetName("vnComb");
-    // heta->Write();
+
     bool drawSpec = true;
     if (drawSpec){
         string c2name = "eta_c2_"+AnalNames[replay]+"_"+to_string(cmin[cbin])+"_"+to_string(cmax[cbin]);
@@ -819,7 +813,6 @@ void GetVNCreate( int replay = N1SUB3, int cbin = 0, bool NumOnly = false, bool 
     }
     outspec = fopen(sspec.data(),"w");
     for (int i = 0; i<nwspec->GetN(); i++) fprintf(outspec,"%7.2f\t%12.5f\t%12.5f\n",nwspec->GetX()[i],nwspec->GetY()[i],nwspec->GetEY()[i]);
-    //tfget->Close();
 
 }
 
@@ -893,5 +886,5 @@ void GetVNIntEta( string name="N1SUB3", string tag="useTight", double mineta = -
         fin->Close();
         fin = new TFile(rootFile.data(),"read");
     }
-    // tfout->Close();
+
 }

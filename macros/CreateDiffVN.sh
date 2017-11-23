@@ -1178,6 +1178,7 @@ root -l -q -b 'GetVNIntEta.C+("N3SUB2","useLoose",2.0,2.4,0.3,3.0,false)'
 #
 #
 #
+cd ../../
 rm *_C.so
 rm *.d
 rm *.pcm
