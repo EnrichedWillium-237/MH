@@ -981,7 +981,6 @@ void GetVNIntPt( string name="N1SUB3", string tag="useTight", double mineta = -2
     if (!fopen("results","r")) system("mkdir results");
     if (!fopen(Form("results/results%s",stag.data()),"r")) system(Form("mkdir results/results%s",stag.data()));
     tfout = new TFile(Form("results/results%s/%s.root",stag.data(),name.data()),"recreate");
-    TDirectory * tdanal = (TDirectory *) tfout->mkdir(Form("%s",name.data()));
 
     for (int cbin = 0; cbin<13; cbin++) {
         GetVNCreate(en,cbin);

@@ -51,14 +51,16 @@ void GraphToHist( TGraphErrors * gin, TH1D * hout ) {
 }
 
 TFile * tfin;
-string infile;
+string infile = "";
+string ctag = "";
 bool isLoose = false;
 bool isTight = false;
 TH1D * centbins;
 
-TH1D * vnA[2][nanals][ncentbins][netabins];
-TH1D * vnB[2][nanals][ncentbins][netabins];
-TH1D * vnAB[2][nanals][ncentbins][netabins];
+//  track cut, analysis type, centbin, etabin
+TH1D * vnA[2][nanals][ncbins][netabins];
+TH1D * vnB[2][nanals][ncbins][netabins];
+TH1D * vnAB[2][nanals][ncbins][netabins];
 
 void v1pT()
 {
@@ -69,11 +71,17 @@ void v1pT()
     for (int ebin = 0; ebin<netabins; ebin++) {
         infile = "../macros/results/results_";
         if (isTight) infile+="useTight_";
-        infile+=Form("%1.1f_%1.1f",etabins[ebin],etabins[ebin+1]);
-        infile+="N1MCm22SUB3_pt";
-
-        tfin = new TFile(Form("%s."));
-        cout<<infile<<endl;
+        infile+=Form("%1.1f_%1.1f/",etabins[ebin],etabins[ebin+1]);
+        for (int anal = 0; anal<nanals; anal++) {
+            tfin = new TFile(Form("%s%s.root",infile.data(),AnalNames[anal].data()),"read");
+            for (int cbin = 0; cbin<ncbins; cbin++) {
+                ctag = Form("%d_%d",cmin[cbin],cmax[cbin]);
+                vnA[0][anal][cbin][ebin] = (TH1D *) tfin->Get(Form("%s/vnA",ctag.data()));
+                vnB[0][anal][cbin][ebin] = (TH1D *) tfin->Get(Form("%s/vnB",ctag.data()));
+                vnAB[0][anal][cbin][ebin] = (TH1D *) tfin->Get(Form("%s/vnAB",ctag.data()));
+            }
+            //tfin->Close();
+        }
     }
 
 }
