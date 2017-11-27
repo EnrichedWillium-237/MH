@@ -606,6 +606,7 @@ TGraphErrors * GetVNPt( int replay, int cbin, double etamin, double etamax, TGra
     g->SetMarkerStyle(20);
     g->SetMarkerColor(kBlue);
     g->SetLineColor(kBlue);
+    g->SetMarkerSize(1.1);
     g->SetLineWidth(2);
     gspec = new TGraphErrors(npt, xspec, yspec, exspec, eyspec);
     gspec->SetMarkerStyle(20);
@@ -616,11 +617,13 @@ TGraphErrors * GetVNPt( int replay, int cbin, double etamin, double etamax, TGra
     gA->SetMarkerStyle(28);
     gA->SetMarkerColor(kMagenta);
     gA->SetLineColor(kMagenta);
+    gA->SetMarkerSize(1.1);
     gA->SetLineWidth(2);
     gB = new TGraphErrors(npt,x,yB,ex,eyB);
     gB->SetMarkerStyle(28);
     gB->SetMarkerColor(kCyan+2);
     gB->SetLineColor(kCyan+2);
+    gB->SetMarkerSize(1.1);
     gB->SetLineWidth(2);
     return g;
 
@@ -725,53 +728,55 @@ void GetVNCreate( int replay = N1SUB3, int cbin = 0, bool NumOnly = false, bool 
         if (nwspec->GetY()[n]+nwspec->GetEY()[n]>ymaxspec) ymaxspec = nwspec->GetY()[n]+nwspec->GetEY()[n];
     }
 
-    if (ymax<0.0002) {
-        ymax = 0.0002;
-    } else if (ymax<0.004) {
-        ymax = 0.001;
-    } else if (ymax<0.01) {
-        ymax = 0.02;
-    } else if (ymax<0.02) {
-        ymax = 0.03;
-    } else if (ymax<0.05) {
-        ymax = 0.07;
-    } else if (ymax<0.1) {
-        ymax = 0.2;
-    } else if (ymax<0.3) {
-        ymax = 0.4;
-    } else if (ymax<0.8) {
-        ymax = 1.0;
-    } else if (ymax < 2.) {
-        ymax = 2.0;
-    } else {
-        ymax = 10;
-    }
-
-    if (ymin>0) {
-        ymin=0;
-    } else if (ymin>-0.003) {
-        ymin=-0.006;
-    } else if (ymin>-0.005) {
-        ymin=-0.01;
-    } else if (ymin>-0.01) {
-        ymin=-0.015;
-    } else if (ymin>-0.02) {
-        ymin = -0.025;
-    } else if (ymin>-0.04) {
-        ymin = -0.05;
-    } else if (ymin>-0.1) {
-        ymin = -0.125;
-    } else if (ymin>-0.2) {
-        ymin = -0.225;
-    } else if (ymin>-0.4) {
-        ymin = -0.425;
-    } else if( ymin>-0.8) {
-        ymin = -0.8;
-    } else if( ymin > -2) {
-        ymin = -2.2;
-    } else {
-        ymin =-1;
-    }
+    ymin = -0.2;
+    ymax = 0.2;
+    // if (ymax<0.0002) {
+    //     ymax = 0.0002;
+    // } else if (ymax<0.004) {
+    //     ymax = 0.001;
+    // } else if (ymax<0.01) {
+    //     ymax = 0.02;
+    // } else if (ymax<0.02) {
+    //     ymax = 0.03;
+    // } else if (ymax<0.05) {
+    //     ymax = 0.07;
+    // } else if (ymax<0.1) {
+    //     ymax = 0.2;
+    // } else if (ymax<0.3) {
+    //     ymax = 0.4;
+    // } else if (ymax<0.8) {
+    //     ymax = 1.0;
+    // } else if (ymax < 2.) {
+    //     ymax = 2.0;
+    // } else {
+    //     ymax = 10;
+    // }
+    //
+    // if (ymin>0) {
+    //     ymin=0;
+    // } else if (ymin>-0.003) {
+    //     ymin=-0.006;
+    // } else if (ymin>-0.005) {
+    //     ymin=-0.01;
+    // } else if (ymin>-0.01) {
+    //     ymin=-0.015;
+    // } else if (ymin>-0.02) {
+    //     ymin = -0.025;
+    // } else if (ymin>-0.04) {
+    //     ymin = -0.05;
+    // } else if (ymin>-0.1) {
+    //     ymin = -0.125;
+    // } else if (ymin>-0.2) {
+    //     ymin = -0.225;
+    // } else if (ymin>-0.4) {
+    //     ymin = -0.425;
+    // } else if( ymin>-0.8) {
+    //     ymin = -0.8;
+    // } else if( ymin > -2) {
+    //     ymin = -2.2;
+    // } else {
+    //     ymin =-1;
+    // }
     h->SetMinimum(ymin);
     h->SetMaximum(ymax);
     gPad->SetGrid(1,1);
@@ -790,7 +795,8 @@ void GetVNCreate( int replay = N1SUB3, int cbin = 0, bool NumOnly = false, bool 
         if(cmin[cbin]<=50) shengquan = Form("data/forSteveNov11/v22_%d_%d.txt",cmin[cbin],cmax[cbin]);
     }
     if (ANAL==N3SUB3 || ANAL==N3SUB2) prevname = Form("data/hin_11_005_data/EPResults/PtDists/v3_%d_%d.txt",cmin[cbin],cmax[cbin]);
-    TLegend * leg = new TLegend(0.65, 0.65, 0.9, 0.9);
+    // TLegend * leg = new TLegend(0.65, 0.65, 0.9, 0.9);
+    TLegend * leg = new TLegend(0.20, 0.18, 0.45, 0.37);
     leg->SetTextFont(43);
     leg->SetTextSize(20);
     leg->SetFillColor(kWhite);
