@@ -980,14 +980,13 @@ void GetVNIntPt( string name="N1SUB3", string tag="useTight", double mineta = -2
 
     if (!fopen("results","r")) system("mkdir results");
     if (!fopen(Form("results/results%s",stag.data()),"r")) system(Form("mkdir results/results%s",stag.data()));
-    tfout = new TFile(Form("results/results%s/%s_pt.root",stag.data(),name.data()),"recreate");
+    tfout = new TFile(Form("results/results%s/%s.root",stag.data(),name.data()),"recreate");
     TDirectory * tdanal = (TDirectory *) tfout->mkdir(Form("%s",name.data()));
-    TDirectory * tdpt = (TDirectory *) tdanal->mkdir("VN_pt");
 
     for (int cbin = 0; cbin<13; cbin++) {
         GetVNCreate(en,cbin);
 
-        TDirectory * tdcent = (TDirectory *) tdpt->mkdir(Form("%d_%d",cmin[cbin],cmax[cbin]));
+        TDirectory * tdcent = (TDirectory *) tfout->mkdir(Form("%d_%d",cmin[cbin],cmax[cbin]));
         tdcent->cd();
         vnA = new TH1D("vnA", "", nptbins, ptbins);
         GraphToHist(hA, vnA);
