@@ -65,7 +65,7 @@ void v1pT()
         infile+=Form("%1.1f_%1.1f/",etabins[ebin],etabins[ebin+1]);
         for (int anal = 0; anal<nanals; anal++) {
             if (!processAll) {
-                if (anal == 0 || anal == 15 || anal == 16 || anal == 18) {
+                if (anal == 0 || anal == 6 || anal == 15 || anal == 16 || anal == 18) {
                     tfin = new TFile(Form("%s%s.root",infile.data(),AnalNames[anal].data()),"read");
                     for (int cbin = 0; cbin<ncbins-1; cbin++) {
                         ctag = Form("%d_%d",cmin[cbin],cmax[cbin]);
@@ -120,28 +120,13 @@ void v1pT()
         infile+=Form("%1.1f_%1.1f/",etabins[ebin],etabins[ebin+1]);
         for (int anal = 0; anal<nanals; anal++) {
             if (!processAll) {
-                if (anal == 0 || anal == 15 || anal == 16 || anal == 18) {
+                if (anal == 0 || anal == 6 || anal == 15 || anal == 16 || anal == 18) {
                     tfin = new TFile(Form("%s%s.root",infile.data(),AnalNames[anal].data()),"read");
                     for (int cbin = 0; cbin<ncbins-1; cbin++) {
                         ctag = Form("%d_%d",cmin[cbin],cmax[cbin]);
                         vnA[0][anal][cbin][ebin] = (TH1D *) tfin->Get(Form("%s/vnA",ctag.data()));
                         vnB[0][anal][cbin][ebin] = (TH1D *) tfin->Get(Form("%s/vnB",ctag.data()));
                         vnAB[0][anal][cbin][ebin] = (TH1D *) tfin->Get(Form("%s/vnAB",ctag.data()));
-
-                        vnA[0][anal][cbin][ebin]->SetMarkerColor(kCyan+2);
-                        vnA[0][anal][cbin][ebin]->SetLineColor(kCyan+2);
-                        vnA[0][anal][cbin][ebin]->SetMarkerStyle(28);
-                        vnA[0][anal][cbin][ebin]->SetMarkerSize(1.2);
-
-                        vnB[0][anal][cbin][ebin]->SetMarkerColor(kMagenta);
-                        vnB[0][anal][cbin][ebin]->SetLineColor(kMagenta);
-                        vnB[0][anal][cbin][ebin]->SetMarkerStyle(28);
-                        vnB[0][anal][cbin][ebin]->SetMarkerSize(1.2);
-
-                        vnAB[0][anal][cbin][ebin]->SetMarkerColor(kBlue);
-                        vnAB[0][anal][cbin][ebin]->SetLineColor(kBlue);
-                        vnAB[0][anal][cbin][ebin]->SetMarkerStyle(21);
-                        vnAB[0][anal][cbin][ebin]->SetMarkerSize(1.1);
                     }
                 }
             } else {
@@ -151,21 +136,6 @@ void v1pT()
                     vnA[0][anal][cbin][ebin] = (TH1D *) tfin->Get(Form("%s/vnA",ctag.data()));
                     vnB[0][anal][cbin][ebin] = (TH1D *) tfin->Get(Form("%s/vnB",ctag.data()));
                     vnAB[0][anal][cbin][ebin] = (TH1D *) tfin->Get(Form("%s/vnAB",ctag.data()));
-
-                    vnA[0][anal][cbin][ebin]->SetMarkerColor(kCyan+2);
-                    vnA[0][anal][cbin][ebin]->SetLineColor(kCyan+2);
-                    vnA[0][anal][cbin][ebin]->SetMarkerStyle(28);
-                    vnA[0][anal][cbin][ebin]->SetMarkerSize(1.2);
-
-                    vnB[0][anal][cbin][ebin]->SetMarkerColor(kMagenta);
-                    vnB[0][anal][cbin][ebin]->SetLineColor(kMagenta);
-                    vnB[0][anal][cbin][ebin]->SetMarkerStyle(28);
-                    vnB[0][anal][cbin][ebin]->SetMarkerSize(1.2);
-
-                    vnAB[0][anal][cbin][ebin]->SetMarkerColor(kBlue);
-                    vnAB[0][anal][cbin][ebin]->SetLineColor(kBlue);
-                    vnAB[0][anal][cbin][ebin]->SetMarkerStyle(21);
-                    vnAB[0][anal][cbin][ebin]->SetMarkerSize(1.1);
                 }
             }
         }
@@ -175,6 +145,7 @@ void v1pT()
     if (!fopen("figures","r")) system("mkdir figures");
 
 
+    //-- v1even (N1MCm22SUB3 and N1MCp22SUB3) vs. pT for each eta-bin
     TCanvas * cv1evenDiffPt_30_50 = new TCanvas("cv1evenDiffPt_30_50","cv1evenDiffPt_30_50",1100,700);
     cv1evenDiffPt_30_50->Divide(4,3,0,0);
     TH1D * hv1evenDiffPt_30_50_tmp = new TH1D("hv1evenDiffPt_30_50_tmp", "", 50, 0, 12);
@@ -196,9 +167,19 @@ void v1pT()
         if (ebin <=3) padv1evenDiffPt_30_50->SetTopMargin(0.02);
         TH1D * hv1evenDiffPt_30_50 = (TH1D *) hv1evenDiffPt_30_50_tmp->Clone(Form("hv1evenDiffPt_30_50_%d",ebin));
         hv1evenDiffPt_30_50->Draw();
+
+        vnA[0][0][12][ebin]->SetMarkerColor(kMagenta);
+        vnA[0][0][12][ebin]->SetLineColor(kMagenta);
+        vnA[0][0][12][ebin]->SetMarkerStyle(28);
+        vnA[0][0][12][ebin]->SetMarkerSize(1.2);
+
+        vnA[0][6][12][ebin]->SetMarkerColor(kCyan+2);
+        vnA[0][6][12][ebin]->SetLineColor(kCyan+2);
+        vnA[0][6][12][ebin]->SetMarkerStyle(28);
+        vnA[0][6][12][ebin]->SetMarkerSize(1.2);
+
         vnA[0][0][12][ebin]->Draw("same");
-        vnB[0][0][12][ebin]->Draw("same");
-        vnAB[0][0][12][ebin]->Draw("same");
+        vnA[0][6][12][ebin]->Draw("same");
 
         TPaveText * txv1evenDiffPt_30_50_ebin;
         if (ebin>=8) txv1evenDiffPt_30_50_ebin = new TPaveText(0.53, 0.21, 0.90, 0.33,"NDC");
@@ -208,19 +189,138 @@ void v1pT()
         txv1evenDiffPt_30_50_ebin->Draw();
     }
     cv1evenDiffPt_30_50->cd(2);
-    TPaveText * txv1evenDiffPt_30_50_cbin = new TPaveText(0.22, 0.81, 0.38, 0.93,"NDC");
+    TPaveText * txv1evenDiffPt_30_50_cbin = new TPaveText(0.06, 0.81, 0.22, 0.93,"NDC");
     SetTPaveTxt(txv1evenDiffPt_30_50_cbin, 17);
     txv1evenDiffPt_30_50_cbin->AddText("30-50%");
     txv1evenDiffPt_30_50_cbin->Draw();
 
     cv1evenDiffPt_30_50->cd(1);
-    TLegend * legv1evenDiffPt_30_50 = new TLegend(0.05, 0.66, 0.38, 0.93);
+    TLegend * legv1evenDiffPt_30_50 = new TLegend(0.23, 0.71, 0.56, 0.93);
     SetLegend(legv1evenDiffPt_30_50, 17);
-    legv1evenDiffPt_30_50->AddEntry(vnA[0][0][12][0],"track+ only","lp");
-    legv1evenDiffPt_30_50->AddEntry(vnB[0][0][12][0],"track- only","lp");
-    legv1evenDiffPt_30_50->AddEntry(vnAB[0][0][12][0],Form("%s",AnalNames[0].data()),"lp");
+    legv1evenDiffPt_30_50->AddEntry(vnA[0][6][12][0],"track+ only","lp");
+    legv1evenDiffPt_30_50->AddEntry(vnA[0][0][12][0],"track- only","lp");
     legv1evenDiffPt_30_50->Draw();
 
-    cv1evenDiffPt_30_50->Print(Form("figures/v1%s_Pt_A_B_AB_30_50.png",AnalNames[0].data()),"png");
+    cv1evenDiffPt_30_50->Print("figures/vN1MCm22SUB3_N1MCp22SUB3_Pt_30_50.png","png");
+
+
+
+    //-- v1even (N1MCm22SUB3 and N1MCp22SUB3) vs. pT for each eta-bin
+    TCanvas * cv1evenDiffPt_A_B_30_50 = new TCanvas("cv1evenDiffPt_A_B_30_50","cv1evenDiffPt_A_B_30_50",1100,700);
+    cv1evenDiffPt_A_B_30_50->Divide(4,3,0,0);
+    TH1D * hv1evenDiffPt_A_B_30_50_tmp = new TH1D("hv1evenDiffPt_A_B_30_50_tmp", "", 50, 0, 12);
+    hv1evenDiffPt_A_B_30_50_tmp->SetStats(0);
+    hv1evenDiffPt_A_B_30_50_tmp->SetXTitle("p_{T} (GeV/c)");
+    hv1evenDiffPt_A_B_30_50_tmp->SetYTitle("v_{1}");
+    hv1evenDiffPt_A_B_30_50_tmp->GetXaxis()->SetTitleSize(0.06);
+    hv1evenDiffPt_A_B_30_50_tmp->GetYaxis()->SetTitleSize(0.07);
+    hv1evenDiffPt_A_B_30_50_tmp->GetXaxis()->SetTitleOffset(1.10);
+    hv1evenDiffPt_A_B_30_50_tmp->GetYaxis()->SetTitleOffset(1.10);
+    hv1evenDiffPt_A_B_30_50_tmp->GetXaxis()->SetLabelSize(0.06);
+    hv1evenDiffPt_A_B_30_50_tmp->GetYaxis()->SetLabelSize(0.06);
+    hv1evenDiffPt_A_B_30_50_tmp->GetYaxis()->SetNdivisions(509);
+    hv1evenDiffPt_A_B_30_50_tmp->GetYaxis()->SetRangeUser(-0.075, 0.22);
+    for (int ebin = 0; ebin<netabins; ebin++) {
+        TPad * padv1evenDiffPt_A_B_30_50 = (TPad *) cv1evenDiffPt_A_B_30_50->cd(ebin+1);
+        if (gridlines) padv1evenDiffPt_A_B_30_50->SetGrid();
+        if (ebin == 3 || ebin == 7 || ebin == 11) padv1evenDiffPt_A_B_30_50->SetRightMargin(0.02);
+        if (ebin <=3) padv1evenDiffPt_A_B_30_50->SetTopMargin(0.02);
+        TH1D * hv1evenDiffPt_A_B_30_50 = (TH1D *) hv1evenDiffPt_A_B_30_50_tmp->Clone(Form("hv1evenDiffPt_A_B_30_50_%d",ebin));
+        hv1evenDiffPt_A_B_30_50->Draw();
+
+        vnA[0][0][12][ebin]->SetMarkerColor(kBlue);
+        vnA[0][0][12][ebin]->SetLineColor(kBlue);
+        vnA[0][0][12][ebin]->SetMarkerStyle(21);
+        vnA[0][0][12][ebin]->SetMarkerSize(1.1);
+
+        vnA[0][6][12][ebin]->SetMarkerColor(kBlue);
+        vnA[0][6][12][ebin]->SetLineColor(kBlue);
+        vnA[0][6][12][ebin]->SetMarkerStyle(21);
+        vnA[0][6][12][ebin]->SetMarkerSize(1.1);
+        if (ebin<=5) vnA[0][6][12][ebin]->Draw("same");
+        else vnA[0][0][12][ebin]->Draw("same");
+
+        TPaveText * txv1evenDiffPt_A_B_30_50_ebin;
+        if (ebin>=8) txv1evenDiffPt_A_B_30_50_ebin = new TPaveText(0.53, 0.21, 0.90, 0.33,"NDC");
+        else txv1evenDiffPt_A_B_30_50_ebin = new TPaveText(0.53, 0.06, 0.88, 0.18,"NDC");
+        SetTPaveTxt(txv1evenDiffPt_A_B_30_50_ebin, 17);
+        txv1evenDiffPt_A_B_30_50_ebin->AddText(Form("%1.1f < #eta < %1.1f",etabins[ebin],etabins[ebin+1]));
+        txv1evenDiffPt_A_B_30_50_ebin->Draw();
+    }
+    cv1evenDiffPt_A_B_30_50->cd(1);
+    TPaveText * txv1evenDiffPt_A_B_30_50_cbin = new TPaveText(0.24, 0.73, 0.40, 0.93,"NDC");
+    SetTPaveTxt(txv1evenDiffPt_A_B_30_50_cbin, 17);
+    txv1evenDiffPt_A_B_30_50_cbin->AddText("N1MC22SUB3");
+    txv1evenDiffPt_A_B_30_50_cbin->AddText("30-50%");
+    txv1evenDiffPt_A_B_30_50_cbin->Draw();
+
+    cv1evenDiffPt_A_B_30_50->Print("figures/vN1MC22SUB3_Pt_30_50.png","png");
+
+
+
+    //-- v1odd (N1SUB3) vs. pT for each eta-bin
+    TCanvas * cv1oddDiffPt_30_50 = new TCanvas("cv1oddDiffPt_30_50","cv1oddDiffPt_30_50",1100,700);
+    cv1oddDiffPt_30_50->Divide(4,3,0,0);
+    TH1D * hv1oddDiffPt_30_50_tmp = new TH1D("hv1oddDiffPt_30_50_tmp", "", 50, 0, 12);
+    hv1oddDiffPt_30_50_tmp->SetStats(0);
+    hv1oddDiffPt_30_50_tmp->SetXTitle("p_{T} (GeV/c)");
+    hv1oddDiffPt_30_50_tmp->SetYTitle("v_{1}");
+    hv1oddDiffPt_30_50_tmp->GetXaxis()->SetTitleSize(0.06);
+    hv1oddDiffPt_30_50_tmp->GetYaxis()->SetTitleSize(0.07);
+    hv1oddDiffPt_30_50_tmp->GetXaxis()->SetTitleOffset(1.10);
+    hv1oddDiffPt_30_50_tmp->GetYaxis()->SetTitleOffset(1.10);
+    hv1oddDiffPt_30_50_tmp->GetXaxis()->SetLabelSize(0.06);
+    hv1oddDiffPt_30_50_tmp->GetYaxis()->SetLabelSize(0.06);
+    hv1oddDiffPt_30_50_tmp->GetYaxis()->SetNdivisions(509);
+    hv1oddDiffPt_30_50_tmp->GetYaxis()->SetRangeUser(-0.20, 0.20);
+    for (int ebin = 0; ebin<netabins; ebin++) {
+        TPad * padv1oddDiffPt_30_50 = (TPad *) cv1oddDiffPt_30_50->cd(ebin+1);
+        if (gridlines) padv1oddDiffPt_30_50->SetGrid();
+        if (ebin == 3 || ebin == 7 || ebin == 11) padv1oddDiffPt_30_50->SetRightMargin(0.02);
+        if (ebin <=3) padv1oddDiffPt_30_50->SetTopMargin(0.02);
+        TH1D * hv1oddDiffPt_30_50 = (TH1D *) hv1oddDiffPt_30_50_tmp->Clone(Form("hv1oddDiffPt_30_50_%d",ebin));
+        hv1oddDiffPt_30_50->Draw();
+
+        vnA[0][16][12][ebin]->SetMarkerColor(kCyan+2);
+        vnA[0][16][12][ebin]->SetLineColor(kCyan+2);
+        vnA[0][16][12][ebin]->SetMarkerStyle(28);
+        vnA[0][16][12][ebin]->SetMarkerSize(1.2);
+
+        vnB[0][16][12][ebin]->SetMarkerColor(kMagenta);
+        vnB[0][16][12][ebin]->SetLineColor(kMagenta);
+        vnB[0][16][12][ebin]->SetMarkerStyle(28);
+        vnB[0][16][12][ebin]->SetMarkerSize(1.2);
+
+        vnAB[0][16][12][ebin]->SetMarkerColor(kBlue);
+        vnAB[0][16][12][ebin]->SetLineColor(kBlue);
+        vnAB[0][16][12][ebin]->SetMarkerStyle(21);
+        vnAB[0][16][12][ebin]->SetMarkerSize(1.1);
+
+        vnA[0][16][12][ebin]->Draw("same");
+        vnB[0][16][12][ebin]->Draw("same");
+        vnAB[0][16][12][ebin]->Draw("same");
+
+        TPaveText * txv1oddDiffPt_30_50_ebin;
+        if (ebin>=8) txv1oddDiffPt_30_50_ebin = new TPaveText(0.53, 0.21, 0.90, 0.33,"NDC");
+        else txv1oddDiffPt_30_50_ebin = new TPaveText(0.53, 0.06, 0.88, 0.18,"NDC");
+        SetTPaveTxt(txv1oddDiffPt_30_50_ebin, 17);
+        txv1oddDiffPt_30_50_ebin->AddText(Form("%1.1f < #eta < %1.1f",etabins[ebin],etabins[ebin+1]));
+        txv1oddDiffPt_30_50_ebin->Draw();
+    }
+    cv1oddDiffPt_30_50->cd(2);
+    TPaveText * txv1oddDiffPt_30_50_cbin = new TPaveText(0.06, 0.81, 0.22, 0.93,"NDC");
+    SetTPaveTxt(txv1oddDiffPt_30_50_cbin, 17);
+    txv1oddDiffPt_30_50_cbin->AddText("30-50%");
+    txv1oddDiffPt_30_50_cbin->Draw();
+
+    cv1oddDiffPt_30_50->cd(1);
+    TLegend * legv1oddDiffPt_30_50 = new TLegend(0.23, 0.71, 0.56, 0.93);
+    SetLegend(legv1oddDiffPt_30_50, 17);
+    legv1oddDiffPt_30_50->AddEntry(vnA[0][16][12][0],"HF+ only","lp");
+    legv1oddDiffPt_30_50->AddEntry(vnB[0][16][12][0],"HF- only","lp");
+    legv1oddDiffPt_30_50->AddEntry(vnAB[0][16][12][0],Form("%s",AnalNames[16].data()),"lp");
+    legv1oddDiffPt_30_50->Draw();
+
+    cv1oddDiffPt_30_50->Print("figures/vN1SUB3_Pt_30_50.png","png");
 
 }
