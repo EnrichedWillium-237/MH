@@ -128,7 +128,7 @@ void getVNInt()
     vnAB[0][test][12]->SetMarkerColor(kRed);
     vnAB[0][test][12]->SetXTitle("eta");
     vnAB[0][test][12]->SetYTitle("v_{n}");
-    vnAB[0][test][12]->GetYaxis()->SetRangeUser(-0.05, 0.1);
+    vnAB[0][test][12]->GetYaxis()->SetRangeUser(-0.015, 0.015);
     vnAB[0][test][12]->Draw();
     TLine * ltest = new TLine(-2.4, 0, 2.4, 0);
     ltest->Draw();
