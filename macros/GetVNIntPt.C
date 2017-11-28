@@ -239,11 +239,11 @@ TGraphErrors * GetVNPt( int replay, int cbin, double etamin, double etamax, TGra
             wnA = (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/wnA",crange.data(),strip.data()));
             wnB = (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/wnB",crange.data(),strip.data()));
             qBA += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qBA",crange.data(),strip.data())))->GetBinContent(1);
-            qBAcnt+=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qBAcnt",crange.data(),strip.data())))->GetBinContent(1);
+            qBAcnt += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qBAcnt",crange.data(),strip.data())))->GetBinContent(1);
             qCA += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCA",crange.data(),strip.data())))->GetBinContent(1);
-            qCAcnt+=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCAcnt",crange.data(),strip.data())))->GetBinContent(1);
+            qCAcnt += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCAcnt",crange.data(),strip.data())))->GetBinContent(1);
             qCB += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCB",crange.data(),strip.data())))->GetBinContent(1);
-            qCBcnt+=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCBcnt",crange.data(),strip.data())))->GetBinContent(1);
+            qCBcnt += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCBcnt",crange.data(),strip.data())))->GetBinContent(1);
 
             for (int i = 0; i<10; i++) {
                 qAe[i] = (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qA_%d",crange.data(),strip.data(),i+1));
@@ -251,11 +251,11 @@ TGraphErrors * GetVNPt( int replay, int cbin, double etamin, double etamax, TGra
             	wnAe[i] = (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/wnA_%d",crange.data(),strip.data(),i+1));
             	wnBe[i] = (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/wnB_%d",crange.data(),strip.data(),i+1));
                 qBAe[i] += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qBA_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
-            	qBAecnt[i]+=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qBAcnt_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
+            	qBAecnt[i] += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qBAcnt_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
             	qCAe[i] += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCA_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
-            	qCAecnt[i]+=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCAcnt_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
+            	qCAecnt[i] += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCAcnt_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
             	qCBe[i] += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCB_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
-            	qCBecnt[i]+=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCBcnt_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
+            	qCBecnt[i] += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCBcnt_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
             }
         } else {
             centcnt+=centbins->GetBinContent(j);
@@ -267,11 +267,11 @@ TGraphErrors * GetVNPt( int replay, int cbin, double etamin, double etamax, TGra
             wnA->Add( (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/wnA",crange.data(),strip.data())));
             wnB->Add( (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/wnB",crange.data(),strip.data())));
             qBA += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qBA",crange.data(),strip.data())))->GetBinContent(1);
-            qBAcnt+=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qBAcnt",crange.data(),strip.data())))->GetBinContent(1);
+            qBAcnt += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qBAcnt",crange.data(),strip.data())))->GetBinContent(1);
             qCA += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCA",crange.data(),strip.data())))->GetBinContent(1);
-            qCAcnt+=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCAcnt",crange.data(),strip.data())))->GetBinContent(1);
+            qCAcnt += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCAcnt",crange.data(),strip.data())))->GetBinContent(1);
             qCB += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCB",crange.data(),strip.data())))->GetBinContent(1);
-            qCBcnt+=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCBcnt",crange.data(),strip.data())))->GetBinContent(1);
+            qCBcnt += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCBcnt",crange.data(),strip.data())))->GetBinContent(1);
 
             for (int i = 0; i<10; i++) {
                 qAe[i]->Add( (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qA_%d",crange.data(),strip.data(),i+1)));
@@ -279,11 +279,11 @@ TGraphErrors * GetVNPt( int replay, int cbin, double etamin, double etamax, TGra
                 wnAe[i]->Add( (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/wnA_%d",crange.data(),strip.data(),i+1)));
                 wnBe[i]->Add( (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/wnB_%d",crange.data(),strip.data(),i+1)));
                 qBAe[i] += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qBA_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
-                qBAecnt[i]+=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qBAcnt_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
+                qBAecnt[i] += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qBAcnt_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
                 qCAe[i] += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCA_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
-                qCAecnt[i]+=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCAcnt_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
+                qCAecnt[i] += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCAcnt_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
                 qCBe[i] += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCB_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
-                qCBecnt[i]+=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCBcnt_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
+                qCBecnt[i] += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCBcnt_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
             }
         }
     }
@@ -303,28 +303,28 @@ TGraphErrors * GetVNPt( int replay, int cbin, double etamin, double etamax, TGra
     int ietamax2=0;
     double sign = 1.;
     if (replay==N112ASUB2 || replay==N112ASUB3) sign=-1.;
-     if (etamin*etamax<0) {
-         ietamin1 = qA->GetYaxis()->FindBin(etamin);
-         ietamax1 = qA->GetYaxis()->FindBin(-0.001);
-         ietamin2 = qA->GetYaxis()->FindBin(0.);
-         ietamax2 = qA->GetYaxis()->FindBin(etamax);
-         qA1 = (TH1D *) qA->ProjectionX("qA1",ietamin1,ietamax1);
-         qB1 = (TH1D *) qB->ProjectionX("qB1",ietamin2,ietamax2);
-         wA1 = (TH1D *) wnA->ProjectionX("wA1",ietamin1,ietamax1);
-         wB1 = (TH1D *) wnB->ProjectionX("wB1",ietamin2,ietamax2);
-     } else {
-         ietamin1 = qA->GetYaxis()->FindBin(etamin);
-         ietamax1 = qA->GetYaxis()->FindBin(etamax);
-         qA1 = (TH1D *) qA->ProjectionX("qA1",ietamin1,ietamax1);
-         qB1 = (TH1D *) qB->ProjectionX("qB1",ietamin1,ietamax1);
-         wA1 = (TH1D *) wnA->ProjectionX("wA1",ietamin1,ietamax1);
-         wB1 = (TH1D *) wnB->ProjectionX("wB1",ietamin1,ietamax1);
-     }
-     qA->Divide(wnA);
-     qB->Divide(wnB);
-     qA1->Divide(wA1);
-     qB1->Divide(wB1);
-     if (!nonorm) {
+    if (etamin*etamax<0) {
+        ietamin1 = qA->GetYaxis()->FindBin(etamin);
+        ietamax1 = qA->GetYaxis()->FindBin(-0.001);
+        ietamin2 = qA->GetYaxis()->FindBin(0.001);
+        ietamax2 = qA->GetYaxis()->FindBin(etamax);
+        qA1 = (TH1D *) qA->ProjectionX("qA1",ietamin1,ietamax1);
+        qB1 = (TH1D *) qB->ProjectionX("qB1",ietamin2,ietamax2);
+        wA1 = (TH1D *) wnA->ProjectionX("wA1",ietamin1,ietamax1);
+        wB1 = (TH1D *) wnB->ProjectionX("wB1",ietamin2,ietamax2);
+    } else {
+        ietamin1 = qA->GetYaxis()->FindBin(etamin);
+        ietamax1 = qA->GetYaxis()->FindBin(etamax);
+        qA1 = (TH1D *) qA->ProjectionX("qA1",ietamin1,ietamax1);
+        qB1 = (TH1D *) qB->ProjectionX("qB1",ietamin1,ietamax1);
+        wA1 = (TH1D *) wnA->ProjectionX("wA1",ietamin1,ietamax1);
+        wB1 = (TH1D *) wnB->ProjectionX("wB1",ietamin1,ietamax1);
+    }
+    qA->Divide(wnA);
+    qB->Divide(wnB);
+    qA1->Divide(wA1);
+    qB1->Divide(wB1);
+    if (!nonorm) {
          qBA = fabs(qBA);
          qCA = fabs(qCA);
          qCB = fabs(qCB);
@@ -593,7 +593,7 @@ TGraphErrors * GetVNPt( int replay, int cbin, double etamin, double etamax, TGra
                 double fake = FakeAndEffPt(cent,pt,eff);
                 wvn  += y[npt]*yld->GetBinContent(i)/eff;
                 wvne += ey[npt]*yld->GetBinContent(i)/eff;
-                w    += yld->GetBinContent(i)/eff;;
+                w    += yld->GetBinContent(i)/eff;
             }
             ++npt;
         }
@@ -647,10 +647,10 @@ void GetVNCreate( int replay = N1SUB3, int cbin = 0, bool NumOnly = false, bool 
     } else {
         fclose(ftest);
     }
-    system(Form("touch %s/%s/data/pT_integral.dat",FigDir.data(),AnalNames[replay].data()));
-    soutint = Form("%s/%s/data/pT_integral.dat",FigDir.data(),AnalNames[replay].data());
+    system(Form("touch %s/%s/data/integral.dat",FigDir.data(),AnalNames[replay].data()));
+    soutint = Form("%s/%s/data/integral.dat",FigDir.data(),AnalNames[replay].data());
 
-    string cname = "pT_"+AnalNames[replay]+"_"+to_string(cmin[cbin])+"_"+to_string(cmax[cbin]);
+    string cname = AnalNames[replay]+"_"+to_string(cmin[cbin])+"_"+to_string(cmax[cbin]);
     TString subtest = AnalNames[replay];
 
     TCanvas * c = new TCanvas(cname.data(),cname.data(),650,500);
@@ -879,7 +879,7 @@ void GetVNCreate( int replay = N1SUB3, int cbin = 0, bool NumOnly = false, bool 
     fclose(fout);
     bool drawSpec = true;
     if (drawSpec){
-        string c2name = "pT_c2_"+AnalNames[replay]+"_"+to_string(cmin[cbin])+"_"+to_string(cmax[cbin]);
+        string c2name = "c2_"+AnalNames[replay]+"_"+to_string(cmin[cbin])+"_"+to_string(cmax[cbin]);
         TCanvas * c2 = new TCanvas(c2name.data(),c2name.data(),700,500);
         hspec = new TH1D("hspec", "hspec", 600, 0, 12);
         hspec->SetDirectory(0);
