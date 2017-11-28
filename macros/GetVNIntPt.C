@@ -77,7 +77,46 @@ string stag;
 TH1D * centbins;
 TH1I * centRef;
 
-double FakeAndEffPt( int cent, double pt, double &eff ) {
+// double FakeAndEffPt( int cent, double pt, double &eff ) {
+//     double cb[14] = {0, 5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70, 80, 100};
+//     double cbe[6] = {0, 5, 10, 30, 50, 100};
+//     TFile * f = 0;
+//     TFile * e = 0;
+//     if (isLoose) {
+//         f = new TFile("EffAndFake/FakeRatesPixelPbPb_loose.root");
+//         e = new TFile("EffAndFake/EffCorrectionsPixelPbPb_loose.root");
+//     }
+//     if (isTight) {
+//         f = new TFile("EffAndFake/FakeRatesPixelPbPb_tight.root");
+//         e = new TFile("EffAndFake/EffCorrectionsPixelPbPb_tight.root");
+//     }
+//     TH1I * cen = new TH1I("cen", "cen", 13, cb);
+//     TH1I * cene = new TH1I("cene", "cene", 5, cbe);
+//     int ib = cen->FindBin(cent) - 1;
+//     int ibe = cene->FindBin(cent) - 1;
+//     string rc = "hfak_"+to_string((int)cb[ib])+"_"+to_string((int)cb[ib+1]);
+//     TH2D * hf = (TH2D *) f->Get(rc.data());
+//     string re = "Eff_"+to_string((int)cbe[ibe])+"_"+to_string((int)cbe[ibe+1]);
+//     TH2D * he = (TH2D *) e->Get(re.data());
+//     int ptbin = hf->GetYaxis()->FindBin(pt);
+//     int etabinmin = hf->GetXaxis()->FindBin(-0.8);
+//     int etabinmax = hf->GetXaxis()->FindBin(0.79);
+//     double val = 0;
+//     eff = 0;
+//     for(int i = etabinmin; i<=etabinmax; i++) {
+//         val += hf->GetBinContent(i,ptbin);
+//         eff += he->GetBinContent(i,ptbin);
+//     }
+//     val/=(double)(etabinmax-etabinmin+1);
+//     eff/=(double)(etabinmax-etabinmin+1);
+//     cen->Delete();
+//     cene->Delete();
+//     f->Close();
+//     e->Close();
+//     return val;
+// }
+
+double FakeAndEffPt( int cent, double pt, double &eff, double ebinmin, double ebinmax ) {
     double cb[14] = {0, 5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70, 80, 100};
     double cbe[6] = {0, 5, 10, 30, 50, 100};
     TFile * f = 0;
@@ -99,8 +138,8 @@ double FakeAndEffPt( int cent, double pt, double &eff ) {
     string re = "Eff_"+to_string((int)cbe[ibe])+"_"+to_string((int)cbe[ibe+1]);
     TH2D * he = (TH2D *) e->Get(re.data());
     int ptbin = hf->GetYaxis()->FindBin(pt);
-    int etabinmin = hf->GetXaxis()->FindBin(-0.8);
-    int etabinmax = hf->GetXaxis()->FindBin(0.79);
+    int etabinmin = hf->GetXaxis()->FindBin(ebinmin);
+    int etabinmax = hf->GetXaxis()->FindBin(ebinmax-0.001);
     double val = 0;
     eff = 0;
     for(int i = etabinmin; i<=etabinmax; i++) {
@@ -150,7 +189,7 @@ TH2D * ptcntEff(TH2D * ptcnt, double cent) {
     }
     cene->Delete();
     e->Close();
-    return hsEff ;
+    return hsEff;
 }
 
 
@@ -590,7 +629,9 @@ TGraphErrors * GetVNPt( int replay, int cbin, double etamin, double etamax, TGra
                 double eff = 0;
                 double cent = (cmin[cbin] + cmax[cbin])/2.;
 
-                double fake = FakeAndEffPt(cent,pt,eff);
+                // double fake = FakeAndEffPt(cent,pt,eff);
+                eff = 1.;
+                double fake = FakeAndEffPt(cent,pt,eff,etamin,etamax);
                 wvn  += y[npt]*yld->GetBinContent(i)/eff;
                 wvne += ey[npt]*yld->GetBinContent(i)/eff;
                 w    += yld->GetBinContent(i)/eff;

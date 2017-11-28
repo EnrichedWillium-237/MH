@@ -64,47 +64,72 @@ void getVNInt()
 
     string prevname = "";
 
-    for (int i = 0; i<2; i++) {
-        for (int anal = 0; anal<nanals; anal++) {
-            if (!processAll) {
-                if (anal == 16 || anal == 17 || anal == 18 || anal == 19) {
-                    string tcut = "";
-                    if (i == 0) tcut = "useTight";
-                    else tcut = "useLoose";
-                    for (int ebin = 0; ebin<netabins; ebin++) {
-                        prevname = Form("../figures/figures_%s_%1.1f_%1.1f/%s/data/pT_integral.dat",tcut.data(),etabins[ebin],etabins[ebin+1],AnalNames[anal].data());
-                        if (prevname.length()>1) {
-                            int centmin[40];
-                            int centmax[40];
-                            double y[40];
-                            double stat[40];
-                            FILE * fin = fopen(prevname.data(),"r");
-                            char buf[80];
-                            int cbin = 0;
-                            while (fgets(buf,80,fin)!=NULL) {
-                                sscanf(buf,"%d\t%d\t%lf\t%lf\n",&centmin[cbin],&centmax[cbin],&y[cbin],&stat[cbin]);
-                                // cout<<centmin[cbin]<<"\t"<<centmax[cbin]<<"\t"<<y[cbin]<<"\t"<<syst[cbin]<<endl;
-                                vnAB[i][anal][cbin]->SetBinContent(ebin+1,y[cbin]);
-                                vnAB[i][anal][cbin]->SetBinError(ebin+1,stat[cbin]);
-                                ++cbin;
-                            }
+    // for (int i = 0; i<2; i++) {
+    //     for (int anal = 0; anal<nanals; anal++) {
+    //         if (!processAll) {
+    //             if (anal == 16 || anal == 17 || anal == 18 || anal == 19) {
+    //                 string tcut = "";
+    //                 if (i == 0) tcut = "useTight";
+    //                 else tcut = "useLoose";
+    //                 for (int ebin = 0; ebin<netabins; ebin++) {
+    //                     prevname = Form("../figures/figures_%s_%1.1f_%1.1f/%s/data/pT_integral.dat",tcut.data(),etabins[ebin],etabins[ebin+1],AnalNames[anal].data());
+    //                     if (prevname.length()>1) {
+    //                         int centmin[40];
+    //                         int centmax[40];
+    //                         double y[40];
+    //                         double stat[40];
+    //                         FILE * fin = fopen(prevname.data(),"r");
+    //                         char buf[80];
+    //                         int cbin = 0;
+    //                         while (fgets(buf,80,fin)!=NULL) {
+    //                             sscanf(buf,"%d\t%d\t%lf\t%lf\n",&centmin[cbin],&centmax[cbin],&y[cbin],&stat[cbin]);
+    //                             // cout<<centmin[cbin]<<"\t"<<centmax[cbin]<<"\t"<<y[cbin]<<"\t"<<syst[cbin]<<endl;
+    //                             vnAB[i][anal][cbin]->SetBinContent(ebin+1,y[cbin]);
+    //                             vnAB[i][anal][cbin]->SetBinError(ebin+1,stat[cbin]);
+    //                             ++cbin;
+    //                         }
+    //
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
 
-                        }
-                    }
-                }
+    int test = 16;
+
+    string tcut = "";
+    tcut = "useTight";
+    for (int ebin = 0; ebin<netabins; ebin++) {
+        prevname = Form("../figures/figures_%s_%1.1f_%1.1f/%s/data/integral.dat",tcut.data(),etabins[ebin],etabins[ebin+1],AnalNames[test].data());
+        if (prevname.length()>1) {
+            int centmin[40];
+            int centmax[40];
+            double y[40];
+            double stat[40];
+            FILE * fin = fopen(prevname.data(),"r");
+            char buf[80];
+            int cbin = 0;
+            while (fgets(buf,80,fin)!=NULL) {
+                sscanf(buf,"%d\t%d\t%lf\t%lf\n",&centmin[cbin],&centmax[cbin],&y[cbin],&stat[cbin]);
+                // cout<<centmin[cbin]<<"\t"<<centmax[cbin]<<"\t"<<y[cbin]<<"\t"<<syst[cbin]<<endl;
+                vnAB[0][test][cbin]->SetBinContent(ebin+1,y[cbin]);
+                vnAB[0][test][cbin]->SetBinError(ebin+1,stat[cbin]);
+                ++cbin;
             }
+
         }
     }
 
-    int test = 18;
+
     TCanvas * ctest = new TCanvas("ctest","ctest",650,600);
     TPad * padtest = (TPad *) ctest->cd();
     padtest->SetGrid();
-    vnAB[0][test][0]->SetMarkerColor(kRed);
-    vnAB[0][test][0]->SetXTitle("eta");
-    vnAB[0][test][0]->SetYTitle("v_{n}");
-    vnAB[0][test][0]->GetYaxis()->SetRangeUser(-0.05, 0.1);
-    vnAB[0][test][0]->Draw();
+    vnAB[0][test][12]->SetMarkerColor(kRed);
+    vnAB[0][test][12]->SetXTitle("eta");
+    vnAB[0][test][12]->SetYTitle("v_{n}");
+    vnAB[0][test][12]->GetYaxis()->SetRangeUser(-0.05, 0.1);
+    vnAB[0][test][12]->Draw();
     TLine * ltest = new TLine(-2.4, 0, 2.4, 0);
     ltest->Draw();
 
