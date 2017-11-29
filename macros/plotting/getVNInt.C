@@ -12,6 +12,10 @@
 # include <fstream>
 # include <iostream>
 
+# include "style.h"
+
+using namespace std;
+
 static const int nptbins = 18;
 static const double ptbins[] = {0.30,  0.40,  0.50,  0.60,  0.80,  1.00,  1.25,  1.50,  2.00,  2.50,  3.00,
                      3.50,  4.00,  5.00,  6.00,  7.00,  8.00,  10.00,  12.00};
@@ -96,7 +100,8 @@ void getVNInt()
     //     }
     // }
 
-    int test = 16;
+    int test = 18;
+    int ctest = 0;
 
     string tcut = "";
     tcut = "useTight";
@@ -121,17 +126,63 @@ void getVNInt()
         }
     }
 
+    # include "../data/HIN-10-002.h"
+    TH1D * v2HIN_10_002_eta[12];
+    for (int cbin = 0; cbin<12; cbin++) {
+        v2HIN_10_002_eta[cbin] = new TH1D(Form("v2HIN_10_002_eta_%d",cbin), "", netabins, etabins);
+    }
+    for (int ebin = 0; ebin<netabins; ebin++) {
+        v2HIN_10_002_eta[0]->SetBinContent(ebin+1, v2Ecent0to5[ebin]);
+        v2HIN_10_002_eta[0]->SetBinError(ebin+1, v2Ecent0to5Err[ebin]);
 
-    TCanvas * ctest = new TCanvas("ctest","ctest",650,600);
-    TPad * padtest = (TPad *) ctest->cd();
+        v2HIN_10_002_eta[1]->SetBinContent(ebin+1, v2Ecent5to10[ebin]);
+        v2HIN_10_002_eta[1]->SetBinError(ebin+1, v2Ecent5to10Err[ebin]);
+
+        v2HIN_10_002_eta[2]->SetBinContent(ebin+1, v2Ecent10to15[ebin]);
+        v2HIN_10_002_eta[2]->SetBinError(ebin+1, v2Ecent10to15Err[ebin]);
+
+        v2HIN_10_002_eta[3]->SetBinContent(ebin+1, v2Ecent15to20[ebin]);
+        v2HIN_10_002_eta[3]->SetBinError(ebin+1, v2Ecent15to20Err[ebin]);
+
+        v2HIN_10_002_eta[4]->SetBinContent(ebin+1, v2Ecent20to25[ebin]);
+        v2HIN_10_002_eta[4]->SetBinError(ebin+1, v2Ecent20to25Err[ebin]);
+
+        v2HIN_10_002_eta[5]->SetBinContent(ebin+1, v2Ecent25to30[ebin]);
+        v2HIN_10_002_eta[5]->SetBinError(ebin+1, v2Ecent25to30Err[ebin]);
+
+        v2HIN_10_002_eta[6]->SetBinContent(ebin+1, v2Ecent30to35[ebin]);
+        v2HIN_10_002_eta[6]->SetBinError(ebin+1, v2Ecent30to35Err[ebin]);
+
+        v2HIN_10_002_eta[7]->SetBinContent(ebin+1, v2Ecent35to40[ebin]);
+        v2HIN_10_002_eta[7]->SetBinError(ebin+1, v2Ecent35to40Err[ebin]);
+
+        v2HIN_10_002_eta[8]->SetBinContent(ebin+1, v2Ecent40to50[ebin]);
+        v2HIN_10_002_eta[8]->SetBinError(ebin+1, v2Ecent40to50Err[ebin]);
+
+        v2HIN_10_002_eta[9]->SetBinContent(ebin+1, v2Ecent50to60[ebin]);
+        v2HIN_10_002_eta[9]->SetBinError(ebin+1, v2Ecent50to60Err[ebin]);
+
+        v2HIN_10_002_eta[10]->SetBinContent(ebin+1, v2Ecent60to70[ebin]);
+        v2HIN_10_002_eta[10]->SetBinError(ebin+1, v2Ecent60to70Err[ebin]);
+    }
+
+
+    TCanvas * c0 = new TCanvas("c0","c0",650,600);
+    TPad * padtest = (TPad *) c0->cd();
     padtest->SetGrid();
-    vnAB[0][test][12]->SetMarkerColor(kRed);
-    vnAB[0][test][12]->SetXTitle("eta");
-    vnAB[0][test][12]->SetYTitle("v_{n}");
-    vnAB[0][test][12]->GetYaxis()->SetRangeUser(-0.015, 0.015);
-    vnAB[0][test][12]->Draw();
+    vnAB[0][test][ctest]->SetMarkerColor(kRed);
+    vnAB[0][test][ctest]->SetXTitle("eta");
+    vnAB[0][test][ctest]->SetYTitle("v_{n}");
+    //vnAB[ctest][0][ctest]->GetYaxis()->SetRangeUser(-0.015, 0.015);
+    vnAB[0][test][ctest]->Draw();
+    v2HIN_10_002_eta[ctest]->Draw("same");
     TLine * ltest = new TLine(-2.4, 0, 2.4, 0);
     ltest->Draw();
+    TLegend * legtest = new TLegend(0.2, 0.2, 0.4, 0.4);
+    SetLegend(legtest, 18);
+    legtest->AddEntry(vnAB[0][test][ctest],"me","p");
+    legtest->AddEntry(v2HIN_10_002_eta[ctest],"HIN-10-002","p");
+    legtest->Draw();
 
 
 }
