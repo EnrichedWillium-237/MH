@@ -5,6 +5,10 @@
 # include "TH1.h"
 # include "TH2.h"
 
+void bug() {
+    cout << " !!! " << __LINE__ << endl;
+}
+
 void SetTPaveTxt( TPaveText * txtemplate, int txtsize ) {
     txtemplate->SetFillColor(0);
     txtemplate->SetBorderSize(0);
