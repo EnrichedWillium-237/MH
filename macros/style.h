@@ -4,6 +4,8 @@
 # include "TGraphErrors.h"
 # include "TH1.h"
 # include "TH2.h"
+# include "TLegend.h"
+# include "TPaveText.h"
 
 void bug() {
     cout << " !!! " << __LINE__ << endl;
