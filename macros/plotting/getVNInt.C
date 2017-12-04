@@ -100,8 +100,9 @@ void getVNInt()
     //     }
     // }
 
-    int test = 18;
-    int ctest = 0;
+    int test = 16;
+    int ctest = 12;
+    cout<<"here"<<endl;
 
     string tcut = "";
     tcut = "useTight";
@@ -122,8 +123,11 @@ void getVNInt()
                 vnAB[0][test][cbin]->SetBinError(ebin+1,stat[cbin]);
                 ++cbin;
             }
-
+            fclose(fin);
         }
+    }
+    for (int ebin = 0; ebin<netabins; ebin++) {
+        cout<<vnAB[0][test][ctest]->GetBinContent(ebin+1)<<"\t"<<vnAB[0][test][ctest]->GetBinError(ebin+1)<<endl;
     }
 
     # include "../data/HIN-10-002.h"
@@ -181,7 +185,7 @@ void getVNInt()
     TLegend * legtest = new TLegend(0.2, 0.2, 0.4, 0.4);
     SetLegend(legtest, 18);
     legtest->AddEntry(vnAB[0][test][ctest],"me","p");
-    legtest->AddEntry(v2HIN_10_002_eta[ctest],"HIN-10-002","p");
+    //if () legtest->AddEntry(v2HIN_10_002_eta[ctest],"HIN-10-002","p");
     legtest->Draw();
 
 
