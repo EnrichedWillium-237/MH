@@ -324,7 +324,7 @@ TGraphErrors * GetVNPt( int replay, int bin, double etamin, double etamax, TGrap
     int ietamin2 = 0;
     int ietamax2 = 0;
     double sign = 1.;
-    if (replay==N112ASUB2 || replay==N112ASUB3) sign=-1.;
+    if (replay == N112ASUB2 || replay == N112ASUB3) sign = -1.;
     if (etamin*etamax<0) {
         ietamin1 = qA->GetYaxis()->FindBin(etamin);
         ietamax1 = qA->GetYaxis()->FindBin(-0.001);
@@ -378,19 +378,19 @@ TGraphErrors * GetVNPt( int replay, int bin, double etamin, double etamax, TGrap
         qAe1[i]->Divide(wAe1[i]);
         qBe1[i]->Divide(wBe1[i]);
         if (!nonorm) {
-            qBAe[i]=fabs(qBAe[i]);
-            qCAe[i]=fabs(qCAe[i]);
-            qCBe[i]=fabs(qCBe[i]);
+            qBAe[i] = fabs(qBAe[i]);
+            qCAe[i] = fabs(qCAe[i]);
+            qCBe[i] = fabs(qCBe[i]);
             if (sub2) {
         	    qAe[i]->Scale(1./sqrt( qBAe[i] ));
     	        qBe[i]->Scale(1./sqrt( qBAe[i] ));
-            	resA[i+1]= sqrt( qBAe[i] );
-            	resB[i+1]= sqrt( qBAe[i] );
+            	resA[i+1] = sqrt( qBAe[i] );
+            	resB[i+1] = sqrt( qBAe[i] );
             } else {
 	            qAe[i]->Scale(1./sqrt( qBAe[i]*qCAe[i]/qCBe[i] ));
 	            qBe[i]->Scale(1./sqrt( qBAe[i]*qCBe[i]/qCAe[i] ));
-            	resA[i+1]= sqrt( qBAe[i]*qCAe[i]/qCBe[i] );
-            	resB[i+1]= sqrt( qBAe[i]*qCBe[i]/qCAe[i] );
+            	resA[i+1] = sqrt( qBAe[i]*qCAe[i]/qCBe[i] );
+            	resB[i+1] = sqrt( qBAe[i]*qCBe[i]/qCAe[i] );
             }
         }
     }
@@ -457,12 +457,12 @@ TGraphErrors * GetVNPt( int replay, int bin, double etamin, double etamax, TGrap
             }
 
             for (int j = 0; j<vne->GetNbinsX(); j++) {
-            	vnm[j]+= vne->GetBinContent(j+1);
-            	vnAm[j]+= vnAe->GetBinContent(j+1);
-            	vnBm[j]+= vnBe->GetBinContent(j+1);
-            	vn2[j] += pow(vne->GetBinContent(j+1),2);
-            	vnA2[j]+= pow(vnAe->GetBinContent(j+1),2);
-            	vnB2[j]+= pow(vnBe->GetBinContent(j+1),2);
+            	vnm[j]  += vne->GetBinContent(j+1);
+            	vnAm[j] += vnAe->GetBinContent(j+1);
+            	vnBm[j] += vnBe->GetBinContent(j+1);
+            	vn2[j]  += pow(vne->GetBinContent(j+1),2);
+            	vnA2[j] += pow(vnAe->GetBinContent(j+1),2);
+            	vnB2[j] += pow(vnBe->GetBinContent(j+1),2);
             }
         }
         for (int j = 0; j<vn->GetNbinsX(); j++) {
@@ -551,9 +551,9 @@ TGraphErrors * GetVNPt( int replay, int bin, double etamin, double etamax, TGrap
             vn2[j]/=10.;
             vnA2[j]/=10.;
             vnB2[j]/=10.;
-            vn->SetBinError(j+1, sqrt((1./9.)*( vn2[j] - pow(vnm[j], 2))));
-            vnA->SetBinError(j+1,sqrt((1./9.)*(vnA2[j] - pow(vnAm[j],2))));
-            vnB->SetBinError(j+1,sqrt((1./9.)*(vnB2[j] - pow(vnBm[j],2))));
+            vn->SetBinError(j+1, sqrt( (1./9.)*( vn2[j] - pow(vnm[j], 2)) ));
+            vnA->SetBinError(j+1,sqrt( (1./9.)*(vnA2[j] - pow(vnAm[j],2)) ));
+            vnB->SetBinError(j+1,sqrt( (1./9.)*(vnB2[j] - pow(vnBm[j],2)) ));
         }
     }
 
