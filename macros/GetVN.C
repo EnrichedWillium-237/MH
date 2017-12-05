@@ -947,6 +947,7 @@ TH1D * vnA;
 TH1D * vnB;
 TH1D * vnAB;
 void GetVN( string name="N1SUB3", string tag="useTight", double mineta = -2.4, double maxeta = 2.4, bool override = false ) {
+    TH1::SetDefaultSumw2();
     bool found = false;
     centRef = new TH1I("centRef", "centRef", ncentbins, centRefBins);
     EtaMin = mineta;

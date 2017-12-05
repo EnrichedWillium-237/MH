@@ -42,7 +42,7 @@ string AnalNames[] = {
 
 using namespace std;
 
-//  track cut, analysis type, centbin, etabin
+//  track cut, analysis type, centbin
 TH1D * vnA[3][nanals][ncbins];
 TH1D * vnB[3][nanals][ncbins];
 TH1D * vnAB[3][nanals][ncbins];
@@ -101,7 +101,7 @@ void getVNInt()
     //     }
     // }
 
-    int test = 16;
+    int test = 17;
     int ctest = 8;
 
     string tcut = "";
@@ -120,11 +120,13 @@ void getVNInt()
                     FILE * fin = fopen(prevname.data(),"r");
                     char buf[80];
                     int cbin = 0;
+                    //cout<<prevname<<endl;
                     while (fgets(buf,80,fin)!=NULL) {
                         sscanf(buf,"%d\t%d\t%lf\t%lf\n",&centmin[cbin],&centmax[cbin],&y[cbin],&stat[cbin]);
-                        // cout<<centmin[cbin]<<"\t"<<centmax[cbin]<<"\t"<<y[cbin]<<"\t"<<syst[cbin]<<endl;
+                        //cout<<cbin<<"\t"<<centmin[cbin]<<"\t"<<centmax[cbin]<<"\t"<<y[cbin]<<"\t"<<stat[cbin]<<endl;
                         vnAB[i][anal][cbin]->SetBinContent(ebin+1,y[cbin]);
                         vnAB[i][anal][cbin]->SetBinError(ebin+1,stat[cbin]);
+                        //cout<<vnAB[i][anal][cbin]->GetBinContent(ebin+1)<<"\t"<<vnAB[i][anal][cbin]->GetBinError(ebin+1)<<endl;
                         ++cbin;
                     }
                     fclose(fin);
@@ -141,7 +143,7 @@ void getVNInt()
                     int cbin = 0;
                     while (fgets(buf,80,fin)!=NULL) {
                         sscanf(buf,"%d\t%d\t%lf\t%lf\n",&centmin[cbin],&centmax[cbin],&y[cbin],&stat[cbin]);
-                        // cout<<centmin[cbin]<<"\t"<<centmax[cbin]<<"\t"<<y[cbin]<<"\t"<<syst[cbin]<<endl;
+                        //cout<<centmin[cbin]<<"\t"<<centmax[cbin]<<"\t"<<y[cbin]<<"\t"<<syst[cbin]<<endl;
                         vnA[i][anal][cbin]->SetBinContent(ebin+1,y[cbin]);
                         vnA[i][anal][cbin]->SetBinError(ebin+1,stat[cbin]);
                         ++cbin;
@@ -171,7 +173,7 @@ void getVNInt()
         }
     }
     for (int ebin = 0; ebin<netabins; ebin++) {
-        cout<<vnAB[0][test][ctest]->GetBinContent(ebin+1)<<"\t"<<vnAB[0][test][ctest]->GetBinError(ebin+1)<<endl;
+        //cout<<vnAB[0][test][ctest]->GetBinContent(ebin+1)<<"\t"<<vnAB[0][test][ctest]->GetBinError(ebin+1)<<endl;
         //cout<<vnAB[0][18][ctest]->GetBinContent(ebin+1) - vnAB[0][19][ctest]->GetBinContent(ebin+1)<<endl;
     }
 
@@ -214,8 +216,17 @@ void getVNInt()
         v2HIN_10_002_eta[10]->SetBinContent(ebin+1, v2Ecent60to70[ebin]);
         v2HIN_10_002_eta[10]->SetBinError(ebin+1, v2Ecent60to70Err[ebin]);
     }
+    cout<<"!!! "<<__LINE__<<endl;
+
+    Double_t kongv1x[] = {-2.23411858350128, -1.7877622910562785, -1.2992023303470126, -0.9321049333581732, -0.6699408945416376, -0.4511998916117679, -0.2382170135654662, -0.019476010635596896, 0.19350686741070566, 0.40405101021220213, 0.6227920131420714, 0.8857689637068771, 1.2536792724439842, 1.7520619167781573, 2.191847172591324};
+    Double_t kongv1val[] = {0.002035836, 0.007582604, 0.008014124, 0.006602368, 0.005003641, 0.003643877, 0.002034989, 0.000675225, -0.000933663, -0.002295121, -0.003654885, -0.005336088, -0.006830322, -0.006562061, -0.00118194};
+    Double_t kongxerr[15] = {0};
+    Double_t kongvalerr[15] = {0.0002};
+    TGraphErrors * kongv1 = new TGraphErrors(15, kongv1x, kongv1val, kongxerr, kongvalerr);
 
 
+
+    //vnAB[0][16][ctest]->Draw();
     TCanvas * c0 = new TCanvas("c0","c0",650,600);
     TPad * padtest = (TPad *) c0->cd();
     padtest->SetGrid();
@@ -245,6 +256,7 @@ void getVNInt()
     c0->Print("v2.png","png");
 
 
+
     TCanvas * c1 = new TCanvas("c1","c1",650,600);
     TPad * padtest1 = (TPad *) c1->cd();
     padtest1->SetGrid();
@@ -256,8 +268,13 @@ void getVNInt()
     vnAB[0][16][ctest]->SetYTitle("v_{1}");
     vnAB[0][16][ctest]->GetYaxis()->SetRangeUser(-0.015, 0.015);
     vnAB[0][16][ctest]->Draw();
-    vnA[0][16][ctest]->Draw("same");
-    vnB[0][16][ctest]->Draw("same");
+    vnAB[0][16][ctest-1]->SetMarkerColor(kBlue);
+    vnAB[0][16][ctest-1]->Draw("same");
+    vnAB[0][16][ctest-2]->SetMarkerColor(kGreen+2);
+    vnAB[0][16][ctest-2]->Draw("same");
+    kongv1->SetMarkerStyle(24);
+    kongv1->SetMarkerSize(1.2);
+    kongv1->Draw("same p");
     vnAB[0][17][ctest]->SetMarkerColor(kBlue);
     vnAB[0][17][ctest]->SetLineColor(kBlue);
     vnAB[0][17][ctest]->SetMarkerStyle(25);
@@ -269,6 +286,7 @@ void getVNInt()
     SetLegend(legtest1, 18);
     legtest1->SetHeader(Form("%d-%d%%",cmin[ctest],cmax[ctest]));
     legtest1->AddEntry(vnAB[0][16][ctest],"N1SUB2","p");
+    legtest1->AddEntry(kongv1,"Kong","p");
     //legtest1->AddEntry(vnAB[0][17][ctest],"N2SUB3","p");
     legtest1->Draw();
     c1->Print("v1.png","png");
@@ -329,6 +347,32 @@ void getVNInt()
     legtest3->AddEntry(vnB[0][16][ctest],"N1SUB2 HF- only","p");
     legtest3->Draw();
     c3->Print("v1AB.png","png");
+
+
+
+    TH1D * hv1dummy = (TH1D *) vnAB[0][16][12]->Clone("hv1dummy");
+    for (int ebin = 0; ebin<vnAB[0][16][12]->GetNbinsX(); ebin++) {
+        cout<<ebin<<"\t"<<vnAB[0][16][12]->GetBinContent(ebin+1)<<"\t"<<vnAB[0][16][12]->GetBinError(ebin+1)<<endl;
+    }
+    //hv1dummy->SetBinContent(8, -0.003601);
+    TCanvas * cdummy = new TCanvas("cdummy","cdummy",650,600);
+    TPad * paddummy = (TPad *) cdummy->cd();
+    paddummy->SetGrid();
+    hv1dummy->GetYaxis()->SetRangeUser(-0.015, 0.015);
+    hv1dummy->SetMarkerColor(kBlue);
+    hv1dummy->SetLineColor(kBlue);
+    hv1dummy->SetMarkerStyle(21);
+    hv1dummy->SetMarkerSize(1.2);
+    hv1dummy->Draw();
+    kongv1->Draw("same p");
+    ltest1->Draw();
+    TLegend * legtestdummy = new TLegend(0.71, 0.75, 0.88, 0.92);
+    SetLegend(legtestdummy, 20);
+    legtestdummy->SetHeader(Form("%d-%d%%",cmin[12],cmax[12]));
+    legtestdummy->AddEntry(hv1dummy,"N1SUB2","p");
+    legtestdummy->AddEntry(kongv1,"Kong","p");
+    legtestdummy->Draw();
+    cdummy->Print("v1kong.png","png");
 
 
 }
