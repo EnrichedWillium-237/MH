@@ -302,4 +302,33 @@ void getVNInt()
     c2->Print("v1_cuts.png","png");
 
 
+
+    TCanvas * c3 = new TCanvas("c3","c3",650,600);
+    TPad * padtest3 = (TPad *) c3->cd();
+    padtest3->SetGrid();
+    vnA[0][16][ctest]->GetYaxis()->SetRangeUser(-0.1, 0.1);
+    vnA[0][16][ctest]->SetMarkerColor(kBlue);
+    vnA[0][16][ctest]->SetLineColor(kBlue);
+    vnA[0][16][ctest]->SetMarkerStyle(25);
+    vnA[0][16][ctest]->SetMarkerSize(1.2);
+    vnA[0][16][ctest]->Draw("same");
+    vnB[0][16][ctest]->SetMarkerColor(kMagenta);
+    vnB[0][16][ctest]->SetLineColor(kMagenta);
+    vnB[0][16][ctest]->SetMarkerStyle(24);
+    vnB[0][16][ctest]->SetMarkerSize(1.2);
+    vnB[0][16][ctest]->Draw("same");
+    vnAB[0][16][ctest]->Draw("same");
+    //vnAB[0][17][ctest]->Draw("same");
+    TLine * ltest3 = new TLine(-2.4, 0, 2.4, 0);
+    ltest3->Draw();
+    TLegend * legtest3 = new TLegend(0.21, 0.19, 0.41, 0.39);
+    SetLegend(legtest3, 18);
+    legtest3->SetHeader(Form("%d-%d%%",cmin[ctest],cmax[ctest]));
+    legtest3->AddEntry(vnAB[0][16][ctest],"N1SUB2 HF","p");
+    legtest3->AddEntry(vnA[0][16][ctest],"N1SUB2 HF+ only","p");
+    legtest3->AddEntry(vnB[0][16][ctest],"N1SUB2 HF- only","p");
+    legtest3->Draw();
+    c3->Print("v1AB.png","png");
+
+
 }
