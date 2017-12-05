@@ -126,7 +126,7 @@ double FakeAndEff( int cent, double pt, double &eff ) {
 }
 
 TH2D * ptcntEff( TH2D * ptcnt, double cent ) {
-    double cbe[6]={0, 5, 10, 30, 50, 100};
+    double cbe[6] = {0, 5, 10, 30, 50, 100};
     TFile * e = 0;
     bool skipeff = true;
     if (!skipeff) {
@@ -138,7 +138,7 @@ TH2D * ptcntEff( TH2D * ptcnt, double cent ) {
             e = new TFile("EffAndFake/EffCorrectionsPixelPbPb_tight.root");
         }
         if (isTightB) {
-            cout<<"use tight2 cut efficiency"<<endl;
+            cout<<"use tightB cut efficiency"<<endl;
             e = new TFile("EffAndFake/EffCorrectionsPixelPbPb_TightB.root");
         }
     }
@@ -199,10 +199,10 @@ TGraphErrors * GetVNPt( int replay, int bin, double etamin, double etamax, TGrap
     TH2D * qBe[10];
     TH2D * wnAe[10];
     TH2D * wnBe[10];
-    TH1D * qAe1[10]={0};
-    TH1D * qBe1[10]={0};
-    TH1D * wAe1[10]={0};
-    TH1D * wBe1[10]={0};
+    TH1D * qAe1[10] = {0};
+    TH1D * qBe1[10] = {0};
+    TH1D * wAe1[10] = {0};
+    TH1D * wBe1[10] = {0};
     TH1D * vnAe = 0;
     TH1D * vnBe = 0;
     TH1D * vne = 0;
@@ -268,14 +268,14 @@ TGraphErrors * GetVNPt( int replay, int bin, double etamin, double etamax, TGrap
             	wnAe[i] = (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/wnA_%d",crange.data(),strip.data(),i+1));
             	wnBe[i] = (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/wnB_%d",crange.data(),strip.data(),i+1));
             	qBAe[i] += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qBA_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
-            	qBAecnt[i]+=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qBAcnt_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
+            	qBAecnt[i] +=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qBAcnt_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
             	qCAe[i] += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCA_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
-            	qCAecnt[i]+=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCAcnt_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
+            	qCAecnt[i] +=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCAcnt_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
             	qCBe[i] += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCB_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
-            	qCBecnt[i]+=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCBcnt_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
+            	qCBecnt[i] +=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCBcnt_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
             }
         } else {
-            centcnt+=centbins->GetBinContent(j);
+            centcnt += centbins->GetBinContent(j);
             ptav->Add( (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/ptav",crange.data())));
             ptcnt->Add( (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/ptcnt",crange.data())));
             badcnt->Add( (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/badcnt",crange.data())));
@@ -934,7 +934,7 @@ void GetVN( string name="N1SUB3", string tag="useTight", double mineta = -2.4, d
         isLoose = false;
         rootFile = "../MH.root";
         fin = new TFile("../MH.root","read");
-    } else if (tag == "useTight2") {
+    } else if (tag == "useTightB") {
         isTight = false;
         isTightB = true;
         isLoose = false;
