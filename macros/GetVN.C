@@ -53,7 +53,11 @@ string ytitle[] = {
 };
 
 FILE * outint;
+FILE * outintA;
+FILE * outintB;
 string soutint;
+string soutintA;
+string soutintB;
 string sspec;
 FILE * outspec;
 TFile * fin;
@@ -179,7 +183,7 @@ TGraphErrors * hBdenom;
 TGraphErrors * nwspec;
 TGraphErrors * nwspec2;
 string rootFile;
-TGraphErrors * GetVNPt( int replay, int bin, double etamin, double etamax, TGraphErrors * &gA, TGraphErrors * &gB, TGraphErrors * &gspec, double *  resA, double * resB, double & vint, double & vinte, bool nonorm = false) {
+TGraphErrors * GetVNPt( int replay, int bin, double etamin, double etamax, TGraphErrors * &gA, TGraphErrors * &gB, TGraphErrors * &gspec, double *  resA, double * resB, double &vint, double &vinte, double &vintA, double &vintAe, double &vintB, double &vintBe, bool nonorm = false) {
 
     cout<<"========================== "<<AnalNames[replay]<<"  with bin,etamin,etamax: "<<bin<<"\t"<<etamin<<"\t"<<etamax<<endl;
     TH1D * hspec = 0;
@@ -593,6 +597,10 @@ TGraphErrors * GetVNPt( int replay, int bin, double etamin, double etamax, TGrap
     int npt = 0;
     double wvn = 0;
     double wvne = 0;
+    double wvnA = 0;
+    double wvnAe = 0;
+    double wvnB = 0;
+    double wvnBe = 0;
     double w = 0;
     for (int i = 1; i<=xpt->GetNbinsX(); i++) {
         double pt = xpt->GetBinContent(i);
@@ -616,15 +624,23 @@ TGraphErrors * GetVNPt( int replay, int bin, double etamin, double etamax, TGrap
             	double cent = (cmin[bin] + cmax[bin])/2.;
 
             	double fake = FakeAndEff(cent,pt,eff);
-            	wvn  += y[npt]*yld->GetBinContent(i)/eff;
-            	wvne += ey[npt]*yld->GetBinContent(i)/eff;
-            	w    += yld->GetBinContent(i)/eff;;
+            	wvn   += y[npt]*yld->GetBinContent(i)/eff;
+            	wvne  += ey[npt]*yld->GetBinContent(i)/eff;
+                wvnA  += yA[npt]*yld->GetBinContent(i)/eff;
+                wvnAe += eyA[npt]*yld->GetBinContent(i)/eff;
+                wvnB  += yB[npt]*yld->GetBinContent(i)/eff;
+                wvnBe += eyB[npt]*yld->GetBinContent(i)/eff;
+            	w     += yld->GetBinContent(i)/eff;
             }
             ++npt;
         }
     }
     vint = wvn/w;
     vinte = wvne/w;
+    vintA = wvnA/w;
+    vintAe = wvnAe/w;
+    vintB = wvnB/w;
+    vintBe = wvnBe/w;
     cout<<"INTEGRAL: "<<vint<<"\t"<<vinte<<endl;
     TGraphErrors * g = new TGraphErrors(npt,x,y,ex,ey);
     g->SetMarkerStyle(20);
@@ -671,6 +687,8 @@ void GetVNCreate( int replay = N1SUB3, int bin = 0, bool NumOnly = false, bool D
         }
         system(Form("touch %s/%s/data/integral.dat",FigDir.data(),AnalNames[replay].data()));
         soutint = Form("%s/%s/data/integral.dat",FigDir.data(),AnalNames[replay].data());
+        soutintA = Form("%s/%s/data/integralA.dat",FigDir.data(),AnalNames[replay].data());
+        soutintB = Form("%s/%s/data/integralB.dat",FigDir.data(),AnalNames[replay].data());
     }
     string cname = AnalNames[replay]+"_"+to_string(cmin[bin])+"_"+to_string(cmax[bin]);
 
@@ -680,6 +698,10 @@ void GetVNCreate( int replay = N1SUB3, int bin = 0, bool NumOnly = false, bool D
     h->SetMaximum(0.5);
     double vint = 0;
     double vinte = 0;
+    double vintA = 0;
+    double vintAe = 0;
+    double vintB = 0;
+    double vintBe = 0;
     double vintdenom = 0;
     double vintedenom = 0;
     double resA[cbins];
@@ -687,11 +709,11 @@ void GetVNCreate( int replay = N1SUB3, int bin = 0, bool NumOnly = false, bool D
     double resAdenom[cbins];
     double resBdenom[cbins];
     if (replay == N112ASUB2 || replay == N112ASUB3) {
-        hdenom = GetVNPt(N2SUB3, bin, EtaMin, EtaMax, hAdenom, hBdenom, nwspec2, resAdenom, resBdenom, vintdenom,vintedenom, false);
+        hdenom = GetVNPt(N2SUB3, bin, EtaMin, EtaMax, hAdenom, hBdenom, nwspec2, resAdenom, resBdenom, vintdenom, vintedenom, vintA, vintAe, vintB, vintBe, false);
         fin->Close();
         if (hdenom == NULL) return;
         fin = new TFile(rootFile.data(),"r");
-        hpt = GetVNPt(N112ASUB3, bin, EtaMin, EtaMax, hA, hB, nwspec, resA, resB, vint, vinte, false);
+        hpt = GetVNPt(N112ASUB3, bin, EtaMin, EtaMax, hA, hB, nwspec, resA, resB, vint, vinte, vintA, vintAe, vintB, vintBe, false);
         if (hpt == NULL) return;
         double res = (resAdenom[0]+resBdenom[0])/2.;
         for (int i = 0; i<hpt->GetN(); i++) {
@@ -708,12 +730,12 @@ void GetVNCreate( int replay = N1SUB3, int bin = 0, bool NumOnly = false, bool D
             hB->GetEY()[i]/=resAdenom[0];
         }
 
-    } else if (replay==N123ASUB2||replay==N123ASUB3) {
-        hdenom = GetVNPt(N3SUB3, bin, EtaMin, EtaMax, hAdenom, hBdenom,nwspec2, resAdenom, resBdenom, vintdenom, vintedenom, false);
+    } else if (replay == N123ASUB2 || replay == N123ASUB3) {
+        hdenom = GetVNPt(N3SUB3, bin, EtaMin, EtaMax, hAdenom, hBdenom, nwspec2, resAdenom, resBdenom, vintdenom, vintedenom, vintA, vintAe, vintB, vintBe, false);
         fin->Close();
         if (hdenom == NULL) return;
         fin = new TFile(rootFile.data(),"r");
-        hpt = GetVNPt(N123ASUB3, bin, EtaMin, EtaMax, hA, hB, nwspec, resA, resB, vint, vinte, false);
+        hpt = GetVNPt(N123ASUB3, bin, EtaMin, EtaMax, hA, hB, nwspec, resA, resB, vint, vinte, vintA, vintAe, vintB, vintBe, false);
         if (hpt == NULL) return;
         double res = (resAdenom[0]+resBdenom[0])/2.;
         for (int i = 0; i<hpt->GetN(); i++) {
@@ -731,15 +753,21 @@ void GetVNCreate( int replay = N1SUB3, int bin = 0, bool NumOnly = false, bool D
         }
 
     } else {
-        hpt = GetVNPt(replay, bin, EtaMin, EtaMax, hA, hB, nwspec, resA, resB, vint, vinte);
+        hpt = GetVNPt(replay, bin, EtaMin, EtaMax, hA, hB, nwspec, resA, resB, vint, vinte, vintA, vintAe, vintB, vintBe);
         if (hpt == NULL) return;
     }
 
     TCanvas * c = new TCanvas(cname.data(),cname.data(),650,500);
-    outint = fopen(soutint.data(),"a+");
 
+    outint = fopen(soutint.data(),"a+");
     fprintf(outint,"%d\t%d\t%15.10f\t%15.10f\n",cmin[bin],cmax[bin],vint,vinte);
     fclose(outint);
+    outintA = fopen(soutintA.data(),"a+");
+    fprintf(outintA,"%d\t%d\t%15.10f\t%15.10f\n",cmin[bin],cmax[bin],vintA,vintAe);
+    fclose(outintA);
+    outintB = fopen(soutintB.data(),"a+");
+    fprintf(outintB,"%d\t%d\t%15.10f\t%15.10f\n",cmin[bin],cmax[bin],vintB,vintBe);
+    fclose(outintB);
     double ymax = -1;
     double ymin = 1;
     double ymaxspec = 0;
@@ -854,10 +882,10 @@ void GetVNCreate( int replay = N1SUB3, int bin = 0, bool NumOnly = false, bool D
     t3->Draw();
     FILE * fout;
     if (isTight) {
-        c->Print(Form("%s/%s/%s.pdf",FigDir.data(),AnalNames[replay].data(),cname.data()),"pdf");
+        c->Print(Form("%s/%s/%s.png",FigDir.data(),AnalNames[replay].data(),cname.data()),"png");
         fout = fopen(Form("%s/%s/data/%s.dat",FigDir.data(),AnalNames[replay].data(),cname.data()),"w");
     } else {
-        c->Print(Form("%s/%s/%s.pdf",FigDir.data(),AnalNames[replay].data(),cname.data()),"pdf");
+        c->Print(Form("%s/%s/%s.png",FigDir.data(),AnalNames[replay].data(),cname.data()),"png");
         fout = fopen(Form("%s/%s/data/%s.dat",FigDir.data(),AnalNames[replay].data(),cname.data()),"w");
     }
     for(int i = 0; i<hpt->GetN(); i++){
@@ -892,13 +920,13 @@ void GetVNCreate( int replay = N1SUB3, int bin = 0, bool NumOnly = false, bool D
         t7->SetTextSize(22);
         t7->Draw();
         if (isTight) {
-            c2->Print(Form("%s/%s/%s.pdf",FigDir.data(),AnalNames[replay].data(),c2name.data()),"pdf");
+            c2->Print(Form("%s/%s/%s.png",FigDir.data(),AnalNames[replay].data(),c2name.data()),"png");
             sspec = FigDir+"/"+AnalNames[replay]+"/data/spec_"+to_string(cmin[bin])+"_"+to_string(cmax[bin])+".dat";
         } else if (isTightB) {
-            c2->Print(Form("%s/%s/%s.pdf",FigDir.data(),AnalNames[replay].data(),c2name.data()),"pdf");
+            c2->Print(Form("%s/%s/%s.png",FigDir.data(),AnalNames[replay].data(),c2name.data()),"png");
             sspec = FigDir+"/"+AnalNames[replay]+"/data/spec_"+to_string(cmin[bin])+"_"+to_string(cmax[bin])+".dat";
         } else {
-            c2->Print(Form("%s/%s/%s.pdf",FigDir.data(),AnalNames[replay].data(),c2name.data()),"pdf");
+            c2->Print(Form("%s/%s/%s.png",FigDir.data(),AnalNames[replay].data(),c2name.data()),"png");
             sspec = FigDir+"/"+AnalNames[replay]+"/data/spec_"+to_string(cmin[bin])+"_"+to_string(cmax[bin])+".dat";
         }
     }

@@ -43,20 +43,21 @@ string AnalNames[] = {
 using namespace std;
 
 //  track cut, analysis type, centbin, etabin
-TH1D * vnA[2][nanals][ncbins];
-TH1D * vnB[2][nanals][ncbins];
-TH1D * vnAB[2][nanals][ncbins];
+TH1D * vnA[3][nanals][ncbins];
+TH1D * vnB[3][nanals][ncbins];
+TH1D * vnAB[3][nanals][ncbins];
 
 void getVNInt()
 {
 
     bool processAll = false; // make true if you want to process the full data set
 
-    for (int i = 0; i<2; i++) {
+    for (int i = 0; i<3; i++) {
         for (int anal = 0; anal<nanals; anal++) {
             for (int cbin = 0; cbin<ncbins-1; cbin++) {
                 string tcut = "";
                 if (i == 0) tcut = "useTight";
+                else if (i == 1) tcut = "useTightB";
                 else tcut = "useLoose";
                 string htag = Form("_%s_%s_%d_%d",AnalNames[anal].data(),tcut.data(),cmin[cbin],cmax[cbin]);
                 vnA[i][anal][cbin] = new TH1D(Form("vnA_%s",htag.data()), "", netabins, etabins);
@@ -101,33 +102,77 @@ void getVNInt()
     // }
 
     int test = 16;
-    int ctest = 12;
-    cout<<"here"<<endl;
+    int ctest = 8;
 
     string tcut = "";
-    tcut = "useTight";
-    for (int ebin = 0; ebin<netabins; ebin++) {
-        prevname = Form("../figures/figures_%s_%1.1f_%1.1f/%s/data/integral.dat",tcut.data(),etabins[ebin],etabins[ebin+1],AnalNames[test].data());
-        if (prevname.length()>1) {
-            int centmin[40];
-            int centmax[40];
-            double y[40];
-            double stat[40];
-            FILE * fin = fopen(prevname.data(),"r");
-            char buf[80];
-            int cbin = 0;
-            while (fgets(buf,80,fin)!=NULL) {
-                sscanf(buf,"%d\t%d\t%lf\t%lf\n",&centmin[cbin],&centmax[cbin],&y[cbin],&stat[cbin]);
-                // cout<<centmin[cbin]<<"\t"<<centmax[cbin]<<"\t"<<y[cbin]<<"\t"<<syst[cbin]<<endl;
-                vnAB[0][test][cbin]->SetBinContent(ebin+1,y[cbin]);
-                vnAB[0][test][cbin]->SetBinError(ebin+1,stat[cbin]);
-                ++cbin;
+    for (int i = 0; i<3; i++) {
+        if (i == 0) tcut = "useTight";
+        else if (i == 1) tcut = "useTightB";
+        else tcut = "useLoose";
+        for (int anal = 16; anal<20; anal++) {
+            for (int ebin = 0; ebin<netabins; ebin++) {
+                prevname = Form("../figures/figures_%s_%1.1f_%1.1f/%s/data/integral.dat",tcut.data(),etabins[ebin],etabins[ebin+1],AnalNames[anal].data());
+                if (prevname.length()>1) {
+                    int centmin[40];
+                    int centmax[40];
+                    double y[40];
+                    double stat[40];
+                    FILE * fin = fopen(prevname.data(),"r");
+                    char buf[80];
+                    int cbin = 0;
+                    while (fgets(buf,80,fin)!=NULL) {
+                        sscanf(buf,"%d\t%d\t%lf\t%lf\n",&centmin[cbin],&centmax[cbin],&y[cbin],&stat[cbin]);
+                        // cout<<centmin[cbin]<<"\t"<<centmax[cbin]<<"\t"<<y[cbin]<<"\t"<<syst[cbin]<<endl;
+                        vnAB[i][anal][cbin]->SetBinContent(ebin+1,y[cbin]);
+                        vnAB[i][anal][cbin]->SetBinError(ebin+1,stat[cbin]);
+                        ++cbin;
+                    }
+                    fclose(fin);
+                }
+
+                prevname = Form("../figures/figures_%s_%1.1f_%1.1f/%s/data/integralA.dat",tcut.data(),etabins[ebin],etabins[ebin+1],AnalNames[anal].data());
+                if (prevname.length()>1) {
+                    int centmin[40];
+                    int centmax[40];
+                    double y[40];
+                    double stat[40];
+                    FILE * fin = fopen(prevname.data(),"r");
+                    char buf[80];
+                    int cbin = 0;
+                    while (fgets(buf,80,fin)!=NULL) {
+                        sscanf(buf,"%d\t%d\t%lf\t%lf\n",&centmin[cbin],&centmax[cbin],&y[cbin],&stat[cbin]);
+                        // cout<<centmin[cbin]<<"\t"<<centmax[cbin]<<"\t"<<y[cbin]<<"\t"<<syst[cbin]<<endl;
+                        vnA[i][anal][cbin]->SetBinContent(ebin+1,y[cbin]);
+                        vnA[i][anal][cbin]->SetBinError(ebin+1,stat[cbin]);
+                        ++cbin;
+                    }
+                    fclose(fin);
+                }
+
+                prevname = Form("../figures/figures_%s_%1.1f_%1.1f/%s/data/integralB.dat",tcut.data(),etabins[ebin],etabins[ebin+1],AnalNames[anal].data());
+                if (prevname.length()>1) {
+                    int centmin[40];
+                    int centmax[40];
+                    double y[40];
+                    double stat[40];
+                    FILE * fin = fopen(prevname.data(),"r");
+                    char buf[80];
+                    int cbin = 0;
+                    while (fgets(buf,80,fin)!=NULL) {
+                        sscanf(buf,"%d\t%d\t%lf\t%lf\n",&centmin[cbin],&centmax[cbin],&y[cbin],&stat[cbin]);
+                        // cout<<centmin[cbin]<<"\t"<<centmax[cbin]<<"\t"<<y[cbin]<<"\t"<<syst[cbin]<<endl;
+                        vnB[i][anal][cbin]->SetBinContent(ebin+1,y[cbin]);
+                        vnB[i][anal][cbin]->SetBinError(ebin+1,stat[cbin]);
+                        ++cbin;
+                    }
+                    fclose(fin);
+                }
             }
-            fclose(fin);
         }
     }
     for (int ebin = 0; ebin<netabins; ebin++) {
         cout<<vnAB[0][test][ctest]->GetBinContent(ebin+1)<<"\t"<<vnAB[0][test][ctest]->GetBinError(ebin+1)<<endl;
+        //cout<<vnAB[0][18][ctest]->GetBinContent(ebin+1) - vnAB[0][19][ctest]->GetBinContent(ebin+1)<<endl;
     }
 
     # include "../data/HIN-10-002.h"
@@ -174,19 +219,87 @@ void getVNInt()
     TCanvas * c0 = new TCanvas("c0","c0",650,600);
     TPad * padtest = (TPad *) c0->cd();
     padtest->SetGrid();
-    vnAB[0][test][ctest]->SetMarkerColor(kRed);
-    vnAB[0][test][ctest]->SetXTitle("eta");
-    vnAB[0][test][ctest]->SetYTitle("v_{n}");
-    //vnAB[ctest][0][ctest]->GetYaxis()->SetRangeUser(-0.015, 0.015);
-    vnAB[0][test][ctest]->Draw();
+    vnAB[0][18][ctest]->SetMarkerColor(kRed);
+    vnAB[0][18][ctest]->SetLineColor(kRed);
+    vnAB[0][18][ctest]->SetMarkerStyle(20);
+    vnAB[0][18][ctest]->SetMarkerSize(1.2);
+    vnAB[0][18][ctest]->SetXTitle("#eta");
+    vnAB[0][18][ctest]->SetYTitle("v_{2}");
+    vnAB[0][18][ctest]->GetYaxis()->SetRangeUser(0.085, 0.12);
+    vnAB[0][18][ctest]->Draw();
+    vnAB[0][19][ctest]->SetMarkerColor(kBlue);
+    vnAB[0][19][ctest]->SetLineColor(kBlue);
+    vnAB[0][19][ctest]->SetMarkerStyle(25);
+    vnAB[0][19][ctest]->SetMarkerSize(1.2);
+    vnAB[0][19][ctest]->Draw("same");
     v2HIN_10_002_eta[ctest]->Draw("same");
     TLine * ltest = new TLine(-2.4, 0, 2.4, 0);
     ltest->Draw();
-    TLegend * legtest = new TLegend(0.2, 0.2, 0.4, 0.4);
+    TLegend * legtest = new TLegend(0.21, 0.19, 0.41, 0.39);
     SetLegend(legtest, 18);
-    legtest->AddEntry(vnAB[0][test][ctest],"me","p");
-    //if () legtest->AddEntry(v2HIN_10_002_eta[ctest],"HIN-10-002","p");
+    legtest->SetHeader(Form("%d-%d%%",cmin[ctest],cmax[ctest]));
+    legtest->AddEntry(vnAB[0][18][ctest],"N2SUB2","p");
+    legtest->AddEntry(vnAB[0][19][ctest],"N2SUB3","p");
+    legtest->AddEntry(v2HIN_10_002_eta[ctest],"HIN-10-002","p");
     legtest->Draw();
+    c0->Print("v2.png","png");
+
+
+    TCanvas * c1 = new TCanvas("c1","c1",650,600);
+    TPad * padtest1 = (TPad *) c1->cd();
+    padtest1->SetGrid();
+    vnAB[0][16][ctest]->SetMarkerColor(kRed);
+    vnAB[0][16][ctest]->SetLineColor(kRed);
+    vnAB[0][16][ctest]->SetMarkerStyle(20);
+    vnAB[0][16][ctest]->SetMarkerSize(1.2);
+    vnAB[0][16][ctest]->SetXTitle("#eta");
+    vnAB[0][16][ctest]->SetYTitle("v_{1}");
+    vnAB[0][16][ctest]->GetYaxis()->SetRangeUser(-0.015, 0.015);
+    vnAB[0][16][ctest]->Draw();
+    vnA[0][16][ctest]->Draw("same");
+    vnB[0][16][ctest]->Draw("same");
+    vnAB[0][17][ctest]->SetMarkerColor(kBlue);
+    vnAB[0][17][ctest]->SetLineColor(kBlue);
+    vnAB[0][17][ctest]->SetMarkerStyle(25);
+    vnAB[0][17][ctest]->SetMarkerSize(1.2);
+    //vnAB[0][17][ctest]->Draw("same");
+    TLine * ltest1 = new TLine(-2.4, 0, 2.4, 0);
+    ltest1->Draw();
+    TLegend * legtest1 = new TLegend(0.21, 0.19, 0.41, 0.39);
+    SetLegend(legtest1, 18);
+    legtest1->SetHeader(Form("%d-%d%%",cmin[ctest],cmax[ctest]));
+    legtest1->AddEntry(vnAB[0][16][ctest],"N1SUB2","p");
+    //legtest1->AddEntry(vnAB[0][17][ctest],"N2SUB3","p");
+    legtest1->Draw();
+    c1->Print("v1.png","png");
+
+
+    TCanvas * c2 = new TCanvas("c2","c2",650,600);
+    TPad * padtest2 = (TPad *) c2->cd();
+    padtest2->SetGrid();
+    vnAB[0][16][ctest]->Draw();
+    vnAB[1][16][ctest]->SetMarkerStyle(25);
+    vnAB[1][16][ctest]->SetMarkerSize(1.2);
+    vnAB[1][16][ctest]->Draw("same");
+    vnAB[2][16][ctest]->SetMarkerStyle(24);
+    vnAB[2][16][ctest]->SetMarkerSize(1.2);
+    vnAB[2][16][ctest]->SetMarkerColor(kMagenta);
+    vnAB[2][16][ctest]->Draw("same");
+    vnAB[0][17][ctest]->SetMarkerColor(kBlue);
+    vnAB[0][17][ctest]->SetLineColor(kBlue);
+    vnAB[0][17][ctest]->SetMarkerStyle(25);
+    vnAB[0][17][ctest]->SetMarkerSize(1.2);
+    //vnAB[0][17][ctest]->Draw("same");
+    TLine * ltest2 = new TLine(-2.4, 0, 2.4, 0);
+    ltest2->Draw();
+    TLegend * legtest2 = new TLegend(0.21, 0.19, 0.41, 0.39);
+    SetLegend(legtest2, 18);
+    legtest2->SetHeader(Form("%d-%d%%",cmin[ctest],cmax[ctest]));
+    legtest2->AddEntry(vnAB[0][16][ctest],"N1SUB2 Tight","p");
+    legtest2->AddEntry(vnAB[1][16][ctest],"N1SUB2 TightB","p");
+    legtest2->AddEntry(vnAB[2][16][ctest],"N1SUB2 Loose","p");
+    legtest2->Draw();
+    c2->Print("v1_cuts.png","png");
 
 
 }
