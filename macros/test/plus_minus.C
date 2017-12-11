@@ -40,11 +40,11 @@ string ytitle[] = {
         "v_{1}\{#Psi_{1}\}",                     "v_{1}\{#Psi_{1}\}",
         "v_{2}\{#Psi_{2}\}",                     "v_{2}\{#Psi_{2}\}"
 };
-int niov = 6;
+static const int niov = 6;
 string iov[] = {
     "PbPb_262548_262799", "PbPb_262800_263230", "PbPb_263231_263359",
     "PbPb_263360_263379", "PbPb_263615_263757", "PbPb_263380_263614"
-}
+};
 
 using namespace std;
 
@@ -60,13 +60,18 @@ void plus_minus()
 
     TH1::SetDefaultSumw2();
 
-    if (!fopen("figures/plus_minus_test")) system("mkdir figures/plus_minus_test");
-    for (int i = 0; i<niov; i++) {
-        if (!fopen(Form("figures/plus_minus_test/%s",iov[i].data())) system(Form("mkdir figures/plus_minus_test/%s",iov[i].data()));
-        for (int cbin = 0; cbin<ncentbins; cbin++) {
+    string anal = "N1SUB2";
 
+    if (!fopen("figures","r")) system("mkdir figures");
+    if (!fopen("figures/plus_minus_test","r")) system("mkdir figures/plus_minus_test");
+    for (int i = 0; i<niov; i++) {
+        if (!fopen(Form("figures/plus_minus_test/%s",iov[i].data()),"r")) system(Form("mkdir figures/plus_minus_test/%s",iov[i].data()));
+        for (int cbin = 0; cbin<ncbins-1; cbin++) {
+            string htag = Form("_%s_%s_%d_%d",iov[i].data(),anal.data(),cmin[cbin],cmax[cbin]);
+            vnA[i][cbin] = new TH1D(Form("vnA_%s",htag.data()), "", netabins, etabins);
+            vnB[i][cbin] = new TH1D(Form("vnB_%s",htag.data()), "", netabins, etabins);
+            vnAB[i][cbin] = new TH1D(Form("vnAB_%s",htag.data()), "", netabins, etabins);
         }
     }
-
 
 }
