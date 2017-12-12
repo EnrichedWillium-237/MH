@@ -30,17 +30,19 @@ double PtMin = 0.3;
 double PtMax = 3.0;
 string FigDir = "";
 string FigSubDir = "";
-static const int nanals = 22;
+static const int nanals = 24;
 enum AnalType {
     N1MCm22SUB3, N1MCm18SUB3, N1MCm14SUB3, N1MCm10SUB3, N1MCm06SUB3, N1MCm02SUB3,
     N1MCp22SUB3, N1MCp18SUB3, N1MCp14SUB3, N1MCp10SUB3, N1MCp06SUB3, N1MCp02SUB3,
-    N112ASUB2,   N112ASUB3,   N123ASUB2,   N123ASUB3,   N1SUB2,      N1SUB3,
+    N112ASUB2,   N112ASUB3,   N123ASUB2,   N123ASUB3,
+    N1ASUB2,     N1ASUB3,     N1BSUB2,     N1BSUB3,
     N2SUB2,      N2SUB3,      N3SUB2,      N3SUB3,      LAST
 };
 string AnalNames[] = {
     "N1MCm22SUB3", "N1MCm18SUB3", "N1MCm14SUB3", "N1MCm10SUB3", "N1MCm06SUB3", "N1MCm02SUB3",
     "N1MCp22SUB3", "N1MCp18SUB3", "N1MCp14SUB3", "N1MCp10SUB3", "N1MCp06SUB3", "N1MCp02SUB3",
-    "N112ASUB2",   "N112ASUB3",   "N123ASUB2",   "N123ASUB3",   "N1SUB2",      "N1SUB3",
+    "N112ASUB2",   "N112ASUB3",   "N123ASUB2",   "N123ASUB3",
+    "N1ASUB2",     "N1ASUB3",     "N1BSUB2",     "N1BSUB3"
     "N2SUB2",      "N2SUB3",      "N3SUB2",      "N3SUB3",      "LAST"
 };
 string ytitle[] = {
@@ -49,7 +51,9 @@ string ytitle[] = {
     "v_{1}\{#Psi_{1,MC} (0.0<#eta<0.4)\}",   "v_{1}\{#Psi_{1,MC} (0.4<#eta<0.8)\}",   "v_{1}\{#Psi_{1,MC} (0.8<#eta<1.2)\}",   "v_{1}\{#Psi_{1,MC} (1.2<#eta<1.6)\}",
     "v_{1}\{#Psi_{1,MC} (1.6<#eta<2.0)\}",   "v_{1}\{#Psi_{1,MC} (2.0<#eta<2.4)\}",
     "v_{1}\{#Psi_{1},#Psi_{2}\}",            "v_{1}\{#Psi_{1},#Psi_{2}\}",            "v_{1}\{#Psi_{2},#Psi_{3}\}",            "v_{1}\{#Psi_{2},#Psi_{3}\}",
-    "v_{1}\{#Psi_{1}\}",                     "v_{1}\{#Psi_{1}\}",                     "v_{2}\{#Psi_{2}\}",                     "v_{2}\{#Psi_{2}\}",                     "v_{3}\{#Psi_{3}\}",                     "v_{3}\{#Psi_{3}\}",                     "LAST"
+    "v_{1}\{#Psi_{1}\}",                     "v_{1}\{#Psi_{1}\}",                     "v_{1}\{#Psi_{1}\}",                     "v_{1}\{#Psi_{1}\}",
+    "v_{2}\{#Psi_{2}\}",                     "v_{2}\{#Psi_{2}\}",                     "v_{3}\{#Psi_{3}\}",                     "v_{3}\{#Psi_{3}\}",
+    "LAST"
 };
 
 FILE * outint;
@@ -185,7 +189,7 @@ TGraphErrors * nwspec2;
 string rootFile;
 TGraphErrors * GetVNPt( int replay, int bin, double etamin, double etamax, TGraphErrors * &gA, TGraphErrors * &gB, TGraphErrors * &gspec, double *  resA, double * resB, double &vint, double &vinte, double &vintA, double &vintAe, double &vintB, double &vintBe, bool nonorm = false) {
 
-    cout<<"========================== "<<AnalNames[replay]<<"  with bin,etamin,etamax: "<<bin<<"\t"<<etamin<<"\t"<<etamax<<endl;
+    cout<<"========================== "<<AnalNames[replay]<<"  with bin, etamin, etamax: "<<bin<<"\t"<<etamin<<"\t"<<etamax<<endl;
     TH1D * hspec = 0;
     TH1D * xpt = 0;
     TH1D * sp = 0;
@@ -249,7 +253,7 @@ TGraphErrors * GetVNPt( int replay, int bin, double etamin, double etamax, TGrap
         string crange = to_string(cmin[j])+"_"+to_string(cmax[j]);
         if (cmin[j]==1) crange = "0_"+to_string(cmax[j]);
         cout<<crange<<endl;
-        if (j==jmin) {
+        if (j == jmin) {
 
             ptav = (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/ptav",crange.data()));
             ptcnt = (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/ptcnt",crange.data()));
@@ -668,7 +672,7 @@ TGraphErrors * GetVNPt( int replay, int bin, double etamin, double etamax, TGrap
 
 
 TH1D * h = 0;
-void GetVNCreate( int replay = N1SUB3, int bin = 0, bool NumOnly = false, bool DenomOnly = false ) {
+void GetVNCreate( int replay = N1ASUB3, int bin = 0, bool NumOnly = false, bool DenomOnly = false ) {
 
     TH1D * hspec = 0;
     FILE * ftest;
@@ -783,53 +787,67 @@ void GetVNCreate( int replay = N1SUB3, int bin = 0, bool NumOnly = false, bool D
         if(nwspec->GetY()[n]+nwspec->GetEY()[n]>ymaxspec) ymaxspec = nwspec->GetY()[n]+nwspec->GetEY()[n];
     }
 
-    if (ymax<0.0002) {
-        ymax=0.0004;
-    } else if (ymax<0.004) {
-        ymax=0.001;
-    } else if (ymax<0.01) {
-        ymax = 0.025;
-    } else if (ymax<0.02) {
-        ymax = 0.04;
-    } else if (ymax<0.05) {
-        ymax = 0.07;
-    } else if (ymax<0.1) {
-        ymax = 0.2;
-    } else if (ymax<0.2) {
-        ymax = 0.4;
-    } else if (ymax<0.4) {
-        ymax = 0.8;
-    } else if (ymax<2.0) {
-        ymax = 2.0;
-    } else {
-        ymax = 10;
-    }
+    ymax = 0.05;
+    // if (ymax<0.0002) {
+    //     ymax=0.0004;
+    // } else if (ymax<0.004) {
+    //     ymax=0.001;
+    // } else if (ymax<0.01) {
+    //     ymax = 0.025;
+    // } else if (ymax<0.02) {
+    //     ymax = 0.04;
+    // } else if (ymax<0.05) {
+    //     ymax = 0.07;
+    // } else if (ymax<0.1) {
+    //     ymax = 0.2;
+    // } else if (ymax<0.2) {
+    //     ymax = 0.4;
+    // } else if (ymax<0.4) {
+    //     ymax = 0.8;
+    // } else if (ymax<2.0) {
+    //     ymax = 2.0;
+    // } else {
+    //     ymax = 10;
+    // }
+    // if (ANAL == N112ASUB2) {
+    //     ymax = 0.05;
+    // }
+    // if (ANAL == N123ASUB2) {
+    //     ymax = 0.025;
+    // }
 
-    if(ymin>0) {
-        ymin = 0;
-    } else if (ymin>-0.003) {
-        ymin = -0.005;
-    } else if (ymin>-0.005) {
-        ymin = -0.008;
-    } else if (ymin>-0.01) {
-        ymin = -0.015;
-    } else if (ymin>-0.02) {
-        ymin = -0.03;
-    } else if (ymin>-0.04) {
-        ymin = -0.06;
-    } else if (ymin>-0.1) {
-        ymin = -0.2;
-    } else if (ymin>-0.2) {
-        ymin = -0.3;
-    } else if (ymin>-0.4) {
-        ymin = -0.6;
-    } else if (ymin>-0.8) {
-        ymin = -1.0;
-    } else if (ymin>-2.0) {
-        ymin = -3;
-    } else {
-        ymin =-1;
-    }
+    // if(ymin>0) {
+    //     ymin = 0;
+    // } else if (ymin>-0.003) {
+    //     ymin = -0.005;
+    // } else if (ymin>-0.005) {
+    //     ymin = -0.008;
+    // } else if (ymin>-0.01) {
+    //     ymin = -0.015;
+    // } else if (ymin>-0.02) {
+    //     ymin = -0.03;
+    // } else if (ymin>-0.04) {
+    //     ymin = -0.06;
+    // } else if (ymin>-0.1) {
+    //     ymin = -0.2;
+    // } else if (ymin>-0.2) {
+    //     ymin = -0.3;
+    // } else if (ymin>-0.4) {
+    //     ymin = -0.6;
+    // } else if (ymin>-0.8) {
+    //     ymin = -1.0;
+    // } else if (ymin>-2.0) {
+    //     ymin = -3;
+    // } else {
+    //     ymin =-1;
+    // }
+    // if (ANAL == N112ASUB2) {
+    //     ymin = -0.05;
+    // }
+    // if (ANAL == N123ASUB2) {
+    //     ymin = -0.03;
+    // }
+    ymin = -0.05;
     h->SetMinimum(ymin);
     h->SetMaximum(ymax);
     gPad->SetGrid(1,1);
@@ -857,7 +875,7 @@ void GetVNCreate( int replay = N1SUB3, int bin = 0, bool NumOnly = false, bool D
     leg->SetFillColor(kWhite);
     leg->SetBorderSize(0);
     leg->AddEntry(hpt,AnalNames[replay].data(),"lp");
-    if (ANAL == N1SUB2 || ANAL == N1SUB3 || ANAL == N2SUB2 || ANAL == N2SUB3 || ANAL == N3SUB2 || ANAL == N3SUB3 || ANAL == N112ASUB2 || ANAL == N112ASUB3 || ANAL == N123ASUB2 || ANAL == N123ASUB3) {
+    if (ANAL == N1ASUB2 || ANAL == N1ASUB3 || ANAL == N1BSUB2 || ANAL == N1BSUB3 || ANAL == N2SUB2 || ANAL == N2SUB3 || ANAL == N3SUB2 || ANAL == N3SUB3 || ANAL == N112ASUB2 || ANAL == N112ASUB3 || ANAL == N123ASUB2 || ANAL == N123ASUB3) {
         leg->AddEntry(hA,"HF+ only","lp");
         leg->AddEntry(hB,"HF- only","lp");
     } else {
