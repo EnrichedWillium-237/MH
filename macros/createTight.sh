@@ -3,6 +3,11 @@
 # calculate integrated vn over a given pT and eta range
 # pT-dependence
 #
+root -l -q -b 'GetVN.C+("N1SUB3","useTight",-0.4,0.4,true)'
+root -l -q -b 'GetVN.C+("N2SUB3","useTight",-0.4,0.4,true)'
+root -l -q -b 'GetVN.C+("N1SUB2","useTight",-0.4,0.4,true)'
+root -l -q -b 'GetVN.C+("N2SUB2","useTight",-0.4,0.4,true)'
+#
 root -l -q -b 'GetVN.C+("N1SUB3","useTight",-2.4,-2.0,true)'
 root -l -q -b 'GetVN.C+("N2SUB3","useTight",-2.4,-2.0,true)'
 root -l -q -b 'GetVN.C+("N1SUB2","useTight",-2.4,-2.0,true)'

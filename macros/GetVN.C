@@ -113,7 +113,7 @@ double FakeAndEff( int cent, double pt, double &eff ) {
     TH2D * he = (TH2D *) e->Get(re.data());
     int ptbin = hf->GetYaxis()->FindBin(pt);
     int etabinmin = hf->GetXaxis()->FindBin(EtaMin);
-    int etabinmax = hf->GetXaxis()->FindBin(EtaMax-0.01);
+    int etabinmax = hf->GetXaxis()->FindBin(EtaMax-0.001);
     double val = 0;
     eff = 0;
     for(int i = etabinmin; i<=etabinmax; i++) {
@@ -333,7 +333,7 @@ TGraphErrors * GetVNPt( int replay, int bin, double etamin, double etamax, TGrap
         ietamin1 = qA->GetYaxis()->FindBin(etamin);
         ietamax1 = qA->GetYaxis()->FindBin(-0.001);
         ietamin2 = qA->GetYaxis()->FindBin(0.);
-        ietamax2 = qA->GetYaxis()->FindBin(etamax);
+        ietamax2 = qA->GetYaxis()->FindBin(etamax-0.001);
         qA1 = (TH1D *) qA->ProjectionX("qA1",ietamin1,ietamax1);
         qB1 = (TH1D *) qB->ProjectionX("qB1",ietamin2,ietamax2);
         wA1 = (TH1D *) wnA->ProjectionX("wA1",ietamin1,ietamax1);
@@ -619,7 +619,7 @@ TGraphErrors * GetVNPt( int replay, int bin, double etamin, double etamax, TGrap
             exspec[npt] = 0;
             eyspec[npt] = 0;
             if (sp->GetBinContent(i)>1) eyspec[npt] = sqrt(sp->GetBinContent(i))/sp->GetBinWidth(i)/(etamax-etamin)/centcnt;
-            if (pt<3.) {
+            if (pt<1.) {
             	double eff = 0;
             	double cent = (cmin[bin] + cmax[bin])/2.;
 
