@@ -112,7 +112,7 @@ double FakeAndEff( int cent, double pt, double &eff ) {
     string re = "Eff_"+to_string((int)cbe[ibe])+"_"+to_string((int)cbe[ibe+1]);
     TH2D * he = (TH2D *) e->Get(re.data());
     int ptbin = hf->GetYaxis()->FindBin(pt);
-    int etabinmin = hf->GetXaxis()->FindBin(EtaMin);
+    int etabinmin = hf->GetXaxis()->FindBin(EtaMin+0.001);
     int etabinmax = hf->GetXaxis()->FindBin(EtaMax-0.001);
     double val = 0;
     eff = 0;
@@ -330,16 +330,16 @@ TGraphErrors * GetVNPt( int replay, int bin, double etamin, double etamax, TGrap
     double sign = 1.;
     if (replay == N112ASUB2 || replay == N112ASUB3) sign = -1.;
     if (etamin*etamax<0) {
-        ietamin1 = qA->GetYaxis()->FindBin(etamin);
+        ietamin1 = qA->GetYaxis()->FindBin(etamin+0.001);
         ietamax1 = qA->GetYaxis()->FindBin(-0.001);
-        ietamin2 = qA->GetYaxis()->FindBin(0.);
+        ietamin2 = qA->GetYaxis()->FindBin(0.+0.001);
         ietamax2 = qA->GetYaxis()->FindBin(etamax-0.001);
         qA1 = (TH1D *) qA->ProjectionX("qA1",ietamin1,ietamax1);
         qB1 = (TH1D *) qB->ProjectionX("qB1",ietamin2,ietamax2);
         wA1 = (TH1D *) wnA->ProjectionX("wA1",ietamin1,ietamax1);
         wB1 = (TH1D *) wnB->ProjectionX("wB1",ietamin2,ietamax2);
     } else {
-        ietamin1 = qA->GetYaxis()->FindBin(etamin);
+        ietamin1 = qA->GetYaxis()->FindBin(etamin+0.001);
         ietamax1 = qA->GetYaxis()->FindBin(etamax-0.001);
         qA1 = (TH1D *) qA->ProjectionX("qA1",ietamin1,ietamax1);
         qB1 = (TH1D *) qB->ProjectionX("qB1",ietamin1,ietamax1);
