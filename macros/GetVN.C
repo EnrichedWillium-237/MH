@@ -332,7 +332,7 @@ TGraphErrors * GetVNPt( int replay, int bin, double etamin, double etamax, TGrap
     if (etamin*etamax<0) {
         ietamin1 = qA->GetYaxis()->FindBin(etamin+0.001);
         ietamax1 = qA->GetYaxis()->FindBin(-0.001);
-        ietamin2 = qA->GetYaxis()->FindBin(0.+0.001);
+        ietamin2 = qA->GetYaxis()->FindBin(0.001);
         ietamax2 = qA->GetYaxis()->FindBin(etamax-0.001);
         qA1 = (TH1D *) qA->ProjectionX("qA1",ietamin1,ietamax1);
         qB1 = (TH1D *) qB->ProjectionX("qB1",ietamin2,ietamax2);
