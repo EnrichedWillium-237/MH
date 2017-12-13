@@ -42,7 +42,7 @@ string AnalNames[] = {
     "N1MCm22SUB3", "N1MCm18SUB3", "N1MCm14SUB3", "N1MCm10SUB3", "N1MCm06SUB3", "N1MCm02SUB3",
     "N1MCp22SUB3", "N1MCp18SUB3", "N1MCp14SUB3", "N1MCp10SUB3", "N1MCp06SUB3", "N1MCp02SUB3",
     "N112ASUB2",   "N112ASUB3",   "N123ASUB2",   "N123ASUB3",
-    "N1ASUB2",     "N1ASUB3",     "N1BSUB2",     "N1BSUB3"
+    "N1ASUB2",     "N1ASUB3",     "N1BSUB2",     "N1BSUB3",
     "N2SUB2",      "N2SUB3",      "N3SUB2",      "N3SUB3",      "LAST"
 };
 string ytitle[] = {
@@ -672,7 +672,7 @@ TGraphErrors * GetVNPt( int replay, int bin, double etamin, double etamax, TGrap
 
 
 TH1D * h = 0;
-void GetVNCreate( int replay = N1ASUB3, int bin = 0, bool NumOnly = false, bool DenomOnly = false ) {
+void GetVNCreate( int replay = N1ASUB2, int bin = 0, bool NumOnly = false, bool DenomOnly = false ) {
 
     TH1D * hspec = 0;
     FILE * ftest;
@@ -964,7 +964,7 @@ void GetVNCreate( int replay = N1ASUB3, int bin = 0, bool NumOnly = false, bool 
 TH1D * vnA;
 TH1D * vnB;
 TH1D * vnAB;
-void GetVN( string name="N1SUB3", string tag="useTight", double mineta = -2.4, double maxeta = 2.4, bool override = false ) {
+void GetVN( string name="N1BSUB3", string tag="useTight", double mineta = -2.4, double maxeta = 2.4, bool override = false ) {
     TH1::SetDefaultSumw2();
     bool found = false;
     centRef = new TH1I("centRef", "centRef", ncentbins, centRefBins);
@@ -1051,4 +1051,5 @@ void GetVN( string name="N1SUB3", string tag="useTight", double mineta = -2.4, d
         fin->Close();
         fin = new TFile(rootFile.data(),"read");
     }
+    cout<<Form("results/results%s/%s.root",stag.data(),name.data())<<" has been created"<<endl;
 }
