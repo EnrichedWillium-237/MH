@@ -139,7 +139,7 @@ void getVNInt()
     }
 
 
-
+    //-- previous CMS results for v2 comparison
     # include "data/HIN-10-002.h"
     TH1D * v2HIN_10_002_eta[12];
     for (int cbin = 0; cbin<12; cbin++) {
@@ -177,7 +177,6 @@ void getVNInt()
 
 
     //-- centrality dependence of integral v1^odd(eta)
-
     TCanvas * cv1oddEta = new TCanvas("cv1oddEta", "cv1oddEta", 1300, 650);
     cv1oddEta->Divide(5,2,0,0);
     for (int cbin = 0; cbin<10; cbin++) {
@@ -235,7 +234,7 @@ void getVNInt()
         txv1oddEta_cent->Draw();
     }
     cv1oddEta->cd(1);
-    TPaveText * txv1oddEta_CMS = new TPaveText(0.17, 0.91, 0.66, 1.0,"NDC");
+    TPaveText * txv1oddEta_CMS = new TPaveText(0.19, 0.91, 0.66, 1.0,"NDC");
     SetTPaveTxt(txv1oddEta_CMS, 18);
     txv1oddEta_CMS->AddText("#bf{CMS} #it{Preliminary}");
     txv1oddEta_CMS->Draw();
@@ -247,7 +246,73 @@ void getVNInt()
     legv1oddEta->AddEntry(N1SUB3_eta[0],"v_{1}^{odd}{SUB3}","p");
     legv1oddEta->Draw();
 
-    cv1oddEta->Print("figures/integralVN/v1odd_eta_2SUB_3SUB.png","png");
+    cv1oddEta->Print("figures/integralVN/v1odd_eta_SUB2_SUB3.png","png");
+
+
+
+    //-- centrality dependence of integral v1^even(pT)
+    TCanvas * cv1evenPt = new TCanvas("cv1evenPt", "cv1evenPt", 1300, 650);
+    cv1evenPt->Divide(5,2,0,0);
+    for (int cbin = 0; cbin<10; cbin++) {
+        TPad * padv1evenPt = (TPad *) cv1evenPt->cd(cbin+1);
+        if (gridlines) padv1evenPt->SetGrid();
+        if (cbin == 4 || cbin == 9) padv1evenPt->SetRightMargin(0.02);
+        if (cbin <= 4) padv1evenPt->SetTopMargin(0.1);
+        if (cbin > 4) padv1evenPt->SetBottomMargin(0.25);
+
+        TH1D * hv1evenPt = new TH1D(Form("hv1evenPt_%d",cbin), "", 50, 0, 12);
+        hv1evenPt->SetXTitle("p_{T} (GeV/c)");
+        hv1evenPt->SetYTitle("v_{1}^{even}");
+        hv1evenPt->GetXaxis()->CenterTitle();
+        hv1evenPt->GetYaxis()->CenterTitle();
+        hv1evenPt->GetYaxis()->SetRangeUser(-0.025, 0.20);
+        hv1evenPt->GetYaxis()->SetNdivisions(509);
+        hv1evenPt->GetYaxis()->SetTitleSize(0.07);
+        hv1evenPt->GetYaxis()->SetLabelSize(0.05);
+        hv1evenPt->GetYaxis()->SetTitleOffset(1.20);
+        hv1evenPt->GetYaxis()->SetLabelOffset(0.010);
+        if (cbin == 5) {
+            hv1evenPt->GetXaxis()->SetTitleSize(0.07);
+            hv1evenPt->GetXaxis()->SetLabelSize(0.05);
+            hv1evenPt->GetXaxis()->SetTitleOffset(1.00);
+            hv1evenPt->GetXaxis()->SetLabelOffset(0.019);
+        }
+        if (cbin >= 6) {
+            hv1evenPt->GetXaxis()->SetTitleSize(0.08);
+            hv1evenPt->GetXaxis()->SetLabelSize(0.06);
+            hv1evenPt->GetXaxis()->SetTitleOffset(0.83);
+            hv1evenPt->GetXaxis()->SetLabelOffset(0.011);
+        }
+
+        hv1evenPt->Draw();
+
+        vnAB_pt[N1MCp22SUB3][cbin]->SetMarkerColor(kBlue);
+        vnAB_pt[N1MCp22SUB3][cbin]->SetLineColor(kBlue);
+        vnAB_pt[N1MCp22SUB3][cbin]->SetMarkerStyle(21);
+        vnAB_pt[N1MCp22SUB3][cbin]->SetMarkerSize(1.1);
+        vnAB_pt[N1MCp22SUB3][cbin]->Draw("same");
+
+        TPaveText * txv1evenPt_cent;
+        if (cbin == 0) txv1evenPt_cent = new TPaveText(0.80, 0.77, 0.95, 0.86, "NDC");
+        else if (cbin >= 1 && cbin <=4) txv1evenPt_cent = new TPaveText(0.40, 0.77, 0.60, 0.86, "NDC");
+        else if (cbin == 5) txv1evenPt_cent = new TPaveText(0.50, 0.87, 0.70, 0.97, "NDC");
+        else txv1evenPt_cent = new TPaveText(0.40, 0.87, 0.60, 0.97, "NDC");
+        SetTPaveTxt(txv1evenPt_cent, 17);
+        txv1evenPt_cent->AddText(Form("%d - %d%%",cmin[cbin],cmax[cbin]));
+        txv1evenPt_cent->Draw();
+    }
+    cv1evenPt->cd(1);
+    TPaveText * txv1evenPt_CMS = new TPaveText(0.19, 0.91, 0.66, 1.0,"NDC");
+    SetTPaveTxt(txv1evenPt_CMS, 18);
+    txv1evenPt_CMS->AddText("#bf{CMS} #it{Preliminary}");
+    txv1evenPt_CMS->Draw();
+
+    TPaveText * txv1evenPt_label = new TPaveText(0.23, 0.75, 0.60, 0.86, "NDC");
+    SetTPaveTxt(txv1evenPt_label, 16);
+    txv1evenPt_label->AddText("PbPb #sqrt{s_{NN}} = 5.02 TeV");
+    txv1evenPt_label->Draw();
+
+    cv1evenPt->Print("figures/integralVN/v1even_pt_N1MC22SU3.png","png");
 
 
 }
