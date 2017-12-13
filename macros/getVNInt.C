@@ -176,6 +176,7 @@ void getVNInt()
     if (!fopen("figures/integralVN","r")) system("mkdir figures/integralVN");
 
 
+
     //-- centrality dependence of integral v1^odd(eta)
     TCanvas * cv1oddEta = new TCanvas("cv1oddEta", "cv1oddEta", 1300, 650);
     cv1oddEta->Divide(5,2,0,0);
@@ -235,13 +236,18 @@ void getVNInt()
     }
     cv1oddEta->cd(1);
     TPaveText * txv1oddEta_CMS = new TPaveText(0.19, 0.91, 0.66, 1.0,"NDC");
-    SetTPaveTxt(txv1oddEta_CMS, 18);
+    SetTPaveTxt(txv1oddEta_CMS, 16);
     txv1oddEta_CMS->AddText("#bf{CMS} #it{Preliminary}");
     txv1oddEta_CMS->Draw();
 
-    TLegend * legv1oddEta = new TLegend(0.23, 0.58, 0.60, 0.86);
+    TPaveText * txv1oddEta_label = new TPaveText(0.23, 0.67, 0.60, 0.85, "NDC");
+    SetTPaveTxt(txv1oddEta_label, 16);
+    txv1oddEta_label->AddText("PbPb #sqrt{s_{NN}} = 5.02 TeV");
+    txv1oddEta_label->AddText("0.3 < p_{T} < 3.0 GeV/c");
+    txv1oddEta_label->Draw();
+
+    TLegend * legv1oddEta = new TLegend(0.23, 0.05, 0.60, 0.23);
     SetLegend(legv1oddEta, 16);
-    legv1oddEta->SetHeader("PbPb #sqrt{s_{NN}} = 5.02 TeV");
     legv1oddEta->AddEntry(vnAB_eta[N1ASUB2][0],"v_{1}^{odd}{SUB2}","p");
     legv1oddEta->AddEntry(N1SUB3_eta[0],"v_{1}^{odd}{SUB3}","p");
     legv1oddEta->Draw();
@@ -265,7 +271,7 @@ void getVNInt()
         hv1evenPt->SetYTitle("v_{1}^{even}");
         hv1evenPt->GetXaxis()->CenterTitle();
         hv1evenPt->GetYaxis()->CenterTitle();
-        hv1evenPt->GetYaxis()->SetRangeUser(-0.025, 0.20);
+        hv1evenPt->GetYaxis()->SetRangeUser(-0.025, 0.195);
         hv1evenPt->GetYaxis()->SetNdivisions(509);
         hv1evenPt->GetYaxis()->SetTitleSize(0.07);
         hv1evenPt->GetYaxis()->SetLabelSize(0.05);
@@ -307,12 +313,118 @@ void getVNInt()
     txv1evenPt_CMS->AddText("#bf{CMS} #it{Preliminary}");
     txv1evenPt_CMS->Draw();
 
-    TPaveText * txv1evenPt_label = new TPaveText(0.23, 0.75, 0.60, 0.86, "NDC");
+    TPaveText * txv1evenPt_label = new TPaveText(0.23, 0.67, 0.60, 0.85, "NDC");
     SetTPaveTxt(txv1evenPt_label, 16);
     txv1evenPt_label->AddText("PbPb #sqrt{s_{NN}} = 5.02 TeV");
+    txv1evenPt_label->AddText("|#eta| < 2.4");
     txv1evenPt_label->Draw();
 
-    cv1evenPt->Print("figures/integralVN/v1even_pt_N1MC22SU3.png","png");
+    cv1evenPt->Print("figures/integralVN/v1even_pt_N1MC22SUB3.png","png");
+
+
+
+    //-- centrality dependence of integral v1^even(pT)
+    TCanvas * cv1evenEta = new TCanvas("cv1evenEta", "cv1evenEta", 1300, 650);
+    cv1evenEta->Divide(5,2,0,0);
+    for (int cbin = 0; cbin<10; cbin++) {
+        TPad * padv1evenEta = (TPad *) cv1evenEta->cd(cbin+1);
+        if (gridlines) padv1evenEta->SetGrid();
+        if (cbin == 4 || cbin == 9) padv1evenEta->SetRightMargin(0.02);
+        if (cbin <= 4) padv1evenEta->SetTopMargin(0.1);
+        if (cbin > 4) padv1evenEta->SetBottomMargin(0.25);
+
+        TH1D * hv1evenEta = new TH1D(Form("hv1evenEta_%d",cbin), "", 50, -2.8, 2.8);
+        hv1evenEta->SetXTitle("#eta");
+        hv1evenEta->SetYTitle("v_{1}^{even}");
+        hv1evenEta->GetXaxis()->CenterTitle();
+        hv1evenEta->GetYaxis()->CenterTitle();
+        hv1evenEta->GetYaxis()->SetRangeUser(-0.045, 0.02);
+        hv1evenEta->GetYaxis()->SetNdivisions(509);
+        hv1evenEta->GetYaxis()->SetTitleSize(0.07);
+        hv1evenEta->GetYaxis()->SetLabelSize(0.05);
+        hv1evenEta->GetYaxis()->SetTitleOffset(1.20);
+        hv1evenEta->GetYaxis()->SetLabelOffset(0.010);
+        if (cbin == 5) {
+            hv1evenEta->GetXaxis()->SetTitleSize(0.07);
+            hv1evenEta->GetXaxis()->SetLabelSize(0.05);
+            hv1evenEta->GetXaxis()->SetTitleOffset(1.00);
+            hv1evenEta->GetXaxis()->SetLabelOffset(0.019);
+        }
+        if (cbin >= 6) {
+            hv1evenEta->GetXaxis()->SetTitleSize(0.08);
+            hv1evenEta->GetXaxis()->SetLabelSize(0.06);
+            hv1evenEta->GetXaxis()->SetTitleOffset(0.83);
+            hv1evenEta->GetXaxis()->SetLabelOffset(0.011);
+        }
+
+        hv1evenEta->Draw();
+
+        vnAB_eta[N1MCp22SUB3][cbin]->SetMarkerColor(kBlue);
+        vnAB_eta[N1MCp22SUB3][cbin]->SetLineColor(kBlue);
+        vnAB_eta[N1MCp22SUB3][cbin]->SetMarkerStyle(21);
+        vnAB_eta[N1MCp22SUB3][cbin]->SetMarkerSize(1.1);
+        vnAB_eta[N1MCp22SUB3][cbin]->Draw("same");
+
+        vnA_eta[N1MCp22SUB3][cbin]->SetMarkerColor(kMagenta);
+        vnA_eta[N1MCp22SUB3][cbin]->SetLineColor(kMagenta);
+        vnA_eta[N1MCp22SUB3][cbin]->SetMarkerStyle(28);
+        vnA_eta[N1MCp22SUB3][cbin]->SetMarkerSize(1.4);
+        vnA_eta[N1MCp22SUB3][cbin]->Draw("same");
+
+        vnB_eta[N1MCp22SUB3][cbin]->SetMarkerColor(kCyan+2);
+        vnB_eta[N1MCp22SUB3][cbin]->SetLineColor(kCyan+2);
+        vnB_eta[N1MCp22SUB3][cbin]->SetMarkerStyle(28);
+        vnB_eta[N1MCp22SUB3][cbin]->SetMarkerSize(1.4);
+        vnB_eta[N1MCp22SUB3][cbin]->Draw("same");
+
+        // vnAB_eta[N1MCm22SUB3][cbin]->SetMarkerColor(kBlue);
+        // vnAB_eta[N1MCm22SUB3][cbin]->SetLineColor(kBlue);
+        // vnAB_eta[N1MCm22SUB3][cbin]->SetMarkerStyle(21);
+        // vnAB_eta[N1MCm22SUB3][cbin]->SetMarkerSize(1.1);
+        // vnAB_eta[N1MCm22SUB3][cbin]->Draw("same");
+        //
+        // vnA_eta[N1MCm22SUB3][cbin]->SetMarkerColor(kMagenta);
+        // vnA_eta[N1MCm22SUB3][cbin]->SetLineColor(kMagenta);
+        // vnA_eta[N1MCm22SUB3][cbin]->SetMarkerStyle(28);
+        // vnA_eta[N1MCm22SUB3][cbin]->SetMarkerSize(1.4);
+        // vnA_eta[N1MCm22SUB3][cbin]->Draw("same");
+        //
+        // vnB_eta[N1MCm22SUB3][cbin]->SetMarkerColor(kCyan+2);
+        // vnB_eta[N1MCm22SUB3][cbin]->SetLineColor(kCyan+2);
+        // vnB_eta[N1MCm22SUB3][cbin]->SetMarkerStyle(28);
+        // vnB_eta[N1MCm22SUB3][cbin]->SetMarkerSize(1.4);
+        // vnB_eta[N1MCm22SUB3][cbin]->Draw("same");
+
+        TPaveText * txv1evenEta_cent;
+        if (cbin == 0) txv1evenEta_cent = new TPaveText(0.80, 0.77, 0.95, 0.86, "NDC");
+        else if (cbin >= 1 && cbin <=4) txv1evenEta_cent = new TPaveText(0.40, 0.77, 0.60, 0.86, "NDC");
+        else if (cbin == 5) txv1evenEta_cent = new TPaveText(0.50, 0.87, 0.70, 0.97, "NDC");
+        else txv1evenEta_cent = new TPaveText(0.40, 0.87, 0.60, 0.97, "NDC");
+        SetTPaveTxt(txv1evenEta_cent, 17);
+        txv1evenEta_cent->AddText(Form("%d - %d%%",cmin[cbin],cmax[cbin]));
+        txv1evenEta_cent->Draw();
+    }
+    cv1evenEta->cd(1);
+    TPaveText * txv1evenEta_CMS = new TPaveText(0.19, 0.91, 0.66, 1.0,"NDC");
+    SetTPaveTxt(txv1evenEta_CMS, 18);
+    txv1evenEta_CMS->AddText("#bf{CMS} #it{Preliminary}");
+    txv1evenEta_CMS->Draw();
+
+    TPaveText * txv1evenEta_label = new TPaveText(0.23, 0.67, 0.60, 0.85, "NDC");
+    SetTPaveTxt(txv1evenEta_label, 16);
+    txv1evenEta_label->AddText("PbPb #sqrt{s_{NN}} = 5.02 TeV");
+    txv1evenEta_label->AddText("0.3 < p_{T} < 3.0 GeV/c");
+    txv1evenEta_label->Draw();
+
+    TLegend * legv1evenEta = new TLegend(0.23, 0.05, 0.60, 0.23);
+    SetLegend(legv1evenEta, 16);
+    legv1evenEta->AddEntry(vnA_eta[N1MCp22SUB3][0],"Track+ only","p");
+    legv1evenEta->AddEntry(vnB_eta[N1MCp22SUB3][0],"Track- only","p");
+    legv1evenEta->AddEntry(vnAB_eta[N1MCp22SUB3][0],"N1MCp22SUB3","p");
+
+    legv1evenEta->Draw();
+
+    cv1evenEta->Print("figures/integralVN/v1even_eta_N1MC22SUB3.png","png");
 
 
 }
