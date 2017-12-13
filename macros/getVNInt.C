@@ -174,6 +174,7 @@ void getVNInt()
     TLine * lnPt  = new TLine(0.0, 0.0, 12.0, 0.0);
 
     if (!fopen("figures/integralVN","r")) system("mkdir figures/integralVN");
+    if (!fopen("figures/integralVN/data","r")) system("mkdir figures/integralVN/data");
 
 
 
@@ -368,7 +369,6 @@ void getVNInt()
             hv1evenPt->GetXaxis()->SetTitleOffset(0.83);
             hv1evenPt->GetXaxis()->SetLabelOffset(0.011);
         }
-
         hv1evenPt->Draw();
 
         vnAB_pt[N1MCp22SUB3][cbin]->SetMarkerColor(kBlue);
