@@ -52,6 +52,8 @@ TFile * tfin;
 void getVNInt()
 {
 
+    TH1::SetDefaultSumw2();
+
     for (int anal = 0; anal<nanals; anal++) {
         for (int cbin = 0; cbin<ncbins; cbin++) {
             string htag = Form("_%s_%d_%d",AnalNames[anal].data(),cmin[cbin],cmax[cbin]);
