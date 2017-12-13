@@ -256,6 +256,85 @@ void getVNInt()
 
 
 
+    //-- centrality dependence of integral v1(eta) using just HF+ and HF-
+    TCanvas * cv1pmEta = new TCanvas("cv1pmEta", "cv1pmEta", 1300, 650);
+    cv1pmEta->Divide(5,2,0,0);
+    for (int cbin = 0; cbin<10; cbin++) {
+        TPad * padv1pmEta = (TPad *) cv1pmEta->cd(cbin+1);
+        if (gridlines) padv1pmEta->SetGrid();
+        if (cbin == 4 || cbin == 9) padv1pmEta->SetRightMargin(0.02);
+        if (cbin <= 4) padv1pmEta->SetTopMargin(0.1);
+        if (cbin > 4) padv1pmEta->SetBottomMargin(0.25);
+
+        TH1D * hv1pmEta = new TH1D(Form("hv1pmEta_%d",cbin), "", 50, -2.8, 2.8);
+        hv1pmEta->SetXTitle("#eta");
+        hv1pmEta->SetYTitle("v_{1}");
+        hv1pmEta->GetXaxis()->CenterTitle();
+        hv1pmEta->GetYaxis()->CenterTitle();
+        hv1pmEta->GetYaxis()->SetRangeUser(-0.09, 0.09);
+        hv1pmEta->GetYaxis()->SetNdivisions(509);
+        hv1pmEta->GetYaxis()->SetTitleSize(0.07);
+        hv1pmEta->GetYaxis()->SetLabelSize(0.05);
+        hv1pmEta->GetYaxis()->SetTitleOffset(1.20);
+        hv1pmEta->GetYaxis()->SetLabelOffset(0.010);
+        if (cbin == 5) {
+            hv1pmEta->GetXaxis()->SetTitleSize(0.07);
+            hv1pmEta->GetXaxis()->SetLabelSize(0.05);
+            hv1pmEta->GetXaxis()->SetTitleOffset(1.00);
+            hv1pmEta->GetXaxis()->SetLabelOffset(0.019);
+        }
+        if (cbin >= 6) {
+            hv1pmEta->GetXaxis()->SetTitleSize(0.08);
+            hv1pmEta->GetXaxis()->SetLabelSize(0.06);
+            hv1pmEta->GetXaxis()->SetTitleOffset(0.83);
+            hv1pmEta->GetXaxis()->SetLabelOffset(0.011);
+        }
+
+        hv1pmEta->Draw();
+
+        vnA_eta[N1ASUB3][cbin]->SetMarkerColor(kMagenta);
+        vnA_eta[N1ASUB3][cbin]->SetLineColor(kMagenta);
+        vnA_eta[N1ASUB3][cbin]->SetMarkerStyle(28);
+        vnA_eta[N1ASUB3][cbin]->SetMarkerSize(1.2);
+        vnA_eta[N1ASUB3][cbin]->Draw("same");
+
+        vnA_eta[N1BSUB3][cbin]->SetMarkerColor(kCyan+2);
+        vnA_eta[N1BSUB3][cbin]->SetLineColor(kCyan+2);
+        vnA_eta[N1BSUB3][cbin]->SetMarkerStyle(28);
+        vnA_eta[N1BSUB3][cbin]->SetMarkerSize(1.2);
+        vnA_eta[N1BSUB3][cbin]->Draw("same");
+
+        TPaveText * txv1pmEta_cent;
+        if (cbin == 0) txv1pmEta_cent = new TPaveText(0.80, 0.77, 0.95, 0.86, "NDC");
+        else if (cbin >= 1 && cbin <=4) txv1pmEta_cent = new TPaveText(0.40, 0.77, 0.60, 0.86, "NDC");
+        else if (cbin == 5) txv1pmEta_cent = new TPaveText(0.50, 0.87, 0.70, 0.97, "NDC");
+        else txv1pmEta_cent = new TPaveText(0.40, 0.87, 0.60, 0.97, "NDC");
+        SetTPaveTxt(txv1pmEta_cent, 17);
+        txv1pmEta_cent->AddText(Form("%d - %d%%",cmin[cbin],cmax[cbin]));
+        txv1pmEta_cent->Draw();
+    }
+    cv1pmEta->cd(1);
+    TPaveText * txv1pmEta_CMS = new TPaveText(0.19, 0.91, 0.66, 1.0,"NDC");
+    SetTPaveTxt(txv1pmEta_CMS, 16);
+    txv1pmEta_CMS->AddText("#bf{CMS} #it{Preliminary}");
+    txv1pmEta_CMS->Draw();
+
+    TPaveText * txv1pmEta_label = new TPaveText(0.23, 0.67, 0.60, 0.85, "NDC");
+    SetTPaveTxt(txv1pmEta_label, 16);
+    txv1pmEta_label->AddText("PbPb #sqrt{s_{NN}} = 5.02 TeV");
+    txv1pmEta_label->AddText("0.3 < p_{T} < 3.0 GeV/c");
+    txv1pmEta_label->Draw();
+
+    TLegend * legv1pmEta = new TLegend(0.23, 0.05, 0.60, 0.23);
+    SetLegend(legv1pmEta, 16);
+    legv1pmEta->AddEntry(vnA_eta[N1ASUB3][0],"v_{1}{HF+ only}","p");
+    legv1pmEta->AddEntry(vnA_eta[N1BSUB3][0],"v_{1}{HF- only}","p");
+    legv1pmEta->Draw();
+
+    cv1pmEta->Print("figures/integralVN/v1pm_eta_SUB3.png","png");
+
+
+
     //-- centrality dependence of integral v1^even(pT)
     TCanvas * cv1evenPt = new TCanvas("cv1evenPt", "cv1evenPt", 1300, 650);
     cv1evenPt->Divide(5,2,0,0);
