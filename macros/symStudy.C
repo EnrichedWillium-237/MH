@@ -351,7 +351,7 @@ void symStudy()
     txN1SUB2_eta_label2->AddText("#frac{|v_{1}^{odd}(+#eta)| - |v_{1}^{odd}(-#eta)|}{|v_{1}^{odd}(+#eta)| + |v_{1}^{odd}(-#eta)|}");
     txN1SUB2_eta_label2->Draw();
 
-    cN1SUB2_eta->Print("figures/integralVN/systematics/cN1SUB2_symmetry_eta.pdf","pdf");
+    cN1SUB2_eta->Print("figures/integralVN/systematics/symmetry_N1SUB2_eta.pdf","pdf");
 
 
 
@@ -427,7 +427,7 @@ void symStudy()
     txN1SUB3_eta_label2->AddText("#frac{|v_{1}^{odd}(+#eta)| - |v_{1}^{odd}(-#eta)|}{|v_{1}^{odd}(+#eta)| + |v_{1}^{odd}(-#eta)|}");
     txN1SUB3_eta_label2->Draw();
 
-    cN1SUB3_eta->Print("figures/integralVN/systematics/cN1SUB3_symmetry_eta.pdf","pdf");
+    cN1SUB3_eta->Print("figures/integralVN/systematics/symmetry_N1SUB3_eta.pdf","pdf");
 
 
 
@@ -503,7 +503,7 @@ void symStudy()
     txN1MC22SUB3_pt_label2->AddText("#frac{|v_{1}^{odd}(+#eta)| - |v_{1}^{odd}(-#eta)|}{|v_{1}^{odd}(+#eta)| + |v_{1}^{odd}(-#eta)|}");
     txN1MC22SUB3_pt_label2->Draw();
 
-    cN1MC22SUB3_pt->Print("figures/integralVN/systematics/cN1MC22SUB3_symmetry_eta.pdf","pdf");
+    cN1MC22SUB3_pt->Print("figures/integralVN/systematics/symmetry_N1MC22SUB3_eta.pdf","pdf");
 
 
 }

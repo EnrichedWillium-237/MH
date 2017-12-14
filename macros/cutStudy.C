@@ -55,7 +55,34 @@ TH1D * N1MC22SUB2_Loose_pt[ncbins];
 TH1D * N1MC22SUB2_Tight_pt[ncbins];
 TH1D * N1MC22SUB2_TightB_pt[ncbins];
 
-TFile * tfin;
+// ratio plots
+
+TH1D * ratN1SUB2_Loose_Tight_eta[ncbins];
+TH1D * ratN1SUB3_Loose_Tight_eta[ncbins];
+TH1D * ratN1MC22SUB3_Loose_Tight_eta[ncbins];
+TH1D * ratN1MC22SUB3_Loose_Tight_pt[ncbins];
+
+TH1D * ratN1SUB2_TightB_Tight_eta[ncbins];
+TH1D * ratN1SUB3_TightB_Tight_eta[ncbins];
+TH1D * ratN1MC22SUB3_TightB_Tight_eta[ncbins];
+TH1D * ratN1MC22SUB3_TightB_Tight_pt[ncbins];
+
+TF1 * fitN1SUB2_Loose_Tight_eta[ncbins];
+TF1 * fitN1SUB3_Loose_Tight_eta[ncbins];
+TF1 * fitN1MC22SUB3_Loose_Tight_eta[ncbins];
+TF1 * fitN1MC22SUB3_Loose_Tight_pt[ncbins];
+
+TF1 * fitN1SUB2_TightB_Tight_eta[ncbins];
+TF1 * fitN1SUB3_TightB_Tight_eta[ncbins];
+TF1 * fitN1MC22SUB3_TightB_Tight_eta[ncbins];
+TF1 * fitN1MC22SUB3_TightB_Tight_pt[ncbins];
+
+
+TFile * tfinLoose;
+TFile * tfinTight;
+TFile * tfinTightNA;
+TFile * tfinTightNB;
+TFile * tfinTightB;
 TFile * tfout;
 
 void cutStudy()
@@ -201,29 +228,85 @@ void cutStudy()
         }
     }
 
-    //     tfin = new TFile(Form("results/results_useTight_-2.4_2.4/%s.root",AnalNames[anal].data()));
-    //     for (int cbin = 0; cbin<ncbins; cbin++) {
-    //         vnA_pt[anal][cbin]  = (TH1D *) tfin->Get(Form("%d_%d/vnA",cmin[cbin],cmax[cbin]));
-    //         vnB_pt[anal][cbin]  = (TH1D *) tfin->Get(Form("%d_%d/vnB",cmin[cbin],cmax[cbin]));
-    //         vnAB_pt[anal][cbin] = (TH1D *) tfin->Get(Form("%d_%d/vnAB",cmin[cbin],cmax[cbin]));
-    //     }
-    //
-    //
-    // //-- average N1SUB2 and N1SUB3
-    // for (int cbin = 0; cbin<ncbins; cbin++) {
-    //     N1SUB2_eta[cbin] = (TH1D *) vnAB_eta[N1ASUB2][cbin]->Clone(Form("N1SUB2_eta_%d_%d",cmin[cbin],cmax[cbin]));
-    //     N1SUB2_pt[cbin] = (TH1D *) vnAB_pt[N1ASUB2][cbin]->Clone(Form("N1SUB2_pt_%d_%d",cmin[cbin],cmax[cbin]));
-    //
-    //     N1SUB3_eta[cbin] = (TH1D *) vnAB_eta[N1ASUB3][cbin]->Clone(Form("N1SUB3_eta_%d_%d",cmin[cbin],cmax[cbin]));
-    //     N1SUB3_eta[cbin]->Add(vnAB_eta[N1BSUB3][cbin]);
-    //     N1SUB3_eta[cbin]->Scale(0.5);
-    //     N1SUB3_pt[cbin] = (TH1D *) vnAB_pt[N1ASUB3][cbin]->Clone(Form("N1SUB3_pt_%d_%d",cmin[cbin],cmax[cbin]));
-    //     N1SUB3_pt[cbin]->Add(vnAB_pt[N1BSUB3][cbin]);
-    //     N1SUB3_pt[cbin]->Scale(0.5);
-    //
-    //     N1MC22SUB3_eta[cbin] = (TH1D *) vnAB_eta[N1MCp22SUB3][cbin]->Clone(Form("N1MC22SUB3_Sym_eta_%d_%d",cmin[cbin],cmax[cbin]));
-    //     N1MC22SUB3_pt[cbin] = (TH1D *) vnAB_pt[N1MCp22SUB3][cbin]->Clone(Form("N1MC22SUB3_Sym_pt_%d_%d",cmin[cbin],cmax[cbin]));
-    // }
+    tfinLoose = new TFile("results/results_useLoose_-2.4_2.4/N1MCp22SUB3.root");
+    tfinTight = new TFile("results/results_useTight_-2.4_2.4/N1MCp22SUB3.root");
+    tfinTightB = new TFile("results/results_useTightB_-2.4_2.4/N1MCp22SUB3.root");
+    for (int cbin = 0; cbin<ncbins; cbin++) {
+        N1MC22SUB2_Loose_pt[cbin] = (TH1D *) tfinLoose->Get(Form("%d_%d/vnAB",cmin[cbin],cmax[cbin]));
+        N1MC22SUB2_Tight_pt[cbin] = (TH1D *) tfinTight->Get(Form("%d_%d/vnAB",cmin[cbin],cmax[cbin]));
+        N1MC22SUB2_TightB_pt[cbin] = (TH1D *) tfinTightB->Get(Form("%d_%d/vnAB",cmin[cbin],cmax[cbin]));
+    }
+
+    //-- average N1SUB2 and N1SUB3
+    for (int cbin = 0; cbin<ncbins; cbin++) {
+        N1SUB3_Tight_eta[cbin] = (TH1D *) N1ASUB3_Tight_eta[cbin]->Clone(Form("N1SUB3_Tight_eta_%d_%d",cmin[cbin],cmax[cbin]));
+        N1SUB3_Tight_eta[cbin]->Add(N1BSUB3_Tight_eta[cbin]);
+        N1SUB3_Tight_eta[cbin]->Scale(0.5);
+    }
+
+
+    //-- calculate ratios
+    for (int cbin = 0; cbin<ncentbins; cbin++) {
+        ratN1SUB2_Loose_Tight_eta[cbin] = (TH1D *) N1SUB2_Loose_eta[cbin]->Clone(Form("ratN1SUB2_Loose_Tight_eta"));
+        for (int ebin = 1; ebin<=netabins; ebin++) {
+            double vnLoose = N1SUB2_Loose_eta[cbin]->GetBinContent(ebin);
+            double vnTight = N1SUB2_Tight_eta[cbin]->GetBinContent(ebin);
+            double vnLooseErr = N1SUB2_Loose_eta[cbin]->GetBinError(ebin);
+            double vnTightErr = N1SUB2_Tight_eta[cbin]->GetBinError(ebin);
+            ratN1SUB2_Loose_Tight_eta[cbin]->SetBinContent(ebin, vnLoose/vnTight);
+
+            double ratErr = pow(vnLooseErr/vnLoose,2) + pow(vnTightErr/vnTight,2) - 2*fabs((vnLooseErr/vnLoose)*(vnTightErr/vnTight))
+            ratErr = (vnLoose/vnTight)*sqrt( ratErr );
+            ratN1SUB2_Loose_Tight_eta[cbin]->SetBinError(ebin, ratErr);
+        }
+
+        ratN1SUB3_Loose_Tight_eta[cbin] = (TH1D *) N1SUB3_Loose_eta[cbin]->Clone(Form("ratN1SUB3_Loose_Tight_eta"));
+        for (int ebin = 1; ebin<=netabins; ebin++) {
+            double vnLoose = N1SUB3_Loose_eta[cbin]->GetBinContent(ebin);
+            double vnTight = N1SUB3_Tight_eta[cbin]->GetBinContent(ebin);
+            double vnLooseErr = N1SUB3_Loose_eta[cbin]->GetBinError(ebin);
+            double vnTightErr = N1SUB3_Tight_eta[cbin]->GetBinError(ebin);
+            ratN1SUB3_Loose_Tight_eta[cbin]->SetBinContent(ebin, vnLoose/vnTight);
+
+            double ratErr = pow(vnLooseErr/vnLoose,2) + pow(vnTightErr/vnTight,2) - 2*fabs((vnLooseErr/vnLoose)*(vnTightErr/vnTight))
+            ratErr = (vnLoose/vnTight)*sqrt( ratErr );
+            ratN1SUB3_Loose_Tight_eta[cbin]->SetBinError(ebin, ratErr);
+        }
+
+        ratN1MC22SUB3_Loose_Tight_eta[cbin] = (TH1D *) N1MC22SUB3_Loose_eta[cbin]->Clone(Form("ratN1MC22SUB3_Loose_Tight_eta"));
+        for (int ebin = 1; ebin<=netabins; ebin++) {
+            double vnLoose = N1MC22SUB3_Loose_eta[cbin]->GetBinContent(ebin);
+            double vnTight = N1MC22SUB3_Tight_eta[cbin]->GetBinContent(ebin);
+            double vnLooseErr = N1MC22SUB3_Loose_eta[cbin]->GetBinError(ebin);
+            double vnTightErr = N1MC22SUB3_Tight_eta[cbin]->GetBinError(ebin);
+            ratN1MC22SUB3_Loose_Tight_eta[cbin]->SetBinContent(ebin, vnLoose/vnTight);
+
+            double ratErr = pow(vnLooseErr/vnLoose,2) + pow(vnTightErr/vnTight,2) - 2*fabs((vnLooseErr/vnLoose)*(vnTightErr/vnTight))
+            ratErr = (vnLoose/vnTight)*sqrt( ratErr );
+            ratN1MC22SUB3_Loose_Tight_eta[cbin]->SetBinError(ebin, ratErr);
+        }
+
+        ratN1MC22SUB3_Loose_Tight_pt[cbin] = (TH1D *) N1MC22SUB3_Loose_pt[cbin]->Clone(Form("ratN1MC22SUB3_Loose_Tight_pt"));
+        for (int pbin = 1; pbin<=nptbins; pbin++) {
+            double vnLoose = N1MC22SUB3_Loose_pt[cbin]->GetBinContent(pbin);
+            double vnTight = N1MC22SUB3_Tight_pt[cbin]->GetBinContent(pbin);
+            double vnLooseErr = N1MC22SUB3_Loose_pt[cbin]->GetBinError(pbin);
+            double vnTightErr = N1MC22SUB3_Tight_pt[cbin]->GetBinError(pbin);
+            ratN1MC22SUB3_Loose_Tight_pt[cbin]->SetBinContent(ebin, vnLoose/vnTight);
+
+            double ratErr = pow(vnLooseErr/vnLoose,2) + pow(vnTightErr/vnTight,2) - 2*fabs((vnLooseErr/vnLoose)*(vnTightErr/vnTight))
+            ratErr = (vnLoose/vnTight)*sqrt( ratErr );
+            ratN1MC22SUB3_Loose_Tight_pt[cbin]->SetBinError(ebin, ratErr);
+        }
+
+        ratN1SUB2_TightB_Tight_eta[cbin] = (TH1D *) N1SUB2_TightB_eta[cbin]->Clone(Form("ratN1SUB2_TightB_Tight_eta"));
+        ratN1SUB3_TightB_Tight_eta[cbin] = (TH1D *) N1SUB3_TightB_eta[cbin]->Clone(Form("ratN1SUB3_TightB_Tight_eta"));
+        ratN1MC22SUB3_TightB_Tight_eta[cbin] = (TH1D *) N1MC22SUB3_TightB_eta[cbin]->Clone(Form("ratN1MC22SUB3_TightB_Tight_eta"));
+        ratN1MC22SUB3_TightB_Tight_pt[cbin] = (TH1D *) N1MC22SUB3_TightB_pt[cbin]->Clone(Form("ratN1MC22SUB3_TightB_Tight_pt"));
+    }
+
+
+
 
 
 }
