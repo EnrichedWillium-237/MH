@@ -255,7 +255,7 @@ void getVNInt()
     legv1oddEta->AddEntry(N1SUB3_eta[0],"v_{1}^{odd}{SUB3}","p");
     legv1oddEta->Draw();
 
-    cv1oddEta->Print("figures/integralVN/v1odd_eta_SUB2_SUB3.png","png");
+    cv1oddEta->Print("figures/integralVN/v1odd_eta_SUB2_SUB3.pdf","pdf");
 
 
 
@@ -334,7 +334,7 @@ void getVNInt()
     legv1pmEta->AddEntry(vnA_eta[N1BSUB3][0],"v_{1}{HF- only}","p");
     legv1pmEta->Draw();
 
-    cv1pmEta->Print("figures/integralVN/v1pm_eta_SUB3.png","png");
+    cv1pmEta->Print("figures/integralVN/v1pm_eta_SUB3.pdf","pdf");
 
 
 
@@ -400,7 +400,7 @@ void getVNInt()
     txv1evenPt_label->AddText("|#eta| < 2.4");
     txv1evenPt_label->Draw();
 
-    cv1evenPt->Print("figures/integralVN/v1even_pt_N1MC22SUB3.png","png");
+    cv1evenPt->Print("figures/integralVN/v1even_pt_N1MC22SUB3.pdf","pdf");
 
 
 
@@ -505,7 +505,7 @@ void getVNInt()
 
     legv1evenEta->Draw();
 
-    cv1evenEta->Print("figures/integralVN/v1even_eta_N1MC22SUB3.png","png");
+    cv1evenEta->Print("figures/integralVN/v1even_eta_N1MC22SUB3.pdf","pdf");
 
 
 }

@@ -156,7 +156,7 @@ void getVNDiff()
         txN1MCSUB3_label->AddText(Form("%d - %d%%",cmin[cbin],cmax[cbin]));
         txN1MCSUB3_label->Draw();
 
-        cN1MCSUB3->Print(Form("figures/differentialVN/N1MCSUB3/vndiff_%d_%d.png",cmin[cbin],cmax[cbin]),"png");
+        cN1MCSUB3->Print(Form("figures/differentialVN/N1MCSUB3/vndiff_%d_%d.pdf",cmin[cbin],cmax[cbin]),"pdf");
         cN1MCSUB3->Close();
     }
 
@@ -236,7 +236,7 @@ void getVNDiff()
         txN1SUB3_label->AddText(Form("%d - %d%%",cmin[cbin],cmax[cbin]));
         txN1SUB3_label->Draw();
 
-        cN1SUB3->Print(Form("figures/differentialVN/N1SUB3/vndiff_%d_%d.png",cmin[cbin],cmax[cbin]),"png");
+        cN1SUB3->Print(Form("figures/differentialVN/N1SUB3/vndiff_%d_%d.pdf",cmin[cbin],cmax[cbin]),"pdf");
         if (cbin != 0) cN1SUB3->Close();
     }
 
