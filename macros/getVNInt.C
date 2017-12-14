@@ -180,7 +180,7 @@ void getVNInt()
 
 
 
-    //-- centrality dependence of integral v1^odd(eta)
+    //-- centrality dependence of integral v1^odd(eta) with both 2-and 3-subevent methods
     TCanvas * cv1oddEta = new TCanvas("cv1oddEta", "cv1oddEta", 1300, 650);
     cv1oddEta->Divide(5,2,0,0);
     for (int cbin = 0; cbin<10; cbin++) {

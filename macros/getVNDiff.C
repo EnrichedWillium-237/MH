@@ -89,7 +89,7 @@ void getVNDiff()
 
             TH1D * hN1MCSUB3 = new TH1D(Form("hN1MCSUB3_c%d_e%d",cbin,ebin), "", 50, 0, 12);
             hN1MCSUB3->SetXTitle("p_{T} (GeV/c)");
-            hN1MCSUB3->SetYTitle("v_{1}");
+            hN1MCSUB3->SetYTitle("v_{1}^{even}");
             hN1MCSUB3->GetYaxis()->SetRangeUser(-0.035, 0.26);
             //if (cbin == 8 || cbin == 9) hN1MCSUB3->GetYaxis()->SetRangeUser(-0.035, 0.36);
             hN1MCSUB3->GetXaxis()->CenterTitle();
@@ -176,7 +176,7 @@ void getVNDiff()
 
             TH1D * hN1SUB3 = new TH1D(Form("hN1SUB3_c%d_e%d",cbin,ebin), "", 50, 0, 12);
             hN1SUB3->SetXTitle("p_{T} (GeV/c)");
-            hN1SUB3->SetYTitle("v_{1}");
+            hN1SUB3->SetYTitle("v_{1}^{odd}");
             hN1SUB3->GetYaxis()->SetRangeUser(-0.1, 0.1);
             if (cbin == 8 || cbin == 9) hN1SUB3->GetYaxis()->SetRangeUser(-0.2, 0.2);
             if (cbin == 10) hN1SUB3->GetYaxis()->SetRangeUser(-0.3, 0.3);
