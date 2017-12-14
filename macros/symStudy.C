@@ -62,6 +62,10 @@ TH1D * N1SUB2_RelErr_eta[ncbins];
 TH1D * N1SUB3_RelErr_eta[ncbins];
 TH1D * N1MC22SUB3_RelErr_eta[ncbins];
 
+TH1D * systN1SUB2_eta;
+TH1D * systN1SUB3_eta;
+TH1D * systN1MC22SUB3_eta;
+
 TH1D * N1SUB2_Sym_pt[ncbins];
 TH1D * N1SUB3_Sym_pt[ncbins];
 TH1D * N1MC22SUB3_Sym_pt[ncbins];
@@ -73,6 +77,10 @@ TH1D * N1MC22SUB3_Syst_pt[ncbins];
 TH1D * N1SUB2_RelErr_pt[ncbins];
 TH1D * N1SUB3_RelErr_pt[ncbins];
 TH1D * N1MC22SUB3_RelErr_pt[ncbins];
+
+TH1D * systN1SUB2_pt;
+TH1D * systN1SUB3_pt;
+TH1D * systN1MC22SUB3_pt;
 
 TF1 * fit_N1SUB2_RelErr_eta[ncbins];
 TF1 * fit_N1SUB3_RelErr_eta[ncbins];
@@ -115,6 +123,13 @@ void symStudy()
         N1SUB3_RelErr_pt[cbin] = new TH1D(Form("N1SUB3_RelErr_pt_%d_%d",cmin[cbin],cmax[cbin]), "", nptbins, ptbins);
         N1MC22SUB3_RelErr_pt[cbin] = new TH1D(Form("N1MC22SUB3_RelErr_pt_%d_%d",cmin[cbin],cmax[cbin]), "", nptbins, ptbins);
     }
+    systN1SUB2_eta = new TH1D("systN1SUB2_eta", "", ncbins, 0, ncbins);
+    systN1SUB3_eta = new TH1D("systN1SUB3_eta", "", ncbins, 0, ncbins);
+    systN1MC22SUB3_eta = new TH1D("systN1MC22SUB3_eta", "", ncbins, 0, ncbins);
+
+    systN1SUB2_pt = new TH1D("systN1SUB2_pt", "", ncbins, 0, ncbins);
+    systN1SUB3_pt = new TH1D("systN1SUB3_pt", "", ncbins, 0, ncbins);
+    systN1MC22SUB3_pt = new TH1D("systN1MC22SUB3_pt", "", ncbins, 0, ncbins);
 
     string prevname = "";
     for (int anal = 0; anal<nanals; anal++) {
@@ -248,27 +263,23 @@ void symStudy()
         }
 
         // get percent error
-        double percErr = 1;
         N1SUB2_Syst_eta[cbin] = (TH1D *) N1SUB2_Sym_eta[cbin]->Clone(Form("N1SUB2_Syst_eta_%d_%d",cmin[cbin],cmax[cbin]));
         fit_N1SUB2_RelErr_eta[cbin] = new TF1(Form("fit_N1SUB2_RelErr_eta_%d",cbin), "pol0", 0, 2.4);
         N1SUB2_RelErr_eta[cbin]->Fit(fit_N1SUB2_RelErr_eta[cbin],"QR");
-        percErr = fit_N1SUB2_RelErr_eta[cbin]->GetParameter(0);
-        for (int ebin = 0; ebin<netabins; ebin++) {
-            double vnval = N1SUB2_Syst_eta[cbin]->GetBinContent(ebin+1);
-            N1SUB2_Syst_eta[cbin]->SetBinError(ebin+1, percErr*vnval);
-        }
+        systN1SUB2_eta->SetBinContent(cbin+1, fit_N1SUB2_RelErr_eta[cbin]->GetParameter(0));
+        systN1SUB2_eta->SetBinError(cbin+1, fit_N1SUB2_RelErr_eta[cbin]->GetChisquare());
+
         N1SUB3_Syst_eta[cbin] = (TH1D *) N1SUB3_Sym_eta[cbin]->Clone(Form("N1SUB3_Syst_eta_%d_%d",cmin[cbin],cmax[cbin]));
         fit_N1SUB3_RelErr_eta[cbin] = new TF1(Form("fit_N1SUB3_RelErr_eta_%d",cbin), "pol0", 0, 2.4);
         N1SUB3_RelErr_eta[cbin]->Fit(fit_N1SUB3_RelErr_eta[cbin],"QR");
-        percErr = fit_N1SUB3_RelErr_eta[cbin]->GetParameter(0);
-        for (int ebin = 0; ebin<netabins; ebin++) {
-            double vnval = N1SUB3_Syst_eta[cbin]->GetBinContent(ebin+1);
-            N1SUB3_Syst_eta[cbin]->SetBinError(ebin+1, percErr*vnval);
-        }
+        systN1SUB3_eta->SetBinContent(cbin+1, fit_N1SUB3_RelErr_eta[cbin]->GetParameter(0));
+        systN1SUB3_eta->SetBinError(cbin+1, fit_N1SUB3_RelErr_eta[cbin]->GetChisquare());
+
         N1MC22SUB3_Syst_pt[cbin] = (TH1D *) N1MC22SUB3_Sym_pt[cbin]->Clone(Form("N1MC22SUB3_Syst_pt_%d_%d",cmin[cbin],cmax[cbin]));
         fit_N1MC22SUB3_RelErr_pt[cbin] = new TF1(Form("fit_N1MC22SUB3_RelErr_pt_%d",cbin), "pol0", 0, 12);
         N1MC22SUB3_RelErr_pt[cbin]->Fit(fit_N1MC22SUB3_RelErr_pt[cbin],"QR");
-        percErr = fit_N1MC22SUB3_RelErr_pt[cbin]->GetParameter(0);
+        systN1MC22SUB3_pt->SetBinContent(cbin+1, fit_N1MC22SUB3_RelErr_pt[cbin]->GetParameter(0));
+        systN1MC22SUB3_pt->SetBinError(cbin+1, fit_N1MC22SUB3_RelErr_pt[cbin]->GetChisquare());
     }
 
 
@@ -330,7 +341,7 @@ void symStudy()
         else if (cbin == 5) txtxN1SUB2_eta_fit = new TPaveText(0.23, 0.29, 0.60, 0.35, "NDC");
         else txtxN1SUB2_eta_fit = new TPaveText(0.04, 0.29, 0.49, 0.35, "NDC");
         SetTPaveTxt(txtxN1SUB2_eta_fit, 16);
-        txtxN1SUB2_eta_fit->AddText(Form("mean = %1.4f",fit_N1SUB2_RelErr_eta[cbin]->GetParameter(0)));
+        txtxN1SUB2_eta_fit->AddText(Form("mean = %1.4f",systN1SUB2_eta->GetBinContent(cbin+1)));
         txtxN1SUB2_eta_fit->Draw();
     }
     cN1SUB2_eta->cd(1);
@@ -406,7 +417,7 @@ void symStudy()
         else if (cbin == 5) txtxN1SUB3_eta_fit = new TPaveText(0.23, 0.29, 0.60, 0.35, "NDC");
         else txtxN1SUB3_eta_fit = new TPaveText(0.04, 0.29, 0.49, 0.35, "NDC");
         SetTPaveTxt(txtxN1SUB3_eta_fit, 16);
-        txtxN1SUB3_eta_fit->AddText(Form("mean = %1.4f",fit_N1SUB3_RelErr_eta[cbin]->GetParameter(0)));
+        txtxN1SUB3_eta_fit->AddText(Form("mean = %1.4f",systN1SUB3_eta->GetBinContent(cbin+1)));
         txtxN1SUB3_eta_fit->Draw();
     }
     cN1SUB3_eta->cd(1);
@@ -482,7 +493,7 @@ void symStudy()
         else if (cbin == 5) txtxN1MC22SUB3_pt_fit = new TPaveText(0.23, 0.29, 0.60, 0.35, "NDC");
         else txtxN1MC22SUB3_pt_fit = new TPaveText(0.04, 0.29, 0.49, 0.35, "NDC");
         SetTPaveTxt(txtxN1MC22SUB3_pt_fit, 16);
-        txtxN1MC22SUB3_pt_fit->AddText(Form("mean = %1.4f",fit_N1SUB3_RelErr_eta[cbin]->GetParameter(0)));
+        txtxN1MC22SUB3_pt_fit->AddText(Form("mean = %1.4f",systN1MC22SUB3_pt->GetBinContent(cbin+1)));
         txtxN1MC22SUB3_pt_fit->Draw();
     }
     cN1MC22SUB3_pt->cd(1);

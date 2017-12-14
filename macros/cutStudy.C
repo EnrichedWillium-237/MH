@@ -25,7 +25,6 @@ static const double etabins[] = {-2.4, -2.0, -1.6, -1.2, -0.8, -0.4,  0.0,
 static const int ncbins = 13;
 static const int cmin[] = {0,  5, 10, 15, 20, 25, 30, 35, 40, 50, 60,  0, 30,  50};
 static const int cmax[] = {5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70, 30, 50, 100};
-static const int centBins[] = {0, 5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70};
 static const int nanals = 14;
 enum AnalType {
     N1ASUB2,     N1ASUB3,     N1BSUB2,   N1BSUB3,   N112ASUB2,   N112ASUB3,   N123ASUB2, N123ASUB3,
@@ -299,7 +298,7 @@ void cutStudy()
         }
         fitN1SUB3_Loose_Tight_eta[cbin] = new TF1(Form("fitN1SUB3_Loose_Tight_eta_%d",cbin), "pol0", -2.4, 2.4);
         ratN1SUB3_Loose_Tight_eta[cbin]->Fit(fitN1SUB3_Loose_Tight_eta[cbin],"QR");
-        systN1SUB2_Loose_Tight_eta->SetBinContent(cbin+1, fitN1SUB3_Loose_Tight_eta[cbin]->GetParameter(0));
+        systN1SUB3_Loose_Tight_eta->SetBinContent(cbin+1, fitN1SUB3_Loose_Tight_eta[cbin]->GetParameter(0));
         systN1SUB3_Loose_Tight_eta->SetBinError(cbin+1, fitN1SUB3_Loose_Tight_eta[cbin]->GetChisquare());
 
         ratN1MC22SUB3_Loose_Tight_eta[cbin] = (TH1D *) N1MC22SUB3_Loose_eta[cbin]->Clone(Form("ratN1MC22SUB3_Loose_Tight_eta"));
@@ -350,8 +349,8 @@ void cutStudy()
         }
         fitN1SUB2_TightB_Tight_eta[cbin] = new TF1(Form("fitN1SUB2_TightB_Tight_eta_%d",cbin), "pol0", -2.4, 2.4);
         ratN1SUB2_TightB_Tight_eta[cbin]->Fit(fitN1SUB2_TightB_Tight_eta[cbin],"QR");
-        systN1SUB2_Loose_Tight_eta->SetBinContent(cbin+1, fitN1SUB2_TightB_Tight_eta[cbin]->GetParameter(0));
-        systN1SUB2_Loose_Tight_eta->SetBinError(cbin+1, fitN1SUB2_TightB_Tight_eta[cbin]->GetChisquare());
+        systN1SUB2_TightB_Tight_eta->SetBinContent(cbin+1, fitN1SUB2_TightB_Tight_eta[cbin]->GetParameter(0));
+        systN1SUB2_TightB_Tight_eta->SetBinError(cbin+1, fitN1SUB2_TightB_Tight_eta[cbin]->GetChisquare());
 
         ratN1SUB3_TightB_Tight_eta[cbin] = (TH1D *) N1SUB3_TightB_eta[cbin]->Clone(Form("ratN1SUB3_TightB_Tight_eta"));
         for (int ebin = 1; ebin<=netabins; ebin++) {
@@ -367,8 +366,8 @@ void cutStudy()
         }
         fitN1SUB3_TightB_Tight_eta[cbin] = new TF1(Form("fitN1SUB3_TightB_Tight_eta_%d",cbin), "pol0", -2.4, 2.4);
         ratN1SUB3_TightB_Tight_eta[cbin]->Fit(fitN1SUB3_TightB_Tight_eta[cbin],"QR");
-        systN1SUB3_Loose_Tight_eta->SetBinContent(cbin+1, fitN1SUB3_TightB_Tight_eta[cbin]->GetParameter(0));
-        systN1SUB3_Loose_Tight_eta->SetBinError(cbin+1, fitN1SUB3_TightB_Tight_eta[cbin]->GetChisquare());
+        systN1SUB3_TightB_Tight_eta->SetBinContent(cbin+1, fitN1SUB3_TightB_Tight_eta[cbin]->GetParameter(0));
+        systN1SUB3_TightB_Tight_eta->SetBinError(cbin+1, fitN1SUB3_TightB_Tight_eta[cbin]->GetChisquare());
 
         ratN1MC22SUB3_TightB_Tight_eta[cbin] = (TH1D *) N1MC22SUB3_TightB_eta[cbin]->Clone(Form("ratN1MC22SUB3_TightB_Tight_eta"));
         for (int ebin = 1; ebin<=netabins; ebin++) {
@@ -384,8 +383,8 @@ void cutStudy()
         }
         fitN1MC22SUB3_TightB_Tight_eta[cbin] = new TF1(Form("fitN1MC22SUB3_TightB_Tight_eta_%d",cbin), "pol0", -2.4, 2.4);
         ratN1MC22SUB3_TightB_Tight_eta[cbin]->Fit(fitN1MC22SUB3_TightB_Tight_eta[cbin],"QR");
-        systN1MC22SUB3_Loose_Tight_eta->SetBinContent(cbin+1, fitN1MC22SUB3_TightB_Tight_eta[cbin]->GetParameter(0));
-        systN1MC22SUB3_Loose_Tight_eta->SetBinError(cbin+1, fitN1MC22SUB3_TightB_Tight_eta[cbin]->GetChisquare());
+        systN1MC22SUB3_TightB_Tight_eta->SetBinContent(cbin+1, fitN1MC22SUB3_TightB_Tight_eta[cbin]->GetParameter(0));
+        systN1MC22SUB3_TightB_Tight_eta->SetBinError(cbin+1, fitN1MC22SUB3_TightB_Tight_eta[cbin]->GetChisquare());
 
         ratN1MC22SUB3_TightB_Tight_pt[cbin] = (TH1D *) N1MC22SUB3_TightB_pt[cbin]->Clone(Form("ratN1MC22SUB3_TightB_Tight_pt"));
         for (int pbin = 1; pbin<=nptbins; pbin++) {
@@ -401,8 +400,8 @@ void cutStudy()
         }
         fitN1MC22SUB3_TightB_Tight_pt[cbin] = new TF1(Form("fitN1MC22SUB3_TightB_Tight_pt_%d",cbin), "pol0", 0, 12);
         ratN1MC22SUB3_TightB_Tight_pt[cbin]->Fit(fitN1MC22SUB3_TightB_Tight_pt[cbin],"QR");
-        systN1MC22SUB3_Loose_Tight_pt->SetBinContent(cbin+1, fitN1MC22SUB3_TightB_Tight_pt[cbin]->GetParameter(0));
-        systN1MC22SUB3_Loose_Tight_pt->SetBinError(cbin+1, fitN1MC22SUB3_TightB_Tight_pt[cbin]->GetChisquare());
+        systN1MC22SUB3_TightB_Tight_pt->SetBinContent(cbin+1, fitN1MC22SUB3_TightB_Tight_pt[cbin]->GetParameter(0));
+        systN1MC22SUB3_TightB_Tight_pt->SetBinError(cbin+1, fitN1MC22SUB3_TightB_Tight_pt[cbin]->GetChisquare());
     }
 
     //-- fit ratios
@@ -562,7 +561,7 @@ void cutStudy()
             if (cbin == 5) txtxratN1SUB2_eta_0_fit = new TPaveText(0.23, 0.29, 0.60, 0.35, "NDC");
             else txtxratN1SUB2_eta_0_fit = new TPaveText(0.04, 0.29, 0.49, 0.35, "NDC");
             SetTPaveTxt(txtxratN1SUB2_eta_0_fit, 16);
-            txtxratN1SUB2_eta_0_fit->AddText(Form("mean = %1.4f",systN1SUB2_Loose_Tight_eta->GetBinContent(cbin+1)));
+            txtxratN1SUB2_eta_0_fit->AddText(Form("mean = %1.4f",systN1SUB2_Loose_Tight_eta->GetBinContent(cbin-4)));
             txtxratN1SUB2_eta_0_fit->Draw();
         }
     }
@@ -727,7 +726,7 @@ void cutStudy()
             if (cbin == 5) txtxratN1SUB3_eta_0_fit = new TPaveText(0.23, 0.29, 0.60, 0.35, "NDC");
             else txtxratN1SUB3_eta_0_fit = new TPaveText(0.04, 0.29, 0.49, 0.35, "NDC");
             SetTPaveTxt(txtxratN1SUB3_eta_0_fit, 16);
-            txtxratN1SUB3_eta_0_fit->AddText(Form("mean = %1.4f",systN1SUB3_Loose_Tight_eta->GetBinContent(cbin+1)));
+            txtxratN1SUB3_eta_0_fit->AddText(Form("mean = %1.4f",systN1SUB3_Loose_Tight_eta->GetBinContent(cbin-4)));
             txtxratN1SUB3_eta_0_fit->Draw();
         }
     }
