@@ -80,14 +80,13 @@ void cutStudy()
 
     string prevname = "";
     for (int ebin = 0; ebin<netabins; ebin++) {
-        string prevname = Form("figures/figures_useLoose_%1.1f_%1.1f/N1SUB2/data/integral.dat",etabins[ebin],etabins[ebin+1]);
+        prevname = Form("figures/figures_useLoose_%1.1f_%1.1f/N1SUB2/data/integral.dat",etabins[ebin],etabins[ebin+1]);
         if (prevname.length()>1) {
             int centmin[40];
             int centmax[40];
             double y[40];
             double stat[40];
             FILE * fin = fopen(prevname.data(),"r");
-            cout<<fin<<endl;
             char buf[80];
             int cbin = 0;
             while (fgets(buf,80,fin)!=NULL) {
@@ -98,11 +97,110 @@ void cutStudy()
             }
             fclose(fin);
         }
+        prevname = Form("figures/figures_useLoose_%1.1f_%1.1f/N1SUB3/data/integral.dat",etabins[ebin],etabins[ebin+1]);
+        if (prevname.length()>1) {
+            int centmin[40];
+            int centmax[40];
+            double y[40];
+            double stat[40];
+            FILE * fin = fopen(prevname.data(),"r");
+            char buf[80];
+            int cbin = 0;
+            while (fgets(buf,80,fin)!=NULL) {
+                sscanf(buf,"%d\t%d\t%lf\t%lf\n",&centmin[cbin],&centmax[cbin],&y[cbin],&stat[cbin]);
+                N1SUB3_Loose_eta[cbin]->SetBinContent(ebin+1,y[cbin]);
+                N1SUB3_Loose_eta[cbin]->SetBinError(ebin+1,stat[cbin]);
+                ++cbin;
+            }
+            fclose(fin);
+        }
+        prevname = Form("figures/figures_useTightB_%1.1f_%1.1f/N1SUB2/data/integral.dat",etabins[ebin],etabins[ebin+1]);
+        if (prevname.length()>1) {
+            int centmin[40];
+            int centmax[40];
+            double y[40];
+            double stat[40];
+            FILE * fin = fopen(prevname.data(),"r");
+            char buf[80];
+            int cbin = 0;
+            while (fgets(buf,80,fin)!=NULL) {
+                sscanf(buf,"%d\t%d\t%lf\t%lf\n",&centmin[cbin],&centmax[cbin],&y[cbin],&stat[cbin]);
+                N1SUB2_TightB_eta[cbin]->SetBinContent(ebin+1,y[cbin]);
+                N1SUB2_TightB_eta[cbin]->SetBinError(ebin+1,stat[cbin]);
+                ++cbin;
+            }
+            fclose(fin);
+        }
+        prevname = Form("figures/figures_useTightB_%1.1f_%1.1f/N1SUB3/data/integral.dat",etabins[ebin],etabins[ebin+1]);
+        if (prevname.length()>1) {
+            int centmin[40];
+            int centmax[40];
+            double y[40];
+            double stat[40];
+            FILE * fin = fopen(prevname.data(),"r");
+            char buf[80];
+            int cbin = 0;
+            while (fgets(buf,80,fin)!=NULL) {
+                sscanf(buf,"%d\t%d\t%lf\t%lf\n",&centmin[cbin],&centmax[cbin],&y[cbin],&stat[cbin]);
+                N1SUB3_TightB_eta[cbin]->SetBinContent(ebin+1,y[cbin]);
+                N1SUB3_TightB_eta[cbin]->SetBinError(ebin+1,stat[cbin]);
+                ++cbin;
+            }
+            fclose(fin);
+        }
+        prevname = Form("figures/figures_useTight_%1.1f_%1.1f/N1ASUB2/data/integral.dat",etabins[ebin],etabins[ebin+1]);
+        if (prevname.length()>1) {
+            int centmin[40];
+            int centmax[40];
+            double y[40];
+            double stat[40];
+            FILE * fin = fopen(prevname.data(),"r");
+            char buf[80];
+            int cbin = 0;
+            while (fgets(buf,80,fin)!=NULL) {
+                sscanf(buf,"%d\t%d\t%lf\t%lf\n",&centmin[cbin],&centmax[cbin],&y[cbin],&stat[cbin]);
+                N1SUB2_Tight_eta[cbin]->SetBinContent(ebin+1,y[cbin]);
+                N1SUB2_Tight_eta[cbin]->SetBinError(ebin+1,stat[cbin]);
+                ++cbin;
+            }
+            fclose(fin);
+        }
+        prevname = Form("figures/figures_useTight_%1.1f_%1.1f/N1ASUB3/data/integral.dat",etabins[ebin],etabins[ebin+1]);
+        if (prevname.length()>1) {
+            int centmin[40];
+            int centmax[40];
+            double y[40];
+            double stat[40];
+            FILE * fin = fopen(prevname.data(),"r");
+            char buf[80];
+            int cbin = 0;
+            while (fgets(buf,80,fin)!=NULL) {
+                sscanf(buf,"%d\t%d\t%lf\t%lf\n",&centmin[cbin],&centmax[cbin],&y[cbin],&stat[cbin]);
+                N1ASUB3_Tight_eta[cbin]->SetBinContent(ebin+1,y[cbin]);
+                N1ASUB3_Tight_eta[cbin]->SetBinError(ebin+1,stat[cbin]);
+                ++cbin;
+            }
+            fclose(fin);
+        }
+        prevname = Form("figures/figures_useTight_%1.1f_%1.1f/N1BSUB3/data/integral.dat",etabins[ebin],etabins[ebin+1]);
+        if (prevname.length()>1) {
+            int centmin[40];
+            int centmax[40];
+            double y[40];
+            double stat[40];
+            FILE * fin = fopen(prevname.data(),"r");
+            char buf[80];
+            int cbin = 0;
+            while (fgets(buf,80,fin)!=NULL) {
+                sscanf(buf,"%d\t%d\t%lf\t%lf\n",&centmin[cbin],&centmax[cbin],&y[cbin],&stat[cbin]);
+                N1BSUB3_Tight_eta[cbin]->SetBinContent(ebin+1,y[cbin]);
+                N1BSUB3_Tight_eta[cbin]->SetBinError(ebin+1,stat[cbin]);
+                ++cbin;
+            }
+            fclose(fin);
+        }
     }
-    //
-    //
-    //     }
-    //
+
     //     tfin = new TFile(Form("results/results_useTight_-2.4_2.4/%s.root",AnalNames[anal].data()));
     //     for (int cbin = 0; cbin<ncbins; cbin++) {
     //         vnA_pt[anal][cbin]  = (TH1D *) tfin->Get(Form("%d_%d/vnA",cmin[cbin],cmax[cbin]));
