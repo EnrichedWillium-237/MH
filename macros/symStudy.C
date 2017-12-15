@@ -54,10 +54,6 @@ TH1D * N1SUB2_Sym_eta[ncbins];
 TH1D * N1SUB3_Sym_eta[ncbins];
 TH1D * N1MC22SUB3_Sym_eta[ncbins];
 
-TH1D * N1SUB2_Syst_eta[ncbins];
-TH1D * N1SUB3_Syst_eta[ncbins];
-TH1D * N1MC22SUB3_Syst_eta[ncbins];
-
 TH1D * N1SUB2_RelErr_eta[ncbins];
 TH1D * N1SUB3_RelErr_eta[ncbins];
 TH1D * N1MC22SUB3_RelErr_eta[ncbins];
@@ -69,10 +65,6 @@ TH1D * systN1MC22SUB3_eta;
 TH1D * N1SUB2_Sym_pt[ncbins];
 TH1D * N1SUB3_Sym_pt[ncbins];
 TH1D * N1MC22SUB3_Sym_pt[ncbins];
-
-TH1D * N1SUB2_Syst_pt[ncbins];
-TH1D * N1SUB3_Syst_pt[ncbins];
-TH1D * N1MC22SUB3_Syst_pt[ncbins];
 
 TH1D * N1SUB2_RelErr_pt[ncbins];
 TH1D * N1SUB3_RelErr_pt[ncbins];
@@ -263,19 +255,16 @@ void symStudy()
         }
 
         // get percent error
-        N1SUB2_Syst_eta[cbin] = (TH1D *) N1SUB2_Sym_eta[cbin]->Clone(Form("N1SUB2_Syst_eta_%d_%d",cmin[cbin],cmax[cbin]));
         fit_N1SUB2_RelErr_eta[cbin] = new TF1(Form("fit_N1SUB2_RelErr_eta_%d",cbin), "pol0", 0, 2.4);
         N1SUB2_RelErr_eta[cbin]->Fit(fit_N1SUB2_RelErr_eta[cbin],"QR");
         systN1SUB2_eta->SetBinContent(cbin+1, fit_N1SUB2_RelErr_eta[cbin]->GetParameter(0));
         systN1SUB2_eta->SetBinError(cbin+1, fit_N1SUB2_RelErr_eta[cbin]->GetChisquare());
 
-        N1SUB3_Syst_eta[cbin] = (TH1D *) N1SUB3_Sym_eta[cbin]->Clone(Form("N1SUB3_Syst_eta_%d_%d",cmin[cbin],cmax[cbin]));
         fit_N1SUB3_RelErr_eta[cbin] = new TF1(Form("fit_N1SUB3_RelErr_eta_%d",cbin), "pol0", 0, 2.4);
         N1SUB3_RelErr_eta[cbin]->Fit(fit_N1SUB3_RelErr_eta[cbin],"QR");
         systN1SUB3_eta->SetBinContent(cbin+1, fit_N1SUB3_RelErr_eta[cbin]->GetParameter(0));
         systN1SUB3_eta->SetBinError(cbin+1, fit_N1SUB3_RelErr_eta[cbin]->GetChisquare());
 
-        N1MC22SUB3_Syst_pt[cbin] = (TH1D *) N1MC22SUB3_Sym_pt[cbin]->Clone(Form("N1MC22SUB3_Syst_pt_%d_%d",cmin[cbin],cmax[cbin]));
         fit_N1MC22SUB3_RelErr_pt[cbin] = new TF1(Form("fit_N1MC22SUB3_RelErr_pt_%d",cbin), "pol0", 0, 12);
         N1MC22SUB3_RelErr_pt[cbin]->Fit(fit_N1MC22SUB3_RelErr_pt[cbin],"QR");
         systN1MC22SUB3_pt->SetBinContent(cbin+1, fit_N1MC22SUB3_RelErr_pt[cbin]->GetParameter(0));
@@ -283,10 +272,53 @@ void symStudy()
     }
 
 
+
+
+    //-- write out to file
+
+    if (!fopen("figures/integralVN","r")) system("mkdir figures/integralVN");
+    if (!fopen("figures/integralVN/data","r")) system("mkdir figures/integralVN/data");
+
+    tfout = new TFile("figures/integralVN/data/symmetrizedVN.root","recreate");
+    tfout->cd();
+    // TDirectory * symdir = (TDirectory *) tfout->mkdir("symmeterizedVN");
+    // symdir->cd();
+    systN1SUB2_eta->Write();
+    systN1SUB3_eta->Write();
+    systN1MC22SUB3_eta->Write();
+    systN1SUB2_pt->Write();
+    systN1SUB3_pt->Write();
+    systN1MC22SUB3_pt->Write();
+    for (int cbin = 0; cbin<ncbins; cbin++) {
+        TDirectory * cdir = (TDirectory *) tfout->mkdir(Form("%d_%d",cmin[cbin],cmax[cbin]));
+        cdir->cd();
+        N1SUB2_Sym_eta[cbin]->Write();
+        N1SUB3_Sym_eta[cbin]->Write();
+        N1MC22SUB3_Sym_eta[cbin]->Write();
+        N1SUB2_RelErr_eta[cbin]->Write();
+        N1SUB3_RelErr_eta[cbin]->Write();
+        N1MC22SUB3_RelErr_eta[cbin]->Write();
+        N1SUB2_Sym_pt[cbin]->Write();
+        N1SUB3_Sym_pt[cbin]->Write();
+        N1MC22SUB3_Sym_pt[cbin]->Write();
+        N1SUB2_RelErr_pt[cbin]->Write();
+        N1SUB3_RelErr_pt[cbin]->Write();
+        N1MC22SUB3_RelErr_pt[cbin]->Write();
+        fit_N1SUB2_RelErr_eta[cbin]->Write();
+        fit_N1SUB3_RelErr_eta[cbin]->Write();
+        // fit_N1MC22SUB3_RelErr_eta[cbin]->Write();
+        // fit_N1SUB2_RelErr_pt[cbin]->Write();
+        //fit_N1SUB3_RelErr_pt[cbin]->Write();
+        fit_N1MC22SUB3_RelErr_pt[cbin]->Write();
+    }
+    tfout->Close();
+
+
+    //-- make plots ---------------//
+
     TLine * lnEta = new TLine(-2.4, 0.0, 2.4, 0.0);
     TLine * lnPt  = new TLine(0.0, 0.0, 12.0, 0.0);
 
-    if (!fopen("figures/integralVN","r")) system("mkdir figures/integralVN");
     if (!fopen("figures/integralVN/systematics","r")) system("mkdir figures/integralVN/systematics");
 
 
