@@ -302,8 +302,8 @@ void getVNSyst()
         if (cbin > 4) padv1evenPt->SetBottomMargin(0.25);
 
         TH1D * hv1evenPt = new TH1D(Form("hv1evenPt_%d",cbin), "", 50, 0, 12);
-        hv1evenPt->SetXTitle("#eta");
-        hv1evenPt->SetYTitle("v_{1}^{odd}");
+        hv1evenPt->SetXTitle("p_{T} (GeV/c)");
+        hv1evenPt->SetYTitle("v_{1}^{even}");
         hv1evenPt->GetXaxis()->CenterTitle();
         hv1evenPt->GetYaxis()->CenterTitle();
         hv1evenPt->GetYaxis()->SetRangeUser(-0.05, 0.22);
@@ -446,8 +446,8 @@ void getVNSyst()
         if (cbin > 4) padv1evenPt_cut->SetBottomMargin(0.25);
 
         TH1D * hv1evenPt_cut = new TH1D(Form("hv1evenPt_cut_%d",cbin), "", 50, 0, 12);
-        hv1evenPt_cut->SetXTitle("#eta");
-        hv1evenPt_cut->SetYTitle("v_{1}^{odd}");
+        hv1evenPt_cut->SetXTitle("p_{T} (GeV/c)");
+        hv1evenPt_cut->SetYTitle("v_{1}^{even}");
         hv1evenPt_cut->GetXaxis()->CenterTitle();
         hv1evenPt_cut->GetYaxis()->CenterTitle();
         hv1evenPt_cut->GetYaxis()->SetRangeUser(-0.05, 0.22);
@@ -588,8 +588,8 @@ void getVNSyst()
         if (cbin > 4) padv1evenPt_final->SetBottomMargin(0.25);
 
         TH1D * hv1evenPt_final = new TH1D(Form("hv1evenPt_final_%d",cbin), "", 50, 0, 12);
-        hv1evenPt_final->SetXTitle("#eta");
-        hv1evenPt_final->SetYTitle("v_{1}^{odd}");
+        hv1evenPt_final->SetXTitle("p_{T} (GeV/c)");
+        hv1evenPt_final->SetYTitle("v_{1}^{even}");
         hv1evenPt_final->GetXaxis()->CenterTitle();
         hv1evenPt_final->GetYaxis()->CenterTitle();
         hv1evenPt_final->GetYaxis()->SetRangeUser(-0.05, 0.22);

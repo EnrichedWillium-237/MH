@@ -881,9 +881,9 @@ void cutStudy()
         if (cbin > 4) padratN1MC22SUB3_pt_0_Loose->SetBottomMargin(0.25);
 
         TH1D * hratN1MC22SUB3_pt_0_Loose = new TH1D(Form("hratN1MC22SUB3_pt_0_Loose_%d",cbin), "", 50, 0, 12);
-        hratN1MC22SUB3_pt_0_Loose->SetXTitle("|#eta|");
-        if (cbin <= 4) hratN1MC22SUB3_pt_0_Loose->SetYTitle("v_{1}^{odd}");
-        else hratN1MC22SUB3_pt_0_Loose->SetYTitle("v_{1}^{odd}{Loose} / v_{1}^{odd}{Tight}");
+        hratN1MC22SUB3_pt_0_Loose->SetXTitle("p_{T} (GeV/c)");
+        if (cbin <= 4) hratN1MC22SUB3_pt_0_Loose->SetYTitle("v_{1}^{even}");
+        else hratN1MC22SUB3_pt_0_Loose->SetYTitle("v_{1}^{even}{Loose} / v_{1}^{even}{Tight}");
         hratN1MC22SUB3_pt_0_Loose->GetXaxis()->CenterTitle();
         hratN1MC22SUB3_pt_0_Loose->GetYaxis()->CenterTitle();
         if (cbin<=4) hratN1MC22SUB3_pt_0_Loose->GetYaxis()->SetRangeUser(-0.05, 0.22);
@@ -965,9 +965,9 @@ void cutStudy()
         if (cbin > 4) padratN1MC22SUB3_pt_1_Loose->SetBottomMargin(0.25);
 
         TH1D * hratN1MC22SUB3_pt_1_Loose = new TH1D(Form("hratN1MC22SUB3_pt_1_Loose_%d",cbin), "", 50, 0, 12);
-        hratN1MC22SUB3_pt_1_Loose->SetXTitle("|#eta|");
-        if (cbin <= 4) hratN1MC22SUB3_pt_1_Loose->SetYTitle("v_{1}^{odd}");
-        else hratN1MC22SUB3_pt_1_Loose->SetYTitle("v_{1}^{odd}{Loose} / v_{1}^{odd}{Tight}");
+        hratN1MC22SUB3_pt_1_Loose->SetXTitle("p_{T} (GeV/c)");
+        if (cbin <= 4) hratN1MC22SUB3_pt_1_Loose->SetYTitle("v_{1}^{even}");
+        else hratN1MC22SUB3_pt_1_Loose->SetYTitle("v_{1}^{even}{Loose} / v_{1}^{even}{Tight}");
         hratN1MC22SUB3_pt_1_Loose->GetXaxis()->CenterTitle();
         hratN1MC22SUB3_pt_1_Loose->GetYaxis()->CenterTitle();
         if (cbin<=4) hratN1MC22SUB3_pt_1_Loose->GetYaxis()->SetRangeUser(-0.05, 0.22);
@@ -1384,9 +1384,9 @@ void cutStudy()
         if (cbin > 4) padratN1MC22SUB3_pt_0_TightB->SetBottomMargin(0.25);
 
         TH1D * hratN1MC22SUB3_pt_0_TightB = new TH1D(Form("hratN1MC22SUB3_pt_0_TightB_%d",cbin), "", 50, 0, 12);
-        hratN1MC22SUB3_pt_0_TightB->SetXTitle("|#eta|");
-        if (cbin <= 4) hratN1MC22SUB3_pt_0_TightB->SetYTitle("v_{1}^{odd}");
-        else hratN1MC22SUB3_pt_0_TightB->SetYTitle("v_{1}^{odd}{TightB} / v_{1}^{odd}{Tight}");
+        hratN1MC22SUB3_pt_0_TightB->SetXTitle("p_{T} (GeV/c)");
+        if (cbin <= 4) hratN1MC22SUB3_pt_0_TightB->SetYTitle("v_{1}^{even}");
+        else hratN1MC22SUB3_pt_0_TightB->SetYTitle("v_{1}^{even}{TightB} / v_{1}^{even}{Tight}");
         hratN1MC22SUB3_pt_0_TightB->GetXaxis()->CenterTitle();
         hratN1MC22SUB3_pt_0_TightB->GetYaxis()->CenterTitle();
         if (cbin<=4) hratN1MC22SUB3_pt_0_TightB->GetYaxis()->SetRangeUser(-0.05, 0.22);
@@ -1468,9 +1468,9 @@ void cutStudy()
         if (cbin > 4) padratN1MC22SUB3_pt_1_TightB->SetBottomMargin(0.25);
 
         TH1D * hratN1MC22SUB3_pt_1_TightB = new TH1D(Form("hratN1MC22SUB3_pt_1_TightB_%d",cbin), "", 50, 0, 12);
-        hratN1MC22SUB3_pt_1_TightB->SetXTitle("|#eta|");
-        if (cbin <= 4) hratN1MC22SUB3_pt_1_TightB->SetYTitle("v_{1}^{odd}");
-        else hratN1MC22SUB3_pt_1_TightB->SetYTitle("v_{1}^{odd}{TightB} / v_{1}^{odd}{Tight}");
+        hratN1MC22SUB3_pt_1_TightB->SetXTitle("p_{T} (GeV/c)");
+        if (cbin <= 4) hratN1MC22SUB3_pt_1_TightB->SetYTitle("v_{1}^{even}");
+        else hratN1MC22SUB3_pt_1_TightB->SetYTitle("v_{1}^{even}{TightB} / v_{1}^{even}{Tight}");
         hratN1MC22SUB3_pt_1_TightB->GetXaxis()->CenterTitle();
         hratN1MC22SUB3_pt_1_TightB->GetYaxis()->CenterTitle();
         if (cbin<=4) hratN1MC22SUB3_pt_1_TightB->GetYaxis()->SetRangeUser(-0.05, 0.22);

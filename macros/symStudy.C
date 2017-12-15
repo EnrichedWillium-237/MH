@@ -543,7 +543,7 @@ void symStudy()
     cN1MC22SUB3_pt->cd(6);
     TPaveText * txN1MC22SUB3_pt_label2 = new TPaveText(0.22, 0.36, 0.72, 0.54, "NDC");
     SetTPaveTxt(txN1MC22SUB3_pt_label2, 16);
-    txN1MC22SUB3_pt_label2->AddText("#frac{|v_{1}^{odd}(+#eta)| - |v_{1}^{odd}(-#eta)|}{|v_{1}^{odd}(+#eta)| + |v_{1}^{odd}(-#eta)|}");
+    txN1MC22SUB3_pt_label2->AddText("#frac{|v_{1}^{even}(+#eta)| - |v_{1}^{even}(-#eta)|}{|v_{1}^{even}(+#eta)| + |v_{1}^{even}(-#eta)|}");
     txN1MC22SUB3_pt_label2->Draw();
 
     cN1MC22SUB3_pt->Print("figures/integralVN/systematics/symmetry_N1MC22SUB3_eta.pdf","pdf");
