@@ -37,217 +37,48 @@ string AnalNames[] = {
 
 static const bool gridlines = false;
 
-TH1D * vnA_eta[nanals][ncbins];
-TH1D * vnB_eta[nanals][ncbins];
-TH1D * vnAB_eta[nanals][ncbins];
-TH1D * N1SUB2_eta[ncbins];
-TH1D * N1SUB3_eta[ncbins];
-
-TH1D * vnA_pt[nanals][ncbins];
-TH1D * vnB_pt[nanals][ncbins];
-TH1D * vnAB_pt[nanals][ncbins];
-TH1D * N1SUB2_pt[ncbins];
-TH1D * N1SUB3_pt[ncbins];
-
-// symeterized vn
 TH1D * N1SUB2_Sym_eta[ncbins];
 TH1D * N1SUB3_Sym_eta[ncbins];
-TH1D * N1MC22SUB3_Sym_eta[ncbins];
-
-TH1D * N1SUB2_Syst_eta[ncbins];
-TH1D * N1SUB3_Syst_eta[ncbins];
-TH1D * N1MC22SUB3_Syst_eta[ncbins];
-
-TH1D * N1SUB2_RelErr_eta[ncbins];
-TH1D * N1SUB3_RelErr_eta[ncbins];
-TH1D * N1MC22SUB3_RelErr_eta[ncbins];
-
-TH1D * N1SUB2_Sym_pt[ncbins];
-TH1D * N1SUB3_Sym_pt[ncbins];
 TH1D * N1MC22SUB3_Sym_pt[ncbins];
 
-TH1D * N1SUB2_Syst_pt[ncbins];
-TH1D * N1SUB3_Syst_pt[ncbins];
-TH1D * N1MC22SUB3_Syst_pt[ncbins];
+TH1D * systN1SUB2_eta;
+TH1D * systN1SUB3_eta;
+TH1D * systN1MC22SUB3_pt;
 
-TH1D * N1SUB2_RelErr_pt[ncbins];
-TH1D * N1SUB3_RelErr_pt[ncbins];
-TH1D * N1MC22SUB3_RelErr_pt[ncbins];
+TH1D * systN1SUB2_Loose_Tight_eta;
+TH1D * systN1SUB3_Loose_Tight_eta;
+TH1D * systN1MC22SUB3_Loose_Tight_pt;
+TH1D * systN1SUB2_TightB_Tight_eta;
+TH1D * systN1SUB3_TightB_Tight_eta;
+TH1D * systN1MC22SUB3_TightB_Tight_pt;
 
-TF1 * fit_N1SUB2_RelErr_eta[ncbins];
-TF1 * fit_N1SUB3_RelErr_eta[ncbins];
-TF1 * fit_N1MC22SUB3_RelErr_eta[ncbins];
-
-TF1 * fit_N1SUB2_RelErr_pt[ncbins];
-TF1 * fit_N1SUB3_RelErr_pt[ncbins];
-TF1 * fit_N1MC22SUB3_RelErr_pt[ncbins];
-
-TFile * tfin;
-TFile * tfout;
+TFile * tfinSym;
+TFile * tfincut;
 
 void getVNSyst()
 {
 
     TH1::SetDefaultSumw2();
 
-    for (int anal = 0; anal<nanals; anal++) {
-        for (int cbin = 0; cbin<ncbins; cbin++) {
-            string htag = Form("_%s_%d_%d",AnalNames[anal].data(),cmin[cbin],cmax[cbin]);
-            vnA_eta[anal][cbin]  = new TH1D(Form("vnA_eta_%s",htag.data()), "", netabins, etabins);
-            vnB_eta[anal][cbin]  = new TH1D(Form("vnB_eta_%s",htag.data()), "", netabins, etabins);
-            vnAB_eta[anal][cbin] = new TH1D(Form("vnAB_eta_%s",htag.data()), "", netabins, etabins);
-        }
-    }
+    tfinSym = new TFile("figures/integralVN/data/symmetrizedVN.root","read");
+    tfincut = new TFile("figures/integralVN/data/trkcuts.root","read");
+
     for (int cbin = 0; cbin<ncbins; cbin++) {
-        N1SUB2_Sym_eta[cbin] = new TH1D(Form("N1SUB2_Sym_eta_%d_%d",cmin[cbin],cmax[cbin]), "", netabins, etabins);
-        N1SUB3_Sym_eta[cbin] = new TH1D(Form("N1SUB3_Sym_eta_%d_%d",cmin[cbin],cmax[cbin]), "", netabins, etabins);
-        N1MC22SUB3_Sym_eta[cbin] = new TH1D(Form("N1MC22SUB3_Sym_eta_%d_%d",cmin[cbin],cmax[cbin]), "", netabins, etabins);
-
-        N1SUB2_RelErr_eta[cbin] = new TH1D(Form("N1SUB2_RelErr_eta_%d_%d",cmin[cbin],cmax[cbin]), "", netabins, etabins);
-        N1SUB3_RelErr_eta[cbin] = new TH1D(Form("N1SUB3_RelErr_eta_%d_%d",cmin[cbin],cmax[cbin]), "", netabins, etabins);
-        N1MC22SUB3_RelErr_eta[cbin] = new TH1D(Form("N1MC22SUB3_RelErr_eta_%d_%d",cmin[cbin],cmax[cbin]), "", netabins, etabins);
-
-        N1SUB2_Sym_pt[cbin] = new TH1D(Form("N1SUB2_Sym_pt_%d_%d",cmin[cbin],cmax[cbin]), "", nptbins, ptbins);
-        N1SUB3_Sym_pt[cbin] = new TH1D(Form("N1SUB3_Sym_pt_%d_%d",cmin[cbin],cmax[cbin]), "", nptbins, ptbins);
-        N1MC22SUB3_Sym_pt[cbin] = new TH1D(Form("N1MC22SUB3_Sym_pt_%d_%d",cmin[cbin],cmax[cbin]), "", nptbins, ptbins);
-
-        N1SUB2_RelErr_pt[cbin] = new TH1D(Form("N1SUB2_RelErr_pt_%d_%d",cmin[cbin],cmax[cbin]), "", nptbins, ptbins);
-        N1SUB3_RelErr_pt[cbin] = new TH1D(Form("N1SUB3_RelErr_pt_%d_%d",cmin[cbin],cmax[cbin]), "", nptbins, ptbins);
-        N1MC22SUB3_RelErr_pt[cbin] = new TH1D(Form("N1MC22SUB3_RelErr_pt_%d_%d",cmin[cbin],cmax[cbin]), "", nptbins, ptbins);
+        string ctag = Form("%d_%d",cmin[cbin],cmax[cbin]);
+        N1SUB2_Sym_eta[cbin] = (TH1D *) tfinSym->Get(Form("%s/N1SUB2_Sym_eta_%s",ctag.data(),ctag.data()));
+        N1SUB3_Sym_eta[cbin] = (TH1D *) tfinSym->Get(Form("%s/N1SUB3_Sym_eta_%s",ctag.data(),ctag.data()));
+        N1MC22SUB3_Sym_pt[cbin] = (TH1D *) tfinSym->Get(Form("%s/N1MC22SUB3_Sym_pt_%s",ctag.data(),ctag.data()));
     }
+    systN1SUB2_eta = (TH1D *) tfinSym->Get("systN1SUB2_eta");
+    systN1SUB3_eta = (TH1D *) tfinSym->Get("systN1SUB3_eta");
+    systN1MC22SUB3_pt = (TH1D *) tfinSym->Get("systN1MC22SUB3_pt");
 
-    string prevname = "";
-    for (int anal = 0; anal<nanals; anal++) {
-        for (int ebin = 0; ebin<netabins; ebin++) {
-            prevname = Form("figures/figures_useTight_%1.1f_%1.1f/%s/data/integral.dat",etabins[ebin],etabins[ebin+1],AnalNames[anal].data());
-            if (prevname.length()>1) {
-                int centmin[40];
-                int centmax[40];
-                double y[40];
-                double stat[40];
-                FILE * fin = fopen(prevname.data(),"r");
-                char buf[80];
-                int cbin = 0;
-                while (fgets(buf,80,fin)!=NULL) {
-                    sscanf(buf,"%d\t%d\t%lf\t%lf\n",&centmin[cbin],&centmax[cbin],&y[cbin],&stat[cbin]);
-                    vnAB_eta[anal][cbin]->SetBinContent(ebin+1,y[cbin]);
-                    vnAB_eta[anal][cbin]->SetBinError(ebin+1,stat[cbin]);
-                    ++cbin;
-                }
-                fclose(fin);
-            }
-
-            prevname = Form("figures/figures_useTight_%1.1f_%1.1f/%s/data/integralA.dat",etabins[ebin],etabins[ebin+1],AnalNames[anal].data());
-            if (prevname.length()>1) {
-                int centmin[40];
-                int centmax[40];
-                double y[40];
-                double stat[40];
-                FILE * fin = fopen(prevname.data(),"r");
-                char buf[80];
-                int cbin = 0;
-                while (fgets(buf,80,fin)!=NULL) {
-                    sscanf(buf,"%d\t%d\t%lf\t%lf\n",&centmin[cbin],&centmax[cbin],&y[cbin],&stat[cbin]);
-                    vnA_eta[anal][cbin]->SetBinContent(ebin+1,y[cbin]);
-                    vnA_eta[anal][cbin]->SetBinError(ebin+1,stat[cbin]);
-                    ++cbin;
-                }
-                fclose(fin);
-            }
-
-            prevname = Form("figures/figures_useTight_%1.1f_%1.1f/%s/data/integralB.dat",etabins[ebin],etabins[ebin+1],AnalNames[anal].data());
-            if (prevname.length()>1) {
-                int centmin[40];
-                int centmax[40];
-                double y[40];
-                double stat[40];
-                FILE * fin = fopen(prevname.data(),"r");
-                char buf[80];
-                int cbin = 0;
-                while (fgets(buf,80,fin)!=NULL) {
-                    sscanf(buf,"%d\t%d\t%lf\t%lf\n",&centmin[cbin],&centmax[cbin],&y[cbin],&stat[cbin]);
-                    vnB_eta[anal][cbin]->SetBinContent(ebin+1,y[cbin]);
-                    vnB_eta[anal][cbin]->SetBinError(ebin+1,stat[cbin]);
-                    ++cbin;
-                }
-                fclose(fin);
-            }
-        }
-
-        tfin = new TFile(Form("results/results_useTight_-2.4_2.4/%s.root",AnalNames[anal].data()));
-        for (int cbin = 0; cbin<ncbins; cbin++) {
-            vnA_pt[anal][cbin]  = (TH1D *) tfin->Get(Form("%d_%d/vnA",cmin[cbin],cmax[cbin]));
-            vnB_pt[anal][cbin]  = (TH1D *) tfin->Get(Form("%d_%d/vnB",cmin[cbin],cmax[cbin]));
-            vnAB_pt[anal][cbin] = (TH1D *) tfin->Get(Form("%d_%d/vnAB",cmin[cbin],cmax[cbin]));
-        }
-
-    }
-
-
-    //-- average N!SUB2 and N1SUB3
-    for (int cbin = 0; cbin<ncbins; cbin++) {
-        N1SUB2_eta[cbin] = (TH1D *) vnAB_eta[N1ASUB2][cbin]->Clone(Form("N1SUB2_eta_%d_%d",cmin[cbin],cmax[cbin]));
-        N1SUB2_eta[cbin]->Add(vnAB_eta[N1BSUB2][cbin]);
-        N1SUB2_eta[cbin]->Scale(0.5);
-
-        N1SUB3_eta[cbin] = (TH1D *) vnAB_eta[N1ASUB3][cbin]->Clone(Form("N1SUB3_eta_%d_%d",cmin[cbin],cmax[cbin]));
-        N1SUB3_eta[cbin]->Add(vnAB_eta[N1BSUB3][cbin]);
-        N1SUB3_eta[cbin]->Scale(0.5);
-
-        N1SUB2_pt[cbin] = (TH1D *) vnAB_pt[N1ASUB2][cbin]->Clone(Form("N1SUB2_pt_%d_%d",cmin[cbin],cmax[cbin]));
-        N1SUB2_pt[cbin]->Add(vnAB_pt[N1BSUB2][cbin]);
-        N1SUB2_pt[cbin]->Scale(0.5);
-
-        N1SUB3_pt[cbin] = (TH1D *) vnAB_pt[N1ASUB3][cbin]->Clone(Form("N1SUB3_pt_%d_%d",cmin[cbin],cmax[cbin]));
-        N1SUB3_pt[cbin]->Add(vnAB_pt[N1BSUB3][cbin]);
-        N1SUB3_pt[cbin]->Scale(0.5);
-    }
-
-
-    //-- symmeterize v1
-    for (int cbin = 0; cbin<ncbins; cbin++) {
-        for (int ebin = 0; ebin<netabins; ebin++) {
-            double pos = N1SUB2_eta[cbin]->GetBinContent(netabins - ebin);
-            double neg = N1SUB2_eta[cbin]->GetBinContent(ebin + 1);
-            double posErr = N1SUB2_eta[cbin]->GetBinError(netabins - ebin);
-            double negErr = N1SUB2_eta[cbin]->GetBinError(ebin + 1);
-            double vnsym = 0.5*(pos - neg);
-            double vnsymErr = 0.5*sqrt( posErr*posErr + negErr*negErr );
-            N1SUB2_Sym_eta[cbin]->SetBinContent(netabins - ebin, vnsym);
-            N1SUB2_Sym_eta[cbin]->SetBinError(netabins - ebin, vnsymErr);
-
-            double rel = (fabs(pos) - fabs(neg)) / (fabs(pos) + fabs(neg));
-            // double relErr = pow(posErr/pos,2) + pow(negErr/neg,2) - 2*fabs((posErr*posErr/pos)*(negErr*negErr/neg));
-            double relErr = pow(posErr/pos,2) + pow(negErr/neg,2);
-            relErr = rel * sqrt( relErr );
-            N1SUB2_RelErr_eta[cbin]->SetBinContent(netabins - ebin, rel);
-            N1SUB2_RelErr_eta[cbin]->SetBinError(netabins - ebin, relErr);
-        }
-        for (int ebin = 0; ebin<netabins; ebin++) {
-            double pos = N1SUB3_eta[cbin]->GetBinContent(netabins - ebin);
-            double neg = N1SUB3_eta[cbin]->GetBinContent(ebin + 1);
-            double posErr = N1SUB3_eta[cbin]->GetBinError(netabins - ebin);
-            double negErr = N1SUB3_eta[cbin]->GetBinError(ebin + 1);
-            double vnsym = 0.5*(pos - neg);
-            double vnsymErr = 0.5*sqrt( posErr*posErr + negErr*negErr );
-            N1SUB3_Sym_eta[cbin]->SetBinContent(netabins - ebin, vnsym);
-            N1SUB3_Sym_eta[cbin]->SetBinError(netabins - ebin, vnsymErr);
-
-            double rel = (fabs(pos) - fabs(neg)) / (fabs(pos) + fabs(neg));
-            double relErr = pow(posErr/pos,2) + pow(negErr/neg,2);
-            relErr = rel * sqrt( relErr );
-            N1SUB3_RelErr_eta[cbin]->SetBinContent(netabins - ebin, rel);
-            N1SUB3_RelErr_eta[cbin]->SetBinError(netabins - ebin, relErr);
-        }
-    }
-
-
-    TLine * lnEta = new TLine(-2.4, 0.0, 2.4, 0.0);
-    TLine * lnPt  = new TLine(0.0, 0.0, 12.0, 0.0);
-
-    if (!fopen("figures/integralVN","r")) system("mkdir figures/integralVN");
-    if (!fopen("figures/integralVN/data","r")) system("mkdir figures/integralVN/data");
-
+    systN1SUB2_Loose_Tight_eta = (TH1D *) tfincut->Get("systN1SUB2_Loose_Tight_eta");
+    systN1SUB3_Loose_Tight_eta = (TH1D *) tfincut->Get("systN1SUB3_Loose_Tight_eta");
+    systN1MC22SUB3_Loose_Tight_pt = (TH1D *) tfincut->Get("systN1MC22SUB3_Loose_Tight_pt");
+    systN1SUB2_TightB_Tight_eta = (TH1D *) tfincut->Get("systN1SUB2_TightB_Tight_eta");
+    systN1SUB3_TightB_Tight_eta = (TH1D *) tfincut->Get("systN1SUB3_TightB_Tight_eta");
+    systN1MC22SUB3_TightB_Tight_pt = (TH1D *) tfincut->Get("systN1MC22SUB3_TightB_Tight_pt");
 
 
 }

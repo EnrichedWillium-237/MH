@@ -259,6 +259,73 @@ void getVNInt()
 
 
 
+    //-- centrality dependence of integral v1^odd(eta) with just the 3-subevent methods
+    TCanvas * cv1oddEtaSUB3 = new TCanvas("cv1oddEtaSUB3", "cv1oddEtaSUB3", 1300, 650);
+    cv1oddEtaSUB3->Divide(5,2,0,0);
+    for (int cbin = 0; cbin<10; cbin++) {
+        TPad * padv1oddEtaSUB3 = (TPad *) cv1oddEtaSUB3->cd(cbin+1);
+        if (gridlines) padv1oddEtaSUB3->SetGrid();
+        if (cbin == 4 || cbin == 9) padv1oddEtaSUB3->SetRightMargin(0.02);
+        if (cbin <= 4) padv1oddEtaSUB3->SetTopMargin(0.1);
+        if (cbin > 4) padv1oddEtaSUB3->SetBottomMargin(0.25);
+
+        TH1D * hv1oddEtaSUB3 = new TH1D(Form("hv1oddEtaSUB3_%d",cbin), "", 50, -2.8, 2.8);
+        hv1oddEtaSUB3->SetXTitle("#eta");
+        hv1oddEtaSUB3->SetYTitle("v_{1}^{odd}");
+        hv1oddEtaSUB3->GetXaxis()->CenterTitle();
+        hv1oddEtaSUB3->GetYaxis()->CenterTitle();
+        hv1oddEtaSUB3->GetYaxis()->SetRangeUser(-0.022, 0.022);
+        hv1oddEtaSUB3->GetYaxis()->SetNdivisions(509);
+        hv1oddEtaSUB3->GetYaxis()->SetTitleSize(0.07);
+        hv1oddEtaSUB3->GetYaxis()->SetLabelSize(0.05);
+        hv1oddEtaSUB3->GetYaxis()->SetTitleOffset(1.20);
+        hv1oddEtaSUB3->GetYaxis()->SetLabelOffset(0.010);
+        if (cbin == 5) {
+            hv1oddEtaSUB3->GetXaxis()->SetTitleSize(0.07);
+            hv1oddEtaSUB3->GetXaxis()->SetLabelSize(0.05);
+            hv1oddEtaSUB3->GetXaxis()->SetTitleOffset(1.00);
+            hv1oddEtaSUB3->GetXaxis()->SetLabelOffset(0.019);
+        }
+        if (cbin >= 6) {
+            hv1oddEtaSUB3->GetXaxis()->SetTitleSize(0.08);
+            hv1oddEtaSUB3->GetXaxis()->SetLabelSize(0.06);
+            hv1oddEtaSUB3->GetXaxis()->SetTitleOffset(0.83);
+            hv1oddEtaSUB3->GetXaxis()->SetLabelOffset(0.011);
+        }
+
+        hv1oddEtaSUB3->Draw();
+
+        N1SUB3_eta[cbin]->SetMarkerColor(kBlue);
+        N1SUB3_eta[cbin]->SetLineColor(kBlue);
+        N1SUB3_eta[cbin]->SetMarkerStyle(21);
+        N1SUB3_eta[cbin]->SetMarkerSize(1.1);
+        N1SUB3_eta[cbin]->Draw("same");
+
+        TPaveText * txv1oddEtaSUB3_cent;
+        if (cbin == 0) txv1oddEtaSUB3_cent = new TPaveText(0.80, 0.77, 0.95, 0.86, "NDC");
+        else if (cbin >= 1 && cbin <=4) txv1oddEtaSUB3_cent = new TPaveText(0.40, 0.77, 0.60, 0.86, "NDC");
+        else if (cbin == 5) txv1oddEtaSUB3_cent = new TPaveText(0.50, 0.87, 0.70, 0.97, "NDC");
+        else txv1oddEtaSUB3_cent = new TPaveText(0.40, 0.87, 0.60, 0.97, "NDC");
+        SetTPaveTxt(txv1oddEtaSUB3_cent, 17);
+        txv1oddEtaSUB3_cent->AddText(Form("%d - %d%%",cmin[cbin],cmax[cbin]));
+        txv1oddEtaSUB3_cent->Draw();
+    }
+    cv1oddEtaSUB3->cd(1);
+    TPaveText * txv1oddEtaSUB3_CMS = new TPaveText(0.19, 0.91, 0.66, 1.0,"NDC");
+    SetTPaveTxt(txv1oddEtaSUB3_CMS, 16);
+    txv1oddEtaSUB3_CMS->AddText("#bf{CMS} #it{Preliminary}");
+    txv1oddEtaSUB3_CMS->Draw();
+
+    TPaveText * txv1oddEtaSUB3_label = new TPaveText(0.23, 0.67, 0.60, 0.85, "NDC");
+    SetTPaveTxt(txv1oddEtaSUB3_label, 16);
+    txv1oddEtaSUB3_label->AddText("PbPb #sqrt{s_{NN}} = 5.02 TeV");
+    txv1oddEtaSUB3_label->AddText("0.3 < p_{T} < 3.0 GeV/c");
+    txv1oddEtaSUB3_label->Draw();
+
+    cv1oddEtaSUB3->Print("figures/integralVN/v1odd_eta_SUB3.pdf","pdf");
+
+
+
     //-- centrality dependence of integral v1(eta) using just HF+ and HF-
     TCanvas * cv1pmEta = new TCanvas("cv1pmEta", "cv1pmEta", 1300, 650);
     cv1pmEta->Divide(5,2,0,0);
