@@ -506,501 +506,507 @@ void cutStudy()
 
 
     //-- N1SUB2
-    TCanvas * cratN1SUB2_eta_0 = new TCanvas("cratN1SUB2_eta_0", "cratN1SUB2_eta_0", 1300, 650);
-    cratN1SUB2_eta_0->Divide(5,2,0,0);
+    TCanvas * cratN1SUB2_eta_0_Loose = new TCanvas("cratN1SUB2_eta_0_Loose", "cratN1SUB2_eta_0_Loose", 1300, 650);
+    cratN1SUB2_eta_0_Loose->Divide(5,2,0,0);
     for (int cbin = 0; cbin<10; cbin++) {
-        TPad * padratN1SUB2_eta_0 = (TPad *) cratN1SUB2_eta_0->cd(cbin+1);
-        if (gridlines) padratN1SUB2_eta_0->SetGrid();
-        if (cbin == 4 || cbin == 9) padratN1SUB2_eta_0->SetRightMargin(0.02);
-        if (cbin <= 4) padratN1SUB2_eta_0->SetTopMargin(0.1);
-        if (cbin > 4) padratN1SUB2_eta_0->SetBottomMargin(0.25);
+        TPad * padratN1SUB2_eta_0_Loose = (TPad *) cratN1SUB2_eta_0_Loose->cd(cbin+1);
+        if (gridlines) padratN1SUB2_eta_0_Loose->SetGrid();
+        if (cbin == 4 || cbin == 9) padratN1SUB2_eta_0_Loose->SetRightMargin(0.02);
+        if (cbin <= 4) padratN1SUB2_eta_0_Loose->SetTopMargin(0.1);
+        if (cbin > 4) padratN1SUB2_eta_0_Loose->SetBottomMargin(0.25);
 
-        TH1D * hratN1SUB2_eta_0 = new TH1D(Form("hratN1SUB2_eta_0_%d",cbin), "", 50, -2.8, 2.8);
-        hratN1SUB2_eta_0->SetXTitle("|#eta|");
-        if (cbin <= 4) hratN1SUB2_eta_0->SetYTitle("v_{1}^{odd}");
-        else hratN1SUB2_eta_0->SetYTitle("v_{1}^{odd}{Loose} / v_{1}^{odd}{Tight}");
-        hratN1SUB2_eta_0->GetXaxis()->CenterTitle();
-        hratN1SUB2_eta_0->GetYaxis()->CenterTitle();
-        if (cbin<=4) hratN1SUB2_eta_0->GetYaxis()->SetRangeUser(-0.022, 0.022);
-        else hratN1SUB2_eta_0->GetYaxis()->SetRangeUser(0.5, 1.5);
-        hratN1SUB2_eta_0->GetYaxis()->SetNdivisions(509);
-        hratN1SUB2_eta_0->GetYaxis()->SetTitleSize(0.07);
-        hratN1SUB2_eta_0->GetYaxis()->SetLabelSize(0.05);
-        hratN1SUB2_eta_0->GetYaxis()->SetTitleOffset(1.20);
-        hratN1SUB2_eta_0->GetYaxis()->SetLabelOffset(0.010);
+        TH1D * hratN1SUB2_eta_0_Loose = new TH1D(Form("hratN1SUB2_eta_0_Loose_%d",cbin), "", 50, -2.8, 2.8);
+        hratN1SUB2_eta_0_Loose->SetXTitle("|#eta|");
+        if (cbin <= 4) hratN1SUB2_eta_0_Loose->SetYTitle("v_{1}^{odd}");
+        else hratN1SUB2_eta_0_Loose->SetYTitle("v_{1}^{odd}{Loose} / v_{1}^{odd}{Tight}");
+        hratN1SUB2_eta_0_Loose->GetXaxis()->CenterTitle();
+        hratN1SUB2_eta_0_Loose->GetYaxis()->CenterTitle();
+        if (cbin<=4) hratN1SUB2_eta_0_Loose->GetYaxis()->SetRangeUser(-0.022, 0.022);
+        else hratN1SUB2_eta_0_Loose->GetYaxis()->SetRangeUser(0.5, 1.5);
+        hratN1SUB2_eta_0_Loose->GetYaxis()->SetNdivisions(509);
+        hratN1SUB2_eta_0_Loose->GetYaxis()->SetTitleSize(0.07);
+        hratN1SUB2_eta_0_Loose->GetYaxis()->SetLabelSize(0.05);
+        hratN1SUB2_eta_0_Loose->GetYaxis()->SetTitleOffset(1.20);
+        hratN1SUB2_eta_0_Loose->GetYaxis()->SetLabelOffset(0.010);
         if (cbin == 5) {
-            hratN1SUB2_eta_0->GetXaxis()->SetTitleSize(0.07);
-            hratN1SUB2_eta_0->GetXaxis()->SetLabelSize(0.05);
-            hratN1SUB2_eta_0->GetXaxis()->SetTitleOffset(1.00);
-            hratN1SUB2_eta_0->GetXaxis()->SetLabelOffset(0.019);
+            hratN1SUB2_eta_0_Loose->GetXaxis()->SetTitleSize(0.07);
+            hratN1SUB2_eta_0_Loose->GetXaxis()->SetLabelSize(0.05);
+            hratN1SUB2_eta_0_Loose->GetXaxis()->SetTitleOffset(1.00);
+            hratN1SUB2_eta_0_Loose->GetXaxis()->SetLabelOffset(0.019);
         }
         if (cbin >= 6) {
-            hratN1SUB2_eta_0->GetXaxis()->SetTitleSize(0.08);
-            hratN1SUB2_eta_0->GetXaxis()->SetLabelSize(0.06);
-            hratN1SUB2_eta_0->GetXaxis()->SetTitleOffset(0.83);
-            hratN1SUB2_eta_0->GetXaxis()->SetLabelOffset(0.011);
+            hratN1SUB2_eta_0_Loose->GetXaxis()->SetTitleSize(0.08);
+            hratN1SUB2_eta_0_Loose->GetXaxis()->SetLabelSize(0.06);
+            hratN1SUB2_eta_0_Loose->GetXaxis()->SetTitleOffset(0.83);
+            hratN1SUB2_eta_0_Loose->GetXaxis()->SetLabelOffset(0.011);
         }
-        hratN1SUB2_eta_0->Draw();
+        hratN1SUB2_eta_0_Loose->Draw();
         if (cbin <= 4) lnEta->Draw();
         else lnEta_rat->Draw();
 
         if (cbin<=4) {N1SUB2_Tight_eta[cbin]->Draw("same"); N1SUB2_Loose_eta[cbin]->Draw("same");}
         else ratN1SUB2_Loose_Tight_eta[cbin-5]->Draw("same");
 
-        TPaveText * txratN1SUB2_eta_0_cent;
+        TPaveText * txratN1SUB2_eta_0_Loose_cent;
         if (cbin <= 4) {
-            if (cbin == 0) txratN1SUB2_eta_0_cent = new TPaveText(0.80, 0.77, 0.95, 0.86, "NDC");
-            else txratN1SUB2_eta_0_cent = new TPaveText(0.40, 0.77, 0.60, 0.86, "NDC");
-            SetTPaveTxt(txratN1SUB2_eta_0_cent, 17);
-            txratN1SUB2_eta_0_cent->AddText(Form("%d - %d%%",cmin[cbin],cmax[cbin]));
-            txratN1SUB2_eta_0_cent->Draw();
+            if (cbin == 0) txratN1SUB2_eta_0_Loose_cent = new TPaveText(0.80, 0.77, 0.95, 0.86, "NDC");
+            else txratN1SUB2_eta_0_Loose_cent = new TPaveText(0.40, 0.77, 0.60, 0.86, "NDC");
+            SetTPaveTxt(txratN1SUB2_eta_0_Loose_cent, 17);
+            txratN1SUB2_eta_0_Loose_cent->AddText(Form("%d - %d%%",cmin[cbin],cmax[cbin]));
+            txratN1SUB2_eta_0_Loose_cent->Draw();
         }
 
-        TPaveText * txtxratN1SUB2_eta_0_fit;
+        TPaveText * txtxratN1SUB2_eta_0_Loose_fit;
         if (cbin >= 5) {
-            if (cbin == 5) txtxratN1SUB2_eta_0_fit = new TPaveText(0.23, 0.29, 0.60, 0.35, "NDC");
-            else txtxratN1SUB2_eta_0_fit = new TPaveText(0.04, 0.29, 0.49, 0.35, "NDC");
-            SetTPaveTxt(txtxratN1SUB2_eta_0_fit, 16);
-            txtxratN1SUB2_eta_0_fit->AddText(Form("mean = %1.4f",systN1SUB2_Loose_Tight_eta->GetBinContent(cbin-4)));
-            txtxratN1SUB2_eta_0_fit->Draw();
+            if (cbin == 5) txtxratN1SUB2_eta_0_Loose_fit = new TPaveText(0.23, 0.29, 0.60, 0.35, "NDC");
+            else txtxratN1SUB2_eta_0_Loose_fit = new TPaveText(0.04, 0.29, 0.49, 0.35, "NDC");
+            SetTPaveTxt(txtxratN1SUB2_eta_0_Loose_fit, 16);
+            txtxratN1SUB2_eta_0_Loose_fit->AddText(Form("mean = %1.4f",systN1SUB2_Loose_Tight_eta->GetBinContent(cbin-4)));
+            txtxratN1SUB2_eta_0_Loose_fit->Draw();
         }
     }
-    cratN1SUB2_eta_0->cd(1);
-    TPaveText * txratN1SUB2_eta_0_CMS = new TPaveText(0.19, 0.91, 0.66, 1.0,"NDC");
-    SetTPaveTxt(txratN1SUB2_eta_0_CMS, 18);
-    txratN1SUB2_eta_0_CMS->AddText("#bf{CMS} #it{Preliminary}");
-    txratN1SUB2_eta_0_CMS->Draw();
+    cratN1SUB2_eta_0_Loose->cd(1);
+    TPaveText * txratN1SUB2_eta_0_Loose_CMS = new TPaveText(0.19, 0.91, 0.66, 1.0,"NDC");
+    SetTPaveTxt(txratN1SUB2_eta_0_Loose_CMS, 18);
+    txratN1SUB2_eta_0_Loose_CMS->AddText("#bf{CMS} #it{Preliminary}");
+    txratN1SUB2_eta_0_Loose_CMS->Draw();
 
-    TLegend * legratN1SUB2_eta_0 = new TLegend(0.22, 0.05, 0.72, 0.23);
-    SetLegend(legratN1SUB2_eta_0, 16);
-    legratN1SUB2_eta_0->AddEntry(N1SUB2_Tight_eta[0],"Tight (default)","p");
-    legratN1SUB2_eta_0->AddEntry(N1SUB2_Loose_eta[0],"Loose","p");
-    legratN1SUB2_eta_0->Draw();
+    TLegend * legratN1SUB2_eta_0_Loose = new TLegend(0.22, 0.05, 0.72, 0.23);
+    SetLegend(legratN1SUB2_eta_0_Loose, 16);
+    legratN1SUB2_eta_0_Loose->AddEntry(N1SUB2_Tight_eta[0],"Tight (default)","p");
+    legratN1SUB2_eta_0_Loose->AddEntry(N1SUB2_Loose_eta[0],"Loose","p");
+    legratN1SUB2_eta_0_Loose->Draw();
 
-    cratN1SUB2_eta_0->cd(1);
-    TPaveText * txratN1SUB2_eta_0_label = new TPaveText(0.23, 0.67, 0.60, 0.85, "NDC");
-    SetTPaveTxt(txratN1SUB2_eta_0_label, 16);
-    txratN1SUB2_eta_0_label->AddText("PbPb #sqrt{s_{NN}} = 5.02 TeV");
-    txratN1SUB2_eta_0_label->AddText("0.3 < p_{T} < 3.0 GeV/c");
-    txratN1SUB2_eta_0_label->Draw();
+    cratN1SUB2_eta_0_Loose->cd(1);
+    TPaveText * txratN1SUB2_eta_0_Loose_label = new TPaveText(0.23, 0.67, 0.60, 0.85, "NDC");
+    SetTPaveTxt(txratN1SUB2_eta_0_Loose_label, 16);
+    txratN1SUB2_eta_0_Loose_label->AddText("PbPb #sqrt{s_{NN}} = 5.02 TeV");
+    txratN1SUB2_eta_0_Loose_label->AddText("0.3 < p_{T} < 3.0 GeV/c");
+    txratN1SUB2_eta_0_Loose_label->Draw();
 
-    cratN1SUB2_eta_0->Print("figures/integralVN/systematics/trkcuts_ratio_N1SUB2_eta_0.pdf","pdf");
+    cratN1SUB2_eta_0_Loose->Print("figures/integralVN/systematics/trkcuts_ratio_N1SUB2_eta_0_Loose.pdf","pdf");
 
 
 
-    TCanvas * cratN1SUB2_eta_1 = new TCanvas("cratN1SUB2_eta_1", "cratN1SUB2_eta_1", 1300, 650);
-    cratN1SUB2_eta_1->Divide(5,2,0,0);
+    TCanvas * cratN1SUB2_eta_1_Loose = new TCanvas("cratN1SUB2_eta_1_Loose", "cratN1SUB2_eta_1_Loose", 1300, 650);
+    cratN1SUB2_eta_1_Loose->Divide(5,2,0,0);
     for (int cbin = 0; cbin<10; cbin++) {
-        TPad * padratN1SUB2_eta_1 = (TPad *) cratN1SUB2_eta_1->cd(cbin+1);
-        if (gridlines) padratN1SUB2_eta_1->SetGrid();
-        if (cbin == 4 || cbin == 9) padratN1SUB2_eta_1->SetRightMargin(0.02);
-        if (cbin <= 4) padratN1SUB2_eta_1->SetTopMargin(0.1);
-        if (cbin > 4) padratN1SUB2_eta_1->SetBottomMargin(0.25);
+        TPad * padratN1SUB2_eta_1_Loose = (TPad *) cratN1SUB2_eta_1_Loose->cd(cbin+1);
+        if (gridlines) padratN1SUB2_eta_1_Loose->SetGrid();
+        if (cbin == 4 || cbin == 9) padratN1SUB2_eta_1_Loose->SetRightMargin(0.02);
+        if (cbin <= 4) padratN1SUB2_eta_1_Loose->SetTopMargin(0.1);
+        if (cbin > 4) padratN1SUB2_eta_1_Loose->SetBottomMargin(0.25);
 
-        TH1D * hratN1SUB2_eta_1 = new TH1D(Form("hratN1SUB2_eta_1_%d",cbin), "", 50, -2.8, 2.8);
-        hratN1SUB2_eta_1->SetXTitle("|#eta|");
-        if (cbin <= 4) hratN1SUB2_eta_1->SetYTitle("v_{1}^{odd}");
-        else hratN1SUB2_eta_1->SetYTitle("v_{1}^{odd}{Loose} / v_{1}^{odd}{Tight}");
-        hratN1SUB2_eta_1->GetXaxis()->CenterTitle();
-        hratN1SUB2_eta_1->GetYaxis()->CenterTitle();
-        if (cbin<=4) hratN1SUB2_eta_1->GetYaxis()->SetRangeUser(-0.022, 0.022);
-        else hratN1SUB2_eta_1->GetYaxis()->SetRangeUser(0.5, 1.5);
-        hratN1SUB2_eta_1->GetYaxis()->SetNdivisions(509);
-        hratN1SUB2_eta_1->GetYaxis()->SetTitleSize(0.07);
-        hratN1SUB2_eta_1->GetYaxis()->SetLabelSize(0.05);
-        hratN1SUB2_eta_1->GetYaxis()->SetTitleOffset(1.20);
-        hratN1SUB2_eta_1->GetYaxis()->SetLabelOffset(0.010);
+        TH1D * hratN1SUB2_eta_1_Loose = new TH1D(Form("hratN1SUB2_eta_1_Loose_%d",cbin), "", 50, -2.8, 2.8);
+        hratN1SUB2_eta_1_Loose->SetXTitle("|#eta|");
+        if (cbin <= 4) hratN1SUB2_eta_1_Loose->SetYTitle("v_{1}^{odd}");
+        else hratN1SUB2_eta_1_Loose->SetYTitle("v_{1}^{odd}{Loose} / v_{1}^{odd}{Tight}");
+        hratN1SUB2_eta_1_Loose->GetXaxis()->CenterTitle();
+        hratN1SUB2_eta_1_Loose->GetYaxis()->CenterTitle();
+        if (cbin<=4) hratN1SUB2_eta_1_Loose->GetYaxis()->SetRangeUser(-0.022, 0.022);
+        else hratN1SUB2_eta_1_Loose->GetYaxis()->SetRangeUser(0.5, 1.5);
+        hratN1SUB2_eta_1_Loose->GetYaxis()->SetNdivisions(509);
+        hratN1SUB2_eta_1_Loose->GetYaxis()->SetTitleSize(0.07);
+        hratN1SUB2_eta_1_Loose->GetYaxis()->SetLabelSize(0.05);
+        hratN1SUB2_eta_1_Loose->GetYaxis()->SetTitleOffset(1.20);
+        hratN1SUB2_eta_1_Loose->GetYaxis()->SetLabelOffset(0.010);
         if (cbin == 5) {
-            hratN1SUB2_eta_1->GetXaxis()->SetTitleSize(0.07);
-            hratN1SUB2_eta_1->GetXaxis()->SetLabelSize(0.05);
-            hratN1SUB2_eta_1->GetXaxis()->SetTitleOffset(1.00);
-            hratN1SUB2_eta_1->GetXaxis()->SetLabelOffset(0.019);
+            hratN1SUB2_eta_1_Loose->GetXaxis()->SetTitleSize(0.07);
+            hratN1SUB2_eta_1_Loose->GetXaxis()->SetLabelSize(0.05);
+            hratN1SUB2_eta_1_Loose->GetXaxis()->SetTitleOffset(1.00);
+            hratN1SUB2_eta_1_Loose->GetXaxis()->SetLabelOffset(0.019);
         }
         if (cbin >= 6) {
-            hratN1SUB2_eta_1->GetXaxis()->SetTitleSize(0.08);
-            hratN1SUB2_eta_1->GetXaxis()->SetLabelSize(0.06);
-            hratN1SUB2_eta_1->GetXaxis()->SetTitleOffset(0.83);
-            hratN1SUB2_eta_1->GetXaxis()->SetLabelOffset(0.011);
+            hratN1SUB2_eta_1_Loose->GetXaxis()->SetTitleSize(0.08);
+            hratN1SUB2_eta_1_Loose->GetXaxis()->SetLabelSize(0.06);
+            hratN1SUB2_eta_1_Loose->GetXaxis()->SetTitleOffset(0.83);
+            hratN1SUB2_eta_1_Loose->GetXaxis()->SetLabelOffset(0.011);
         }
-        hratN1SUB2_eta_1->Draw();
+        hratN1SUB2_eta_1_Loose->Draw();
         if (cbin <= 4) lnEta->Draw();
         else lnEta_rat->Draw();
 
         if (cbin<=4) {N1SUB2_Tight_eta[cbin+5]->Draw("same"); N1SUB2_Loose_eta[cbin+5]->Draw("same");}
         else ratN1SUB2_Loose_Tight_eta[cbin]->Draw("same");
 
-        TPaveText * txratN1SUB2_eta_1_cent;
+        TPaveText * txratN1SUB2_eta_1_Loose_cent;
         if (cbin <= 4) {
-            if (cbin == 0) txratN1SUB2_eta_1_cent = new TPaveText(0.80, 0.77, 0.95, 0.86, "NDC");
-            else txratN1SUB2_eta_1_cent = new TPaveText(0.40, 0.77, 0.60, 0.86, "NDC");
-            SetTPaveTxt(txratN1SUB2_eta_1_cent, 17);
-            txratN1SUB2_eta_1_cent->AddText(Form("%d - %d%%",cmin[cbin+5],cmax[cbin+5]));
-            txratN1SUB2_eta_1_cent->Draw();
+            if (cbin == 0) txratN1SUB2_eta_1_Loose_cent = new TPaveText(0.80, 0.77, 0.95, 0.86, "NDC");
+            else txratN1SUB2_eta_1_Loose_cent = new TPaveText(0.40, 0.77, 0.60, 0.86, "NDC");
+            SetTPaveTxt(txratN1SUB2_eta_1_Loose_cent, 17);
+            txratN1SUB2_eta_1_Loose_cent->AddText(Form("%d - %d%%",cmin[cbin+5],cmax[cbin+5]));
+            txratN1SUB2_eta_1_Loose_cent->Draw();
         }
 
-        TPaveText * txtxratN1SUB2_eta_1_fit;
+        TPaveText * txtxratN1SUB2_eta_1_Loose_fit;
         if (cbin >= 5) {
-            if (cbin == 5) txtxratN1SUB2_eta_1_fit = new TPaveText(0.23, 0.29, 0.60, 0.35, "NDC");
-            else txtxratN1SUB2_eta_1_fit = new TPaveText(0.04, 0.29, 0.49, 0.35, "NDC");
-            SetTPaveTxt(txtxratN1SUB2_eta_1_fit, 16);
-            txtxratN1SUB2_eta_1_fit->AddText(Form("mean = %1.4f",systN1SUB2_Loose_Tight_eta->GetBinContent(cbin)));
-            txtxratN1SUB2_eta_1_fit->Draw();
+            if (cbin == 5) txtxratN1SUB2_eta_1_Loose_fit = new TPaveText(0.23, 0.29, 0.60, 0.35, "NDC");
+            else txtxratN1SUB2_eta_1_Loose_fit = new TPaveText(0.04, 0.29, 0.49, 0.35, "NDC");
+            SetTPaveTxt(txtxratN1SUB2_eta_1_Loose_fit, 16);
+            txtxratN1SUB2_eta_1_Loose_fit->AddText(Form("mean = %1.4f",systN1SUB2_Loose_Tight_eta->GetBinContent(cbin)));
+            txtxratN1SUB2_eta_1_Loose_fit->Draw();
         }
     }
-    cratN1SUB2_eta_1->cd(1);
-    TPaveText * txratN1SUB2_eta_1_CMS = new TPaveText(0.19, 0.91, 0.66, 1.0,"NDC");
-    SetTPaveTxt(txratN1SUB2_eta_1_CMS, 18);
-    txratN1SUB2_eta_1_CMS->AddText("#bf{CMS} #it{Preliminary}");
-    txratN1SUB2_eta_1_CMS->Draw();
+    cratN1SUB2_eta_1_Loose->cd(1);
+    TPaveText * txratN1SUB2_eta_1_Loose_CMS = new TPaveText(0.19, 0.91, 0.66, 1.0,"NDC");
+    SetTPaveTxt(txratN1SUB2_eta_1_Loose_CMS, 18);
+    txratN1SUB2_eta_1_Loose_CMS->AddText("#bf{CMS} #it{Preliminary}");
+    txratN1SUB2_eta_1_Loose_CMS->Draw();
 
-    TLegend * legratN1SUB2_eta_1 = new TLegend(0.22, 0.05, 0.72, 0.23);
-    SetLegend(legratN1SUB2_eta_1, 16);
-    legratN1SUB2_eta_1->AddEntry(N1SUB2_Tight_eta[0],"Tight (default)","p");
-    legratN1SUB2_eta_1->AddEntry(N1SUB2_Loose_eta[0],"Loose","p");
-    legratN1SUB2_eta_1->Draw();
+    TLegend * legratN1SUB2_eta_1_Loose = new TLegend(0.22, 0.05, 0.72, 0.23);
+    SetLegend(legratN1SUB2_eta_1_Loose, 16);
+    legratN1SUB2_eta_1_Loose->AddEntry(N1SUB2_Tight_eta[0],"Tight (default)","p");
+    legratN1SUB2_eta_1_Loose->AddEntry(N1SUB2_Loose_eta[0],"Loose","p");
+    legratN1SUB2_eta_1_Loose->Draw();
 
-    cratN1SUB2_eta_1->cd(1);
-    TPaveText * txratN1SUB2_eta_1_label = new TPaveText(0.23, 0.67, 0.60, 0.85, "NDC");
-    SetTPaveTxt(txratN1SUB2_eta_1_label, 16);
-    txratN1SUB2_eta_1_label->AddText("PbPb #sqrt{s_{NN}} = 5.02 TeV");
-    txratN1SUB2_eta_1_label->AddText("0.3 < p_{T} < 3.0 GeV/c");
-    txratN1SUB2_eta_1_label->Draw();
+    cratN1SUB2_eta_1_Loose->cd(1);
+    TPaveText * txratN1SUB2_eta_1_Loose_label = new TPaveText(0.23, 0.67, 0.60, 0.85, "NDC");
+    SetTPaveTxt(txratN1SUB2_eta_1_Loose_label, 16);
+    txratN1SUB2_eta_1_Loose_label->AddText("PbPb #sqrt{s_{NN}} = 5.02 TeV");
+    txratN1SUB2_eta_1_Loose_label->AddText("0.3 < p_{T} < 3.0 GeV/c");
+    txratN1SUB2_eta_1_Loose_label->Draw();
 
-    cratN1SUB2_eta_1->Print("figures/integralVN/systematics/trkcuts_ratio_N1SUB2_eta_1.pdf","pdf");
+    cratN1SUB2_eta_1_Loose->Print("figures/integralVN/systematics/trkcuts_ratio_N1SUB2_eta_1_Loose.pdf","pdf");
 
 
 
     //-- N1SUB3
-    TCanvas * cratN1SUB3_eta_0 = new TCanvas("cratN1SUB3_eta_0", "cratN1SUB3_eta_0", 1300, 650);
-    cratN1SUB3_eta_0->Divide(5,2,0,0);
+    TCanvas * cratN1SUB3_eta_0_Loose = new TCanvas("cratN1SUB3_eta_0_Loose", "cratN1SUB3_eta_0_Loose", 1300, 650);
+    cratN1SUB3_eta_0_Loose->Divide(5,2,0,0);
     for (int cbin = 0; cbin<10; cbin++) {
-        TPad * padratN1SUB3_eta_0 = (TPad *) cratN1SUB3_eta_0->cd(cbin+1);
-        if (gridlines) padratN1SUB3_eta_0->SetGrid();
-        if (cbin == 4 || cbin == 9) padratN1SUB3_eta_0->SetRightMargin(0.02);
-        if (cbin <= 4) padratN1SUB3_eta_0->SetTopMargin(0.1);
-        if (cbin > 4) padratN1SUB3_eta_0->SetBottomMargin(0.25);
+        TPad * padratN1SUB3_eta_0_Loose = (TPad *) cratN1SUB3_eta_0_Loose->cd(cbin+1);
+        if (gridlines) padratN1SUB3_eta_0_Loose->SetGrid();
+        if (cbin == 4 || cbin == 9) padratN1SUB3_eta_0_Loose->SetRightMargin(0.02);
+        if (cbin <= 4) padratN1SUB3_eta_0_Loose->SetTopMargin(0.1);
+        if (cbin > 4) padratN1SUB3_eta_0_Loose->SetBottomMargin(0.25);
 
-        TH1D * hratN1SUB3_eta_0 = new TH1D(Form("hratN1SUB3_eta_0_%d",cbin), "", 50, -2.8, 2.8);
-        hratN1SUB3_eta_0->SetXTitle("|#eta|");
-        if (cbin <= 4) hratN1SUB3_eta_0->SetYTitle("v_{1}^{odd}");
-        else hratN1SUB3_eta_0->SetYTitle("v_{1}^{odd}{Loose} / v_{1}^{odd}{Tight}");
-        hratN1SUB3_eta_0->GetXaxis()->CenterTitle();
-        hratN1SUB3_eta_0->GetYaxis()->CenterTitle();
-        if (cbin<=4) hratN1SUB3_eta_0->GetYaxis()->SetRangeUser(-0.022, 0.022);
-        else hratN1SUB3_eta_0->GetYaxis()->SetRangeUser(0.5, 1.5);
-        hratN1SUB3_eta_0->GetYaxis()->SetNdivisions(509);
-        hratN1SUB3_eta_0->GetYaxis()->SetTitleSize(0.07);
-        hratN1SUB3_eta_0->GetYaxis()->SetLabelSize(0.05);
-        hratN1SUB3_eta_0->GetYaxis()->SetTitleOffset(1.20);
-        hratN1SUB3_eta_0->GetYaxis()->SetLabelOffset(0.010);
+        TH1D * hratN1SUB3_eta_0_Loose = new TH1D(Form("hratN1SUB3_eta_0_Loose_%d",cbin), "", 50, -2.8, 2.8);
+        hratN1SUB3_eta_0_Loose->SetXTitle("|#eta|");
+        if (cbin <= 4) hratN1SUB3_eta_0_Loose->SetYTitle("v_{1}^{odd}");
+        else hratN1SUB3_eta_0_Loose->SetYTitle("v_{1}^{odd}{Loose} / v_{1}^{odd}{Tight}");
+        hratN1SUB3_eta_0_Loose->GetXaxis()->CenterTitle();
+        hratN1SUB3_eta_0_Loose->GetYaxis()->CenterTitle();
+        if (cbin<=4) hratN1SUB3_eta_0_Loose->GetYaxis()->SetRangeUser(-0.022, 0.022);
+        else hratN1SUB3_eta_0_Loose->GetYaxis()->SetRangeUser(0.5, 1.5);
+        hratN1SUB3_eta_0_Loose->GetYaxis()->SetNdivisions(509);
+        hratN1SUB3_eta_0_Loose->GetYaxis()->SetTitleSize(0.07);
+        hratN1SUB3_eta_0_Loose->GetYaxis()->SetLabelSize(0.05);
+        hratN1SUB3_eta_0_Loose->GetYaxis()->SetTitleOffset(1.20);
+        hratN1SUB3_eta_0_Loose->GetYaxis()->SetLabelOffset(0.010);
         if (cbin == 5) {
-            hratN1SUB3_eta_0->GetXaxis()->SetTitleSize(0.07);
-            hratN1SUB3_eta_0->GetXaxis()->SetLabelSize(0.05);
-            hratN1SUB3_eta_0->GetXaxis()->SetTitleOffset(1.00);
-            hratN1SUB3_eta_0->GetXaxis()->SetLabelOffset(0.019);
+            hratN1SUB3_eta_0_Loose->GetXaxis()->SetTitleSize(0.07);
+            hratN1SUB3_eta_0_Loose->GetXaxis()->SetLabelSize(0.05);
+            hratN1SUB3_eta_0_Loose->GetXaxis()->SetTitleOffset(1.00);
+            hratN1SUB3_eta_0_Loose->GetXaxis()->SetLabelOffset(0.019);
         }
         if (cbin >= 6) {
-            hratN1SUB3_eta_0->GetXaxis()->SetTitleSize(0.08);
-            hratN1SUB3_eta_0->GetXaxis()->SetLabelSize(0.06);
-            hratN1SUB3_eta_0->GetXaxis()->SetTitleOffset(0.83);
-            hratN1SUB3_eta_0->GetXaxis()->SetLabelOffset(0.011);
+            hratN1SUB3_eta_0_Loose->GetXaxis()->SetTitleSize(0.08);
+            hratN1SUB3_eta_0_Loose->GetXaxis()->SetLabelSize(0.06);
+            hratN1SUB3_eta_0_Loose->GetXaxis()->SetTitleOffset(0.83);
+            hratN1SUB3_eta_0_Loose->GetXaxis()->SetLabelOffset(0.011);
         }
-        hratN1SUB3_eta_0->Draw();
+        hratN1SUB3_eta_0_Loose->Draw();
         if (cbin <= 4) lnEta->Draw();
         else lnEta_rat->Draw();
 
         if (cbin<=4) {N1SUB3_Tight_eta[cbin]->Draw("same"); N1SUB3_Loose_eta[cbin]->Draw("same");}
         else ratN1SUB3_Loose_Tight_eta[cbin-5]->Draw("same");
 
-        TPaveText * txratN1SUB3_eta_0_cent;
+        TPaveText * txratN1SUB3_eta_0_Loose_cent;
         if (cbin <= 4) {
-            if (cbin == 0) txratN1SUB3_eta_0_cent = new TPaveText(0.80, 0.77, 0.95, 0.86, "NDC");
-            else txratN1SUB3_eta_0_cent = new TPaveText(0.40, 0.77, 0.60, 0.86, "NDC");
-            SetTPaveTxt(txratN1SUB3_eta_0_cent, 17);
-            txratN1SUB3_eta_0_cent->AddText(Form("%d - %d%%",cmin[cbin],cmax[cbin]));
-            txratN1SUB3_eta_0_cent->Draw();
+            if (cbin == 0) txratN1SUB3_eta_0_Loose_cent = new TPaveText(0.80, 0.77, 0.95, 0.86, "NDC");
+            else txratN1SUB3_eta_0_Loose_cent = new TPaveText(0.40, 0.77, 0.60, 0.86, "NDC");
+            SetTPaveTxt(txratN1SUB3_eta_0_Loose_cent, 17);
+            txratN1SUB3_eta_0_Loose_cent->AddText(Form("%d - %d%%",cmin[cbin],cmax[cbin]));
+            txratN1SUB3_eta_0_Loose_cent->Draw();
         }
 
-        TPaveText * txtxratN1SUB3_eta_0_fit;
+        TPaveText * txtxratN1SUB3_eta_0_Loose_fit;
         if (cbin >= 5) {
-            if (cbin == 5) txtxratN1SUB3_eta_0_fit = new TPaveText(0.23, 0.29, 0.60, 0.35, "NDC");
-            else txtxratN1SUB3_eta_0_fit = new TPaveText(0.04, 0.29, 0.49, 0.35, "NDC");
-            SetTPaveTxt(txtxratN1SUB3_eta_0_fit, 16);
-            txtxratN1SUB3_eta_0_fit->AddText(Form("mean = %1.4f",systN1SUB3_Loose_Tight_eta->GetBinContent(cbin-4)));
-            txtxratN1SUB3_eta_0_fit->Draw();
+            if (cbin == 5) txtxratN1SUB3_eta_0_Loose_fit = new TPaveText(0.23, 0.29, 0.60, 0.35, "NDC");
+            else txtxratN1SUB3_eta_0_Loose_fit = new TPaveText(0.04, 0.29, 0.49, 0.35, "NDC");
+            SetTPaveTxt(txtxratN1SUB3_eta_0_Loose_fit, 16);
+            txtxratN1SUB3_eta_0_Loose_fit->AddText(Form("mean = %1.4f",systN1SUB3_Loose_Tight_eta->GetBinContent(cbin-4)));
+            txtxratN1SUB3_eta_0_Loose_fit->Draw();
         }
     }
-    cratN1SUB3_eta_0->cd(1);
-    TPaveText * txratN1SUB3_eta_0_CMS = new TPaveText(0.19, 0.91, 0.66, 1.0,"NDC");
-    SetTPaveTxt(txratN1SUB3_eta_0_CMS, 18);
-    txratN1SUB3_eta_0_CMS->AddText("#bf{CMS} #it{Preliminary}");
-    txratN1SUB3_eta_0_CMS->Draw();
+    cratN1SUB3_eta_0_Loose->cd(1);
+    TPaveText * txratN1SUB3_eta_0_Loose_CMS = new TPaveText(0.19, 0.91, 0.66, 1.0,"NDC");
+    SetTPaveTxt(txratN1SUB3_eta_0_Loose_CMS, 18);
+    txratN1SUB3_eta_0_Loose_CMS->AddText("#bf{CMS} #it{Preliminary}");
+    txratN1SUB3_eta_0_Loose_CMS->Draw();
 
-    TLegend * legratN1SUB3_eta_0 = new TLegend(0.22, 0.05, 0.72, 0.23);
-    SetLegend(legratN1SUB3_eta_0, 16);
-    legratN1SUB3_eta_0->AddEntry(N1SUB3_Tight_eta[0],"Tight (default)","p");
-    legratN1SUB3_eta_0->AddEntry(N1SUB3_Loose_eta[0],"Loose","p");
-    legratN1SUB3_eta_0->Draw();
+    TLegend * legratN1SUB3_eta_0_Loose = new TLegend(0.22, 0.05, 0.72, 0.23);
+    SetLegend(legratN1SUB3_eta_0_Loose, 16);
+    legratN1SUB3_eta_0_Loose->AddEntry(N1SUB3_Tight_eta[0],"Tight (default)","p");
+    legratN1SUB3_eta_0_Loose->AddEntry(N1SUB3_Loose_eta[0],"Loose","p");
+    legratN1SUB3_eta_0_Loose->Draw();
 
-    cratN1SUB3_eta_0->cd(1);
-    TPaveText * txratN1SUB3_eta_0_label = new TPaveText(0.23, 0.67, 0.60, 0.85, "NDC");
-    SetTPaveTxt(txratN1SUB3_eta_0_label, 16);
-    txratN1SUB3_eta_0_label->AddText("PbPb #sqrt{s_{NN}} = 5.02 TeV");
-    txratN1SUB3_eta_0_label->AddText("0.3 < p_{T} < 3.0 GeV/c");
-    txratN1SUB3_eta_0_label->Draw();
+    cratN1SUB3_eta_0_Loose->cd(1);
+    TPaveText * txratN1SUB3_eta_0_Loose_label = new TPaveText(0.23, 0.67, 0.60, 0.85, "NDC");
+    SetTPaveTxt(txratN1SUB3_eta_0_Loose_label, 16);
+    txratN1SUB3_eta_0_Loose_label->AddText("PbPb #sqrt{s_{NN}} = 5.02 TeV");
+    txratN1SUB3_eta_0_Loose_label->AddText("0.3 < p_{T} < 3.0 GeV/c");
+    txratN1SUB3_eta_0_Loose_label->Draw();
 
-    cratN1SUB3_eta_0->Print("figures/integralVN/systematics/trkcuts_ratio_N1SUB3_eta_0.pdf","pdf");
+    cratN1SUB3_eta_0_Loose->Print("figures/integralVN/systematics/trkcuts_ratio_N1SUB3_eta_0_Loose.pdf","pdf");
 
 
 
-    TCanvas * cratN1SUB3_eta_1 = new TCanvas("cratN1SUB3_eta_1", "cratN1SUB3_eta_1", 1300, 650);
-    cratN1SUB3_eta_1->Divide(5,2,0,0);
+    TCanvas * cratN1SUB3_eta_1_Loose = new TCanvas("cratN1SUB3_eta_1_Loose", "cratN1SUB3_eta_1_Loose", 1300, 650);
+    cratN1SUB3_eta_1_Loose->Divide(5,2,0,0);
     for (int cbin = 0; cbin<10; cbin++) {
-        TPad * padratN1SUB3_eta_1 = (TPad *) cratN1SUB3_eta_1->cd(cbin+1);
-        if (gridlines) padratN1SUB3_eta_1->SetGrid();
-        if (cbin == 4 || cbin == 9) padratN1SUB3_eta_1->SetRightMargin(0.02);
-        if (cbin <= 4) padratN1SUB3_eta_1->SetTopMargin(0.1);
-        if (cbin > 4) padratN1SUB3_eta_1->SetBottomMargin(0.25);
+        TPad * padratN1SUB3_eta_1_Loose = (TPad *) cratN1SUB3_eta_1_Loose->cd(cbin+1);
+        if (gridlines) padratN1SUB3_eta_1_Loose->SetGrid();
+        if (cbin == 4 || cbin == 9) padratN1SUB3_eta_1_Loose->SetRightMargin(0.02);
+        if (cbin <= 4) padratN1SUB3_eta_1_Loose->SetTopMargin(0.1);
+        if (cbin > 4) padratN1SUB3_eta_1_Loose->SetBottomMargin(0.25);
 
-        TH1D * hratN1SUB3_eta_1 = new TH1D(Form("hratN1SUB3_eta_1_%d",cbin), "", 50, -2.8, 2.8);
-        hratN1SUB3_eta_1->SetXTitle("|#eta|");
-        if (cbin <= 4) hratN1SUB3_eta_1->SetYTitle("v_{1}^{odd}");
-        else hratN1SUB3_eta_1->SetYTitle("v_{1}^{odd}{Loose} / v_{1}^{odd}{Tight}");
-        hratN1SUB3_eta_1->GetXaxis()->CenterTitle();
-        hratN1SUB3_eta_1->GetYaxis()->CenterTitle();
-        if (cbin<=4) hratN1SUB3_eta_1->GetYaxis()->SetRangeUser(-0.022, 0.022);
-        else hratN1SUB3_eta_1->GetYaxis()->SetRangeUser(0.5, 1.5);
-        hratN1SUB3_eta_1->GetYaxis()->SetNdivisions(509);
-        hratN1SUB3_eta_1->GetYaxis()->SetTitleSize(0.07);
-        hratN1SUB3_eta_1->GetYaxis()->SetLabelSize(0.05);
-        hratN1SUB3_eta_1->GetYaxis()->SetTitleOffset(1.20);
-        hratN1SUB3_eta_1->GetYaxis()->SetLabelOffset(0.010);
+        TH1D * hratN1SUB3_eta_1_Loose = new TH1D(Form("hratN1SUB3_eta_1_Loose_%d",cbin), "", 50, -2.8, 2.8);
+        hratN1SUB3_eta_1_Loose->SetXTitle("|#eta|");
+        if (cbin <= 4) hratN1SUB3_eta_1_Loose->SetYTitle("v_{1}^{odd}");
+        else hratN1SUB3_eta_1_Loose->SetYTitle("v_{1}^{odd}{Loose} / v_{1}^{odd}{Tight}");
+        hratN1SUB3_eta_1_Loose->GetXaxis()->CenterTitle();
+        hratN1SUB3_eta_1_Loose->GetYaxis()->CenterTitle();
+        if (cbin<=4) hratN1SUB3_eta_1_Loose->GetYaxis()->SetRangeUser(-0.022, 0.022);
+        else hratN1SUB3_eta_1_Loose->GetYaxis()->SetRangeUser(0.5, 1.5);
+        hratN1SUB3_eta_1_Loose->GetYaxis()->SetNdivisions(509);
+        hratN1SUB3_eta_1_Loose->GetYaxis()->SetTitleSize(0.07);
+        hratN1SUB3_eta_1_Loose->GetYaxis()->SetLabelSize(0.05);
+        hratN1SUB3_eta_1_Loose->GetYaxis()->SetTitleOffset(1.20);
+        hratN1SUB3_eta_1_Loose->GetYaxis()->SetLabelOffset(0.010);
         if (cbin == 5) {
-            hratN1SUB3_eta_1->GetXaxis()->SetTitleSize(0.07);
-            hratN1SUB3_eta_1->GetXaxis()->SetLabelSize(0.05);
-            hratN1SUB3_eta_1->GetXaxis()->SetTitleOffset(1.00);
-            hratN1SUB3_eta_1->GetXaxis()->SetLabelOffset(0.019);
+            hratN1SUB3_eta_1_Loose->GetXaxis()->SetTitleSize(0.07);
+            hratN1SUB3_eta_1_Loose->GetXaxis()->SetLabelSize(0.05);
+            hratN1SUB3_eta_1_Loose->GetXaxis()->SetTitleOffset(1.00);
+            hratN1SUB3_eta_1_Loose->GetXaxis()->SetLabelOffset(0.019);
         }
         if (cbin >= 6) {
-            hratN1SUB3_eta_1->GetXaxis()->SetTitleSize(0.08);
-            hratN1SUB3_eta_1->GetXaxis()->SetLabelSize(0.06);
-            hratN1SUB3_eta_1->GetXaxis()->SetTitleOffset(0.83);
-            hratN1SUB3_eta_1->GetXaxis()->SetLabelOffset(0.011);
+            hratN1SUB3_eta_1_Loose->GetXaxis()->SetTitleSize(0.08);
+            hratN1SUB3_eta_1_Loose->GetXaxis()->SetLabelSize(0.06);
+            hratN1SUB3_eta_1_Loose->GetXaxis()->SetTitleOffset(0.83);
+            hratN1SUB3_eta_1_Loose->GetXaxis()->SetLabelOffset(0.011);
         }
-        hratN1SUB3_eta_1->Draw();
+        hratN1SUB3_eta_1_Loose->Draw();
         if (cbin <= 4) lnEta->Draw();
         else lnEta_rat->Draw();
 
         if (cbin<=4) {N1SUB3_Tight_eta[cbin+5]->Draw("same"); N1SUB3_Loose_eta[cbin+5]->Draw("same");}
         else ratN1SUB3_Loose_Tight_eta[cbin]->Draw("same");
 
-        TPaveText * txratN1SUB3_eta_1_cent;
+        TPaveText * txratN1SUB3_eta_1_Loose_cent;
         if (cbin <= 4) {
-            if (cbin == 0) txratN1SUB3_eta_1_cent = new TPaveText(0.80, 0.77, 0.95, 0.86, "NDC");
-            else txratN1SUB3_eta_1_cent = new TPaveText(0.40, 0.77, 0.60, 0.86, "NDC");
-            SetTPaveTxt(txratN1SUB3_eta_1_cent, 17);
-            txratN1SUB3_eta_1_cent->AddText(Form("%d - %d%%",cmin[cbin+5],cmax[cbin+5]));
-            txratN1SUB3_eta_1_cent->Draw();
+            if (cbin == 0) txratN1SUB3_eta_1_Loose_cent = new TPaveText(0.80, 0.77, 0.95, 0.86, "NDC");
+            else txratN1SUB3_eta_1_Loose_cent = new TPaveText(0.40, 0.77, 0.60, 0.86, "NDC");
+            SetTPaveTxt(txratN1SUB3_eta_1_Loose_cent, 17);
+            txratN1SUB3_eta_1_Loose_cent->AddText(Form("%d - %d%%",cmin[cbin+5],cmax[cbin+5]));
+            txratN1SUB3_eta_1_Loose_cent->Draw();
         }
 
-        TPaveText * txtxratN1SUB3_eta_1_fit;
+        TPaveText * txtxratN1SUB3_eta_1_Loose_fit;
         if (cbin >= 5) {
-            if (cbin == 5) txtxratN1SUB3_eta_1_fit = new TPaveText(0.23, 0.29, 0.60, 0.35, "NDC");
-            else txtxratN1SUB3_eta_1_fit = new TPaveText(0.04, 0.29, 0.49, 0.35, "NDC");
-            SetTPaveTxt(txtxratN1SUB3_eta_1_fit, 16);
-            txtxratN1SUB3_eta_1_fit->AddText(Form("mean = %1.4f",systN1SUB3_Loose_Tight_eta->GetBinContent(cbin)));
-            txtxratN1SUB3_eta_1_fit->Draw();
+            if (cbin == 5) txtxratN1SUB3_eta_1_Loose_fit = new TPaveText(0.23, 0.29, 0.60, 0.35, "NDC");
+            else txtxratN1SUB3_eta_1_Loose_fit = new TPaveText(0.04, 0.29, 0.49, 0.35, "NDC");
+            SetTPaveTxt(txtxratN1SUB3_eta_1_Loose_fit, 16);
+            txtxratN1SUB3_eta_1_Loose_fit->AddText(Form("mean = %1.4f",systN1SUB3_Loose_Tight_eta->GetBinContent(cbin)));
+            txtxratN1SUB3_eta_1_Loose_fit->Draw();
         }
     }
-    cratN1SUB3_eta_1->cd(1);
-    TPaveText * txratN1SUB3_eta_1_CMS = new TPaveText(0.19, 0.91, 0.66, 1.0,"NDC");
-    SetTPaveTxt(txratN1SUB3_eta_1_CMS, 18);
-    txratN1SUB3_eta_1_CMS->AddText("#bf{CMS} #it{Preliminary}");
-    txratN1SUB3_eta_1_CMS->Draw();
+    cratN1SUB3_eta_1_Loose->cd(1);
+    TPaveText * txratN1SUB3_eta_1_Loose_CMS = new TPaveText(0.19, 0.91, 0.66, 1.0,"NDC");
+    SetTPaveTxt(txratN1SUB3_eta_1_Loose_CMS, 18);
+    txratN1SUB3_eta_1_Loose_CMS->AddText("#bf{CMS} #it{Preliminary}");
+    txratN1SUB3_eta_1_Loose_CMS->Draw();
 
-    TLegend * legratN1SUB3_eta_1 = new TLegend(0.22, 0.05, 0.72, 0.23);
-    SetLegend(legratN1SUB3_eta_1, 16);
-    legratN1SUB3_eta_1->AddEntry(N1SUB3_Tight_eta[0],"Tight (default)","p");
-    legratN1SUB3_eta_1->AddEntry(N1SUB3_Loose_eta[0],"Loose","p");
-    legratN1SUB3_eta_1->Draw();
+    TLegend * legratN1SUB3_eta_1_Loose = new TLegend(0.22, 0.05, 0.72, 0.23);
+    SetLegend(legratN1SUB3_eta_1_Loose, 16);
+    legratN1SUB3_eta_1_Loose->AddEntry(N1SUB3_Tight_eta[0],"Tight (default)","p");
+    legratN1SUB3_eta_1_Loose->AddEntry(N1SUB3_Loose_eta[0],"Loose","p");
+    legratN1SUB3_eta_1_Loose->Draw();
 
-    cratN1SUB3_eta_1->cd(1);
-    TPaveText * txratN1SUB3_eta_1_label = new TPaveText(0.23, 0.67, 0.60, 0.85, "NDC");
-    SetTPaveTxt(txratN1SUB3_eta_1_label, 16);
-    txratN1SUB3_eta_1_label->AddText("PbPb #sqrt{s_{NN}} = 5.02 TeV");
-    txratN1SUB3_eta_1_label->AddText("0.3 < p_{T} < 3.0 GeV/c");
-    txratN1SUB3_eta_1_label->Draw();
+    cratN1SUB3_eta_1_Loose->cd(1);
+    TPaveText * txratN1SUB3_eta_1_Loose_label = new TPaveText(0.23, 0.67, 0.60, 0.85, "NDC");
+    SetTPaveTxt(txratN1SUB3_eta_1_Loose_label, 16);
+    txratN1SUB3_eta_1_Loose_label->AddText("PbPb #sqrt{s_{NN}} = 5.02 TeV");
+    txratN1SUB3_eta_1_Loose_label->AddText("0.3 < p_{T} < 3.0 GeV/c");
+    txratN1SUB3_eta_1_Loose_label->Draw();
 
-    cratN1SUB3_eta_1->Print("figures/integralVN/systematics/trkcuts_ratio_N1SUB3_eta_1.pdf","pdf");
+    cratN1SUB3_eta_1_Loose->Print("figures/integralVN/systematics/trkcuts_ratio_N1SUB3_eta_1_Loose.pdf","pdf");
 
 
 
     //-- N1MC22SUB3
-    TCanvas * cratN1MC22SUB3_pt_0 = new TCanvas("cratN1MC22SUB3_pt_0", "cratN1MC22SUB3_pt_0", 1300, 650);
-    cratN1MC22SUB3_pt_0->Divide(5,2,0,0);
+    TCanvas * cratN1MC22SUB3_pt_0_Loose = new TCanvas("cratN1MC22SUB3_pt_0_Loose", "cratN1MC22SUB3_pt_0_Loose", 1300, 650);
+    cratN1MC22SUB3_pt_0_Loose->Divide(5,2,0,0);
     for (int cbin = 0; cbin<10; cbin++) {
-        TPad * padratN1MC22SUB3_pt_0 = (TPad *) cratN1MC22SUB3_pt_0->cd(cbin+1);
-        if (gridlines) padratN1MC22SUB3_pt_0->SetGrid();
-        if (cbin == 4 || cbin == 9) padratN1MC22SUB3_pt_0->SetRightMargin(0.02);
-        if (cbin <= 4) padratN1MC22SUB3_pt_0->SetTopMargin(0.1);
-        if (cbin > 4) padratN1MC22SUB3_pt_0->SetBottomMargin(0.25);
+        TPad * padratN1MC22SUB3_pt_0_Loose = (TPad *) cratN1MC22SUB3_pt_0_Loose->cd(cbin+1);
+        if (gridlines) padratN1MC22SUB3_pt_0_Loose->SetGrid();
+        if (cbin == 4 || cbin == 9) padratN1MC22SUB3_pt_0_Loose->SetRightMargin(0.02);
+        if (cbin <= 4) padratN1MC22SUB3_pt_0_Loose->SetTopMargin(0.1);
+        if (cbin > 4) padratN1MC22SUB3_pt_0_Loose->SetBottomMargin(0.25);
 
-        TH1D * hratN1MC22SUB3_pt_0 = new TH1D(Form("hratN1MC22SUB3_pt_0_%d",cbin), "", 50, 0, 12);
-        hratN1MC22SUB3_pt_0->SetXTitle("|#eta|");
-        if (cbin <= 4) hratN1MC22SUB3_pt_0->SetYTitle("v_{1}^{odd}");
-        else hratN1MC22SUB3_pt_0->SetYTitle("v_{1}^{odd}{Loose} / v_{1}^{odd}{Tight}");
-        hratN1MC22SUB3_pt_0->GetXaxis()->CenterTitle();
-        hratN1MC22SUB3_pt_0->GetYaxis()->CenterTitle();
-        if (cbin<=4) hratN1MC22SUB3_pt_0->GetYaxis()->SetRangeUser(-0.05, 0.22);
-        else hratN1MC22SUB3_pt_0->GetYaxis()->SetRangeUser(0.5, 1.5);
-        hratN1MC22SUB3_pt_0->GetYaxis()->SetNdivisions(509);
-        hratN1MC22SUB3_pt_0->GetYaxis()->SetTitleSize(0.07);
-        hratN1MC22SUB3_pt_0->GetYaxis()->SetLabelSize(0.05);
-        hratN1MC22SUB3_pt_0->GetYaxis()->SetTitleOffset(1.20);
-        hratN1MC22SUB3_pt_0->GetYaxis()->SetLabelOffset(0.010);
+        TH1D * hratN1MC22SUB3_pt_0_Loose = new TH1D(Form("hratN1MC22SUB3_pt_0_Loose_%d",cbin), "", 50, 0, 12);
+        hratN1MC22SUB3_pt_0_Loose->SetXTitle("|#eta|");
+        if (cbin <= 4) hratN1MC22SUB3_pt_0_Loose->SetYTitle("v_{1}^{odd}");
+        else hratN1MC22SUB3_pt_0_Loose->SetYTitle("v_{1}^{odd}{Loose} / v_{1}^{odd}{Tight}");
+        hratN1MC22SUB3_pt_0_Loose->GetXaxis()->CenterTitle();
+        hratN1MC22SUB3_pt_0_Loose->GetYaxis()->CenterTitle();
+        if (cbin<=4) hratN1MC22SUB3_pt_0_Loose->GetYaxis()->SetRangeUser(-0.05, 0.22);
+        else hratN1MC22SUB3_pt_0_Loose->GetYaxis()->SetRangeUser(0.5, 1.5);
+        hratN1MC22SUB3_pt_0_Loose->GetYaxis()->SetNdivisions(509);
+        hratN1MC22SUB3_pt_0_Loose->GetYaxis()->SetTitleSize(0.07);
+        hratN1MC22SUB3_pt_0_Loose->GetYaxis()->SetLabelSize(0.05);
+        hratN1MC22SUB3_pt_0_Loose->GetYaxis()->SetTitleOffset(1.20);
+        hratN1MC22SUB3_pt_0_Loose->GetYaxis()->SetLabelOffset(0.010);
         if (cbin == 5) {
-            hratN1MC22SUB3_pt_0->GetXaxis()->SetTitleSize(0.07);
-            hratN1MC22SUB3_pt_0->GetXaxis()->SetLabelSize(0.05);
-            hratN1MC22SUB3_pt_0->GetXaxis()->SetTitleOffset(1.00);
-            hratN1MC22SUB3_pt_0->GetXaxis()->SetLabelOffset(0.019);
+            hratN1MC22SUB3_pt_0_Loose->GetXaxis()->SetTitleSize(0.07);
+            hratN1MC22SUB3_pt_0_Loose->GetXaxis()->SetLabelSize(0.05);
+            hratN1MC22SUB3_pt_0_Loose->GetXaxis()->SetTitleOffset(1.00);
+            hratN1MC22SUB3_pt_0_Loose->GetXaxis()->SetLabelOffset(0.019);
         }
         if (cbin >= 6) {
-            hratN1MC22SUB3_pt_0->GetXaxis()->SetTitleSize(0.08);
-            hratN1MC22SUB3_pt_0->GetXaxis()->SetLabelSize(0.06);
-            hratN1MC22SUB3_pt_0->GetXaxis()->SetTitleOffset(0.83);
-            hratN1MC22SUB3_pt_0->GetXaxis()->SetLabelOffset(0.011);
+            hratN1MC22SUB3_pt_0_Loose->GetXaxis()->SetTitleSize(0.08);
+            hratN1MC22SUB3_pt_0_Loose->GetXaxis()->SetLabelSize(0.06);
+            hratN1MC22SUB3_pt_0_Loose->GetXaxis()->SetTitleOffset(0.83);
+            hratN1MC22SUB3_pt_0_Loose->GetXaxis()->SetLabelOffset(0.011);
         }
-        hratN1MC22SUB3_pt_0->Draw();
+        hratN1MC22SUB3_pt_0_Loose->Draw();
         if (cbin <= 4) lnPt->Draw();
         else lnPt_rat->Draw();
 
         if (cbin<=4) {N1MC22SUB3_Tight_pt[cbin]->Draw("same"); N1MC22SUB3_Loose_pt[cbin]->Draw("same");}
         else ratN1MC22SUB3_Loose_Tight_pt[cbin-5]->Draw("same");
 
-        TPaveText * txratN1MC22SUB3_pt_0_cent;
+        TPaveText * txratN1MC22SUB3_pt_0_Loose_cent;
         if (cbin <= 4) {
-            if (cbin == 0) txratN1MC22SUB3_pt_0_cent = new TPaveText(0.80, 0.77, 0.95, 0.86, "NDC");
-            else if (cbin == 1) txratN1MC22SUB3_pt_0_cent = new TPaveText(0.66, 0.77, 0.86, 0.86, "NDC");
-            else txratN1MC22SUB3_pt_0_cent = new TPaveText(0.40, 0.77, 0.60, 0.86, "NDC");
-            SetTPaveTxt(txratN1MC22SUB3_pt_0_cent, 17);
-            txratN1MC22SUB3_pt_0_cent->AddText(Form("%d - %d%%",cmin[cbin],cmax[cbin]));
-            txratN1MC22SUB3_pt_0_cent->Draw();
+            if (cbin == 0) txratN1MC22SUB3_pt_0_Loose_cent = new TPaveText(0.80, 0.77, 0.95, 0.86, "NDC");
+            else if (cbin == 1) txratN1MC22SUB3_pt_0_Loose_cent = new TPaveText(0.66, 0.77, 0.86, 0.86, "NDC");
+            else txratN1MC22SUB3_pt_0_Loose_cent = new TPaveText(0.40, 0.77, 0.60, 0.86, "NDC");
+            SetTPaveTxt(txratN1MC22SUB3_pt_0_Loose_cent, 17);
+            txratN1MC22SUB3_pt_0_Loose_cent->AddText(Form("%d - %d%%",cmin[cbin],cmax[cbin]));
+            txratN1MC22SUB3_pt_0_Loose_cent->Draw();
         }
 
-        TPaveText * txtxratN1MC22SUB3_pt_0_fit;
+        TPaveText * txtxratN1MC22SUB3_pt_0_Loose_fit;
         if (cbin >= 5) {
-            if (cbin == 5) txtxratN1MC22SUB3_pt_0_fit = new TPaveText(0.23, 0.29, 0.60, 0.35, "NDC");
-            else txtxratN1MC22SUB3_pt_0_fit = new TPaveText(0.04, 0.29, 0.49, 0.35, "NDC");
-            SetTPaveTxt(txtxratN1MC22SUB3_pt_0_fit, 16);
-            txtxratN1MC22SUB3_pt_0_fit->AddText(Form("mean = %1.4f",systN1MC22SUB3_Loose_Tight_pt->GetBinContent(cbin+1)));
-            txtxratN1MC22SUB3_pt_0_fit->Draw();
+            if (cbin == 5) txtxratN1MC22SUB3_pt_0_Loose_fit = new TPaveText(0.23, 0.29, 0.60, 0.35, "NDC");
+            else txtxratN1MC22SUB3_pt_0_Loose_fit = new TPaveText(0.04, 0.29, 0.49, 0.35, "NDC");
+            SetTPaveTxt(txtxratN1MC22SUB3_pt_0_Loose_fit, 16);
+            txtxratN1MC22SUB3_pt_0_Loose_fit->AddText(Form("mean = %1.4f",systN1MC22SUB3_Loose_Tight_pt->GetBinContent(cbin+1)));
+            txtxratN1MC22SUB3_pt_0_Loose_fit->Draw();
         }
     }
-    cratN1MC22SUB3_pt_0->cd(1);
-    TPaveText * txratN1MC22SUB3_pt_0_CMS = new TPaveText(0.19, 0.91, 0.66, 1.0,"NDC");
-    SetTPaveTxt(txratN1MC22SUB3_pt_0_CMS, 18);
-    txratN1MC22SUB3_pt_0_CMS->AddText("#bf{CMS} #it{Preliminary}");
-    txratN1MC22SUB3_pt_0_CMS->Draw();
+    cratN1MC22SUB3_pt_0_Loose->cd(1);
+    TPaveText * txratN1MC22SUB3_pt_0_Loose_CMS = new TPaveText(0.19, 0.91, 0.66, 1.0,"NDC");
+    SetTPaveTxt(txratN1MC22SUB3_pt_0_Loose_CMS, 18);
+    txratN1MC22SUB3_pt_0_Loose_CMS->AddText("#bf{CMS} #it{Preliminary}");
+    txratN1MC22SUB3_pt_0_Loose_CMS->Draw();
 
-    cratN1MC22SUB3_pt_0->cd(2);
-    TLegend * legratN1MC22SUB3_pt_0 = new TLegend(0.05, 0.69, 0.55, 0.86);
-    SetLegend(legratN1MC22SUB3_pt_0, 16);
-    legratN1MC22SUB3_pt_0->AddEntry(N1MC22SUB3_Tight_pt[0],"Tight (default)","p");
-    legratN1MC22SUB3_pt_0->AddEntry(N1MC22SUB3_Loose_pt[0],"Loose","p");
-    legratN1MC22SUB3_pt_0->Draw();
+    cratN1MC22SUB3_pt_0_Loose->cd(2);
+    TLegend * legratN1MC22SUB3_pt_0_Loose = new TLegend(0.05, 0.69, 0.55, 0.86);
+    SetLegend(legratN1MC22SUB3_pt_0_Loose, 16);
+    legratN1MC22SUB3_pt_0_Loose->AddEntry(N1MC22SUB3_Tight_pt[0],"Tight (default)","p");
+    legratN1MC22SUB3_pt_0_Loose->AddEntry(N1MC22SUB3_Loose_pt[0],"Loose","p");
+    legratN1MC22SUB3_pt_0_Loose->Draw();
 
-    cratN1MC22SUB3_pt_0->cd(1);
-    TPaveText * txratN1MC22SUB3_pt_0_label = new TPaveText(0.23, 0.67, 0.60, 0.85, "NDC");
-    SetTPaveTxt(txratN1MC22SUB3_pt_0_label, 16);
-    txratN1MC22SUB3_pt_0_label->AddText("PbPb #sqrt{s_{NN}} = 5.02 TeV");
-    txratN1MC22SUB3_pt_0_label->AddText("0.3 < p_{T} < 3.0 GeV/c");
-    txratN1MC22SUB3_pt_0_label->Draw();
+    cratN1MC22SUB3_pt_0_Loose->cd(1);
+    TPaveText * txratN1MC22SUB3_pt_0_Loose_label = new TPaveText(0.23, 0.67, 0.60, 0.85, "NDC");
+    SetTPaveTxt(txratN1MC22SUB3_pt_0_Loose_label, 16);
+    txratN1MC22SUB3_pt_0_Loose_label->AddText("PbPb #sqrt{s_{NN}} = 5.02 TeV");
+    txratN1MC22SUB3_pt_0_Loose_label->AddText("0.3 < p_{T} < 3.0 GeV/c");
+    txratN1MC22SUB3_pt_0_Loose_label->Draw();
 
-    cratN1MC22SUB3_pt_0->Print("figures/integralVN/systematics/trkcuts_ratio_N1MC22SUB3_pt_0.pdf","pdf");
+    cratN1MC22SUB3_pt_0_Loose->Print("figures/integralVN/systematics/trkcuts_ratio_N1MC22SUB3_pt_0_Loose.pdf","pdf");
 
 
 
-    TCanvas * cratN1MC22SUB3_pt_1 = new TCanvas("cratN1MC22SUB3_pt_1", "cratN1MC22SUB3_pt_1", 1300, 650);
-    cratN1MC22SUB3_pt_1->Divide(5,2,0,0);
+    TCanvas * cratN1MC22SUB3_pt_1_Loose = new TCanvas("cratN1MC22SUB3_pt_1_Loose", "cratN1MC22SUB3_pt_1_Loose", 1300, 650);
+    cratN1MC22SUB3_pt_1_Loose->Divide(5,2,0,0);
     for (int cbin = 0; cbin<10; cbin++) {
-        TPad * padratN1MC22SUB3_pt_1 = (TPad *) cratN1MC22SUB3_pt_1->cd(cbin+1);
-        if (gridlines) padratN1MC22SUB3_pt_1->SetGrid();
-        if (cbin == 4 || cbin == 9) padratN1MC22SUB3_pt_1->SetRightMargin(0.02);
-        if (cbin <= 4) padratN1MC22SUB3_pt_1->SetTopMargin(0.1);
-        if (cbin > 4) padratN1MC22SUB3_pt_1->SetBottomMargin(0.25);
+        TPad * padratN1MC22SUB3_pt_1_Loose = (TPad *) cratN1MC22SUB3_pt_1_Loose->cd(cbin+1);
+        if (gridlines) padratN1MC22SUB3_pt_1_Loose->SetGrid();
+        if (cbin == 4 || cbin == 9) padratN1MC22SUB3_pt_1_Loose->SetRightMargin(0.02);
+        if (cbin <= 4) padratN1MC22SUB3_pt_1_Loose->SetTopMargin(0.1);
+        if (cbin > 4) padratN1MC22SUB3_pt_1_Loose->SetBottomMargin(0.25);
 
-        TH1D * hratN1MC22SUB3_pt_1 = new TH1D(Form("hratN1MC22SUB3_pt_1_%d",cbin), "", 50, 0, 12);
-        hratN1MC22SUB3_pt_1->SetXTitle("|#eta|");
-        if (cbin <= 4) hratN1MC22SUB3_pt_1->SetYTitle("v_{1}^{odd}");
-        else hratN1MC22SUB3_pt_1->SetYTitle("v_{1}^{odd}{Loose} / v_{1}^{odd}{Tight}");
-        hratN1MC22SUB3_pt_1->GetXaxis()->CenterTitle();
-        hratN1MC22SUB3_pt_1->GetYaxis()->CenterTitle();
-        if (cbin<=4) hratN1MC22SUB3_pt_1->GetYaxis()->SetRangeUser(-0.05, 0.22);
-        else hratN1MC22SUB3_pt_1->GetYaxis()->SetRangeUser(0.5, 1.5);
-        hratN1MC22SUB3_pt_1->GetYaxis()->SetNdivisions(509);
-        hratN1MC22SUB3_pt_1->GetYaxis()->SetTitleSize(0.07);
-        hratN1MC22SUB3_pt_1->GetYaxis()->SetLabelSize(0.05);
-        hratN1MC22SUB3_pt_1->GetYaxis()->SetTitleOffset(1.20);
-        hratN1MC22SUB3_pt_1->GetYaxis()->SetLabelOffset(0.010);
+        TH1D * hratN1MC22SUB3_pt_1_Loose = new TH1D(Form("hratN1MC22SUB3_pt_1_Loose_%d",cbin), "", 50, 0, 12);
+        hratN1MC22SUB3_pt_1_Loose->SetXTitle("|#eta|");
+        if (cbin <= 4) hratN1MC22SUB3_pt_1_Loose->SetYTitle("v_{1}^{odd}");
+        else hratN1MC22SUB3_pt_1_Loose->SetYTitle("v_{1}^{odd}{Loose} / v_{1}^{odd}{Tight}");
+        hratN1MC22SUB3_pt_1_Loose->GetXaxis()->CenterTitle();
+        hratN1MC22SUB3_pt_1_Loose->GetYaxis()->CenterTitle();
+        if (cbin<=4) hratN1MC22SUB3_pt_1_Loose->GetYaxis()->SetRangeUser(-0.05, 0.22);
+        else hratN1MC22SUB3_pt_1_Loose->GetYaxis()->SetRangeUser(0.5, 1.5);
+        hratN1MC22SUB3_pt_1_Loose->GetYaxis()->SetNdivisions(509);
+        hratN1MC22SUB3_pt_1_Loose->GetYaxis()->SetTitleSize(0.07);
+        hratN1MC22SUB3_pt_1_Loose->GetYaxis()->SetLabelSize(0.05);
+        hratN1MC22SUB3_pt_1_Loose->GetYaxis()->SetTitleOffset(1.20);
+        hratN1MC22SUB3_pt_1_Loose->GetYaxis()->SetLabelOffset(0.010);
         if (cbin == 5) {
-            hratN1MC22SUB3_pt_1->GetXaxis()->SetTitleSize(0.07);
-            hratN1MC22SUB3_pt_1->GetXaxis()->SetLabelSize(0.05);
-            hratN1MC22SUB3_pt_1->GetXaxis()->SetTitleOffset(1.00);
-            hratN1MC22SUB3_pt_1->GetXaxis()->SetLabelOffset(0.019);
+            hratN1MC22SUB3_pt_1_Loose->GetXaxis()->SetTitleSize(0.07);
+            hratN1MC22SUB3_pt_1_Loose->GetXaxis()->SetLabelSize(0.05);
+            hratN1MC22SUB3_pt_1_Loose->GetXaxis()->SetTitleOffset(1.00);
+            hratN1MC22SUB3_pt_1_Loose->GetXaxis()->SetLabelOffset(0.019);
         }
         if (cbin >= 6) {
-            hratN1MC22SUB3_pt_1->GetXaxis()->SetTitleSize(0.08);
-            hratN1MC22SUB3_pt_1->GetXaxis()->SetLabelSize(0.06);
-            hratN1MC22SUB3_pt_1->GetXaxis()->SetTitleOffset(0.83);
-            hratN1MC22SUB3_pt_1->GetXaxis()->SetLabelOffset(0.011);
+            hratN1MC22SUB3_pt_1_Loose->GetXaxis()->SetTitleSize(0.08);
+            hratN1MC22SUB3_pt_1_Loose->GetXaxis()->SetLabelSize(0.06);
+            hratN1MC22SUB3_pt_1_Loose->GetXaxis()->SetTitleOffset(0.83);
+            hratN1MC22SUB3_pt_1_Loose->GetXaxis()->SetLabelOffset(0.011);
         }
-        hratN1MC22SUB3_pt_1->Draw();
+        hratN1MC22SUB3_pt_1_Loose->Draw();
         if (cbin <= 4) lnPt->Draw();
         else lnPt_rat->Draw();
 
         if (cbin<=4) {N1MC22SUB3_Tight_pt[cbin+5]->Draw("same"); N1MC22SUB3_Loose_pt[cbin+5]->Draw("same");}
         else ratN1MC22SUB3_Loose_Tight_pt[cbin]->Draw("same");
 
-        TPaveText * txratN1MC22SUB3_pt_1_cent;
+        TPaveText * txratN1MC22SUB3_pt_1_Loose_cent;
         if (cbin <= 4) {
-            if (cbin == 0) txratN1MC22SUB3_pt_1_cent = new TPaveText(0.80, 0.77, 0.95, 0.86, "NDC");
-            else if (cbin == 1) txratN1MC22SUB3_pt_1_cent = new TPaveText(0.66, 0.77, 0.86, 0.86, "NDC");
-            else txratN1MC22SUB3_pt_1_cent = new TPaveText(0.40, 0.77, 0.60, 0.86, "NDC");
-            SetTPaveTxt(txratN1MC22SUB3_pt_1_cent, 17);
-            txratN1MC22SUB3_pt_1_cent->AddText(Form("%d - %d%%",cmin[cbin+5],cmax[cbin+5]));
-            txratN1MC22SUB3_pt_1_cent->Draw();
+            if (cbin == 0) txratN1MC22SUB3_pt_1_Loose_cent = new TPaveText(0.80, 0.77, 0.95, 0.86, "NDC");
+            else if (cbin == 1) txratN1MC22SUB3_pt_1_Loose_cent = new TPaveText(0.66, 0.77, 0.86, 0.86, "NDC");
+            else txratN1MC22SUB3_pt_1_Loose_cent = new TPaveText(0.40, 0.77, 0.60, 0.86, "NDC");
+            SetTPaveTxt(txratN1MC22SUB3_pt_1_Loose_cent, 17);
+            txratN1MC22SUB3_pt_1_Loose_cent->AddText(Form("%d - %d%%",cmin[cbin+5],cmax[cbin+5]));
+            txratN1MC22SUB3_pt_1_Loose_cent->Draw();
         }
 
-        TPaveText * txtxratN1MC22SUB3_pt_1_fit;
+        TPaveText * txtxratN1MC22SUB3_pt_1_Loose_fit;
         if (cbin >= 5) {
-            if (cbin == 5) txtxratN1MC22SUB3_pt_1_fit = new TPaveText(0.23, 0.29, 0.60, 0.35, "NDC");
-            else txtxratN1MC22SUB3_pt_1_fit = new TPaveText(0.04, 0.29, 0.49, 0.35, "NDC");
-            SetTPaveTxt(txtxratN1MC22SUB3_pt_1_fit, 16);
-            txtxratN1MC22SUB3_pt_1_fit->AddText(Form("mean = %1.4f",systN1MC22SUB3_Loose_Tight_pt->GetBinContent(cbin)));
-            txtxratN1MC22SUB3_pt_1_fit->Draw();
+            if (cbin == 5) txtxratN1MC22SUB3_pt_1_Loose_fit = new TPaveText(0.23, 0.29, 0.60, 0.35, "NDC");
+            else txtxratN1MC22SUB3_pt_1_Loose_fit = new TPaveText(0.04, 0.29, 0.49, 0.35, "NDC");
+            SetTPaveTxt(txtxratN1MC22SUB3_pt_1_Loose_fit, 16);
+            txtxratN1MC22SUB3_pt_1_Loose_fit->AddText(Form("mean = %1.4f",systN1MC22SUB3_Loose_Tight_pt->GetBinContent(cbin)));
+            txtxratN1MC22SUB3_pt_1_Loose_fit->Draw();
         }
     }
-    cratN1MC22SUB3_pt_1->cd(1);
-    TPaveText * txratN1MC22SUB3_pt_1_CMS = new TPaveText(0.19, 0.91, 0.66, 1.0,"NDC");
-    SetTPaveTxt(txratN1MC22SUB3_pt_1_CMS, 18);
-    txratN1MC22SUB3_pt_1_CMS->AddText("#bf{CMS} #it{Preliminary}");
-    txratN1MC22SUB3_pt_1_CMS->Draw();
+    cratN1MC22SUB3_pt_1_Loose->cd(1);
+    TPaveText * txratN1MC22SUB3_pt_1_Loose_CMS = new TPaveText(0.19, 0.91, 0.66, 1.0,"NDC");
+    SetTPaveTxt(txratN1MC22SUB3_pt_1_Loose_CMS, 18);
+    txratN1MC22SUB3_pt_1_Loose_CMS->AddText("#bf{CMS} #it{Preliminary}");
+    txratN1MC22SUB3_pt_1_Loose_CMS->Draw();
 
-    cratN1MC22SUB3_pt_1->cd(2);
-    TLegend * legratN1MC22SUB3_pt_1 = new TLegend(0.05, 0.69, 0.55, 0.86);
-    SetLegend(legratN1MC22SUB3_pt_1, 16);
-    legratN1MC22SUB3_pt_1->AddEntry(N1MC22SUB3_Tight_pt[0],"Tight (default)","p");
-    legratN1MC22SUB3_pt_1->AddEntry(N1MC22SUB3_Loose_pt[0],"Loose","p");
-    legratN1MC22SUB3_pt_1->Draw();
+    cratN1MC22SUB3_pt_1_Loose->cd(2);
+    TLegend * legratN1MC22SUB3_pt_1_Loose = new TLegend(0.05, 0.69, 0.55, 0.86);
+    SetLegend(legratN1MC22SUB3_pt_1_Loose, 16);
+    legratN1MC22SUB3_pt_1_Loose->AddEntry(N1MC22SUB3_Tight_pt[0],"Tight (default)","p");
+    legratN1MC22SUB3_pt_1_Loose->AddEntry(N1MC22SUB3_Loose_pt[0],"Loose","p");
+    legratN1MC22SUB3_pt_1_Loose->Draw();
 
-    cratN1MC22SUB3_pt_1->cd(1);
-    TPaveText * txratN1MC22SUB3_pt_1_label = new TPaveText(0.23, 0.67, 0.60, 0.85, "NDC");
-    SetTPaveTxt(txratN1MC22SUB3_pt_1_label, 16);
-    txratN1MC22SUB3_pt_1_label->AddText("PbPb #sqrt{s_{NN}} = 5.02 TeV");
-    txratN1MC22SUB3_pt_1_label->AddText("0.3 < p_{T} < 3.0 GeV/c");
-    txratN1MC22SUB3_pt_1_label->Draw();
+    cratN1MC22SUB3_pt_1_Loose->cd(1);
+    TPaveText * txratN1MC22SUB3_pt_1_Loose_label = new TPaveText(0.23, 0.67, 0.60, 0.85, "NDC");
+    SetTPaveTxt(txratN1MC22SUB3_pt_1_Loose_label, 16);
+    txratN1MC22SUB3_pt_1_Loose_label->AddText("PbPb #sqrt{s_{NN}} = 5.02 TeV");
+    txratN1MC22SUB3_pt_1_Loose_label->AddText("0.3 < p_{T} < 3.0 GeV/c");
+    txratN1MC22SUB3_pt_1_Loose_label->Draw();
 
-    cratN1MC22SUB3_pt_1->Print("figures/integralVN/systematics/trkcuts_ratio_N1MC22SUB3_pt_1.pdf","pdf");
+    cratN1MC22SUB3_pt_1_Loose->Print("figures/integralVN/systematics/trkcuts_ratio_N1MC22SUB3_pt_1_Loose.pdf","pdf");
+
+
+    //-- TightB ratios
+
+
+    
 
 
 }
