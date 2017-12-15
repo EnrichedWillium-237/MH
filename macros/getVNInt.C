@@ -365,13 +365,13 @@ void getVNInt()
         vnA_eta[N1ASUB3][cbin]->SetMarkerColor(kMagenta);
         vnA_eta[N1ASUB3][cbin]->SetLineColor(kMagenta);
         vnA_eta[N1ASUB3][cbin]->SetMarkerStyle(28);
-        vnA_eta[N1ASUB3][cbin]->SetMarkerSize(1.2);
+        vnA_eta[N1ASUB3][cbin]->SetMarkerSize(1.1);
         vnA_eta[N1ASUB3][cbin]->Draw("same");
 
         vnA_eta[N1BSUB3][cbin]->SetMarkerColor(kCyan+2);
         vnA_eta[N1BSUB3][cbin]->SetLineColor(kCyan+2);
         vnA_eta[N1BSUB3][cbin]->SetMarkerStyle(28);
-        vnA_eta[N1BSUB3][cbin]->SetMarkerSize(1.2);
+        vnA_eta[N1BSUB3][cbin]->SetMarkerSize(1.1);
         vnA_eta[N1BSUB3][cbin]->Draw("same");
 
         TPaveText * txv1pmEta_cent;

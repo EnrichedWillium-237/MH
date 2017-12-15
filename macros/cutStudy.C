@@ -463,32 +463,32 @@ void cutStudy()
         N1SUB2_Tight_eta[cbin]->SetMarkerColor(kBlue);
         N1SUB2_Tight_eta[cbin]->SetLineColor(kBlue);
         N1SUB2_Tight_eta[cbin]->SetMarkerStyle(21);
-        N1SUB2_Tight_eta[cbin]->SetMarkerSize(1.2);
+        N1SUB2_Tight_eta[cbin]->SetMarkerSize(1.1);
 
         N1SUB3_Tight_eta[cbin]->SetMarkerColor(kBlue);
         N1SUB3_Tight_eta[cbin]->SetLineColor(kBlue);
         N1SUB3_Tight_eta[cbin]->SetMarkerStyle(21);
-        N1SUB3_Tight_eta[cbin]->SetMarkerSize(1.2);
+        N1SUB3_Tight_eta[cbin]->SetMarkerSize(1.1);
 
         N1MC22SUB3_Tight_eta[cbin]->SetMarkerColor(kBlue);
         N1MC22SUB3_Tight_eta[cbin]->SetLineColor(kBlue);
         N1MC22SUB3_Tight_eta[cbin]->SetMarkerStyle(21);
-        N1MC22SUB3_Tight_eta[cbin]->SetMarkerSize(1.2);
+        N1MC22SUB3_Tight_eta[cbin]->SetMarkerSize(1.1);
 
         N1SUB2_TightB_eta[cbin]->SetMarkerColor(kRed);
         N1SUB2_TightB_eta[cbin]->SetLineColor(kRed);
         N1SUB2_TightB_eta[cbin]->SetMarkerStyle(24);
-        N1SUB2_TightB_eta[cbin]->SetMarkerSize(1.2);
+        N1SUB2_TightB_eta[cbin]->SetMarkerSize(1.1);
 
         N1SUB3_TightB_eta[cbin]->SetMarkerColor(kRed);
         N1SUB3_TightB_eta[cbin]->SetLineColor(kRed);
         N1SUB3_TightB_eta[cbin]->SetMarkerStyle(24);
-        N1SUB3_TightB_eta[cbin]->SetMarkerSize(1.2);
+        N1SUB3_TightB_eta[cbin]->SetMarkerSize(1.1);
 
         N1MC22SUB3_TightB_eta[cbin]->SetMarkerColor(kRed);
         N1MC22SUB3_TightB_eta[cbin]->SetLineColor(kRed);
         N1MC22SUB3_TightB_eta[cbin]->SetMarkerStyle(24);
-        N1MC22SUB3_TightB_eta[cbin]->SetMarkerSize(1.2);
+        N1MC22SUB3_TightB_eta[cbin]->SetMarkerSize(1.1);
 
         N1MC22SUB3_Loose_pt[cbin]->SetMarkerColor(kMagenta);
         N1MC22SUB3_Loose_pt[cbin]->SetLineColor(kMagenta);
@@ -498,36 +498,36 @@ void cutStudy()
         N1MC22SUB3_Tight_pt[cbin]->SetMarkerColor(kBlue);
         N1MC22SUB3_Tight_pt[cbin]->SetLineColor(kBlue);
         N1MC22SUB3_Tight_pt[cbin]->SetMarkerStyle(21);
-        N1MC22SUB3_Tight_pt[cbin]->SetMarkerSize(1.2);
+        N1MC22SUB3_Tight_pt[cbin]->SetMarkerSize(1.1);
 
         N1MC22SUB3_TightB_pt[cbin]->SetMarkerColor(kRed);
         N1MC22SUB3_TightB_pt[cbin]->SetLineColor(kRed);
         N1MC22SUB3_TightB_pt[cbin]->SetMarkerStyle(24);
-        N1MC22SUB3_TightB_pt[cbin]->SetMarkerSize(1.2);
+        N1MC22SUB3_TightB_pt[cbin]->SetMarkerSize(1.1);
 
         ratN1SUB2_Loose_Tight_eta[cbin]->SetMarkerStyle(21);
-        ratN1SUB2_Loose_Tight_eta[cbin]->SetMarkerSize(1.2);
+        ratN1SUB2_Loose_Tight_eta[cbin]->SetMarkerSize(1.1);
 
         ratN1SUB3_Loose_Tight_eta[cbin]->SetMarkerStyle(21);
-        ratN1SUB3_Loose_Tight_eta[cbin]->SetMarkerSize(1.2);
+        ratN1SUB3_Loose_Tight_eta[cbin]->SetMarkerSize(1.1);
 
         ratN1MC22SUB3_Loose_Tight_eta[cbin]->SetMarkerStyle(21);
-        ratN1MC22SUB3_Loose_Tight_eta[cbin]->SetMarkerSize(1.2);
+        ratN1MC22SUB3_Loose_Tight_eta[cbin]->SetMarkerSize(1.1);
 
         ratN1MC22SUB3_Loose_Tight_pt[cbin]->SetMarkerStyle(21);
-        ratN1MC22SUB3_Loose_Tight_pt[cbin]->SetMarkerSize(1.2);
+        ratN1MC22SUB3_Loose_Tight_pt[cbin]->SetMarkerSize(1.1);
 
         ratN1SUB2_TightB_Tight_eta[cbin]->SetMarkerStyle(21);
-        ratN1SUB2_TightB_Tight_eta[cbin]->SetMarkerSize(1.2);
+        ratN1SUB2_TightB_Tight_eta[cbin]->SetMarkerSize(1.1);
 
         ratN1SUB3_TightB_Tight_eta[cbin]->SetMarkerStyle(21);
-        ratN1SUB3_TightB_Tight_eta[cbin]->SetMarkerSize(1.2);
+        ratN1SUB3_TightB_Tight_eta[cbin]->SetMarkerSize(1.1);
 
         ratN1MC22SUB3_TightB_Tight_eta[cbin]->SetMarkerStyle(21);
-        ratN1MC22SUB3_TightB_Tight_eta[cbin]->SetMarkerSize(1.2);
+        ratN1MC22SUB3_TightB_Tight_eta[cbin]->SetMarkerSize(1.1);
 
         ratN1MC22SUB3_TightB_Tight_pt[cbin]->SetMarkerStyle(21);
-        ratN1MC22SUB3_TightB_Tight_pt[cbin]->SetMarkerSize(1.2);
+        ratN1MC22SUB3_TightB_Tight_pt[cbin]->SetMarkerSize(1.1);
     }
 
 
