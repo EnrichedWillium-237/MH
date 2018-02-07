@@ -1,1055 +1,509 @@
-# include "TFile.h"
-# include "TGraphErrors.h"
-# include "TCanvas.h"
-# include "TF1.h"
-# include "TH1.h"
-# include "TH2.h"
-# include "TLatex.h"
-# include "TLegend.h"
-# include "TMath.h"
-# include "TPaveText.h"
-# include "TStyle.h"
-# include <fstream>
-# include <iostream>
+#include "TH1D.h"
+#include "TH2D.h"
+#include "TFile.h"
+#include "TLatex.h"
+#include "TLegend.h"
+#include "TCanvas.h"
+#include "TGraphErrors.h"
+#include "TMath.h"
+#include "TStopwatch.h"
+#include <iostream>
 
-static const int nptbins = 18;
-static const double ptbins[] = {0.30,  0.40,  0.50,  0.60,  0.80,  1.00,  1.25,  1.50,  2.00,  2.50,  3.00,
-                     3.50,  4.00,  5.00,  6.00,  7.00,  8.00,  10.00,  12.00};
-static const int netabins = 12;
-static const double etabins[] = {-2.4, -2.0, -1.6, -1.2, -0.8, -0.4,  0.0,
-                     0.4,  0.8,  1.2,  1.6, 2.0,  2.4};
-static const int ncentbins = 11;
-static const int centBins[] = {0, 5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70};
-static const double centRefBins[] = {0, 5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70};
-static const int cbins = 12;
-static const int cmin[]={0, 5, 10, 15, 20, 25, 30, 35, 40, 50, 60,  0, 30, 50};
-static const int cmax[]={5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70,  30, 50, 100};
-double EtaMin = -2.4;
-double EtaMax = 2.4;
-double PtMin = 0.3;
-double PtMax = 3.0;
+#include "src/HiEvtPlaneList.h"
+using namespace hi;
+static const int ncentbinsNOFF = 25;
+static const int centBinsNOFF[]={0, 10, 20, 30, 40, 50, 60, 70, 80, 100, 120, 135, 150, 160, 185, 210, 230, 250, 270, 300, 330, 350, 370, 390, 420, 500};
+static const double centRefBinsNOFF[]={0, 10, 20, 30, 40, 50, 60, 70, 80, 100, 120, 135, 150, 160, 185, 210, 230, 250, 270, 300, 330, 350, 370, 390, 420, 500};
+static const int cbinsNOFF = 25;
+static const int cminNOFF[]={1, 10, 20, 30, 40, 50, 60, 70, 80, 100, 120, 135, 150, 160, 185, 210, 230, 250, 270, 300, 330, 350, 370, 390, 420};
+static const int cmaxNOFF[]={10, 20, 30, 40, 50, 60, 70, 80, 100, 120, 135, 150, 160, 185, 210, 230, 250, 270, 300, 330, 350, 370, 390, 420, 500};
+static const int ncentbinsCENT = 11;
+static const int centBinsCENT[]={0,5,10,15,20,25,30,35,40,50,60,70};
+static const double centRefBinsCENT[]={0,5,10,15,20,25,30,35,40,50,60,70};
+static const int cbinsCENT = 15;
+static const int cminCENT[]={0, 5,10,15,20,25,30,35,40,50,60,  30,40, 10, 0,5};
+static const int cmaxCENT[]={5,10,15,20,25,30,35,40,50,60,70, 40,70, 70, 5,70};
+bool ntrkbinning = false;
+int ncentbins = 0;
+int centBins[50];
+double centRefBins[50];
+int cbins = 0;
+int cmin[50];
+int cmax[50];
+TFile * tout;
+TDirectory * toutsub;
+TDirectory * toutsubsub;
+TDirectory * toutsubsubsub;
+string tag;
+bool SetToA = false;
+bool Decor;
+double EtaMin = -0.8;
+double EtaMax = 0.8;
 string FigDir = "";
 string FigSubDir = "";
-static const int nanals = 24;
-enum AnalType {
-    N1MCm22SUB3, N1MCm18SUB3, N1MCm14SUB3, N1MCm10SUB3, N1MCm06SUB3, N1MCm02SUB3,
-    N1MCp22SUB3, N1MCp18SUB3, N1MCp14SUB3, N1MCp10SUB3, N1MCp06SUB3, N1MCp02SUB3,
-    N112ASUB2,   N112ASUB3,   N123ASUB2,   N123ASUB3,
-    N1ASUB2,     N1ASUB3,     N1BSUB2,     N1BSUB3,
-    N2SUB2,      N2SUB3,      N3SUB2,      N3SUB3,      LAST
-};
-string AnalNames[] = {
-    "N1MCm22SUB3", "N1MCm18SUB3", "N1MCm14SUB3", "N1MCm10SUB3", "N1MCm06SUB3", "N1MCm02SUB3",
-    "N1MCp22SUB3", "N1MCp18SUB3", "N1MCp14SUB3", "N1MCp10SUB3", "N1MCp06SUB3", "N1MCp02SUB3",
-    "N112ASUB2",   "N112ASUB3",   "N123ASUB2",   "N123ASUB3",
-    "N1ASUB2",     "N1ASUB3",     "N1BSUB2",     "N1BSUB3",
-    "N2SUB2",      "N2SUB3",      "N3SUB2",      "N3SUB3",      "LAST"
-};
-string ytitle[] = {
-    "v_{1}\{#Psi_{1,MC} (-2.4<#eta<-2.0)\}", "v_{1}\{#Psi_{1,MC} (-2.0<#eta<-1.6)\}", "v_{1}\{#Psi_{1,MC} (-1.6<#eta<-1.2)\}", "v_{1}\{#Psi_{1,MC} (-1.2<#eta<-0.8)\}",
-    "v_{1}\{#Psi_{1,MC} (-0.8<#eta<-0.4)\}", "v_{1}\{#Psi_{1,MC} (-0.4<#eta<0.0)\}",
-    "v_{1}\{#Psi_{1,MC} (0.0<#eta<0.4)\}",   "v_{1}\{#Psi_{1,MC} (0.4<#eta<0.8)\}",   "v_{1}\{#Psi_{1,MC} (0.8<#eta<1.2)\}",   "v_{1}\{#Psi_{1,MC} (1.2<#eta<1.6)\}",
-    "v_{1}\{#Psi_{1,MC} (1.6<#eta<2.0)\}",   "v_{1}\{#Psi_{1,MC} (2.0<#eta<2.4)\}",
-    "v_{1}\{#Psi_{1},#Psi_{2}\}",            "v_{1}\{#Psi_{1},#Psi_{2}\}",            "v_{1}\{#Psi_{2},#Psi_{3}\}",            "v_{1}\{#Psi_{2},#Psi_{3}\}",
-    "v_{1}\{#Psi_{1}\}",                     "v_{1}\{#Psi_{1}\}",                     "v_{1}\{#Psi_{1}\}",                     "v_{1}\{#Psi_{1}\}",
-    "v_{2}\{#Psi_{2}\}",                     "v_{2}\{#Psi_{2}\}",                     "v_{3}\{#Psi_{3}\}",                     "v_{3}\{#Psi_{3}\}",
-    "LAST"
-};
-
+string FigSubSubDir = "";
 FILE * outint;
-FILE * outintA;
-FILE * outintB;
 string soutint;
-string soutintA;
-string soutintB;
 string sspec;
 FILE * outspec;
 TFile * fin;
-TFile * fout;
 double fw = 1.3;
 int ANAL = -1;
 double fakescale = 1.;
+bool isNominal = true;
+bool isWide = false;
+bool isNarrow = false;
 bool isLoose = false;
 bool isTight = false;
-bool isTightB = false;
-bool rew = false;
 string stag;
 TH1D * centbins;
 TH1I * centRef;
-
-void GraphToHist( TGraphErrors * gin, TH1D * hout ) {
-    int num = gin->GetN();
-    Double_t x[100], y[100], yerr[100];
-    for (int i = 0; i<num; i++) {
-        gin->GetPoint(i, x[i], y[i]);
-        yerr[i] = gin->GetErrorY(i);
-        hout->SetBinContent(i+1, y[i]);
-        hout->SetBinError(i+1, yerr[i]);
-    }
-}
-
-
-double FakeAndEff( int cent, double pt, double &eff ) {
-    double cb[14]={0, 5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70, 80, 100};
-    double cbe[6]={0, 5, 10, 30, 50, 100};
-    TFile * f = 0;
-    TFile * e = 0;
-    eff = 1.;
-    if (isLoose) {
-        f = new TFile("EffAndFake/FakeRatesPixelPbPb_loose.root");
-        e = new TFile("EffAndFake/EffCorrectionsPixelPbPb_loose.root");
-    }
-    if (isTight) {
-        f = new TFile("EffAndFake/FakeRatesPixelPbPb_tight.root");
-        e = new TFile("EffAndFake/EffCorrectionsPixelPbPb_tight.root");
-    }
-    if (isTightB) {
-        f = new TFile("EffAndFake/FakeRatesPixelPbPb_tight.root");
-        e = new TFile("EffAndFake/EffCorrectionsPixelPbPb_TightB.root");
-    }
-    TH1I * cen = new TH1I("cen", "cen", 13, cb);
-    TH1I * cene = new TH1I("cene", "cene", 5, cbe);
-    int ib = cen->FindBin(cent)-1;
-    int ibe = cene->FindBin(cent)-1;
-    string rc = "hfak_"+to_string((int)cb[ib])+"_"+to_string((int)cb[ib+1]);
-    TH2D * hf = (TH2D *) f->Get(rc.data());
-    string re = "Eff_"+to_string((int)cbe[ibe])+"_"+to_string((int)cbe[ibe+1]);
-    TH2D * he = (TH2D *) e->Get(re.data());
-    int ptbin = hf->GetYaxis()->FindBin(pt);
-    int etabinmin = hf->GetXaxis()->FindBin(EtaMin+0.001);
-    int etabinmax = hf->GetXaxis()->FindBin(EtaMax-0.001);
-    double val = 0;
-    eff = 0;
-    for(int i = etabinmin; i<=etabinmax; i++) {
-        val += hf->GetBinContent(i,ptbin);
-        eff += he->GetBinContent(i,ptbin);
-    }
-    val/=(double)(etabinmax-etabinmin+1);
-    eff/=(double)(etabinmax-etabinmin+1);
-    cen->Delete();
-    cene->Delete();
-    f->Close();
-    e->Close();
-    return val ;
-}
-
-TH2D * ptcntEff( TH2D * ptcnt, double cent ) {
-    double cbe[6] = {0, 5, 10, 30, 50, 100};
-    TFile * e = 0;
-    bool skipeff = true;
-    if (!skipeff) {
-        if (isLoose) {
-            e = new TFile("EffAndFake/EffCorrectionsPixelPbPb_loose.root");
-        }
-        if (isTight) {
-            cout<<"use tight cut efficiency"<<endl;
-            e = new TFile("EffAndFake/EffCorrectionsPixelPbPb_tight.root");
-        }
-        if (isTightB) {
-            cout<<"use tightB cut efficiency"<<endl;
-            e = new TFile("EffAndFake/EffCorrectionsPixelPbPb_TightB.root");
-        }
-    }
-    TH1I * cene = new TH1I("cene", "cene", 5, cbe);
-    int ibe = cene->FindBin(cent)-1;
-    string re = "Eff_"+to_string((int)cbe[ibe])+"_"+to_string((int)cbe[ibe+1]);
-    TH2D * he = NULL;
-    if (!skipeff)  he = (TH2D *) e->Get(re.data());
-    TH2D * hsEff = (TH2D *) ptcnt->Clone("ptcntEff");
-    hsEff->Reset();
-    hsEff->SetDirectory(0);
-    for (int i = 1; i<=ptcnt->GetNbinsX(); i++) {
-        for (int j = 1; j<=ptcnt->GetNbinsY(); j++) {
-            double pt = ptcnt->GetXaxis()->GetBinCenter(i);
-            double eta = ptcnt->GetYaxis()->GetBinCenter(j);
-            double eff = 1.;
-            if (!skipeff) {
-    	        int ptbin = he->GetYaxis()->FindBin(pt);
-	            int etabin = he->GetXaxis()->FindBin(eta);
-	            double eff =  he->GetBinContent(etabin,ptbin);
-            }
-            if (eff<=0 || skipeff) eff = 1;
-            hsEff->SetBinContent(i, j, ptcnt->GetBinContent(i,j)/eff);
-        }
-    }
-    cene->Delete();
-    if (!skipeff) e->Close();
-    return hsEff ;
-}
-
-
-TGraphErrors * hpt;
-TGraphErrors * hdenom;
-TGraphErrors * hA;
-TGraphErrors * hB;
-TGraphErrors * hAdenom;
-TGraphErrors * hBdenom;
-TGraphErrors * nwspec;
-TGraphErrors * nwspec2;
+TH1D * rcnt;
 string rootFile;
-TGraphErrors * GetVNPt( int replay, int bin, double etamin, double etamax, TGraphErrors * &gA, TGraphErrors * &gB, TGraphErrors * &gspec, double *  resA, double * resB, double &vint, double &vinte, double &vintA, double &vintAe, double &vintB, double &vintBe, bool nonorm = false) {
-
-    cout<<"========================== "<<AnalNames[replay]<<"  with bin, etamin, etamax: "<<bin<<"\t"<<etamin<<"\t"<<etamax<<endl;
-    TH1D * hspec = 0;
-    TH1D * xpt = 0;
-    TH1D * sp = 0;
-    TH1D * vn = 0;
-    TH1D * vnA = 0;
-    TH1D * vnB = 0;
-    TH1D * vn2 = 0;
-    TH1D * vnA2 = 0;
-    TH1D * vnB2 = 0;
-    TH1D * qA1 = 0;
-    TH1D * qB1 = 0;
-    TH1D * wA1 = 0;
-    TH1D * wB1 = 0;
-    TH2D * qAe[10];
-    TH2D * qBe[10];
-    TH2D * wnAe[10];
-    TH2D * wnBe[10];
-    TH1D * qAe1[10] = {0};
-    TH1D * qBe1[10] = {0};
-    TH1D * wAe1[10] = {0};
-    TH1D * wBe1[10] = {0};
-    TH1D * vnAe = 0;
-    TH1D * vnBe = 0;
-    TH1D * vne = 0;
-    TH2D * ptav = 0;
-    TH2D * ptcnt = 0;
-    TH2D * badcnt = 0;
-    TH2D * qA = 0;
-    TH2D * qB = 0;
-    TH2D * wnA = 0;
-    TH2D * wnB = 0;
-    cout<<"bin, cmin, cmax: "<<bin<<"\t"<<cmin[bin]<<"\t"<<cmax[bin]<<endl;
-    int jmin = centRef->FindBin(cmin[bin])-1;
-    int jmax = centRef->FindBin(cmax[bin]-0.01)-1;
-    ANAL = replay;
-    string strip = AnalNames[replay];
-    bool sub2 = false;
-    TString subtest = AnalNames[replay];
-    if (subtest.Contains("SUB2")) sub2 = true;
-    if (sub2) {
-        cout<<"Use 2 subevent weighting"<<endl;
-        strip = strip.substr(0,strip.find("SUB2"));
-    } else {
-        cout<<"Use 3 subevent weighting"<<endl;
-        strip = strip.substr(0,strip.find("SUB3"));
-    }
-    double qBA = 0;
-    double qCA = 0;
-    double qCB = 0;
-    double qBAcnt = 0;
-    double qCAcnt = 0;
-    double qCBcnt = 0;
-    double qBAe[10] = {0};
-    double qCAe[10] = {0};
-    double qCBe[10] = {0};
-    double qBAecnt[10] = {0};
-    double qCAecnt[10] = {0};
-    double qCBecnt[10] = {0};
-    double centcnt = 0;
-    for (int j = jmin; j<=jmax; j++) {
-        string crange = to_string(cmin[j])+"_"+to_string(cmax[j]);
-        if (cmin[j]==1) crange = "0_"+to_string(cmax[j]);
-        cout<<crange<<endl;
-        if (j == jmin) {
-
-            ptav = (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/ptav",crange.data()));
-            ptcnt = (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/ptcnt",crange.data()));
-            badcnt = (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/badcnt",crange.data()));
-            centbins = (TH1D * ) fin->Get("vnanalyzer/centbins");
-            centcnt+=centbins->GetBinContent(j+1);
-            qA = (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qA",crange.data(),strip.data()));
-            qB = (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qB",crange.data(),strip.data()));
-            wnA = (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/wnA",crange.data(),strip.data()));
-            wnB = (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/wnB",crange.data(),strip.data()));
-            qBA += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qBA",crange.data(),strip.data())))->GetBinContent(1);
-            qBAcnt +=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qBAcnt",crange.data(),strip.data())))->GetBinContent(1);
-            qCA += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCA",crange.data(),strip.data())))->GetBinContent(1);
-            qCAcnt +=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCAcnt",crange.data(),strip.data())))->GetBinContent(1);
-            qCB += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCB",crange.data(),strip.data())))->GetBinContent(1);
-            qCBcnt +=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCBcnt",crange.data(),strip.data())))->GetBinContent(1);
-            for (int i = 0; i<10; i++) {
-            	qAe[i] = (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qA_%d",crange.data(),strip.data(),i+1));
-            	qBe[i] = (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qB_%d",crange.data(),strip.data(),i+1));
-            	wnAe[i] = (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/wnA_%d",crange.data(),strip.data(),i+1));
-            	wnBe[i] = (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/wnB_%d",crange.data(),strip.data(),i+1));
-            	qBAe[i] += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qBA_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
-            	qBAecnt[i] +=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qBAcnt_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
-            	qCAe[i] += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCA_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
-            	qCAecnt[i] +=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCAcnt_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
-            	qCBe[i] += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCB_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
-            	qCBecnt[i] +=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCBcnt_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
-            }
-        } else {
-            centcnt += centbins->GetBinContent(j);
-            ptav->Add( (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/ptav",crange.data())));
-            ptcnt->Add( (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/ptcnt",crange.data())));
-            badcnt->Add( (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/badcnt",crange.data())));
-            //centbins = (TH1D * ) fin->Get("vnanalyzer/centres");
-            qA->Add( (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qA",crange.data(),strip.data())));
-            qB->Add( (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qB",crange.data(),strip.data())));
-            wnA->Add( (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/wnA",crange.data(),strip.data())));
-            wnB->Add( (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/wnB",crange.data(),strip.data())));
-            qBA += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qBA",crange.data(),strip.data())))->GetBinContent(1);
-            qBAcnt+=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qBAcnt",crange.data(),strip.data())))->GetBinContent(1);
-            qCA += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCA",crange.data(),strip.data())))->GetBinContent(1);
-            qCAcnt+=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCAcnt",crange.data(),strip.data())))->GetBinContent(1);
-            qCB += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCB",crange.data(),strip.data())))->GetBinContent(1);
-            qCBcnt+=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCBcnt",crange.data(),strip.data())))->GetBinContent(1);
-
-            for (int i = 0; i<10; i++) {
-            	qAe[i]->Add( (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qA_%d",crange.data(),strip.data(),i+1)));
-            	qBe[i]->Add( (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qB_%d",crange.data(),strip.data(),i+1)));
-            	wnAe[i]->Add( (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/wnA_%d",crange.data(),strip.data(),i+1)));
-            	wnBe[i]->Add( (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/wnB_%d",crange.data(),strip.data(),i+1)));
-            	qBAe[i] += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qBA_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
-            	qBAecnt[i]+=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qBAcnt_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
-            	qCAe[i] += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCA_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
-            	qCAecnt[i]+=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCAcnt_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
-            	qCBe[i] += ((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCB_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
-            	qCBecnt[i]+=((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCBcnt_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
-            }
-        }
-    }
-
-    if (centcnt<50000) {
-        cout<<"centcnt: "<<centcnt<<endl;
-        return NULL;
-    }
-    qBA/=qBAcnt;
-    qCA/=qCAcnt;
-    qCB/=qCBcnt;
-    for (int i = 0; i<10; i++) {
-        qBAe[i]/=qBAecnt[i];
-        qCAe[i]/=qCAecnt[i];
-        qCBe[i]/=qCBecnt[i];
-    }
-    ptav->Divide(ptcnt);
-    int ietamin1 = 0;
-    int ietamax1 = 0;
-    int ietamin2 = 0;
-    int ietamax2 = 0;
-    double sign = 1.;
-    if (replay == N112ASUB2 || replay == N112ASUB3) sign = -1.;
-    if (etamin*etamax<0) {
-        ietamin1 = qA->GetYaxis()->FindBin(etamin+0.001);
-        ietamax1 = qA->GetYaxis()->FindBin(-0.001);
-        ietamin2 = qA->GetYaxis()->FindBin(0.001);
-        ietamax2 = qA->GetYaxis()->FindBin(etamax-0.001);
-        qA1 = (TH1D *) qA->ProjectionX("qA1",ietamin1,ietamax1);
-        qB1 = (TH1D *) qB->ProjectionX("qB1",ietamin2,ietamax2);
-        wA1 = (TH1D *) wnA->ProjectionX("wA1",ietamin1,ietamax1);
-        wB1 = (TH1D *) wnB->ProjectionX("wB1",ietamin2,ietamax2);
-    } else {
-        ietamin1 = qA->GetYaxis()->FindBin(etamin+0.001);
-        ietamax1 = qA->GetYaxis()->FindBin(etamax-0.001);
-        qA1 = (TH1D *) qA->ProjectionX("qA1",ietamin1,ietamax1);
-        qB1 = (TH1D *) qB->ProjectionX("qB1",ietamin1,ietamax1);
-        wA1 = (TH1D *) wnA->ProjectionX("wA1",ietamin1,ietamax1);
-        wB1 = (TH1D *) wnB->ProjectionX("wB1",ietamin1,ietamax1);
-    }
-    qA->Divide(wnA);
-    qB->Divide(wnB);
-    qA1->Divide(wA1);
-    qB1->Divide(wB1);
-    if (!nonorm) {
-        qBA = fabs(qBA);
-        qCA = fabs(qCA);
-        qCB = fabs(qCB);
-        if (sub2) {
-            qA->Scale(1./sqrt( qBA ));
-            qB->Scale(1./sqrt( qBA ));
-            qA1->Scale(1./sqrt( qBA ));
-            qB1->Scale(1./sqrt( qBA ));
-            resA[0] = sqrt( qBA );
-            resB[0] = sqrt( qBA );
-        } else {
-            qA->Scale(1./sqrt( qBA*qCA/qCB ));
-            qB->Scale(1./sqrt( qBA*qCB/qCA ));
-            qA1->Scale(1./sqrt( qBA*qCA/qCB ));
-            qB1->Scale(1./sqrt( qBA*qCB/qCA ));
-            resA[0] = sqrt( qBA*qCA/qCB );
-            resB[0] = sqrt( qBA*qCB/qCA );
-        }
-    }
-    for (int i = 0; i<10; i++) {
-
-        qAe1[i] = (TH1D *) qAe[i]->ProjectionX(Form("qAe1_%d",i),ietamin1,ietamax1);
-        qBe1[i] = (TH1D *) qBe[i]->ProjectionX(Form("qBe1_%d",i),ietamin2,ietamax2);
-        wAe1[i] = (TH1D *) wnAe[i]->ProjectionX(Form("wA1_%d",i),ietamin1,ietamax1);
-        wBe1[i] = (TH1D *) wnBe[i]->ProjectionX(Form("wB1_%d",i),ietamin2,ietamax2);
-
-        qAe[i]->Divide(wnAe[i]);
-        qBe[i]->Divide(wnBe[i]);
-        qAe1[i]->Divide(wAe1[i]);
-        qBe1[i]->Divide(wBe1[i]);
-        if (!nonorm) {
-            qBAe[i] = fabs(qBAe[i]);
-            qCAe[i] = fabs(qCAe[i]);
-            qCBe[i] = fabs(qCBe[i]);
-            if (sub2) {
-        	    qAe[i]->Scale(1./sqrt( qBAe[i] ));
-    	        qBe[i]->Scale(1./sqrt( qBAe[i] ));
-            	resA[i+1] = sqrt( qBAe[i] );
-            	resB[i+1] = sqrt( qBAe[i] );
-            } else {
-	            qAe[i]->Scale(1./sqrt( qBAe[i]*qCAe[i]/qCBe[i] ));
-	            qBe[i]->Scale(1./sqrt( qBAe[i]*qCBe[i]/qCAe[i] ));
-            	resA[i+1] = sqrt( qBAe[i]*qCAe[i]/qCBe[i] );
-            	resB[i+1] = sqrt( qBAe[i]*qCBe[i]/qCAe[i] );
-            }
-        }
-    }
-    if (etamin*etamax<0) {
-        xpt = (TH1D *) ptav->ProjectionX("xpt",ietamin1,ietamax2);
-        double c = (cmin[bin]+cmax[bin])/2.;
-        TH2D * hsEff = ptcntEff(ptcnt,c);
-
-        //hsEff->Draw("colz");
-
-        sp = (TH1D *) hsEff->ProjectionX("sp",ietamin1,ietamax2);
-        double ebinsA = ietamax1-ietamin1+1 ;
-        double ebinsB = ietamax2-ietamin2+1;
-        xpt->Scale(1./(ebinsA+ebinsB));
-        sp->Scale(1./(ebinsA+ebinsB));
-        if(!rew) {
-            vnA = (TH1D *) qA->ProjectionX("vnA",ietamin1,ietamax1);
-            vnB = (TH1D *) qB->ProjectionX("vnB",ietamin2,ietamax2);
-            vn = (TH1D *) vnA->Clone("vn");
-            vn->Add(vnB,sign);
-            vn->Scale(sign);
-            vnA->Scale(1./ebinsA);
-            vnB->Scale(1./ebinsB);
-            vn->Scale(1./(ebinsA+ebinsB));
-        } else {
-            vnA = (TH1D *) qA1->Clone("vnA");
-            vnB = (TH1D *) qB1->Clone("vnB");
-            vn = (TH1D *) vnA->Clone("vn");
-            vn->Add(vnB,sign);
-            vn->Scale(sign);
-            vn->Scale(0.5);
-        }
-        double vnm[50] = {0};
-        double vnAm[50] = {0};
-        double vnBm[50] = {0};
-        double vn2[50] = {0};
-        double vnA2[50] = {0};
-        double vnB2[50] = {0};
-        for (int i = 0; i<50; i++) {
-            vnm[i] = 0;
-            vnAm[i] = 0;
-            vnBm[i] = 0;
-            vn2[i] = 0;
-            vnA2[i] = 0;
-            vnB2[i] = 0;
-        }
-        for (int i = 0; i<10; i++) {
-            if (!rew) {
-                vnAe = (TH1D *) qAe[i]->ProjectionX(Form("vnA%d",i),ietamin1,ietamax1);
-            	vnBe = (TH1D *) qBe[i]->ProjectionX(Form("vnB%d",i),ietamin2,ietamax2);
-            	vne = (TH1D *) vnAe->Clone(Form("vn%d",i));
-            	vne->Add(vnBe,sign);
-            	vn->Scale(sign);
-            	vnAe->Scale(1./ebinsA);
-            	vnBe->Scale(1./ebinsB);
-            	vne->Scale(1./(ebinsA+ebinsB));
-            } else {
-	            vnAe = (TH1D *) qAe1[i]->Clone(Form("vnA%d",i));
-            	vnBe = (TH1D *) qBe1[i]->Clone(Form("vnB%d",i));
-            	vne = (TH1D *) vnAe->Clone(Form("vn%d",i));
-            	vne->Add(vnBe,sign);
-            	vne->Scale(sign);
-            	vne->Scale(0.5);
-            }
-
-            for (int j = 0; j<vne->GetNbinsX(); j++) {
-            	vnm[j]  += vne->GetBinContent(j+1);
-            	vnAm[j] += vnAe->GetBinContent(j+1);
-            	vnBm[j] += vnBe->GetBinContent(j+1);
-            	vn2[j]  += pow(vne->GetBinContent(j+1),2);
-            	vnA2[j] += pow(vnAe->GetBinContent(j+1),2);
-            	vnB2[j] += pow(vnBe->GetBinContent(j+1),2);
-            }
-        }
-        for (int j = 0; j<vn->GetNbinsX(); j++) {
-            vnm[j]/=10.;
-            vnAm[j]/=10.;
-            vnBm[j]/=10.;
-            vn2[j]/=10.;
-            vnA2[j]/=10.;
-            vnB2[j]/=10.;
-            vn->SetBinError(j+1, sqrt( (1./9.)*( vn2[j] - pow(vnm[j], 2)) ));
-            vnA->SetBinError(j+1,sqrt( (1./9.)*(vnA2[j] - pow(vnAm[j],2)) ));
-            vnB->SetBinError(j+1,sqrt( (1./9.)*(vnB2[j] - pow(vnBm[j],2)) ));
-        }
-    } else {
-        xpt = (TH1D *) ptav->ProjectionX("xpt",ietamin1,ietamax1);
-        double c = (cmin[bin]+cmax[bin])/2.;
-        TH2D * hsEff = ptcntEff(ptcnt,c);
-
-        sp = (TH1D *) hsEff->ProjectionX("sp",ietamin1,ietamax1);
-        double ebinsA = ietamax1-ietamin1+1 ;
-        xpt->Scale(1./ebinsA);
-        sp->Scale(1./ebinsA);
-        if (!rew) {
-            vnA = (TH1D *) qA->ProjectionX("vnA",ietamin1,ietamax1);
-            vnB = (TH1D *) qB->ProjectionX("vnB",ietamin1,ietamax1);
-            vn = (TH1D *) vnA->Clone("vn");
-            vn->Add(vnB,sign);
-            vn->Scale(sign);
-            vnA->Scale(1./ebinsA);
-            vnB->Scale(1./ebinsA);
-            vn->Scale(1./(ebinsA+ebinsA));
-        } else {
-            vnA = (TH1D *) qA1->Clone("vnA");
-            vnB = (TH1D *) qB1->Clone("vnB");
-            vn = (TH1D *) vnA->Clone("vn");
-            vn->Add(vnB,sign);
-            vn->Scale(sign);
-            vn->Scale(0.5);
-        }
-        double vnm[50] = {0};
-        double vnAm[50] = {0};
-        double vnBm[50] = {0};
-        double vn2[50] = {0};
-        double vnA2[50] = {0};
-        double vnB2[50] = {0};
-        for(int i = 0; i<50; i++) {
-            vnm[i] = 0;
-            vnAm[i] = 0;
-            vnBm[i] = 0;
-            vn2[i] = 0;
-            vnA2[i] = 0;
-            vnB2[i] = 0;
-        }
-        for (int i = 0; i<10; i++) {
-            if (!rew) {
-                vnAe = (TH1D *) qAe[i]->ProjectionX(Form("vnA%d",i),ietamin1,ietamax1);
-            	vnBe = (TH1D *) qBe[i]->ProjectionX(Form("vnB%d",i),ietamin1,ietamax1);
-            	vne = (TH1D *) vnAe->Clone(Form("vn%d",i));
-            	vne->Add(vnBe,sign);
-            	vne->Scale(sign);
-            	vnAe->Scale(1./ebinsA);
-            	vnBe->Scale(1./ebinsA);
-            	vne->Scale(1./(ebinsA+ebinsA));
-            } else {
-	            vnAe = (TH1D *) qAe1[i]->Clone(Form("vnA%d",i));
-            	vnBe = (TH1D *) qBe1[i]->Clone(Form("vnB%d",i));
-            	vne = (TH1D *) vnAe->Clone(Form("vn%d",i));
-            	vne->Add(vnBe,sign);
-            	vne->Scale(sign);
-            	vne->Scale(0.5);
-            }
-
-            for (int j = 0; j<vne->GetNbinsX(); j++) {
-            	vnm[j]  += vne->GetBinContent(j+1);
-            	vnAm[j] += vnAe->GetBinContent(j+1);
-            	vnBm[j] += vnBe->GetBinContent(j+1);
-            	vn2[j]  += pow(vne->GetBinContent(j+1),2);
-            	vnA2[j] += pow(vnAe->GetBinContent(j+1),2);
-            	vnB2[j] += pow(vnBe->GetBinContent(j+1),2);
-            }
-        }
-        for (int j = 0; j<vn->GetNbinsX(); j++) {
-            vnm[j]/=10.;
-            vnAm[j]/=10.;
-            vnBm[j]/=10.;
-            vn2[j]/=10.;
-            vnA2[j]/=10.;
-            vnB2[j]/=10.;
-            vn->SetBinError(j+1, sqrt( (1./9.)*( vn2[j] - pow(vnm[j], 2)) ));
-            vnA->SetBinError(j+1,sqrt( (1./9.)*(vnA2[j] - pow(vnAm[j],2)) ));
-            vnB->SetBinError(j+1,sqrt( (1./9.)*(vnB2[j] - pow(vnBm[j],2)) ));
-        }
-    }
-
-
-    TH1D * yld;
-    if (ietamax2>0) {
-        yld = ptcnt->ProjectionX("yld",ietamin1,ietamax2);
-    } else {
-        yld = ptcnt->ProjectionX("yld",ietamin1,ietamax1);
-    }
-    double x[20];
-    double y[20];
-    double yA[20];
-    double yB[20];
-    double ex[20];
-    double ey[20];
-    double eyA[20];
-    double eyB[20];
-    double xspec[20];
-    double yspec[20];
-    double exspec[20];
-    double eyspec[20];
-    for (int i = 0; i<20; i++) {
-        x[i] = 0;
-        y[i] = 0;
-        yA[i] = 0;
-        yB[i] = 0;
-        ex[i] = 0;
-        ey[i] = 0;
-        eyA[i] = 0;
-        eyB[i] = 0;
-        xspec[i] = 0;
-        yspec[i] = 0;
-        exspec[i] = 0;
-        eyspec[i] = 0;
-    }
-    int npt = 0;
-    double wvn = 0;
-    double wvne = 0;
-    double wvnA = 0;
-    double wvnAe = 0;
-    double wvnB = 0;
-    double wvnBe = 0;
-    double w = 0;
-    for (int i = 1; i<=xpt->GetNbinsX(); i++) {
-        double pt = xpt->GetBinContent(i);
-        if (sp->GetBinContent(i)<10) break;
-        if (pt>=0.3 && pt < 12.) {
-            x[npt] = pt;
-            y[npt] = vn->GetBinContent(i);
-            yA[npt] = vnA->GetBinContent(i);
-            yB[npt] = vnB->GetBinContent(i);
-            ex[npt] = 0;
-            ey[npt] = vn->GetBinError(i);
-            eyA[npt] = vnA->GetBinError(i);
-            eyB[npt] = vnB->GetBinError(i);
-            xspec[npt] = pt;
-            yspec[npt] = sp->GetBinContent(i)/sp->GetBinWidth(i)/(etamax-etamin)/centcnt;
-            exspec[npt] = 0;
-            eyspec[npt] = 0;
-            if (sp->GetBinContent(i)>1) eyspec[npt] = sqrt(sp->GetBinContent(i))/sp->GetBinWidth(i)/(etamax-etamin)/centcnt;
-            if (pt<3.) {
-            	double eff = 0;
-            	double cent = (cmin[bin] + cmax[bin])/2.;
-
-            	double fake = FakeAndEff(cent,pt,eff);
-            	wvn   += y[npt]*yld->GetBinContent(i)/eff;
-            	wvne  += ey[npt]*yld->GetBinContent(i)/eff;
-                wvnA  += yA[npt]*yld->GetBinContent(i)/eff;
-                wvnAe += eyA[npt]*yld->GetBinContent(i)/eff;
-                wvnB  += yB[npt]*yld->GetBinContent(i)/eff;
-                wvnBe += eyB[npt]*yld->GetBinContent(i)/eff;
-            	w     += yld->GetBinContent(i)/eff;
-            }
-            ++npt;
-        }
-    }
-    vint = wvn/w;
-    vinte = wvne/w;
-    vintA = wvnA/w;
-    vintAe = wvnAe/w;
-    vintB = wvnB/w;
-    vintBe = wvnBe/w;
-    cout<<"INTEGRAL: "<<vint<<"\t"<<vinte<<endl;
-    TGraphErrors * g = new TGraphErrors(npt,x,y,ex,ey);
-    g->SetMarkerStyle(20);
-    g->SetMarkerColor(kBlue);
-    g->SetLineColor(kBlue);
-    g->SetLineWidth(2);
-    gspec = new TGraphErrors(npt,xspec,yspec,exspec,eyspec);
-    gspec->SetMarkerStyle(20);
-    gspec->SetMarkerColor(kBlue);
-    gspec->SetLineColor(kBlue);
-    gspec->SetLineWidth(2);
-    gA = new TGraphErrors(npt,x,yA,ex,eyA);
-    gA->SetMarkerStyle(28);
-    gA->SetMarkerColor(kMagenta);
-    gA->SetLineColor(kMagenta);
-    gA->SetLineWidth(2);
-    gB = new TGraphErrors(npt,x,yB,ex,eyB);
-    gB->SetMarkerStyle(28);
-    gB->SetMarkerColor(kCyan+2);
-    gB->SetLineColor(kCyan+2);
-    gB->SetLineWidth(2);
-    return g;
-
-}
-
-
+double resA[50];
+double resB[50];
+double resAdenom[50];
+double resBdenom[50];
+double PTMAX = 0;
+double VNMIN = 0;
+double VNMAX=0;
+double VNINTMIN=0;
+double VNINTMAX=0;
+#include "src/Types.h"
+#include "src/Efficiency.C"
+#include "src/flip2D.C"
+#include "src/GetVNPt.C"
+#include "src/Harmonics.h"
+#include "src/drawSpec.C"
 TH1D * h = 0;
-void GetVNCreate( int replay = N1ASUB2, int bin = 0, bool NumOnly = false, bool DenomOnly = false ) {
+void GetVNCreate(int replay , int bin , TGraphErrors * & gint, TGraphErrors * & gintA, TGraphErrors *& gintB,  bool plotit=true, bool NumOnly=false, bool DenomOnly=false ){
+  TH1D * hspec = 0;
+  string cname = ANALS[replay][0]+"_"+to_string(cmin[bin])+"_"+to_string(cmax[bin])+Form("_eta_%03.1f_%03.1f",EtaMin,EtaMax);
+  h = new TH1D("h","h",100,0,PTMAX);
+  h->SetDirectory(0);
+  h->SetMinimum(0);
 
-    TH1D * hspec = 0;
-    FILE * ftest;
+  h->SetMaximum(0.6);
+  TGraphErrors * g;
+  TGraphErrors * gA;
+  TGraphErrors * gB;
+  TGraphErrors * gspec;
+  TGraphErrors * nwspec2;
+  double ymin = 0;
+  double ymax = 1;
+  double vint = 0;
+  double vinte = 0;
+  double vintA = 0;
+  double vintAe = 0;
+  double vintB = 0;
+  double vintBe = 0;
 
-    if (true) {
-        if ((ftest = fopen(Form("%s/%s",FigDir.data(),AnalNames[replay].data()),"r")) == NULL) {
-            system(Form("mkdir %s/%s",FigDir.data(),AnalNames[replay].data()));
-        } else {
-            fclose(ftest);
-        }
+  if(replay==N1SUB2   || replay==N1SUB3)   g =   N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if(replay==N1ASUB2   || replay==N1ASUB3)   g =   N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if(replay==N1BSUB2   || replay==N1BSUB3)   g =   N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if(replay==N1HFm1cSUB2   || replay==N1HFm1cSUB3)   g =   N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if(replay==N1HFm1dSUB2   || replay==N1HFm1dSUB3)   g =   N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if(replay==N1HFm1eSUB2   || replay==N1HFm1eSUB3)   g =   N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if(replay==N1HFm1fSUB2   || replay==N1HFm1fSUB3)   g =   N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if(replay==N1HFp1cSUB2   || replay==N1HFp1cSUB3)   g =   N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if(replay==N1HFp1dSUB2   || replay==N1HFp1dSUB3)   g =   N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if(replay==N1HFp1eSUB2   || replay==N1HFp1eSUB3)   g =   N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if(replay==N1HFp1fSUB2   || replay==N1HFp1fSUB3)   g =   N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if(replay==N1HFcSUB2   || replay==N1HFcSUB3)   g =   N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if(replay==N1HFdSUB2   || replay==N1HFdSUB3)   g =   N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if(replay==N1HFeSUB2   || replay==N1HFeSUB3)   g =   N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if(replay==N1HFfSUB2   || replay==N1HFfSUB3)   g =   N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if(replay==N1MCm22SUB3 || replay==N1MCm18SUB3 || replay==N1MCm14SUB3 || replay==N1MCm10SUB3 ||
+     replay==N1MCm06SUB3 || replay==N1MCm02SUB3 || replay==N1MCp22SUB3 || replay==N1MCp18SUB3 ||
+     replay==N1MCp14SUB3 || replay==N1MCp10SUB3 ||  replay==N1MCp06SUB3 || replay==N1MCp02SUB3 )
+    g =   N1EVEN(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if(replay==N1MCm22SUB2 || replay==N1MCm18SUB2 || replay==N1MCm14SUB2 || replay==N1MCm10SUB2 ||
+     replay==N1MCm06SUB2 || replay==N1MCm02SUB2 || replay==N1MCp22SUB2 || replay==N1MCp18SUB2 ||
+     replay==N1MCp14SUB2 || replay==N1MCp10SUB2 ||  replay==N1MCp06SUB2 || replay==N1MCp02SUB2 )
+    g =   N1EVEN(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if(replay==N1EVENSUB2 || replay==N1EVENSUB3) g =   N1EVEN(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if(replay==N112SUB2   || replay==N112SUB3)   g =   N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if(replay==N112ASUB2   || replay==N112ASUB3)   g =   N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if(replay==N112BSUB2   || replay==N112BSUB3)   g =   N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
 
-        if ((ftest = fopen(Form("%s/%s/data",FigDir.data(),AnalNames[replay].data()),"r")) == NULL) {
-            system(Form("mkdir %s/%s/data",FigDir.data(),AnalNames[replay].data()));
-        } else {
-            fclose(ftest);
-        }
-        system(Form("touch %s/%s/data/integral.dat",FigDir.data(),AnalNames[replay].data()));
-        soutint = Form("%s/%s/data/integral.dat",FigDir.data(),AnalNames[replay].data());
-        soutintA = Form("%s/%s/data/integralA.dat",FigDir.data(),AnalNames[replay].data());
-        soutintB = Form("%s/%s/data/integralB.dat",FigDir.data(),AnalNames[replay].data());
-    }
-    string cname = AnalNames[replay]+"_"+to_string(cmin[bin])+"_"+to_string(cmax[bin]);
+  if(replay==N112cSUB2   || replay==N112cSUB3)   g =   N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if(replay==N112AcSUB2   || replay==N112AcSUB3)   g =   N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if(replay==N112BcSUB2   || replay==N112BcSUB3)   g =   N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
 
-    h = new TH1D("h", "h", 100, 0, 12.);
-    h->SetDirectory(0);
-    h->SetMinimum(-0.1);
-    h->SetMaximum(0.5);
-    double vint = 0;
-    double vinte = 0;
-    double vintA = 0;
-    double vintAe = 0;
-    double vintB = 0;
-    double vintBe = 0;
-    double vintdenom = 0;
-    double vintedenom = 0;
-    double resA[cbins];
-    double resB[cbins];
-    double resAdenom[cbins];
-    double resBdenom[cbins];
-    if (replay == N112ASUB2 || replay == N112ASUB3) {
-        hdenom = GetVNPt(N2SUB3, bin, EtaMin, EtaMax, hAdenom, hBdenom, nwspec2, resAdenom, resBdenom, vintdenom, vintedenom, vintA, vintAe, vintB, vintBe, false);
-        fin->Close();
-        if (hdenom == NULL) return;
-        fin = new TFile(rootFile.data(),"r");
-        hpt = GetVNPt(N112ASUB3, bin, EtaMin, EtaMax, hA, hB, nwspec, resA, resB, vint, vinte, vintA, vintAe, vintB, vintBe, false);
-        if (hpt == NULL) return;
-        double res = (resAdenom[0]+resBdenom[0])/2.;
-        for (int i = 0; i<hpt->GetN(); i++) {
-            double ef = hpt->GetEY()[i]/hpt->GetY()[i];
-            hpt->GetY()[i]/=res;
-            hpt->GetEY()[i]/=res;
+  if(replay==N112dSUB2   || replay==N112dSUB3)   g =   N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if(replay==N112AdSUB2   || replay==N112AdSUB3)   g =   N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if(replay==N112BdSUB2   || replay==N112BdSUB3)   g =   N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
 
-            ef = hA->GetEY()[i]/hA->GetY()[i];
-            hA->GetY()[i]/=resBdenom[0];
-            hA->GetEY()[i]/=resBdenom[0];
+  if(replay==N112eSUB2   || replay==N112eSUB3)   g =   N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if(replay==N112AeSUB2   || replay==N112AeSUB3)   g =   N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if(replay==N112BeSUB2   || replay==N112BeSUB3)   g =   N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
 
-            ef = hB->GetEY()[i]/hB->GetY()[i];
-            hB->GetY()[i]/=resAdenom[0];
-            hB->GetEY()[i]/=resAdenom[0];
-        }
+  if(replay==N112fSUB2   || replay==N112fSUB3)   g =   N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if(replay==N112AfSUB2   || replay==N112AfSUB3)   g =   N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if(replay==N112BfSUB2   || replay==N112BfSUB3)   g =   N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
 
-    } else if (replay == N123ASUB2 || replay == N123ASUB3) {
-        hdenom = GetVNPt(N3SUB3, bin, EtaMin, EtaMax, hAdenom, hBdenom, nwspec2, resAdenom, resBdenom, vintdenom, vintedenom, vintA, vintAe, vintB, vintBe, false);
-        fin->Close();
-        if (hdenom == NULL) return;
-        fin = new TFile(rootFile.data(),"r");
-        hpt = GetVNPt(N123ASUB3, bin, EtaMin, EtaMax, hA, hB, nwspec, resA, resB, vint, vinte, vintA, vintAe, vintB, vintBe, false);
-        if (hpt == NULL) return;
-        double res = (resAdenom[0]+resBdenom[0])/2.;
-        for (int i = 0; i<hpt->GetN(); i++) {
-            double ef = hpt->GetEY()[i]/hpt->GetY()[i];
-            hpt->GetY()[i]/=res;
-            hpt->GetEY()[i]/=res;
+  // if(replay==N123SUB2   || replay==N123SUB3)   g =   N123(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  // if(replay==N123ASUB2   || replay==N123ASUB3)   g =   N123(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  // if(replay==N123BSUB2   || replay==N123BSUB3)   g =   N123(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if(replay==N2SUB2   || replay==N2SUB3)   g =   N2(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if(replay==N3SUB2   || replay==N3SUB3)   g =   N3(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if(replay==N4SUB2   || replay==N4SUB3)   g =   N4(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if(replay==N5SUB2   || replay==N5SUB3)   g =   N5(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if(replay==N6SUB2   || replay==N6SUB3)   g =   N6(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if(replay==N7SUB2   || replay==N7SUB3)   g =   N7(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if(replay==N523SUB2 || replay==N523SUB3) g = N523(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if(replay==N523ASUB2 || replay==N523ASUB3) g = N523(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if(replay==N42SUB2   || replay==N42SUB3)   g =   N42(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if(replay==N42ASUB2   || replay==N42ASUB3)   g =   N42(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if( replay==N42BSUB3)   g =   N42(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if( replay==N42CSUB3)   g =   N42(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if(replay==N62SUB2   || replay==N62SUB3)   g =   N62(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if(replay==N62ASUB3)   g =   N62(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if(replay==N63SUB2   || replay==N63SUB3)   g =   N63(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if(replay==N63ASUB2 || replay==N63ASUB3)   g =   N63(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if( replay==N63BSUB3)   g =   N63(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if( replay==N63CSUB3)   g =   N63(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if( replay==Chi4)    g = CHI4(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if( replay==Chi4A)   g = CHI4(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if( replay==Chi5)    g = CHI5(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if( replay==Chi5A)   g = CHI5(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if( replay==Chi62)    g = CHI62(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if( replay==Chi62A)   g = CHI62(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if( replay==Chi63)    g = CHI63(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if( replay==Chi63A)   g = CHI63(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if( replay==Chi7)    g = CHI7(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if( replay==Chi7A)   g = CHI7(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if(replay==N723SUB2 || replay==N723SUB3) g = N723(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+  if(replay==N723ASUB2 || replay==N723ASUB3) g = N723(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
 
-            ef = hA->GetEY()[i]/hA->GetY()[i];
-            hA->GetY()[i]/=resBdenom[0];
-            hA->GetEY()[i]/=resBdenom[0];
+  double ymaxspec = 0;
+  h->SetMinimum(ymin);
+  h->SetMaximum(ymax);
+  if(VNMIN>-10) h->SetMinimum(VNMIN);
+  if(VNMAX>-10) h->SetMaximum(VNMAX);
 
-            ef = hB->GetEY()[i]/hB->GetY()[i];
-            hB->GetY()[i]/=resAdenom[0];
-            hB->GetEY()[i]/=resAdenom[0];
-        }
-
-    } else {
-        hpt = GetVNPt(replay, bin, EtaMin, EtaMax, hA, hB, nwspec, resA, resB, vint, vinte, vintA, vintAe, vintB, vintBe);
-        if (hpt == NULL) return;
-    }
-
-    TCanvas * c = new TCanvas(cname.data(),cname.data(),650,500);
-
-    outint = fopen(soutint.data(),"a+");
-    fprintf(outint,"%d\t%d\t%15.10f\t%15.10f\n",cmin[bin],cmax[bin],vint,vinte);
-    fclose(outint);
-    outintA = fopen(soutintA.data(),"a+");
-    fprintf(outintA,"%d\t%d\t%15.10f\t%15.10f\n",cmin[bin],cmax[bin],vintA,vintAe);
-    fclose(outintA);
-    outintB = fopen(soutintB.data(),"a+");
-    fprintf(outintB,"%d\t%d\t%15.10f\t%15.10f\n",cmin[bin],cmax[bin],vintB,vintBe);
-    fclose(outintB);
-    double ymax = -1;
-    double ymin = 1;
-    double ymaxspec = 0;
-    for (int n = 0; n<hpt->GetN(); n++) {
-        if (hpt->GetX()[n]>4) break;
-        if (hpt->GetY()[n]+hpt->GetEY()[n]>ymax) ymax = hpt->GetY()[n]+hpt->GetEY()[n];
-        if (hpt->GetY()[n]-hpt->GetEY()[n]<ymin) ymin = hpt->GetY()[n]-hpt->GetEY()[n];
-        if (hA->GetY()[n]+hA->GetEY()[n]>ymax) ymax = hA->GetY()[n]+hA->GetEY()[n];
-        if (hA->GetY()[n]-hA->GetEY()[n]<ymin) ymin = hA->GetY()[n]-hA->GetEY()[n];
-        if (hB->GetY()[n]+hB->GetEY()[n]>ymax) ymax = hB->GetY()[n]+hB->GetEY()[n];
-        if (hB->GetY()[n]-hB->GetEY()[n]<ymin) ymin = hB->GetY()[n]-hB->GetEY()[n];
-
-        if(nwspec->GetY()[n]+nwspec->GetEY()[n]>ymaxspec) ymaxspec = nwspec->GetY()[n]+nwspec->GetEY()[n];
-    }
-
-    ymax = 0.05;
-    // if (ymax<0.0002) {
-    //     ymax=0.0004;
-    // } else if (ymax<0.004) {
-    //     ymax=0.001;
-    // } else if (ymax<0.01) {
-    //     ymax = 0.025;
-    // } else if (ymax<0.02) {
-    //     ymax = 0.04;
-    // } else if (ymax<0.05) {
-    //     ymax = 0.07;
-    // } else if (ymax<0.1) {
-    //     ymax = 0.2;
-    // } else if (ymax<0.2) {
-    //     ymax = 0.4;
-    // } else if (ymax<0.4) {
-    //     ymax = 0.8;
-    // } else if (ymax<2.0) {
-    //     ymax = 2.0;
-    // } else {
-    //     ymax = 10;
-    // }
-    // if (ANAL == N112ASUB2) {
-    //     ymax = 0.05;
-    // }
-    // if (ANAL == N123ASUB2) {
-    //     ymax = 0.025;
-    // }
-
-    // if(ymin>0) {
-    //     ymin = 0;
-    // } else if (ymin>-0.003) {
-    //     ymin = -0.005;
-    // } else if (ymin>-0.005) {
-    //     ymin = -0.008;
-    // } else if (ymin>-0.01) {
-    //     ymin = -0.015;
-    // } else if (ymin>-0.02) {
-    //     ymin = -0.03;
-    // } else if (ymin>-0.04) {
-    //     ymin = -0.06;
-    // } else if (ymin>-0.1) {
-    //     ymin = -0.2;
-    // } else if (ymin>-0.2) {
-    //     ymin = -0.3;
-    // } else if (ymin>-0.4) {
-    //     ymin = -0.6;
-    // } else if (ymin>-0.8) {
-    //     ymin = -1.0;
-    // } else if (ymin>-2.0) {
-    //     ymin = -3;
-    // } else {
-    //     ymin =-1;
-    // }
-    // if (ANAL == N112ASUB2) {
-    //     ymin = -0.05;
-    // }
-    // if (ANAL == N123ASUB2) {
-    //     ymin = -0.03;
-    // }
-    ymin = -0.05;
-    h->SetMinimum(ymin);
-    h->SetMaximum(ymax);
+  TCanvas * c=NULL;
+  if(plotit) {
+    c = new TCanvas(cname.data(),cname.data(),650,500);
     gPad->SetGrid(1,1);
     h->Draw();
-    h->SetXTitle("p_{T} (GeV/c)");
-    string numdenom = "";
-    if (NumOnly) numdenom = " (Numerator) ";
-    if (DenomOnly) numdenom = " (Denominator) ";
 
-    string yt = ytitle[replay]+numdenom+" ("+to_string(cmin[bin])+" #leq N_{trk}^{off} < "+to_string(cmax[bin])+")";
+    h->SetXTitle("P_{T} (GeV/c)");
+  }
+  string numdenom = "";
+  if(NumOnly) numdenom=" (Numerator) ";
+  if(DenomOnly) numdenom=" (Denominator) ";
+
+
+  string yt = ANALS[replay][1]+numdenom+" ("+to_string(cmin[bin])+" #leq N_{trk}^{off} < "+to_string(cmax[bin])+")";
+  if(!ntrkbinning) yt = ANALS[replay][1]+numdenom+" ("+to_string(cmin[bin])+" - "+to_string(cmax[bin])+"%)";
+
+  FILE * fout;
+  if(plotit) {
+
     h->SetYTitle(yt.data());
-    hpt->Draw("p");
-    string prevname = "";
-    string shengquan = "";
-    if (ANAL==N2SUB3 || ANAL==N2SUB2) {
-        prevname = Form("data/EP_10_002_PtDists/v2_pt_ep_cen%d_%d_eta08.txt",cmin[bin],cmax[bin]);
-        if(cmin[bin]<=50) shengquan = Form("data/forSteveNov11/v22_%d_%d.txt",cmin[bin],cmax[bin]);
-    }
-    if (ANAL == N3SUB3 || ANAL == N3SUB2) prevname = Form("data/hin_11_005_data/EPResults/PtDists/v3_%d_%d.txt",cmin[bin],cmax[bin]);
+    if(strncmp(g->GetTitle(),"NOGOOD",6)!=0) g->Draw("p");
 
-
-    TLegend * leg = new TLegend(0.65, 0.65, 0.9, 0.9);
+    TLegend * leg = new TLegend(0.45,0.15,0.95,0.33);
     leg->SetTextFont(43);
-    leg->SetTextSize(20);
+    leg->SetTextSize(16);
     leg->SetFillColor(kWhite);
     leg->SetBorderSize(0);
-    leg->AddEntry(hpt,AnalNames[replay].data(),"lp");
-    if (ANAL == N1ASUB2 || ANAL == N1ASUB3 || ANAL == N1BSUB2 || ANAL == N1BSUB3 || ANAL == N2SUB2 || ANAL == N2SUB3 || ANAL == N3SUB2 || ANAL == N3SUB3 || ANAL == N112ASUB2 || ANAL == N112ASUB3 || ANAL == N123ASUB2 || ANAL == N123ASUB3) {
-        leg->AddEntry(hA,"HF+ only","lp");
-        leg->AddEntry(hB,"HF- only","lp");
-    } else {
-        leg->AddEntry(hA,"track+ only","lp");
-        leg->AddEntry(hB,"track- only","lp");
+
+    string s = "A+B only";
+    if(strncmp(g->GetTitle(),"Graph",5)!=0) {
+      s = g->GetTitle();
     }
+    string append =Form("%5.4f#pm%5.4f",vint,vinte);
+    s+=" (<> = "+append+")";
+    if(strncmp(g->GetTitle(),"NOGOOD",6)!=0) leg->AddEntry(g,s.data(),"lp");
+
+    string sA = "A only";
+    if(strncmp(gA->GetTitle(),"Graph",5)!=0) {
+      sA = gA->GetTitle();
+    }
+    append =Form("%5.4f#pm%5.4f",vintA,vintAe);
+    sA+=" (<> = "+append+")";
+    if(strncmp(gA->GetTitle(),"NOGOOD",6)!=0) leg->AddEntry(gA,sA.data(),"lp");
+
+    string sB = "B only";
+    if(strncmp(gB->GetTitle(),"Graph",5)!=0) {
+      sB = gB->GetTitle();
+    }
+    append =Form("%5.4f#pm%5.4f",vintB,vintBe);
+    sB+=" (<> = "+append+")";
+    if(strncmp(gB->GetTitle(),"NOGOOD",6)!=0) leg->AddEntry(gB,sB.data(),"lp");
+
     leg->Draw();
-    hA->Draw("p");
-    hB->Draw("p");
-    hpt->Draw("p");
-    TLatex * text = new TLatex(1,0.87*ymax,AnalNames[replay].data());
+
+    if(strncmp(gA->GetTitle(),"NOGOOD",6)!=0) gA->Draw("p");
+    if(strncmp(gB->GetTitle(),"NOGOOD",6)!=0) gB->Draw("p");
+    if(strncmp(g->GetTitle(),"NOGOOD",6)!=0) g->Draw("p");
+    TLatex * text = new TLatex(0.1*PTMAX,0.90*ymax,ANALS[replay][0].data());
     text->SetTextFont(43);
-    text->SetTextSize(28);
+    text->SetTextSize(24);
     text->Draw();
-    TLatex * t2 = new TLatex(1,0.77*ymax,Form("%d - %d%c",cmin[bin],cmax[bin],'%'));
+    TLatex * t2;
+    if(ntrkbinning) {
+      t2 = new TLatex(0.1*PTMAX,0.85*(ymax-ymin)+ymin,Form("%d #leq N_{tkr}^{off} < %d",cmin[bin],cmax[bin]));
+    } else {
+      t2 = new TLatex(0.1*PTMAX,0.85*(ymax-ymin)+ymin,Form("%d - %d%c",cmin[bin],cmax[bin],'%'));
+    }
     t2->SetTextFont(43);
-    t2->SetTextSize(22);
+    t2->SetTextSize(20);
     t2->Draw();
-    TLatex * t3 = new TLatex(0.8,0.67*ymax,Form("%4.1f < #eta < %4.1f",EtaMin,EtaMax));
+    TLatex * t3 = new TLatex(0.1*PTMAX,0.80*(ymax-ymin)+ymin,Form("%03.1f < #eta < %03.1f",EtaMin,EtaMax));
     t3->SetTextFont(43);
-    t3->SetTextSize(22);
+    t3->SetTextSize(20);
     t3->Draw();
-    FILE * fout;
-    if (isTight) {
-        c->Print(Form("%s/%s/%s.png",FigDir.data(),AnalNames[replay].data(),cname.data()),"png");
-        fout = fopen(Form("%s/%s/data/%s.dat",FigDir.data(),AnalNames[replay].data(),cname.data()),"w");
-    } else {
-        c->Print(Form("%s/%s/%s.png",FigDir.data(),AnalNames[replay].data(),cname.data()),"png");
-        fout = fopen(Form("%s/%s/data/%s.dat",FigDir.data(),AnalNames[replay].data(),cname.data()),"w");
-    }
-    for(int i = 0; i<hpt->GetN(); i++){
-        fprintf(fout,"%5.3f\t%9.7f\t%9.7f\n",hpt->GetX()[i],hpt->GetY()[i],hpt->GetEY()[i]);
-    }
-    fclose(fout);
-    bool drawSpec = true;
-    if (drawSpec){
-        string c2name = "c2_"+AnalNames[replay]+"_"+to_string(cmin[bin])+"_"+to_string(cmax[bin]);
-        TCanvas * c2 = new TCanvas(c2name.data(),c2name.data(),700,500);
-        hspec = new TH1D("hspec","hspec",600,0,12);
-        hspec->SetDirectory(0);
-        hspec->SetMaximum(100*pow(10.,(double)((int) TMath::Log10(ymaxspec))));
-        hspec->SetMinimum(0.00001);
-        c2->cd();
-        gPad->SetLogy();
-        hspec->Draw();
-        hspec->SetXTitle("p_{T} (GeV/c)");
-        hspec->SetYTitle("1/(N_{ev}) d^{2}N/dp_{T}d#eta");
-        nwspec->Draw("p");
-        double ym = hspec->GetMaximum();
-        TLatex * t4 = new TLatex(8,0.1*ym,AnalNames[replay].data());
-        t4->SetTextFont(43);
-        t4->SetTextSize(28);
-        t4->Draw();
-        TLatex * t6 = new TLatex(8,0.02*ym,Form("%d - %d%c",cmin[bin],cmax[bin],'%'));
-        t6->SetTextFont(43);
-        t6->SetTextSize(22);
-        t6->Draw();
-        TLatex * t7 = new TLatex(7.8,0.004*ym,Form("%4.1f < #eta < %4.1f",EtaMin,EtaMax));
-        t7->SetTextFont(43);
-        t7->SetTextSize(22);
-        t7->Draw();
-        if (isTight) {
-            c2->Print(Form("%s/%s/%s.png",FigDir.data(),AnalNames[replay].data(),c2name.data()),"png");
-            sspec = FigDir+"/"+AnalNames[replay]+"/data/spec_"+to_string(cmin[bin])+"_"+to_string(cmax[bin])+".dat";
-        } else if (isTightB) {
-            c2->Print(Form("%s/%s/%s.png",FigDir.data(),AnalNames[replay].data(),c2name.data()),"png");
-            sspec = FigDir+"/"+AnalNames[replay]+"/data/spec_"+to_string(cmin[bin])+"_"+to_string(cmax[bin])+".dat";
-        } else {
-            c2->Print(Form("%s/%s/%s.png",FigDir.data(),AnalNames[replay].data(),c2name.data()),"png");
-            sspec = FigDir+"/"+AnalNames[replay]+"/data/spec_"+to_string(cmin[bin])+"_"+to_string(cmax[bin])+".dat";
-        }
-    }
-    if (isTight) {
-        sspec = FigDir+"/"+AnalNames[replay]+"/data/spec_"+to_string(cmin[bin])+"_"+to_string(cmax[bin])+".dat";
-    } else if (isTightB) {
-        sspec = FigDir+"/"+AnalNames[replay]+"/data/spec_"+to_string(cmin[bin])+"_"+to_string(cmax[bin])+".dat";
-    } else {
-        sspec = FigDir+"/"+AnalNames[replay]+"/data/spec_"+to_string(cmin[bin])+"_"+to_string(cmax[bin])+".dat";
-    }
-    outspec = fopen(sspec.data(),"w");
-    for (int i = 0; i<nwspec->GetN(); i++) fprintf(outspec,"%7.2f\t%12.5f\t%12.5f\n",nwspec->GetX()[i],nwspec->GetY()[i],nwspec->GetEY()[i]);
+    TDirectory * save = gDirectory;
+    toutsubsubsub->cd();
+    h->Write();
+    g->Write();
+    gA->Write();
+    gB->Write();
+    c->Write();
+    save->cd();
+
+    c->Print(Form("%s/%s.pdf",FigSubSubDir.data(), cname.data()),"pdf");
+  }
+  fout = fopen(Form("%s/data/%s.dat",FigSubSubDir.data(),cname.data()),"w");
+  for(int i = 0; i<g->GetN(); i++){
+    fprintf(fout,"%5.3f\t%9.7f\t%9.7f\n",g->GetX()[i],g->GetY()[i],g->GetEY()[i]);
+  }
+  fclose(fout);
+
+  fout = fopen(Form("%s/data/%s_A.dat",FigSubSubDir.data(),cname.data()),"w");
+  for(int i = 0; i<gA->GetN(); i++){
+    fprintf(fout,"%5.3f\t%9.7f\t%9.7f\n",gA->GetX()[i],gA->GetY()[i],gA->GetEY()[i]);
+  }
+  fclose(fout);
+
+  fout = fopen(Form("%s/data/%s_B.dat",FigSubSubDir.data(),cname.data()),"w");
+  for(int i = 0; i<gB->GetN(); i++){
+    fprintf(fout,"%5.3f\t%9.7f\t%9.7f\n",gB->GetX()[i],gB->GetY()[i],gB->GetEY()[i]);
+  }
+
+  fclose(fout);
+
 
 }
+void GetVN(string rootfile = "../MH.root", string name="N2SUB3",  double mineta = -0.8, double maxeta = 0.8, bool decor = false, int selbin = -1,
+	   double ptmax = 12, double vnmin=-100, double vnmax=-100, double vnintmin=-100, double vnintmax=-100){
+  TStopwatch * timer = new TStopwatch();
+  bool found = false;
+  Decor = decor;
+  PTMAX=ptmax;
+  VNMIN=vnmin;
+  VNMAX=vnmax;
+  VNINTMIN=vnintmin;
+  VNINTMAX=vnintmax;
+  string nlabel = name;
+  if(name.find("SUB2")!=std::string::npos) Decor = false;
+  if(name.find("N1MC")!=std::string::npos) Decor = false;
+  if(name.find("N523")!=std::string::npos) Decor = false;
+  if(name.find("N42")!=std::string::npos) Decor = false;
+  if(name.find("N62")!=std::string::npos) Decor = false;
+  if(name.find("N63")!=std::string::npos) Decor = false;
+  if(Decor) nlabel+="_decor";
+  rootFile = rootfile;
+  SetTracking();
+  tag = rootfile.substr(rootfile.find("/")+1,rootfile.find(".root")-rootfile.find("/")-1);
+  string outname = tag+"_hists.root";
+  tout = new TFile(outname.data(),"UPDATE");
+  TGraphErrors * gint[cbins];
+  TGraphErrors * gintA[cbins];
+  TGraphErrors * gintB[cbins];
+  double x[12];
+  double y[12];
+  double ey[12];
+  for(int i = 0; i<12; i++) x[i]=-2.2+0.4*i;
+  for(int i = 0; i<cbins; i++) {
+    gint[i] = new TGraphErrors(12,x,y,0,ey);
+    gintA[i] = new TGraphErrors(12,x,y,0,ey);
+    gintB[i] = new TGraphErrors(12,x,y,0,ey);
+    gint[i]->SetMarkerStyle(20);
+    gintA[i]->SetMarkerStyle(24);
+    gintB[i]->SetMarkerStyle(24);
+    gintA[i]->SetMarkerColor(kRed);
+    gintB[i]->SetMarkerColor(kBlue);
+    gintA[i]->SetLineColor(kRed);
+    gintB[i]->SetLineColor(kBlue);
+    gint[i]->SetName(Form("sum_%s",nlabel.data()));
+    gintA[i]->SetName(Form("A_%s",nlabel.data()));
+    gintB[i]->SetName(Form("B_%s",nlabel.data()));
+    gint[i]->SetTitle(Form("sum_%s",nlabel.data()));
+    gintA[i]->SetTitle(Form("A_%s",nlabel.data()));
+    gintB[i]->SetTitle(Form("B_%s",nlabel.data()));
+  }
 
+  centRef = new TH1I(Form("centRef_%s",nlabel.data()),Form("centRef_%s",nlabel.data()),ncentbins,centRefBins);
+  EtaMin = mineta;
+  EtaMax = maxeta;
+  stag = "_"+tag;
+  if(tag=="") stag = "";
+  isTight   = false;
+  isNominal = true;
+  isWide    = false;
+  isNarrow  = false;
+  isLoose   = false;
 
-TH1D * vnA;
-TH1D * vnB;
-TH1D * vnAB;
-void GetVN( string name="N1BSUB3", string tag="useTight", double mineta = -2.4, double maxeta = 2.4, bool override = false ) {
-    TH1::SetDefaultSumw2();
-    bool found = false;
-    centRef = new TH1I("centRef", "centRef", ncentbins, centRefBins);
-    EtaMin = mineta;
-    EtaMax = maxeta;
-    stag = "_"+tag+"_"+Form("%0.1f_%0.1f",EtaMin,EtaMax);
-    rootFile = "";
-    isTight = false;
-    isTightB = false;
-    isLoose = false;
-    if (tag == "useTight") {
-        isTight = true;
-        isTightB = false;
-        isLoose = false;
-        rootFile = "../MH.root";
-        fin = new TFile("../MH.root","read");
-    } else if (tag == "useTightB") {
-        isTight = false;
-        isTightB = true;
-        isLoose = false;
-        rootFile = "../MH_tightB.root";
-        fin = new TFile("../MH_tightB.root","read");
+  int en = 0;
+  for(int indx = 0; indx<LAST; ++indx){
+    if(ANALS[indx][0]==name) {
+      found = true;
+      en = indx;
+      break;
+    }
+  }
+  if(!found) {
+    cout<<"Failed to locate analysis type"<<endl;
+    return;
+  }
+  FILE * ftest;
+  FigDir = Form("figures%s",stag.data());
+  if((ftest=fopen(FigDir.data(),"r"))!=NULL) {
+    //cout<<"Output directory "<<FigDir.data()<<" exists."<<endl;
+    fclose(ftest);
+  } else {
+    system(Form("mkdir %s",FigDir.data()));
+  }
+  FigSubDir = FigDir+"/"+name.data();
+
+  if((ftest=fopen(FigSubDir.data(),"r"))==NULL) {
+    system(Form("mkdir %s",FigSubDir.data()));
+
+  } else {
+    cout<<"Directory "<<FigSubDir.data()<<" exists.  Will overwrite."<<endl;
+    fclose(ftest);
+  }
+    toutsub = tout->mkdir(name.data());
+    if(toutsub==0) toutsub=(TDirectory *) tout->Get(name.data());
+  TCanvas * ceta[cbins];
+  timer->Start();
+  toutsubsub = toutsub->mkdir(Form("%03.1f_%03.1f",EtaMin,EtaMax));
+  if(toutsubsub==0) toutsubsub=(TDirectory *) toutsub->Get(Form("%03.1f_%03.1f",EtaMin,EtaMax));
+  FigSubSubDir = FigSubDir+Form("/eta_%03.1f_%03.1f",EtaMin,EtaMax);
+  if(Decor) FigSubSubDir+="_decor";
+  if((ftest=fopen(FigSubSubDir.data(),"r"))==NULL) {
+    system(Form("mkdir %s",FigSubSubDir.data()));
+    system(Form("mkdir %s/data",FigSubSubDir.data()));
+    system(Form("touch %s/data/integral.dat",FigSubSubDir.data()));
+    soutint = Form("%s/data/integral.dat",FigSubSubDir.data());
+  } else {
+    soutint = Form("%s/data/integral.dat",FigSubSubDir.data());
+    fclose(ftest);
+  }
+
+  for(int bin = 0; bin<cbins; bin++) {
+    timer->Stop();
+    if(selbin>=0 && bin!=selbin) continue;
+    toutsubsubsub = toutsubsub->mkdir(Form("%d_%d",(int) (cmin[bin]),(int)(cmax[bin])));
+    if(toutsubsubsub==0) toutsubsubsub=(TDirectory *) toutsubsub->Get(Form("%d_%d",(int) (cmin[bin]),(int)(cmax[bin])));
+    cout<<"toutsubsubsub make: "<<toutsubsubsub<<endl;
+    int minb = rcnt->FindBin(cmin[bin]);
+    int maxb = rcnt->FindBin(cmax[bin])-1;
+    if(maxb<minb) maxb=minb;
+    int cnt = rcnt->Integral(minb,maxb);
+    cout<<"time: "<<timer->CpuTime()<<"\t"<<cmin[bin]<<"\t"<<cmax[bin]<<"\t"<<cnt<<endl;
+    timer->ResetCpuTime();
+    timer->Start();
+    if(cnt<5000) continue;
+    //pt distribution
+    GetVNCreate(en,bin,gint[bin],gintA[bin],gintB[bin]);
+    //eta distribution
+    string FigEtaSubDir = FigSubDir;
+    FigEtaSubDir+="/EtaDistributions";
+    if(Decor) FigEtaSubDir+="_decor";
+    if((ftest=fopen(FigEtaSubDir.data(),"r"))==NULL) {
+      system(Form("mkdir %s",FigEtaSubDir.data()));
+      system(Form("mkdir %s/data",FigEtaSubDir.data()));
     } else {
-        isTight = false;
-        isTightB = false;
-        isLoose = true;
-        rootFile = "../MH_loose.root";
-        fin = new TFile("../MH_loose.root","read");
+      fclose(ftest);
     }
 
-    int en = 0;
-    for (int indx = 0; indx<LAST; ++indx) {
-        if (AnalNames[indx] == name) {
-            found = true;
-            en = indx;
-            break;
-        }
-    }
-    if (!found) {
-        cout<<"Failed to locate analysis type"<<endl;
-        return;
-    }
-    FILE * ftest;
-    if (!fopen("figures","r")) system("mkdir figures");
-    FigDir = Form("figures/figures%s",stag.data());
-    FigSubDir = FigDir+"/"+name.data();
-    if (fopen(FigDir.data(),"r") != NULL) {
-        cout<<"Output directory "<<FigDir.data()<<" exists."<<endl;
+    ceta[bin] = new TCanvas(Form("EtaInt_%s_%d_%d",nlabel.data(),cmin[bin],cmax[bin]),Form("EtaInt_%s_%d_%d",nlabel.data(),cmin[bin],cmax[bin]),800,500);
+    double xmin,xmax,ymin,ymax;
+    double xminA,xmaxA,yminA,ymaxA;
+    double xminB,xmaxB,yminB,ymaxB;
+    string nl2 = ANALS[en][0];
+    nl2+=" ("+to_string(cmin[bin])+"-"+to_string(cmax[bin]);
+    if(!ntrkbinning) nl2+="%";
+
+    nl2+=")";
+    string nl3 = ANALS[en][1];
+    nl3+=" ("+to_string(cmin[bin])+"-"+to_string(cmax[bin]);
+    if(!ntrkbinning) nl3+="%";
+
+    nl3+=")";
+
+    TH1D * heta = new TH1D(Form("heta_%s",nl2.data()),Form("heta_%s",nl2.data()),100,-2.5,2.5);
+    gint[bin]->ComputeRange(xmin,ymin,xmax,ymax);
+    gintA[bin]->ComputeRange(xminA,yminA,xmaxA,ymaxA);
+    gintB[bin]->ComputeRange(xminB,yminB,xmaxB,ymaxB);
+    ymin = plotmin(min(ymin,yminA));
+    if(ymin<-0.04) ymin=-0.04;
+    ymax = plotmax(max(ymax,ymaxA));
+
+    heta->SetMaximum(ymax);
+    heta->SetMinimum(ymin);
+    if(VNINTMIN>-10) heta->SetMinimum(VNINTMIN);
+    if(VNINTMAX>-10) heta->SetMaximum(VNINTMAX);
+    heta->SetXTitle("#eta");
+    heta->SetYTitle(ANALS[en][1].data());
+    heta->Draw();
+    if(strncmp(gint[bin]->GetTitle(),"NOGOOD",6)!=0) gint[bin]->Draw("p");
+    if(strncmp(gintA[bin]->GetTitle(),"NOGOOD",6)!=0) gintA[bin]->Draw("p");
+    if(strncmp(gintB[bin]->GetTitle(),"NOGOOD",6)!=0) gintB[bin]->Draw("p");
+    if(strncmp(gint[bin]->GetTitle(),"NOGOOD",6)!=0) gint[bin]->Draw("p");
+    TLegend * leg2 = new TLegend(0.2,0.2,0.4,0.35);
+    leg2->SetTextFont(43);
+    leg2->SetTextSize(20);
+    leg2->SetFillColor(kWhite);
+    leg2->SetBorderSize(0);
+    if(strncmp(gint[bin]->GetTitle(),"Graph",5)!=0) {
+      if(strncmp(gint[bin]->GetTitle(),"NOGOOD",6)!=0) leg2->AddEntry(gint[bin],gint[bin]->GetTitle(),"lp");
     } else {
-        system(Form("mkdir %s",FigDir.data()));
+      if(strncmp(gint[bin]->GetTitle(),"NOGOOD",6)!=0)leg2->AddEntry(gint[bin],"Adopted","lp");
     }
-    if ((ftest=fopen(FigSubDir.data(),"r")) == NULL) {
-        system(Form("mkdir %s",FigSubDir.data()));
+    if(strncmp(gintA[bin]->GetTitle(),"Graph",5)!=0) {
+      if(strncmp(gintA[bin]->GetTitle(),"NOGOOD",6)!=0) leg2->AddEntry(gintA[bin],gintA[bin]->GetTitle(),"lp");
     } else {
-        if (override) {
-            system(Form("rm -rf %s",FigSubDir.data()));
-        } else {
-            cout<<"Directory "<<FigSubDir.data()<<" exists.  ABORT."<<endl;
-            return;
-        }
-        fclose(ftest);
+      if(strncmp(gintA[bin]->GetTitle(),"NOGOOD",6)!=0) leg2->AddEntry(gintA[bin],"A side","lp");
+    }
+    if(strncmp(gintB[bin]->GetTitle(),"Graph",5)!=0) {
+      if(strncmp(gintB[bin]->GetTitle(),"NOGOOD",6)!=0) leg2->AddEntry(gintB[bin],gintB[bin]->GetTitle(),"lp");
+    } else {
+      if(strncmp(gintB[bin]->GetTitle(),"NOGOOD",6)!=0) leg2->AddEntry(gintB[bin],"B side","lp");
     }
 
-    if (!fopen("results","r")) system("mkdir results");
-    if (!fopen(Form("results/results%s",stag.data()),"r")) system(Form("mkdir results/results%s",stag.data()));
-    fout = new TFile(Form("results/results%s/%s.root",stag.data(),name.data()),"recreate");
 
-    for (int bin = 0; bin<=cbins; bin++) {
-        // if(bin!=5) continue;
-        GetVNCreate(en,bin);
-
-        TDirectory * tdcent = (TDirectory *) fout->mkdir(Form("%d_%d",cmin[bin],cmax[bin]));
-        tdcent->cd();
-        vnA = new TH1D("vnA", "", nptbins, ptbins);
-        GraphToHist(hA, vnA);
-        vnA->Write();
-        vnB = new TH1D("vnB", "", nptbins, ptbins);
-        GraphToHist(hB, vnB);
-        vnB->Write();
-        vnAB = new TH1D("vnAB", "", nptbins, ptbins);
-        GraphToHist(hpt, vnAB);
-        vnAB->Write();
-
-        fin->Close();
-        fin = new TFile(rootFile.data(),"read");
+    leg2->Draw();
+    TLatex * tl = new TLatex( -2,0.8*(ymax-ymin)+ymin,nl3.data());
+    tl->Draw();
+    if(ANALS[en][2]!="") {
+      string tmp = ANALS[en][2];
+      if(Decor) tmp+=" (EP Decorrelation corrected)";
+      TLatex * tl2 = new TLatex( -2,0.75*(ymax-ymin)+ymin,tmp.data());
+      tl2->SetTextFont(43);
+      tl2->SetTextSize(16);
+      tl2->Draw();
     }
-    cout<<Form("results/results%s/%s.root",stag.data(),name.data())<<" has been created"<<endl;
+    TDirectory * save = gDirectory;
+    cout<<"toutsubsubsub: "<<toutsubsubsub<<endl;
+    toutsubsubsub->cd();
+    cout<<"heta: "<<heta<<endl;
+    heta->Write();
+    gint[bin]->Write();
+    gintA[bin]->Write();
+    gintB[bin]->Write();
+    ceta[bin]->Write();
+    save->cd();
+    ceta[bin]->Print(Form("%s/%s.pdf",FigEtaSubDir.data(),ceta[bin]->GetName()),"pdf");
+
+    // FILE * fint = fopen(Form("%s/data/%s.dat",FigEtaSubDir.data(),ceta[bin]->GetName()),"w");
+    // for(int i = 0; i<gint[bin]->GetN(); i++) {
+    //   fprintf(fint,"%5.1f\t%10.6f\t%10.6f\n",gint[bin]->GetX()[i],gint[bin]->GetY()[i],gint[bin]->GetEY()[i]);
+    // }
+    }
 }
