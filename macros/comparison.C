@@ -41,11 +41,23 @@ TFile * finPt;
 TFile * finEta;
 TFile * fout;
 
+TGraphErrors * gAMPTint_10_70;
+TGraphErrors * gAMPTdiff_5_80;
+TGraphErrors * gAMPTdiff_5_40;
+TGraphErrors * gAMPTdiff_40_80;
+TGraphErrors * gAMPTdiff_5_80_N1;
+
+TGraphErrors * gAMPTdiff_30_40_N1MCp22;
+TGraphErrors * gAMPTdiff_5_80_N1MCp22;
+
+
+TFile * finAMPT;
+
 void comparison()
 {
     TH1::SetDefaultSumw2();
 
-    finPt = new TFile("hists/MH_combined_Pt.root","read");
+    finPt = new TFile("/mnt/c/Users/willj/macros/v1flow/2015_PbPb/working_macros/MH_v2_02_07_18/macros/hists/MH_combined_Pt.root","read");
 
     for (int ebin = 0; ebin<nbinsETA; ebin++) {
         for (int cbin = 0; cbin<ncentbins; cbin++) {
@@ -67,7 +79,7 @@ void comparison()
         }
     }
 
-    finEta = new TFile("hists/MH_combined_Eta.root","read");
+    finEta = new TFile("/mnt/c/Users/willj/macros/v1flow/2015_PbPb/working_macros/MH_v2_02_07_18/macros/hists/MH_combined_Eta.root","read");
 
     for (int cbin = 0; cbin<ncentbins; cbin++) {
         TString mtag = Form("MH_nominal/%d_%d",cminCENT[cbin],cmaxCENT[cbin]);
@@ -88,6 +100,52 @@ void comparison()
         N1ASUB3_eta[cbin] = (TH1D *) finEta->Get(Form("%s/N1ASUB3_%d_%d",mtag.Data(),cminCENT[cbin],cmaxCENT[cbin]));
         N1BSUB3_eta[cbin] = (TH1D *) finEta->Get(Form("%s/N1BSUB3_%d_%d",mtag.Data(),cminCENT[cbin],cmaxCENT[cbin]));
     }
+
+    finAMPT = new TFile("PbPb_AMPT_hists.root","read");
+    gAMPTint_10_70 = (TGraphErrors *) finAMPT->Get("N1SUB3/-1.6_1.6/10_70/gint");
+    gAMPTdiff_5_80 = (TGraphErrors *) finAMPT->Get("N1SUB3/-1.6_1.6/10_70/gA");
+    gAMPTdiff_5_40 = (TGraphErrors *) finAMPT->Get("N1SUB3/-1.6_1.6/5_40/gA");
+    gAMPTdiff_40_80 = (TGraphErrors *) finAMPT->Get("N1SUB3/-1.6_1.6/40_70/gA");
+
+    gAMPTdiff_30_40_N1MCp22 = (TGraphErrors *) finAMPT->Get("N1MCp22SUB2/-1.6_1.6/30_35/g");
+    cout<<gAMPTdiff_30_40_N1MCp22<<endl;
+    gAMPTdiff_5_80_N1MCp22 = (TGraphErrors *) finAMPT->Get("N1MCp22SUB2/-1.6_1.6/10_70/g");
+
+    gAMPTint_10_70->SetMarkerColor(kTeal+2);
+    gAMPTint_10_70->SetLineColor(kTeal+2);
+    gAMPTint_10_70->SetMarkerSize(0.1);
+    gAMPTint_10_70->SetFillColor(kTeal+2);
+    gAMPTint_10_70->SetFillStyle(1001);
+
+    gAMPTdiff_5_80->SetMarkerColor(kTeal+2);
+    gAMPTdiff_5_80->SetLineColor(kTeal+2);
+    gAMPTdiff_5_80->SetMarkerSize(0.1);
+    gAMPTdiff_5_80->SetFillColor(kTeal+2);
+    gAMPTdiff_5_80->SetFillStyle(1001);
+
+    gAMPTdiff_5_40->SetMarkerColor(kTeal+2);
+    gAMPTdiff_5_40->SetLineColor(kTeal+2);
+    gAMPTdiff_5_40->SetMarkerSize(0.1);
+    gAMPTdiff_5_40->SetFillColor(kTeal+2);
+    gAMPTdiff_5_40->SetFillStyle(1001);
+
+    gAMPTdiff_40_80->SetMarkerColor(kTeal+2);
+    gAMPTdiff_40_80->SetLineColor(kTeal+2);
+    gAMPTdiff_40_80->SetMarkerSize(0.1);
+    gAMPTdiff_40_80->SetFillColor(kTeal+2);
+    gAMPTdiff_40_80->SetFillStyle(1001);
+
+    gAMPTdiff_30_40_N1MCp22->SetMarkerColor(kTeal+2);
+    gAMPTdiff_30_40_N1MCp22->SetLineColor(kTeal+2);
+    gAMPTdiff_30_40_N1MCp22->SetMarkerSize(0.1);
+    gAMPTdiff_30_40_N1MCp22->SetFillColor(kTeal+2);
+    gAMPTdiff_30_40_N1MCp22->SetFillStyle(1001);
+
+    gAMPTdiff_5_80_N1MCp22->SetMarkerColor(kTeal+2);
+    gAMPTdiff_5_80_N1MCp22->SetLineColor(kTeal+2);
+    gAMPTdiff_5_80_N1MCp22->SetMarkerSize(0.1);
+    gAMPTdiff_5_80_N1MCp22->SetFillColor(kTeal+2);
+    gAMPTdiff_5_80_N1MCp22->SetFillStyle(1001);
 
     # include "../../published_results/PHOBOS_AuAu.h" // participant v1
 
@@ -228,11 +286,53 @@ void comparison()
     ALICE_v1even_pT_5_80->SetMarkerSize(1.2);
 
 
+    //-- ATLAS PbPb, 2.76 TeV, 2-particle correlations (participant)
+    # include "../../published_results/PhysRevC86_014907.h"
+    TH1D * ATLAS_PbPb[6];
+    for (int i = 0; i<6; i++) {
+        ATLAS_PbPb[i] = new TH1D(Form("ATLAS_PbPb%d",i), "", 85, 0.45, 9.05);
+    }
+    for (int pbin = 1; pbin<=85; pbin++) {
+        ATLAS_PbPb[0]->SetBinContent(pbin,v1ATLAS_c00to05[pbin-1]);
+        ATLAS_PbPb[0]->SetBinError(pbin,v1ATLAS_c00to05_err[pbin-1]);
+        ATLAS_PbPb[1]->SetBinContent(pbin,v1ATLAS_c05to10[pbin-1]);
+        ATLAS_PbPb[1]->SetBinError(pbin,v1ATLAS_c05to10_err[pbin-1]);
+        ATLAS_PbPb[2]->SetBinContent(pbin,v1ATLAS_c10to20[pbin-1]);
+        ATLAS_PbPb[2]->SetBinError(pbin,v1ATLAS_c10to20_err[pbin-1]);
+        ATLAS_PbPb[3]->SetBinContent(pbin,v1ATLAS_c20to30[pbin-1]);
+        ATLAS_PbPb[3]->SetBinError(pbin,v1ATLAS_c20to30_err[pbin-1]);
+        ATLAS_PbPb[4]->SetBinContent(pbin,v1ATLAS_c30to40[pbin-1]);
+        ATLAS_PbPb[4]->SetBinError(pbin,v1ATLAS_c30to40_err[pbin-1]);
+        ATLAS_PbPb[5]->SetBinContent(pbin,v1ATLAS_c40to50[pbin-1]);
+        ATLAS_PbPb[5]->SetBinError(pbin,v1ATLAS_c40to50_err[pbin-1]);
+    }
+
+    //-- STAR v1^even, AuAu, 200 GeV, event plane, participants
+    # include "../../published_results/arXiv_1211_7162.h"
+    TGraphErrors * STAR_AuAu_200GeV_even_pT_c00to05 = new TGraphErrors(STAR_AuAu_200_fig3_npbins, STAR_AuAu_200_fig3_even_pT, STAR_AuAu_200_cent0to5_fig3_v1even, 0, STAR_AuAu_200_cent0to5_fig3_v1even_err);
+    TGraphErrors * STAR_AuAu_200GeV_even_pT_c00to10 = new TGraphErrors(STAR_AuAu_200_fig2_npbins, STAR_AuAu_200_fig2_pT, STAR_AuAu_200_cent0to10_v1even, 0, STAR_AuAu_200_cent0to10_v1even_err);
+    TGraphErrors * STAR_AuAu_200GeV_even_pT_c10to20 = new TGraphErrors(STAR_AuAu_200_fig3_npbins, STAR_AuAu_200_fig3_even_pT, STAR_AuAu_200_cent10to20_fig3_v1even, 0, STAR_AuAu_200_cent10to20_fig3_v1even_err);
+    TGraphErrors * STAR_AuAu_200GeV_even_pT_c20to30 = new TGraphErrors(STAR_AuAu_200_fig3_npbins, STAR_AuAu_200_fig3_even_pT, STAR_AuAu_200_cent20to30_fig3_v1even, 0, STAR_AuAu_200_cent30to40_fig3_v1even_err);
+    TGraphErrors * STAR_AuAu_200GeV_even_pT_c30to40 = new TGraphErrors(STAR_AuAu_200_fig2_npbins, STAR_AuAu_200_fig2_pT, STAR_AuAu_200_cent30to40_v1even, 0, STAR_AuAu_200_cent30to40_v1even_err);
+    TGraphErrors * STAR_AuAu_200GeV_even_pT_c40to50 = new TGraphErrors(STAR_AuAu_200_fig3_npbins, STAR_AuAu_200_fig3_even_pT, STAR_AuAu_200_cent40to50_fig3_v1even, 0, STAR_AuAu_200_cent40to50_fig3_v1even_err);
+
+
+    //-- STAR v1^even, UU, 193 GeV, event plane, participants
+    # include "../../published_results/arXiv_1305_0173.h"
+    TGraphErrors * STAR_UU_193GeV_even_pT_c00to05 = new TGraphErrors(STAR_UU_193GeV_npbin, STAR_UU_193GeV_pT, STAR_UU_193GeV_cent0to5_v1even, 0, STAR_UU_193GeV_cent0to5_v1even_err);
+    TGraphErrors * STAR_UU_193GeV_even_pT_c30to40 = new TGraphErrors(STAR_UU_193GeV_npbin, STAR_UU_193GeV_pT, STAR_UU_193GeV_cent30to40_v1even, 0, STAR_UU_193GeV_cent30to40_v1even_err);
+
+
+
+    TPaveText * txCMS = new TPaveText(0.164, 0.930, 0.377, 0.97,"NDC");
+    SetTPaveTxt(txCMS, 20);
+    txCMS->AddText("#bf{CMS} #it{Preliminary}");
+
 
 
     TCanvas * c0 = new TCanvas("c0","c0",750,700);
     TPad * pad0 = (TPad *) c0->cd();
-    pad0->SetGrid();
+    // pad0->SetGrid();
     TH1D * h0 = new TH1D("h0", "", 100, -2.6, 2.6);
     h0->SetXTitle("#eta");
     h0->SetYTitle("v_{1}^{odd}");
@@ -250,17 +350,17 @@ void comparison()
     TLegend * leg0 = new TLegend(0.2, 0.18, 0.5, 0.38);
     SetLegend(leg0, 18);
     leg0->AddEntry(N1SUB2_eta[12],"CMS PbPb 5.02 TeV, SP (20-60%)","p");
-    leg0->AddEntry(PHOBOS_AuAu_2sub_200GeV,"PHOBOS 2SUB #sqrt{s_{NN}}=200 GeV (6-40%)","p");
-    leg0->AddEntry(PHOBOS_AuAu_Mixed_200GeV,"PHOBOS Mixed #sqrt{s_{NN}}=200 GeV (6-40%)","p");
-    leg0->AddEntry(STAR_v1_3PC_200GeV,"STAR 3PC #sqrt{s_{NN}}=200 GeV (10-70%)","p");
-    leg0->AddEntry(STAR_v1_mix_200GeV,"STAR mixed #sqrt{s_{NN}}=200 GeV (20-60%)","p");
+    leg0->AddEntry(PHOBOS_AuAu_2sub_200GeV,"PHOBOS 2SUB #sqrt{s_{NN}} = 200 GeV (6-40%)","p");
+    leg0->AddEntry(PHOBOS_AuAu_Mixed_200GeV,"PHOBOS Mixed #sqrt{s_{NN}} = 200 GeV (6-40%)","p");
+    leg0->AddEntry(STAR_v1_3PC_200GeV,"STAR 3PC #sqrt{s_{NN}} = 200 GeV (10-70%)","p");
+    leg0->AddEntry(STAR_v1_mix_200GeV,"STAR mixed #sqrt{s_{NN}} = 200 GeV (20-60%)","p");
     leg0->Draw();
     c0->Print("plot_comparison_00.png","png");
 
 
     TCanvas * c1 = new TCanvas("c1","c1",750,700);
     TPad * pad1 = (TPad *) c1->cd();
-    pad1->SetGrid();
+    // pad1->SetGrid();
     TH1D * h1 = new TH1D("h1", "", 100, -2.5, 2.5);
     h1->SetXTitle("#eta");
     h1->SetYTitle("v_{1}^{odd}");
@@ -294,8 +394,8 @@ void comparison()
 
     TCanvas * c2 = new TCanvas("c2","c2",750,700);
     TPad * pad2 = (TPad *) c2->cd();
-    pad2->SetGrid();
-    TH1D * h2 = new TH1D("h1", "", 100, 0, 5);
+    // pad2->SetGrid();
+    TH1D * h2 = new TH1D("h2", "", 100, 0, 5);
     h2->SetXTitle("p_{T} (GeV/c)");
     h2->SetYTitle("v_{1}^{odd}");
     h2->GetYaxis()->SetRangeUser(-0.015, 0.015);
@@ -320,7 +420,82 @@ void comparison()
 
     TCanvas * c3 = new TCanvas("c3","c3",750,700);
     TPad * pad3 = (TPad *) c3->cd();
-    pad3->SetGrid();
+    pad3->SetTopMargin(0.07);
+    // pad3->SetGrid();
+    TH1D * h3 = new TH1D("h3", "", 100, 0, 12);
+    h3->GetXaxis()->SetRangeUser(0,8);
+    h3->GetYaxis()->SetRangeUser(-0.04, 0.26);
+    h3->SetXTitle("p_{T} (GeV/c)");
+    h3->SetYTitle("v_{1}^{even}");
+    h3->Draw();
+    N1MCm22SUB2_pT[13][12]->SetMarkerColor(kBlue);
+    N1MCm22SUB2_pT[13][12]->SetLineColor(kBlue);
+    N1MCm22SUB2_pT[13][12]->SetMarkerStyle(21);
+    N1MCm22SUB2_pT[13][12]->SetMarkerSize(1.2);
     N1MCm22SUB2_pT[13][12]->Draw("same");
+    ALICE_v1even_pT_5_80->Draw("same");
+    TLegend * leg3 = new TLegend(0.19, 0.77, 0.51, 0.91);
+    SetLegend(leg3, 20);
+    leg3->SetHeader("5-80% Centrality");
+    leg3->AddEntry(N1MCm22SUB2_pT[13][12],"v_{1}^{part}, CMS PbPb #sqrt{s_{NN}} = 5.02 TeV","p");
+    leg3->AddEntry(ALICE_v1even_pT_5_80,"v_{1}^{spec}, ALICE PbPb #sqrt{s_{NN}} = 2.76 TeV","p");
+    leg3->Draw();
+    txCMS->Draw();
+    c3->Print("plot_comparison_even_ALICE.png","png");
+
+
+    TCanvas * c4 = new TCanvas("c4","c4",750,700);
+    TPad * pad4 = (TPad *) c4->cd();
+    pad4->SetTopMargin(0.07);
+    // pad4->SetGrid();
+    TH1D * h4 = new TH1D("h4", "", 100, 0, 12);
+    h4->GetXaxis()->SetRangeUser(0,8);
+    h4->GetYaxis()->SetRangeUser(-0.04, 0.26);
+    h4->SetXTitle("p_{T} (GeV/c)");
+    h4->SetYTitle("v_{1}^{even}");
+    h4->Draw();
+    gAMPTdiff_30_40_N1MCp22->Draw("same E3");
+    ATLAS_PbPb[4]->SetMarkerColor(kBlack);
+    ATLAS_PbPb[4]->SetMarkerStyle(27);
+    ATLAS_PbPb[4]->SetMarkerSize(0.2);
+    ATLAS_PbPb[4]->SetLineColor(kGray+1);
+    ATLAS_PbPb[4]->SetLineWidth(5);
+    ATLAS_PbPb[4]->SetFillColor(kGray+1);
+    ATLAS_PbPb[4]->SetFillStyle(1001);
+    ATLAS_PbPb[4]->SetLineWidth(2);
+    ATLAS_PbPb[4]->Draw("same E3");
+    ATLAS_PbPb[4]->Draw("same");
+    N1MCm22SUB2_pT[7][12]->SetMarkerColor(kBlue);
+    N1MCm22SUB2_pT[7][12]->SetLineColor(kBlue);
+    N1MCm22SUB2_pT[7][12]->SetMarkerStyle(21);
+    N1MCm22SUB2_pT[7][12]->SetMarkerSize(1.2);
+    N1MCm22SUB2_pT[7][12]->Draw("same");
+    N1MCm22SUB2_pT[7][12]->Draw("same");
+    STAR_AuAu_200GeV_even_pT_c30to40->SetMarkerColor(kRed);
+    STAR_AuAu_200GeV_even_pT_c30to40->SetLineColor(kRed);
+    STAR_AuAu_200GeV_even_pT_c30to40->SetMarkerStyle(30);
+    STAR_AuAu_200GeV_even_pT_c30to40->SetMarkerSize(1.5);
+    STAR_AuAu_200GeV_even_pT_c30to40->Draw("same p");
+    STAR_UU_193GeV_even_pT_c30to40->SetMarkerColor(kGreen+2);
+    STAR_UU_193GeV_even_pT_c30to40->SetLineColor(kGreen+2);
+    STAR_UU_193GeV_even_pT_c30to40->SetMarkerStyle(28);
+    STAR_UU_193GeV_even_pT_c30to40->SetMarkerSize(1.4);
+    STAR_UU_193GeV_even_pT_c30to40->Draw("same p");
+    TLegend * leg4 = new TLegend(0.19, 0.69, 0.55, 0.90);
+    SetLegend(leg4, 20);
+    leg4->SetHeader("30-40% Centrality");
+    leg4->AddEntry(N1MCm22SUB2_pT[7][12],"v_{1}^{part}, CMS PbPb #sqrt{s_{NN}} = 5.02 TeV","p");
+    leg4->AddEntry(ATLAS_PbPb[4],"v_{1}^{part}, ATLAS PbPb #sqrt{s_{NN}} = 2.76 TeV","lp f");
+    leg4->AddEntry(STAR_AuAu_200GeV_even_pT_c30to40,"v_{1}^{part}, STAR AuAu #sqrt{s_{NN}} = 0.2 TeV","p");
+    leg4->AddEntry(STAR_UU_193GeV_even_pT_c30to40,"v_{1}^{part}, STAR UU #sqrt{s_{NN}} = 0.193 TeV","p");
+    leg4->AddEntry(gAMPTdiff_30_40_N1MCp22,"AMPT","f");
+    leg4->Draw();
+    txCMS->Draw();
+    c4->Print("plot_comparison_even.png","png");
+
+    TCanvas * ctest = new TCanvas("ctest","ctest",500,500);
+    ctest->cd();
+    gAMPTdiff_30_40_N1MCp22->Draw();
+
 
 }

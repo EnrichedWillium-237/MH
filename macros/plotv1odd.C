@@ -54,12 +54,23 @@ TH1D * ampt_v1_pT_eta_0_24_av[NCbins];
 TH1D * ampt_v2_pT_eta_0_8_av[NCbins];
 TH1D * ampt_v2_pT_eta_0_24_av[NCbins];
 
+TGraphErrors * gAMPTint_10_70;
+TGraphErrors * gAMPTdiff_5_80;
+TGraphErrors * gAMPTdiff_5_40;
+TGraphErrors * gAMPTdiff_40_80;
+TGraphErrors * gAMPTdiff_5_80_N1;
+
+TGraphErrors * gAMPTdiff_30_40_N1MCp22;
+TGraphErrors * gAMPTdiff_5_80_N1MCp22;
+
+
 TFile * finAMPT;
+TFile * finAMPTtrue;
 
 void plotv1odd() {
     gint_10_70 = (TGraphErrors *) fin->Get("N1HFfSUB3/-0.8_0.8/10_70/gint");
     gdiff_5_80 = (TGraphErrors *) fin->Get("N1HFfSUB3/-0.8_0.8/10_70/g");
-    gdiff_5_40 = (TGraphErrors *) fin->Get("N1HFfSUB3/-0.8_0.8/0_5/g");
+    gdiff_5_40 = (TGraphErrors *) fin->Get("N1HFfSUB3/-0.8_0.8/5_40/g");
     gdiff_40_80 = (TGraphErrors *) fin->Get("N1HFfSUB3/-0.8_0.8/40_70/g");
     gdiff_5_80_N1 = (TGraphErrors *) fin->Get("N1SUB3/-0.8_0.8/10_70/gB");
 
@@ -144,6 +155,53 @@ void plotv1odd() {
         }
     }
 
+
+    finAMPT = new TFile("PbPb_AMPT_hists.root","read");
+    gAMPTint_10_70 = (TGraphErrors *) finAMPT->Get("N1SUB3/-1.6_1.6/10_70/gint");
+    gAMPTdiff_5_80 = (TGraphErrors *) finAMPT->Get("N1SUB3/-1.6_1.6/10_70/gA");
+    gAMPTdiff_5_40 = (TGraphErrors *) finAMPT->Get("N1SUB3/-1.6_1.6/5_40/gA");
+    gAMPTdiff_40_80 = (TGraphErrors *) finAMPT->Get("N1SUB3/-1.6_1.6/40_70/gA");
+
+    gAMPTdiff_30_40_N1MCp22 = (TGraphErrors *) finAMPT->Get("N1MCp22SUB2/-1.6_1.6/30_35/gA");
+    gAMPTdiff_5_80_N1MCp22 = (TGraphErrors *) finAMPT->Get("N1MCp22SUB2/-1.6_1.6/10_70/gA");
+
+    gAMPTint_10_70->SetMarkerColor(kTeal+2);
+    gAMPTint_10_70->SetLineColor(kTeal+2);
+    gAMPTint_10_70->SetMarkerSize(0.1);
+    gAMPTint_10_70->SetFillColor(kTeal+2);
+    gAMPTint_10_70->SetFillStyle(1001);
+
+    gAMPTdiff_5_80->SetMarkerColor(kTeal+2);
+    gAMPTdiff_5_80->SetLineColor(kTeal+2);
+    gAMPTdiff_5_80->SetMarkerSize(0.1);
+    gAMPTdiff_5_80->SetFillColor(kTeal+2);
+    gAMPTdiff_5_80->SetFillStyle(1001);
+
+    gAMPTdiff_5_40->SetMarkerColor(kTeal+2);
+    gAMPTdiff_5_40->SetLineColor(kTeal+2);
+    gAMPTdiff_5_40->SetMarkerSize(0.1);
+    gAMPTdiff_5_40->SetFillColor(kTeal+2);
+    gAMPTdiff_5_40->SetFillStyle(1001);
+
+    gAMPTdiff_40_80->SetMarkerColor(kTeal+2);
+    gAMPTdiff_40_80->SetLineColor(kTeal+2);
+    gAMPTdiff_40_80->SetMarkerSize(0.1);
+    gAMPTdiff_40_80->SetFillColor(kTeal+2);
+    gAMPTdiff_40_80->SetFillStyle(1001);
+
+    gAMPTdiff_30_40_N1MCp22->SetMarkerColor(kTeal+2);
+    gAMPTdiff_30_40_N1MCp22->SetLineColor(kTeal+2);
+    gAMPTdiff_30_40_N1MCp22->SetMarkerSize(0.1);
+    gAMPTdiff_30_40_N1MCp22->SetFillColor(kTeal+2);
+    gAMPTdiff_30_40_N1MCp22->SetFillStyle(1001);
+
+    gAMPTdiff_5_80_N1MCp22->SetMarkerColor(kTeal+2);
+    gAMPTdiff_5_80_N1MCp22->SetLineColor(kTeal+2);
+    gAMPTdiff_5_80_N1MCp22->SetMarkerSize(0.1);
+    gAMPTdiff_5_80_N1MCp22->SetFillColor(kTeal+2);
+    gAMPTdiff_5_80_N1MCp22->SetFillStyle(1001);
+
+
     # include "../../published_results/PhysRevLett_92_062301.h" // participant v1
 
     TGraphErrors * STAR_v1_3PC_200GeV = new TGraphErrors(24, STAR_v1_3PC_200GeV_eta, STAR_v1_3PC_200GeV_val, 0, STAR_v1_3PC_200GeV_err);
@@ -171,8 +229,8 @@ void plotv1odd() {
     STAR_v1_3PC_62GeV_eta->SetMarkerSize(1.7);
 
     TGraphErrors * STAR_v1_mix_62GeV_eta = new TGraphErrors(STAR_AuAu_62GeV_Fig1_mix_n, STAR_AuAu_62GeV_Fig1_mix_eta, STAR_AuAu_62GeV_Fig1_mix_v1, 0, STAR_AuAu_62GeV_Fig1_mix_v1err);
-    STAR_v1_mix_62GeV_eta->SetMarkerColor(kCyan+2);
-    STAR_v1_mix_62GeV_eta->SetLineColor(kCyan+2);
+    STAR_v1_mix_62GeV_eta->SetMarkerColor(kOrange+7);
+    STAR_v1_mix_62GeV_eta->SetLineColor(kOrange+7);
     STAR_v1_mix_62GeV_eta->SetMarkerStyle(24);
     STAR_v1_mix_62GeV_eta->SetMarkerSize(1.2);
 
@@ -267,6 +325,7 @@ void plotv1odd() {
     hSTAR_200GeV->SetYTitle("v_{1}^{odd}");
     hSTAR_200GeV->GetYaxis()->SetRangeUser(-0.04, 0.04);
     hSTAR_200GeV->Draw();
+    //gAMPTint_10_70->Draw("E3");
     STAR_v1_3PC_200GeV->Draw("same p");
     STAR_v1_mix_200GeV->Draw("same p");
     gint_10_70->SetMarkerColor(kBlue);
@@ -274,11 +333,13 @@ void plotv1odd() {
     gint_10_70->SetMarkerStyle(21);
     gint_10_70->SetMarkerSize(1.2);
     gint_10_70->Draw("same p");
-    TLegend * legSTAR_200GeV = new TLegend(0.2, 0.78, 0.5, 0.92);
+    // TLegend * legSTAR_200GeV = new TLegend(0.2, 0.783, 0.5, 0.91);
+    TLegend * legSTAR_200GeV = new TLegend(0.20, 0.76, 0.42, 0.89);
     SetLegend(legSTAR_200GeV, 20);
     legSTAR_200GeV->AddEntry(gint_10_70,"v_{1}^{part}, CMS PbPb #sqrt{s_{NN}} = 5.02 TeV (10-70%)","p");
     legSTAR_200GeV->AddEntry(STAR_v1_3PC_200GeV,"v_{1}^{part}, STAR AuAu #sqrt{s_{NN}} = 0.2 TeV, 3PC (10-70%)","p");
     legSTAR_200GeV->AddEntry(STAR_v1_mix_200GeV,"v_{1}^{part}, STAR AuAu #sqrt{s_{NN}} = 0.2 TeV, mixed (20-60%)","p");
+    //legSTAR_200GeV->AddEntry(gAMPTint_10_70,"AMPT PbPb #sqrt{s_{NN}} = 5.02 TeV (10-70%)");
     legSTAR_200GeV->Draw();
     txCMS->Draw();
     cSTAR_200GeV->Print("plot_comparison_STAR200GeV.png","png");
@@ -292,19 +353,22 @@ void plotv1odd() {
     TH1D * hSTAR_62GeV = new TH1D("hSTAR_62GeV", "", 100, -2.0, 2.0);
     hSTAR_62GeV->SetXTitle("#eta");
     hSTAR_62GeV->SetYTitle("v_{1}^{odd}");
-    hSTAR_62GeV->GetYaxis()->SetRangeUser(-0.015, 0.015);
+    hSTAR_62GeV->GetYaxis()->SetRangeUser(-0.016, 0.016);
     hSTAR_62GeV->Draw();
+    //gAMPTint_10_70->Draw("same E3");
     STAR_v1_3PC_62GeV_eta->Draw("same p");
     STAR_v1_mix_62GeV_eta->Draw("same p");
     STAR_v1_ZDC_62GeV_eta->Draw("same p");
     gint_10_70->Draw("same p");
-    TLegend * legSTAR_62GeV = new TLegend(0.20, 0.18, 0.47, 0.41);
+    // TLegend * legSTAR_62GeV = new TLegend(0.20, 0.18, 0.47, 0.43);
+    TLegend * legSTAR_62GeV = new TLegend(0.20, 0.18, 0.47, 0.40);
     SetLegend(legSTAR_62GeV, 20);
     legSTAR_62GeV->SetHeader("10-70% Centrality");
     legSTAR_62GeV->AddEntry(gint_10_70,"v_{1}^{part}, CMS PbPb #sqrt{s_{NN}} = 5.02 TeV","p");
     legSTAR_62GeV->AddEntry(STAR_v1_3PC_62GeV_eta,"v_{1}^{part}, STAR AuAu #sqrt{s_{NN}} = 62.4GeV, 3PC","p");
     legSTAR_62GeV->AddEntry(STAR_v1_mix_62GeV_eta,"v_{1}^{part}, STAR AuAu #sqrt{s_{NN}} = 62.4GeV, mixed","p");
     legSTAR_62GeV->AddEntry(STAR_v1_ZDC_62GeV_eta,"v_{1}^{spec}, STAR AuAu #sqrt{s_{NN}} = 62.4GeV, ZDC","p");
+    //legSTAR_62GeV->AddEntry(gAMPTint_10_70,"AMPT PbPb #sqrt{s_{NN}} = 5.02 TeV");
     legSTAR_62GeV->Draw();
     txCMS->Draw();
     cSTAR_62GeV->Print("plot_comparison_STAR62GeV.png","png");
@@ -319,6 +383,7 @@ void plotv1odd() {
     hALICE->SetYTitle("v_{1}^{odd}");
     hALICE->GetYaxis()->SetRangeUser(-0.015, 0.015);
     hALICE->Draw();
+    //gAMPTint_10_70->Draw("same E3");
     ALICE_v1odd_c10_60->Draw("same");
     gint_10_70->Draw("same p");
     TLegend * legALICE = new TLegend(0.19, 0.21, 0.60, 0.36);
@@ -326,39 +391,11 @@ void plotv1odd() {
     legALICE->SetHeader("10-60% Centrality");
     legALICE->AddEntry(gint_10_70,"v_{1}^{part}, CMS PbPb #sqrt{s_{NN}} = 5.02 TeV","p");
     legALICE->AddEntry(ALICE_v1odd_c10_60,"v_{1}^{spec}, ALICE PbPb #sqrt{s_{NN}} = 2.76TeV","p");
+    //legALICE->AddEntry(gAMPTint_10_70,"AMPT PbPb #sqrt{s_{NN}} = 5.02 TeV");
     legALICE->Draw();
     txCMS->Draw();
     cALICE->Print("plot_comparison_ALICE_eta.png","png");
 
-
-
-    TCanvas * cpT_N1 = new TCanvas("cpT_N1","cpT_N1",750,700);
-    TPad * padpT_N1 = (TPad *) cpT_N1->cd();
-    padpT_N1->SetTopMargin(0.07);
-    TH1D * hpT_N1 = new TH1D("hpT_N1", "", 100, 0, 4);
-    hpT_N1->SetXTitle("p_{T} (GeV/c)");
-    hpT_N1->SetYTitle("v_{1}^{odd}");
-    hpT_N1->GetYaxis()->SetRangeUser(-0.012, 0.010);
-    hpT_N1->Draw();
-    ampt_v1_pT_eta_0_8_pos[7]->Draw("same E3");
-    // STAR_v1_ZDC_200GeV_pt_5_40->Draw("same p");
-    STAR_v1_ZDC_200GeV_pt_40_80->Draw("same p");
-    //ALICE_v1odd_pT_5_80->Draw("same");
-    gdiff_5_80_N1->SetMarkerColor(kBlue);
-    gdiff_5_80_N1->SetLineColor(kBlue);
-    gdiff_5_80_N1->SetMarkerStyle(21);
-    gdiff_5_80_N1->SetMarkerSize(1.1);
-    gdiff_5_80_N1->Draw("same p");
-    TLegend * legpT_N1 = new TLegend(0.19, 0.75, 0.44, 0.90);
-    SetLegend(legpT_N1, 20);
-    legpT_N1->AddEntry(gdiff_5_80_N1,"CMS PbPb#sqrt{s_{NN}} = 5.02 TeV (5-80%)","p");
-    // legpT_N1->AddEntry(ALICE_v1odd_pT_5_80,"ALICE PbPb #sqrt{s_{NN}} = 2.76TeV |#eta|<0.8 (5-80%)","p");
-    // legpT_N1->AddEntry(STAR_v1_ZDC_200GeV_pt_5_40,"STAR AuAu #sqrt{s_{NN}} = 0.2TeV (5-40%)","p");
-    legpT_N1->AddEntry(STAR_v1_ZDC_200GeV_pt_40_80,"STAR AuAu #sqrt{s_{NN}} = 0.2TeV (40-80%)","p");
-    legpT_N1->AddEntry(ampt_v1_pT_eta_0_8_pos[7],"AMPT PbPb#sqrt{s_{NN}} = 5.02 TeV (35-40%)","pf");
-    legpT_N1->Draw();
-    txCMS->Draw();
-    cpT_N1->Print("plot_pT_N1_v1odd.png","png");
 
 
     TCanvas * cpT_5_40 = new TCanvas("cpT_5_40","cpT_5_40",750,700);
@@ -369,7 +406,8 @@ void plotv1odd() {
     hpT_5_40->SetYTitle("v_{1}^{odd}");
     hpT_5_40->GetYaxis()->SetRangeUser(-0.008, 0.008);
     hpT_5_40->Draw();
-    ampt_v1_pT_eta_0_8_pos[7]->Draw("same E3");
+    // gAMPTdiff_5_40->Draw("same E3");
+    // ampt_v1_pT_eta_0_8_pos[7]->Draw("same E3");
     STAR_v1_ZDC_200GeV_pt_5_40->Draw("same p");
     gdiff_5_40->SetMarkerColor(kBlue);
     gdiff_5_40->SetLineColor(kBlue);
@@ -381,7 +419,8 @@ void plotv1odd() {
     legpT_5_40->SetHeader("5-40% Centrality");
     legpT_5_40->AddEntry(gdiff_5_40,"v_{1}^{part}, CMS PbPb #sqrt{s_{NN}} = 5.02 TeV","p");
     legpT_5_40->AddEntry(STAR_v1_ZDC_200GeV_pt_5_40,"v_{1}^{spec}, STAR AuAu #sqrt{s_{NN}} = 0.2TeV","p");
-    legpT_5_40->AddEntry(ampt_v1_pT_eta_0_8_pos[7],"AMPT PbPb #sqrt{s_{NN}} = 5.02 TeV","pf");
+    // legpT_5_40->AddEntry(ampt_v1_pT_eta_0_8_pos[7],"AMPT PbPb #sqrt{s_{NN}} = 5.02 TeV","pf");
+    // legpT_5_40->AddEntry(gAMPTdiff_5_40,"AMPT PbPb #sqrt{s_{NN}} = 5.02 TeV","pf");
     legpT_5_40->Draw();
     txCMS->Draw();
     cpT_5_40->Print("plot_pT_5_40_v1odd.png","png");
@@ -393,9 +432,10 @@ void plotv1odd() {
     TH1D * hpT_40_80 = new TH1D("hpT_40_80", "", 100, 0, 3.5);
     hpT_40_80->SetXTitle("p_{T} (GeV/c)");
     hpT_40_80->SetYTitle("v_{1}^{odd}");
-    hpT_40_80->GetYaxis()->SetRangeUser(-0.008, 0.008);
+    hpT_40_80->GetYaxis()->SetRangeUser(-0.014, 0.014);
     hpT_40_80->Draw();
-    ampt_v1_pT_eta_0_8_pos[8]->Draw("same E3");
+    //gAMPTdiff_40_80->Draw("same E3");
+    // ampt_v1_pT_eta_0_8_pos[8]->Draw("same E3");
     STAR_v1_ZDC_200GeV_pt_40_80->Draw("same p");
     gdiff_40_80->SetMarkerColor(kBlue);
     gdiff_40_80->SetLineColor(kBlue);
@@ -407,7 +447,7 @@ void plotv1odd() {
     legpT_40_80->SetHeader("40-80% Centrality");
     legpT_40_80->AddEntry(gdiff_5_40,"v_{1}^{part}, CMS PbPb #sqrt{s_{NN}} = 5.02 TeV","p");
     legpT_40_80->AddEntry(STAR_v1_ZDC_200GeV_pt_40_80,"v_{1}^{spec}, STAR AuAu #sqrt{s_{NN}} = 0.2TeV","p");
-    legpT_40_80->AddEntry(ampt_v1_pT_eta_0_8_pos[10],"AMPT PbPb #sqrt{s_{NN}} = 5.02 TeV","pf");
+    // legpT_40_80->AddEntry(gAMPTdiff_40_80,"AMPT PbPb #sqrt{s_{NN}} = 5.02 TeV","pf");
     legpT_40_80->Draw();
     txCMS->Draw();
     cpT_40_80->Print("plot_pT_40_80_v1odd.png","png");
@@ -421,19 +461,21 @@ void plotv1odd() {
     hpT_5_80->SetYTitle("v_{1}^{odd}");
     hpT_5_80->GetYaxis()->SetRangeUser(-0.008, 0.008);
     hpT_5_80->Draw();
-    ampt_v1_pT_eta_0_8_pos[9]->Draw("same E3");
+    // gAMPTdiff_5_80->Draw("same E3");
+    //ampt_v1_pT_eta_0_8_pos[9]->Draw("same E3");
     ALICE_v1odd_pT_5_80->Draw("same");
     gdiff_5_80->SetMarkerColor(kBlue);
     gdiff_5_80->SetLineColor(kBlue);
     gdiff_5_80->SetMarkerStyle(21);
     gdiff_5_80->SetMarkerSize(1.1);
     gdiff_5_80->Draw("same p");
-    TLegend * legpT_5_80 = new TLegend(0.21, 0.73, 0.58, 0.89);
+    // TLegend * legpT_5_80 = new TLegend(0.21, 0.73, 0.58, 0.89);
+    TLegend * legpT_5_80 = new TLegend(0.20, 0.74, 0.57, 0.90);
     SetLegend(legpT_5_80, 20);
-    legpT_5_80->SetHeader("5-80% Centrality");
+    legpT_5_80->SetHeader("10-70% Centrality");
     legpT_5_80->AddEntry(gdiff_5_40,"v_{1}^{part}, CMS PbPb #sqrt{s_{NN}} = 5.02 TeV","p");
     legpT_5_80->AddEntry(ALICE_v1odd_pT_5_80,"v_{1}^{spec}, ALICE PbPb #sqrt{s_{NN}} = 2.76TeV","p");
-    legpT_5_80->AddEntry(ampt_v1_pT_eta_0_8_pos[9],"AMPT PbPb #sqrt{s_{NN}} = 5.02 TeV","pf");
+    // legpT_5_80->AddEntry(gAMPTdiff_5_80,"AMPT (string melting)","pf");
     legpT_5_80->Draw();
     txCMS->Draw();
     cpT_5_80->Print("plot_pT_5_80_v1odd.png","png");
@@ -463,6 +505,33 @@ void plotv1odd() {
     legSub2Sub3->AddEntry(gint_10_70_N1_sub3,"3 subevent","p");
     legSub2Sub3->Draw();
     cSub2Sub3->Print("plot_2sub_3sub.png","png");
+
+
+
+    TCanvas * cAMPT_eta = new TCanvas("cAMPT_eta","cAMPT_eta",750,700);
+    TPad * padAMPT_eta = (TPad *) cAMPT_eta->cd();
+    padAMPT_eta->SetTopMargin(0.07);
+    // padAMPT_eta->SetGrid();
+    TH1D * hAMPT_eta = new TH1D("hAMPT_eta", "", 100, -2.0, 2.0);
+    hAMPT_eta->SetXTitle("#eta");
+    hAMPT_eta->SetYTitle("v_{1}^{odd}");
+    hAMPT_eta->GetYaxis()->SetRangeUser(-0.0225, 0.0225);
+    hAMPT_eta->Draw();
+    gAMPTint_10_70->Draw("E3");
+    //ampt_v1true_eta[5]->Draw("same E3");
+    gint_10_70->SetMarkerColor(kBlue);
+    gint_10_70->SetLineColor(kBlue);
+    gint_10_70->SetMarkerStyle(21);
+    gint_10_70->SetMarkerSize(1.2);
+    gint_10_70->Draw("same p");
+    TLegend * legAMPT_eta = new TLegend(0.2, 0.81, 0.50, 0.90);
+    SetLegend(legAMPT_eta, 20);
+    legAMPT_eta->AddEntry(gint_10_70,"CMS PbPb #sqrt{s_{NN}} = 5.02 TeV (10-70%)","p");
+    legAMPT_eta->AddEntry(gAMPTint_10_70,"AMPT","f");
+    // legAMPT_eta->Draw();
+    legpT_5_80->Draw();
+    txCMS->Draw();
+    cAMPT_eta->Print("plot_AMPT_eta.png","png");
 
 
 
