@@ -17,15 +17,24 @@ static const double centRefBinsNOFF[]={0, 10, 20, 30, 40, 50, 60, 70, 80, 100, 1
 static const int cbinsNOFF = 25;
 static const int cminNOFF[]={1, 10, 20, 30, 40, 50, 60, 70, 80, 100, 120, 135, 150, 160, 185, 210, 230, 250, 270, 300, 330, 350, 370, 390, 420};
 static const int cmaxNOFF[]={10, 20, 30, 40, 50, 60, 70, 80, 100, 120, 135, 150, 160, 185, 210, 230, 250, 270, 300, 330, 350, 370, 390, 420, 500};
-static const int ncentbinsCENT = 11;
-static const int centBinsCENT[]={0,5,10,15,20,25,30,35,40,50,60,70};
-static const double centRefBinsCENT[]={0,5,10,15,20,25,30,35,40,50,60,70};
+static const int ncentbinsCENT = 12;
+static const int centBinsCENT[]={0,5,10,15,20,25,30,35,40,50,60,70,80};
+static const double centRefBinsCENT[]={0,5,10,15,20,25,30,35,40,50,60,70,80};
 // static const int cbinsCENT = 15;
 // static const int cminCENT[]={0, 5,10,15,20,25,30,35,40,50,60,  30,40, 10, 0,5};
 // static const int cmaxCENT[]={5,10,15,20,25,30,35,40,50,60,70, 40,70, 70, 5,70};
-static const int cbinsCENT = 13;
-static const int cminCENT[]={0, 5,10,15,20,25,30,35,40,50,60,  0,20, 60};
-static const int cmaxCENT[]={5,10,15,20,25,30,35,40,50,60,70, 20,60,100};
+// fig1, fig2, fig3, fig4, fig5
+// static const int cbinsCENT = 13;
+// static const int cminCENT[]={0, 5,10,15,20,25,30,35,40,50,60,  0,20, 60};
+// static const int cmaxCENT[]={5,10,15,20,25,30,35,40,50,60,70, 20,60,100};
+// fig6
+static const int cbinsCENT = 14;
+static const int cminCENT[]={0, 5,10,15,20,25,30,35,40,50,60, 10, 10,  0,20};
+static const int cmaxCENT[]={5,10,15,20,25,30,35,40,50,60,70, 60, 70, 20,60};
+// fig 7
+// static const int cbinsCENT = 5;
+// static const int cminCENT[]={0, 5, 10,20,30,40};
+// static const int cmaxCENT[]={5,70, 20,30,40,50};
 bool ntrkbinning = false;
 int ncentbins = 0;
 int centBins[50];
