@@ -39,7 +39,6 @@ TGraphErrors * N2(int replay, int bin, double eMin, double eMax, double & ymin, 
   //
   
   g = GetVNPt(replay,bin,epindx,eMin,eMax,gA, gB, gSpec, vint, vinte, vintA, vintAe, vintB, vintBe, false);
-  cout<<"res2: "<<resA[0]<<"\t"<<resB[0]<<endl;
   ymin = setYmin(g,gA,gB);
   ymax = setYmax(g,gA,gB);
   outint = fopen(soutint.data(),"a+");
