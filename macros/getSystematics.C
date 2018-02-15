@@ -17,8 +17,10 @@ TH1D * v1evenErr[ncbins];
 
 void getSystematics() {
 
-    double oddErr[ncbins] = {0.14, 0.14, 0.12, 0.11, 0.10, 0.09, 0.07, 0.06, 0.06, 0.05, 0.05, 0.13, 0.07};
-    double evenErr[ncbins] = {0.11, 0.09, 0.08, 0.08, 0.08, 0.07, 0.09, 0.09, 0.07, 0.09, 0.23, 0.06, 0.08};
+    // double oddErr[ncbins] = {0.14, 0.14, 0.12, 0.11, 0.10, 0.09, 0.07, 0.06, 0.06, 0.05, 0.05, 0.13, 0.07};
+    // double evenErr[ncbins] = {0.09, 0.08, 0.07, 0.07, 0.07, 0.06, 0.08, 0.07, 0.04, 0.07, 0.20, 0.08, 0.07};
+    double oddErr[ncbins] = {0.14, 0.14, 0.10, 0.10, 0.10, 0.10, 0.06, 0.06, 0.06, 0.06, 0.06, 0.12, 0.07};
+    double evenErr[ncbins] = {0.09, 0.09, 0.07, 0.07, 0.07, 0.07, 0.06, 0.06, 0.06, 0.06, 0.20, 0.08, 0.06};
 
     fout = new TFile("data_systematics.root","recreate");
     dirOdd = (TDirectory *) fout->mkdir("odd_errors");
