@@ -80,6 +80,11 @@ TrackType SetTracking( ){
       if(condition == "dzdzerror_0003.00") sTrackQuality = normal;
       if(condition == "dzdzerror_0005.00") sTrackQuality = loose;
       if(condition == "dzdzerror_0002.00") sTrackQuality = tight;
+    } else if (sTrackType == ppReco || sTrackReaction == XeXe) {
+      cout<<"XeXe with ppReco: "<<condition<<":"<<endl;
+      if(condition == "dzdzerror_0003.00") sTrackQuality = normal;
+      if(condition == "dzdzerror_0005.00") sTrackQuality = loose;
+      if(condition == "dzdzerror_0002.00") sTrackQuality = tight;
     } else if (sTrackType == HIReco) {
       cout<<"HIReco: "<<condition<<":"<<endl;
     } else {
@@ -147,8 +152,16 @@ TrackType SetTracking( ){
     } 
   } else if (sTrackReaction==XeXe) {
     if(sTrackQuality == normal) {
-      effFile = new TFile("EffAndFake/XeXe/XeXe_eff_table_92x_cent.root");
-    }
+      effFile = new TFile("EffAndFake/XeXe/XeXe_eff_table_94x_cent.root");
+    } else if (sTrackQuality == loose) {
+      effFile = new TFile("EffAndFake/XeXe/XeXe_eff_loose_table_94x_cent.root");
+    } else if (sTrackQuality == tight) {
+      effFile = new TFile("EffAndFake/XeXe/XeXe_eff_tight_table_94x_cent.root");
+    } else if (sTrackQuality == narrow) {
+      effFile = new TFile("EffAndFake/XeXe/XeXe_eff_narrow_table_94x_cent.root");
+    } else if (sTrackQuality == wide) {
+      effFile = new TFile("EffAndFake/XeXe/XeXe_eff_wide_table_94x_cent.root");
+    } 
   }
   if(effFile!=NULL) {
     cout<<"Efficiency File: "<<effFile->GetName()<<endl;

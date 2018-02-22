@@ -234,6 +234,11 @@ TGraphErrors * GetVNPt(int replay, int bin, int epindx,  double etamin, double e
     int epB = RCMate1[epindx];
     int epC = RCMate2[epindx];
     epC = min(epA,epB)+4+ietamin1;
+    if(epindx==HFm1c) --epC;
+    if(epindx==HFm1d) --epC;
+    if(epindx==HFm1e) --epC;
+    if(epindx==HFm1f) --epC;
+    cout<<EPNames[epA]<<"\t"<<EPNames[epB]<<"\t"<<EPNames[epC]<<endl;
     double rAB = res2D->GetBinContent(min(epA-epmin+1,epB-epmin+1),max(epA-epmin+1,epB-epmin+1));
     double rAC = res2D->GetBinContent(min(epA-epmin+1,epC-epmin+1),max(epA-epmin+1,epC-epmin+1));
     double rBC = res2D->GetBinContent(min(epB-epmin+1,epC-epmin+1),max(epB-epmin+1,epC-epmin+1));
