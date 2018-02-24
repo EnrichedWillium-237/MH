@@ -133,17 +133,21 @@ TGraphErrors * N1(int replay, int bin, double eMin, double eMax, double & ymin, 
       fin = new TFile(rootFile.data(),"r");
       g2 = GetVNPt(B,bin,epindxB,EtaMin,EtaMax,gA2, gB2, gSpec2, vint2, vinte2,vintA2, vintAe2, vintB2, vintBe2, false);
       fin->Close();
-      gint->GetY()[i] = (vintA+vintA2+vintB+vintB2)/4.;
-      gint->GetEY()[i] = (vintAe+vintAe2+vintBe+vintBe2)/4.;
+      gint->GetY()[i] = (vintA+vintA2)/2.;
+      double e = sqrt(pow(vintAe,2)+pow(vintAe2,2)+2*vintA*vintA2*min(vintAe,vintAe2));
+      gint->GetEY()[i] = e;
       gintA->GetY()[i]=(vintA+vintA2)/2.;
-      gintA->GetEY()[i]=(vintAe+vintAe2)/2.;
+      gintA->GetEY()[i]= gintA->GetY()[i]*e;
+      e = sqrt(pow(vintBe,2)+pow(vintBe2,2)+2*vintA*vintB2*min(vintBe,vintBe2));
       gintB->GetY()[i]=(vintB+vintB2)/2.;
-      gintB->GetEY()[i]=(vintBe+vintBe2)/2.;
+      gintB->GetEY()[i]=e;
     }
   }
   gint->SetName("gint");
-  gintA->SetName("gintA");
-  gintB->SetName("gintB");
+  //gintA->SetName("gintA");
+  //gintB->SetName("gintB");
+  gintA->SetTitle("NOGOOD");
+  gintB->SetTitle("NOGOOD");
   //
   // Now do requested calculation
   //
@@ -167,13 +171,21 @@ TGraphErrors * N1(int replay, int bin, double eMin, double eMax, double & ymin, 
   fin->Close();
   for(int i = 0; i<g->GetN(); i++) {
     g->GetY()[i] = (g->GetY()[i]+g2->GetY()[i])/2.;
+    double e = sqrt(pow(g->GetEY()[i],2)+pow(g2->GetEY()[i],2)+2*g->GetEY()[i]*g2->GetEY()[i]*min(g->GetEY()[i],g2->GetEY()[i]));
+    g->GetEY()[i] = e;
+    e = sqrt(pow(gA->GetEY()[i],2)+pow(gA2->GetEY()[i],2)+2*gA->GetEY()[i]*gA2->GetEY()[i]*min(gA->GetEY()[i],gA2->GetEY()[i]));
     gA->GetY()[i] = (gA->GetY()[i]+gA2->GetY()[i])/2.;
+    gA->GetEY()[i] = e;
+    e = sqrt(pow(gB->GetEY()[i],2)+pow(gB2->GetEY()[i],2)+2*gB->GetEY()[i]*gB2->GetEY()[i]*min(gB->GetEY()[i],gB2->GetEY()[i]));
     gB->GetY()[i] = (gB->GetY()[i]+gB2->GetY()[i])/2.;
+    gA->GetEY()[i] = e;
   }
-  ymin = setYmin(g,gA,gB);
-  ymax = setYmax(g,gA,gB);
+  ymin = setYmin(g);
+  ymax = setYmax(g);
   g->SetName("g");
   gA->SetName("gA");
   gB->SetName("gB");
+  gA->SetTitle("NOGOOD");
+  gB->SetTitle("NOGOOD");
   return g;
 }

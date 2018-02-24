@@ -1,5 +1,4 @@
-TGraphErrors * GetVNPt(int replay, int bin, int epindx,  double etamin, double etamax, TGraphErrors * &gA, TGraphErrors * &gB, TGraphErrors * &gspec,  double & vint, double & vinte,    double & vintA, double & vintAe, double & vintB, double & vintBe, bool nonorm=false){
-
+TGraphErrors * GetVNPt(int replay, int bin, int epindx,  double etamin, double etamax, TGraphErrors * &gA, TGraphErrors * &gB, TGraphErrors * &gspec,  double & vint, double & vinte,    double & vintA, double & vintAe, double & vintB, double & vintBe, bool nonorm=false, double * covint = 0, TGraphErrors ** covg = 0){
   TH1D * hspec = 0;
   TH1D * xpt=0;
   TH1D * sp=0;
@@ -234,11 +233,20 @@ TGraphErrors * GetVNPt(int replay, int bin, int epindx,  double etamin, double e
     int epB = RCMate1[epindx];
     int epC = RCMate2[epindx];
     epC = min(epA,epB)+4+ietamin1;
+    if(epindx == trackp122mc) {
+      epB = trackm122mc;
+      epC = trackm122mc+ietamin1-1;
+    }
+    if(epindx == trackm122mc) {
+      epB = trackp122mc;
+      epC = trackm122mc+ietamin1-1;
+    }
+   
     if(epindx==HFm1c) --epC;
     if(epindx==HFm1d) --epC;
     if(epindx==HFm1e) --epC;
     if(epindx==HFm1f) --epC;
-    cout<<EPNames[epA]<<"\t"<<EPNames[epB]<<"\t"<<EPNames[epC]<<endl;
+    cout<<etamin<<"\t"<<etamax<<"\t"<<EPNames[epA]<<"\t"<<EPNames[epB]<<"\t"<<EPNames[epC]<<endl;
     double rAB = res2D->GetBinContent(min(epA-epmin+1,epB-epmin+1),max(epA-epmin+1,epB-epmin+1));
     double rAC = res2D->GetBinContent(min(epA-epmin+1,epC-epmin+1),max(epA-epmin+1,epC-epmin+1));
     double rBC = res2D->GetBinContent(min(epB-epmin+1,epC-epmin+1),max(epB-epmin+1,epC-epmin+1));

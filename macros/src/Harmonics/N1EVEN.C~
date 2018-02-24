@@ -166,7 +166,6 @@ if(ANALS[nrep][0].find("MCp02")!=std::string::npos) {
     fclose(outint);
   } else {
     int settype = 0;
-    cout<<"eMin: "<<eMin<<"\teMax: "<<eMax<<endl;
     if(eMin*eMax>0) {
       if(eMin < 0 ) {
 	settype = pRef2;
@@ -175,6 +174,7 @@ if(ANALS[nrep][0].find("MCp02")!=std::string::npos) {
 	settype = mRef2;
 	if(replay==N1EVENSUB3) settype=mRef3;
       }
+      cout<<"eMin: "<<eMin<<"\teMax: "<<eMax<<endl;
       g = GetVNPt(settype,bin,epindx,eMin,eMax,gA, gB, gSpec, vint, vinte,vintA,vintAe,vintB,vintBe, false);
       g->SetTitle("NOGOOD");
       gB->SetTitle("NOGOOD");
