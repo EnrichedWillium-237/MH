@@ -134,7 +134,10 @@ TGraphErrors * N1(int replay, int bin, double eMin, double eMax, double & ymin, 
       g2 = GetVNPt(B,bin,epindxB,EtaMin,EtaMax,gA2, gB2, gSpec2, vint2, vinte2,vintA2, vintAe2, vintB2, vintBe2, false);
       fin->Close();
       gint->GetY()[i] = (vintA+vintA2)/2.;
-      double e = sqrt(pow(vintAe,2)+pow(vintAe2,2)+2*vintA*vintA2*min(vintAe,vintAe2));
+      double arg = pow(vintAe,2)+pow(vintAe2,2)+2*vintA*vintA2*min(vintAe,vintAe2);
+      if(arg<=0) arg=pow(vintAe,2)+pow(vintAe2,2);
+      double e = sqrt(arg)/2.;
+      //cout<<"e: "<<e<<"\t"<<gint->GetY()[i]<<endl; 
       gint->GetEY()[i] = e;
       gintA->GetY()[i]=(vintA+vintA2)/2.;
       gintA->GetEY()[i]= gintA->GetY()[i]*e;

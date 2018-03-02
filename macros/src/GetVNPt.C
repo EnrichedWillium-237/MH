@@ -246,10 +246,21 @@ TGraphErrors * GetVNPt(int replay, int bin, int epindx,  double etamin, double e
     if(epindx==HFm1d) --epC;
     if(epindx==HFm1e) --epC;
     if(epindx==HFm1f) --epC;
-    cout<<etamin<<"\t"<<etamax<<"\t"<<EPNames[epA]<<"\t"<<EPNames[epB]<<"\t"<<EPNames[epC]<<endl;
-    double rAB = res2D->GetBinContent(min(epA-epmin+1,epB-epmin+1),max(epA-epmin+1,epB-epmin+1));
-    double rAC = res2D->GetBinContent(min(epA-epmin+1,epC-epmin+1),max(epA-epmin+1,epC-epmin+1));
-    double rBC = res2D->GetBinContent(min(epB-epmin+1,epC-epmin+1),max(epB-epmin+1,epC-epmin+1));
+    int iABx = min(epA-epmin+1,epB-epmin+1);
+    int iABy = max(epA-epmin+1,epB-epmin+1);
+    int iACx = min(epA-epmin+1,epC-epmin+1);
+    int iACy = max(epA-epmin+1,epC-epmin+1);
+    int iBCx = min(epB-epmin+1,epC-epmin+1);
+    int iBCy = max(epB-epmin+1,epC-epmin+1);
+
+    double rAB = res2D->GetBinContent(iABx,iABy);
+    double rAC = res2D->GetBinContent(iACx,iACy);
+    double rBC = res2D->GetBinContent(iBCx,iBCy);
+    cout<<"------------"<<endl;
+    cout<<etamin<<"\t"<<etamax<<"\t"<<EPNames[epA]<<"\t"<<EPNames[epB]<<"\t"<<rAB<<endl;
+    cout<<etamin<<"\t"<<etamax<<"\t"<<EPNames[epA]<<"\t"<<EPNames[epC]<<"\t"<<rAC<<endl;
+    cout<<etamin<<"\t"<<etamax<<"\t"<<EPNames[epC]<<"\t"<<EPNames[epB]<<"\t"<<rBC<<endl
+;
     qBA = rAB;
     qCA = rAC;
     qCB = rBC;

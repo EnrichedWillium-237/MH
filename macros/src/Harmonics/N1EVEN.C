@@ -166,7 +166,6 @@ if(ANALS[nrep][0].find("MCp02")!=std::string::npos) {
     fclose(outint);
   } else {
     int settype = 0;
-    cout<<"eMin: "<<eMin<<"\teMax: "<<eMax<<endl;
     if(eMin*eMax>0) {
       if(eMin < 0 ) {
 	settype = pRef2;

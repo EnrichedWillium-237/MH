@@ -184,7 +184,8 @@ void GetVNCreate(int replay , int bin , TGraphErrors * & gint, TGraphErrors * & 
 
   TCanvas * c=NULL;
   if(plotit) {
-    c = new TCanvas(cname.data(),cname.data(),650,500);
+    string extcname = "canvas_"+cname;
+    c = new TCanvas(extcname.data(),extcname.data(),650,500);
     gPad->SetGrid(1,1);
     h->Draw();
 
@@ -211,12 +212,15 @@ void GetVNCreate(int replay , int bin , TGraphErrors * & gint, TGraphErrors * & 
     leg->SetBorderSize(0);
 
     string s = "A+B only";
+    string gtitle = g->GetTitle();
+    string gAtitle = gA->GetTitle();
+    string gBtitle = gB->GetTitle();
     if(strncmp(g->GetTitle(),"Graph",5)!=0) {
       s = g->GetTitle(); 
     }
     string append =Form("%5.4f#pm%5.4f",vint,vinte); 
     s+=" (<> = "+append+")";
-    if(strncmp(g->GetTitle(),"NOGOOD",6)!=0) leg->AddEntry(g,s.data(),"lp");
+    if(gtitle.find("NOGOOD")==std::string::npos) leg->AddEntry(g,s.data(),"lp");
 
     string sA = "A only";
     if(strncmp(gA->GetTitle(),"Graph",5)!=0) {
@@ -224,7 +228,7 @@ void GetVNCreate(int replay , int bin , TGraphErrors * & gint, TGraphErrors * & 
     }
     append =Form("%5.4f#pm%5.4f",vintA,vintAe); 
     sA+=" (<> = "+append+")";
-    if(strncmp(gA->GetTitle(),"NOGOOD",6)!=0) leg->AddEntry(gA,sA.data(),"lp");
+    if(gAtitle.find("NOGOOD")==std::string::npos) leg->AddEntry(gA,sA.data(),"lp");
 
     string sB = "B only";
     if(strncmp(gB->GetTitle(),"Graph",5)!=0) {
@@ -232,13 +236,13 @@ void GetVNCreate(int replay , int bin , TGraphErrors * & gint, TGraphErrors * & 
     }
     append =Form("%5.4f#pm%5.4f",vintB,vintBe); 
     sB+=" (<> = "+append+")";
-    if(strncmp(gB->GetTitle(),"NOGOOD",6)!=0) leg->AddEntry(gB,sB.data(),"lp");
+    if(gBtitle.find("NOGOOD")==std::string::npos) leg->AddEntry(gB,sB.data(),"lp");
     
     leg->Draw();
 
-    if(strncmp(gA->GetTitle(),"NOGOOD",6)!=0) gA->Draw("p");
-    if(strncmp(gB->GetTitle(),"NOGOOD",6)!=0) gB->Draw("p");
-    if(strncmp(g->GetTitle(),"NOGOOD",6)!=0) g->Draw("p");
+    if(gAtitle.find("NOGOOD")==std::string::npos) gA->Draw("p");
+    if(gBtitle.find("NOGOOD")==std::string::npos) gB->Draw("p");
+    if(gtitle.find("NOGOOD")==std::string::npos) g->Draw("p");
     TLatex * text = new TLatex(0.1*PTMAX,0.92*ymax,ANALS[replay][0].data());
     text->SetTextFont(43);
     text->SetTextSize(24);
@@ -259,9 +263,9 @@ void GetVNCreate(int replay , int bin , TGraphErrors * & gint, TGraphErrors * & 
     TDirectory * save = gDirectory;
     toutsubsubsub->cd();
     h->Write();
-    g->Write();
-    gA->Write();
-    gB->Write();
+    if(strncmp(g->GetTitle(),"NOGOOD",6)!=0) g->Write();
+    if(strncmp(gA->GetTitle(),"NOGOOD",6)!=0) gA->Write();
+    if(strncmp(gB->GetTitle(),"NOGOOD",6)!=0) gB->Write();
     c->Write();
     save->cd();
 
@@ -300,17 +304,21 @@ void GetVN(string rootfile = "../MH.root", string name="N2SUB3",  double mineta 
   VNINTMAX=vnintmax;
   string nlabel = name;
   if(name.find("SUB2")!=std::string::npos) Decor = false;
-  //if(name.find("N1MC")!=std::string::npos) Decor = false;
   if(name.find("N523")!=std::string::npos) Decor = false;
   if(name.find("N42")!=std::string::npos) Decor = false;
   if(name.find("N62")!=std::string::npos) Decor = false;
   if(name.find("N63")!=std::string::npos) Decor = false;
-  if(Decor) nlabel+="_decor";
+  //if(Decor) nlabel+="_decor";
   rootFile = rootfile;
   SetTracking();
   tag = rootfile.substr(rootfile.find("/")+1,rootfile.find(".root")-rootfile.find("/")-1);
-  string outname = tag+"_hists.root";
-  tout = new TFile(outname.data(),"UPDATE");
+  if(tag=="MH") tag="default";
+  if(tag.find("MH_")!=std::string::npos) tag=tag.substr(3,tag.length());
+  string maindir = tag;
+  tout = new TFile("vnPlots.root","UPDATE");
+  TDirectory * mdir;
+  if((mdir=(TDirectory *) tout->Get(maindir.data()))==NULL) mdir=  tout->mkdir(maindir.data());
+  mdir->cd();
   TGraphErrors * gint[cbins];
   TGraphErrors * gintA[cbins];
   TGraphErrors * gintB[cbins];
@@ -361,30 +369,39 @@ void GetVN(string rootfile = "../MH.root", string name="N2SUB3",  double mineta 
     return;
   }
   FILE * ftest;
-  FigDir = Form("figures%s",stag.data());
-  if((ftest=fopen(FigDir.data(),"r"))!=NULL) {
+  if((ftest=fopen("figures","r"))!=NULL) {
     //cout<<"Output directory "<<FigDir.data()<<" exists."<<endl;
     fclose(ftest);
   } else {
-    system(Form("mkdir %s",FigDir.data()));
+    system("mkdir figures");
   }
-  FigSubDir = FigDir+"/"+name.data();
+  if((ftest=fopen(Form("figures/%s",tag.data()),"r"))!=NULL) {
+    fclose(ftest);
+  } else {
+    system(Form("mkdir figures/%s",tag.data()));
+  }
+  FigSubDir = "figures/"+tag+"/"+name.data();
+  if(Decor) FigSubDir+="_decor";
  
   if((ftest=fopen(FigSubDir.data(),"r"))==NULL) {
     system(Form("mkdir %s",FigSubDir.data()));
-
   } else {
     cout<<"Directory "<<FigSubDir.data()<<" exists.  Will overwrite."<<endl;
     fclose(ftest);
   }
-    toutsub = tout->mkdir(name.data());
-    if(toutsub==0) toutsub=(TDirectory *) tout->Get(name.data());
+  string subname = name.data();
+  if(Decor) subname+="_decor";
+  if((toutsub=(TDirectory *) mdir->Get(subname.data()))!=NULL ) {
+    cout<<subname<<" exists"<<endl;
+  } else {
+    toutsub = mdir->mkdir(subname.data());
+  }
+  //if(toutsub==0) toutsub=(TDirectory *) mdir->Get(name.data());
   TCanvas * ceta[cbins];
   timer->Start();
   toutsubsub = toutsub->mkdir(Form("%03.1f_%03.1f",EtaMin,EtaMax));
   if(toutsubsub==0) toutsubsub=(TDirectory *) toutsub->Get(Form("%03.1f_%03.1f",EtaMin,EtaMax));
   FigSubSubDir = FigSubDir+Form("/eta_%03.1f_%03.1f",EtaMin,EtaMax);
-  if(Decor) FigSubSubDir+="_decor";
   if((ftest=fopen(FigSubSubDir.data(),"r"))==NULL) {
     system(Form("mkdir %s",FigSubSubDir.data()));
     system(Form("mkdir %s/data",FigSubSubDir.data()));
@@ -400,7 +417,6 @@ void GetVN(string rootfile = "../MH.root", string name="N2SUB3",  double mineta 
     if(selbin>=0 && bin!=selbin) continue;
     toutsubsubsub = toutsubsub->mkdir(Form("%d_%d",(int) (cmin[bin]),(int)(cmax[bin])));
     if(toutsubsubsub==0) toutsubsubsub=(TDirectory *) toutsubsub->Get(Form("%d_%d",(int) (cmin[bin]),(int)(cmax[bin])));
-    cout<<"toutsubsubsub make: "<<toutsubsubsub<<endl;
     int minb = rcnt->FindBin(cmin[bin]);
     int maxb = rcnt->FindBin(cmax[bin])-1;
     if(maxb<minb) maxb=minb;
@@ -414,7 +430,6 @@ void GetVN(string rootfile = "../MH.root", string name="N2SUB3",  double mineta 
     //eta distribution
     string FigEtaSubDir = FigSubDir;
     FigEtaSubDir+="/EtaDistributions";
-    if(Decor) FigEtaSubDir+="_decor";
     if((ftest=fopen(FigEtaSubDir.data(),"r"))==NULL) {
       system(Form("mkdir %s",FigEtaSubDir.data()));
       system(Form("mkdir %s/data",FigEtaSubDir.data()));
@@ -422,7 +437,8 @@ void GetVN(string rootfile = "../MH.root", string name="N2SUB3",  double mineta 
       fclose(ftest);
     }
     
-    ceta[bin] = new TCanvas(Form("EtaInt_%s_%d_%d",nlabel.data(),cmin[bin],cmax[bin]),Form("EtaInt_%s_%d_%d",nlabel.data(),cmin[bin],cmax[bin]),800,500);
+    string cetaname = Form("canvas_EtaInt_%s_%d_%d",nlabel.data(),cmin[bin],cmax[bin]);
+    ceta[bin] = new TCanvas(cetaname.data(),cetaname.data(),800,500);
     double xmin,xmax,ymin,ymax;
     double xminA,xmaxA,yminA,ymaxA;
     double xminB,xmaxB,yminB,ymaxB;
@@ -490,13 +506,11 @@ void GetVN(string rootfile = "../MH.root", string name="N2SUB3",  double mineta 
       tl2->Draw();
     }
     TDirectory * save = gDirectory;
-    cout<<"toutsubsubsub: "<<toutsubsubsub<<endl;
     toutsubsubsub->cd();
-    cout<<"heta: "<<heta<<endl;
     heta->Write();
-    gint[bin]->Write();
-    gintA[bin]->Write();
-    gintB[bin]->Write();
+    if(strncmp(gint[bin]->GetTitle(),"NOGOOD",6) != 0) gint[bin]->Write();
+    if(strncmp(gintA[bin]->GetTitle(),"NOGOOD",6) != 0) gintA[bin]->Write();
+    if(strncmp(gintB[bin]->GetTitle(),"NOGOOD",6) != 0) gintB[bin]->Write();
     ceta[bin]->Write();
     save->cd();
     ceta[bin]->Print(Form("%s/%s.pdf",FigEtaSubDir.data(),ceta[bin]->GetName()),"pdf");

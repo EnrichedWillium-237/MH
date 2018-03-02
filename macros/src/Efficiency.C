@@ -1,7 +1,12 @@
 enum    TrackType {typeUndefined = 0, ppReco = 1, HIReco, Pixel, MC};
+string TrackTypeNames[]={"Undefined","ppReco","HIReco","Pixel","MC"};
 enum TrackQuality {qualityUndefined = 0, loose = 1, normal, tight, narrow, wide};
+string TrackQualityNames[]={"qualityUndefined","loose","normal","tight","narrow","wide"};
+
 enum TrackReaction {reacUndefined = 0, pp = 1, pPb, XeXe, PbPb};
+string TrackReactionNames[]={"reacUndefined","pp","pPb","XeXe","PbPb"};
 enum TrackOrientation {orientationUndefined = 0, Type_pPb = 1, Type_Pbp };
+string TrackOrientationNames[]={"orientationUndefined","Type_pPb","Type_Pbp"};
 TrackType sTrackType;
 TrackQuality sTrackQuality;
 TrackReaction sTrackReaction;
@@ -27,7 +32,7 @@ TrackType SetTracking( ){
   fclose(fpwd);
   system("rm pwd.lis");
   string spwd = buf;
-  cout<<spwd<<endl;
+  //cout<<spwd<<endl;
   if(spwd.find("AMPT")!=std::string::npos) sTrackType = MC;
   if(spwd.find("pp")!=std::string::npos) {
     sTrackReaction=pp;
@@ -71,29 +76,29 @@ TrackType SetTracking( ){
     if(condition == "hiGeneralTracks") sTrackType = HIReco;
     if(condition == "generalTracks") sTrackType = ppReco;
     if(sTrackType == Pixel) {
-      cout<<"Pixel: "<<condition<<":"<<endl;
       if(condition == "dzdzerror_0002.00") sTrackQuality = normal;
       if(condition == "dzdzerror_0005.00") sTrackQuality = loose;
       if(condition == "dzdzerror_0001.50") sTrackQuality = tight;
     } else if (sTrackType == ppReco || sTrackReaction == pPb) {
-      cout<<"pPb with ppReco: "<<condition<<":"<<endl;
+      //cout<<"pPb with ppReco: "<<condition<<":"<<endl;
       if(condition == "dzdzerror_0003.00") sTrackQuality = normal;
       if(condition == "dzdzerror_0005.00") sTrackQuality = loose;
       if(condition == "dzdzerror_0002.00") sTrackQuality = tight;
     } else if (sTrackType == ppReco || sTrackReaction == XeXe) {
-      cout<<"XeXe with ppReco: "<<condition<<":"<<endl;
+      //cout<<"XeXe with ppReco: "<<condition<<":"<<endl;
       if(condition == "dzdzerror_0003.00") sTrackQuality = normal;
       if(condition == "dzdzerror_0005.00") sTrackQuality = loose;
       if(condition == "dzdzerror_0002.00") sTrackQuality = tight;
     } else if (sTrackType == HIReco) {
-      cout<<"HIReco: "<<condition<<":"<<endl;
+      //cout<<"HIReco: "<<condition<<":"<<endl;
     } else {
-      cout<<"undefined TrackType: "<<condition<<endl;
+      //   cout<<"undefined TrackType: "<<condition<<endl;
     }
     if(condition == "vtx_-15.0_ 3.0") sTrackQuality = narrow;
     if(condition == "vtx_- 3.0_15.0") sTrackQuality = wide;
 
   }
+  cout<<TrackReactionNames[sTrackReaction]<<"\t"<<TrackTypeNames[sTrackType]<<"\t"<<TrackQualityNames[sTrackQuality]<<endl;
   if(sTrackReaction==pp || sTrackReaction==pPb) {
     ncentbins = ncentbinsNOFF;
     cbins = cbinsNOFF;

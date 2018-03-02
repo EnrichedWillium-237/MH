@@ -54,5 +54,9 @@ TGraphErrors * N63(int replay, int bin, double eMin, double eMax, double & ymin,
   g->SetName("g");
   gA->SetName("gA");
   gB->SetName("gB");
+  if( replay==N63BSUB3 || replay==N63CSUB3) {
+    g->SetTitle("NOGOOD");
+    gB->SetTitle("NOGOOD");
+  }
   return g;
 }

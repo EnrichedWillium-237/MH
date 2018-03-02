@@ -4,7 +4,9 @@ TGraphErrors * N42(int replay, int bin, double eMin, double eMax, double & ymin,
   //
   // Start with eta distribution
   //
-  cout<<"Enter N42 ####"<<endl;
+  gint->SetName("gint");
+  gintA->SetName("gintA");
+  gintB->SetName("gintB");
   for(int i = 0; i<12; i++) {
     double EtaMin = -2.4 + 0.4*i;
     double EtaMax = EtaMin+0.4;
@@ -29,15 +31,21 @@ TGraphErrors * N42(int replay, int bin, double eMin, double eMax, double & ymin,
       }
     }
   }
-  gint->SetName("gint");
-  gintA->SetName("gintA");
-  gintB->SetName("gintB");
+  if( replay==N42BSUB3 || replay==N42CSUB3) {
+    gintB->SetTitle("NOGOOD");
+    gint->SetTitle("NOGOOD");
+  }
   //
   // Now do requested calculation
   //
   g = GetVNPt(replay,bin,-1,eMin,eMax,gA, gB, gSpec, vint, vinte,vintA, vintAe, vintB, vintBe, false);
+  g->SetName("g");
+  gA->SetName("gA");
+  gB->SetName("gB");
   //for five subevent calculations N42B and N42C, only the A calculation has the correct resulution calculation  
   if( replay==N42BSUB3 || replay==N42CSUB3) {
+    gB->SetTitle("NOGOOD");
+    g->SetTitle("NOGOOD");
     for(int i = 0; i< g->GetN(); i++) {
       g->GetY()[i] = gA->GetY()[i];
       gB->GetY()[i] = gA->GetY()[i];
@@ -51,8 +59,5 @@ TGraphErrors * N42(int replay, int bin, double eMin, double eMax, double & ymin,
   outint = fopen(soutint.data(),"a+");
   fprintf(outint,"%d\t%d\t%15.10f\t%15.10f\n",cmin[bin],cmax[bin],vint,vinte);
   fclose(outint);
-  g->SetName("g");
-  gA->SetName("gA");
-  gB->SetName("gB");
   return g;
 }
