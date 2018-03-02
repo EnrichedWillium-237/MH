@@ -1,28 +1,30 @@
-#include "TH1D.h"
-#include "TH2D.h"
-#include "TFile.h"
-#include "TLatex.h"
-#include "TLegend.h"
-#include "TCanvas.h"
-#include "TGraphErrors.h"
-#include "TMath.h"
-#include "TStopwatch.h"
-#include <iostream>
+# include "TH1D.h"
+# include "TH2D.h"
+# include "TFile.h"
+# include "TLatex.h"
+# include "TLegend.h"
+# include "TCanvas.h"
+# include "TGraphErrors.h"
+# include "TMath.h"
+# include "TStopwatch.h"
+# include <iostream>
 
-#include "src/HiEvtPlaneList.h"
+# include "src/HiEvtPlaneList.h"
+
 using namespace hi;
+
 static const int ncentbinsNOFF = 25;
-static const int centBinsNOFF[]={0, 10, 20, 30, 40, 50, 60, 70, 80, 100, 120, 135, 150, 160, 185, 210, 230, 250, 270, 300, 330, 350, 370, 390, 420, 500};
-static const double centRefBinsNOFF[]={0, 10, 20, 30, 40, 50, 60, 70, 80, 100, 120, 135, 150, 160, 185, 210, 230, 250, 270, 300, 330, 350, 370, 390, 420, 500};
+static const int centBinsNOFF[] = {0, 10, 20, 30, 40, 50, 60, 70, 80, 100, 120, 135, 150, 160, 185, 210, 230, 250, 270, 300, 330, 350, 370, 390, 420, 500};
+static const double centRefBinsNOFF[] = {0, 10, 20, 30, 40, 50, 60, 70, 80, 100, 120, 135, 150, 160, 185, 210, 230, 250, 270, 300, 330, 350, 370, 390, 420, 500};
 static const int cbinsNOFF = 25;
-static const int cminNOFF[]={1, 10, 20, 30, 40, 50, 60, 70, 80, 100, 120, 135, 150, 160, 185, 210, 230, 250, 270, 300, 330, 350, 370, 390, 420};
-static const int cmaxNOFF[]={10, 20, 30, 40, 50, 60, 70, 80, 100, 120, 135, 150, 160, 185, 210, 230, 250, 270, 300, 330, 350, 370, 390, 420, 500};
+static const int cminNOFF[] = {1, 10, 20, 30, 40, 50, 60, 70, 80, 100, 120, 135, 150, 160, 185, 210, 230, 250, 270, 300, 330, 350, 370, 390, 420};
+static const int cmaxNOFF[] = {10, 20, 30, 40, 50, 60, 70, 80, 100, 120, 135, 150, 160, 185, 210, 230, 250, 270, 300, 330, 350, 370, 390, 420, 500};
 static const int ncentbinsCENT = 11;
-static const int centBinsCENT[]={0,5,10,15,20,25,30,35,40,50,60,70};
-static const double centRefBinsCENT[]={0,5,10,15,20,25,30,35,40,50,60,70};
+static const int centBinsCENT[] = {0, 5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70};
+static const double centRefBinsCENT[] = {0, 5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70};
 static const int cbinsCENT = 13;
-static const int cminCENT[]={0, 5,10,15,20,25,30,35,40,50,60,  0,20, 60};
-static const int cmaxCENT[]={5,10,15,20,25,30,35,40,50,60,70, 20,60,100};
+static const int cminCENT[] = {0,  5, 10, 15, 20, 25, 30, 35, 40, 50, 60,  0, 20,  60};
+static const int cmaxCENT[] = {5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70, 20, 60, 100};
 bool ntrkbinning = false;
 int ncentbins = 0;
 int centBins[50];
@@ -67,177 +69,179 @@ double resBdenom[50];
 double PTMAX = 0;
 double VNMIN = 0;
 double VNMAX=0;
-double VNINTMIN=0;
-double VNINTMAX=0;
-#include "src/Types.h"
-#include "src/Efficiency.C"
-#include "src/flip2D.C"
-#include "src/GetVNPt.C"
-#include "src/Harmonics.h"
-#include "src/drawSpec.C"
+double VNINTMIN = 0;
+double VNINTMAX = 0;
+
+# include "src/Types.h"
+# include "src/Efficiency.C"
+# include "src/flip2D.C"
+# include "src/GetVNPt.C"
+# include "src/Harmonics.h"
+# include "src/drawSpec.C"
+
 TH1D * h = 0;
-void GetVNCreate(int replay , int bin , TGraphErrors * & gint, TGraphErrors * & gintA, TGraphErrors *& gintB,  bool plotit=true, bool NumOnly=false, bool DenomOnly=false ){
-  TH1D * hspec = 0;
-  string cname = ANALS[replay][0]+"_"+to_string(cmin[bin])+"_"+to_string(cmax[bin])+Form("_eta_%03.1f_%03.1f",EtaMin,EtaMax);
-  h = new TH1D("h","h",100,0,PTMAX);
-  h->SetDirectory(0);
-  h->SetMinimum(0);
+void GetVNCreate( int replay , int bin , TGraphErrors * & gint, TGraphErrors * & gintA, TGraphErrors *& gintB, bool plotit = true, bool NumOnly = false, bool DenomOnly = false ){
+    TH1D * hspec = 0;
+    string cname = ANALS[replay][0]+"_"+to_string(cmin[bin])+"_"+to_string(cmax[bin])+Form("_eta_%03.1f_%03.1f",EtaMin,EtaMax);
+    h = new TH1D("h", "h", 100, 0, PTMAX);
+    h->SetDirectory(0);
+    h->SetMinimum(0);
 
-  h->SetMaximum(0.6);
-  TGraphErrors * g;
-  TGraphErrors * gA;
-  TGraphErrors * gB;
-  TGraphErrors * gspec;
-  TGraphErrors * nwspec2;
-  double ymin = 0;
-  double ymax = 1;
-  double vint = 0;
-  double vinte = 0;
-  double vintA = 0;
-  double vintAe = 0;
-  double vintB = 0;
-  double vintBe = 0;
+    h->SetMaximum(0.6);
+    TGraphErrors * g;
+    TGraphErrors * gA;
+    TGraphErrors * gB;
+    TGraphErrors * gspec;
+    TGraphErrors * nwspec2;
+    double ymin = 0;
+    double ymax = 1;
+    double vint = 0;
+    double vinte = 0;
+    double vintA = 0;
+    double vintAe = 0;
+    double vintB = 0;
+    double vintBe = 0;
 
-  if(replay==N1SUB2   || replay==N1SUB3)   g =   N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if(replay==N1ASUB2   || replay==N1ASUB3)   g =   N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if(replay==N1BSUB2   || replay==N1BSUB3)   g =   N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if(replay==N1HFm1cSUB2   || replay==N1HFm1cSUB3)   g =   N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if(replay==N1HFm1dSUB2   || replay==N1HFm1dSUB3)   g =   N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if(replay==N1HFm1eSUB2   || replay==N1HFm1eSUB3)   g =   N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if(replay==N1HFm1fSUB2   || replay==N1HFm1fSUB3)   g =   N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if(replay==N1HFp1cSUB2   || replay==N1HFp1cSUB3)   g =   N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if(replay==N1HFp1dSUB2   || replay==N1HFp1dSUB3)   g =   N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if(replay==N1HFp1eSUB2   || replay==N1HFp1eSUB3)   g =   N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if(replay==N1HFp1fSUB2   || replay==N1HFp1fSUB3)   g =   N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if(replay==N1HFcSUB2   || replay==N1HFcSUB3)   g =   N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if(replay==N1HFdSUB2   || replay==N1HFdSUB3)   g =   N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if(replay==N1HFeSUB2   || replay==N1HFeSUB3)   g =   N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if(replay==N1HFfSUB2   || replay==N1HFfSUB3)   g =   N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if(replay==N1MCm22SUB3 || replay==N1MCm18SUB3 || replay==N1MCm14SUB3 || replay==N1MCm10SUB3 ||
-     replay==N1MCm06SUB3 || replay==N1MCm02SUB3 || replay==N1MCp22SUB3 || replay==N1MCp18SUB3 ||
-     replay==N1MCp14SUB3 || replay==N1MCp10SUB3 ||  replay==N1MCp06SUB3 || replay==N1MCp02SUB3 )
-    g =   N1EVEN(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if(replay==N1MCm22SUB2 || replay==N1MCm18SUB2 || replay==N1MCm14SUB2 || replay==N1MCm10SUB2 ||
-     replay==N1MCm06SUB2 || replay==N1MCm02SUB2 || replay==N1MCp22SUB2 || replay==N1MCp18SUB2 ||     
-     replay==N1MCp14SUB2 || replay==N1MCp10SUB2 ||  replay==N1MCp06SUB2 || replay==N1MCp02SUB2 )
-    g =   N1EVEN(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if(replay==N1EVENSUB2 || replay==N1EVENSUB3) g =   N1EVEN(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if(replay==N112SUB2   || replay==N112SUB3)   g =   N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if(replay==N112ASUB2   || replay==N112ASUB3)   g =   N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if(replay==N112BSUB2   || replay==N112BSUB3)   g =   N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N1SUB2  || replay==N1SUB3)  g = N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N1ASUB2 || replay==N1ASUB3) g = N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N1BSUB2 || replay==N1BSUB3) g = N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N1HFm1cSUB2 || replay==N1HFm1cSUB3) g = N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N1HFm1dSUB2 || replay==N1HFm1dSUB3) g = N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N1HFm1eSUB2 || replay==N1HFm1eSUB3) g = N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N1HFm1fSUB2 || replay==N1HFm1fSUB3) g = N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N1HFp1cSUB2 || replay==N1HFp1cSUB3) g = N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N1HFp1dSUB2 || replay==N1HFp1dSUB3) g = N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N1HFp1eSUB2 || replay==N1HFp1eSUB3) g = N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N1HFp1fSUB2 || replay==N1HFp1fSUB3) g = N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N1HFcSUB2   || replay==N1HFcSUB3)   g = N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N1HFdSUB2   || replay==N1HFdSUB3)   g = N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N1HFeSUB2   || replay==N1HFeSUB3)   g = N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N1HFfSUB2   || replay==N1HFfSUB3)   g = N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N1MCm22SUB3 || replay==N1MCm18SUB3 || replay==N1MCm14SUB3 || replay==N1MCm10SUB3 ||
+        replay==N1MCm06SUB3 || replay==N1MCm02SUB3 || replay==N1MCp22SUB3 || replay==N1MCp18SUB3 ||
+        replay==N1MCp14SUB3 || replay==N1MCp10SUB3 ||  replay==N1MCp06SUB3 || replay==N1MCp02SUB3 )
+        g = N1EVEN(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N1MCm22SUB2 || replay==N1MCm18SUB2 || replay==N1MCm14SUB2 || replay==N1MCm10SUB2 ||
+        replay==N1MCm06SUB2 || replay==N1MCm02SUB2 || replay==N1MCp22SUB2 || replay==N1MCp18SUB2 ||
+        replay==N1MCp14SUB2 || replay==N1MCp10SUB2 ||  replay==N1MCp06SUB2 || replay==N1MCp02SUB2 )
+        g = N1EVEN(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N1EVENSUB2 || replay==N1EVENSUB3) g = N1EVEN(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N112SUB2   || replay==N112SUB3)   g = N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N112ASUB2  || replay==N112ASUB3)  g = N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N112BSUB2  || replay==N112BSUB3)  g = N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
 
-  if(replay==N112cSUB2   || replay==N112cSUB3)   g =   N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if(replay==N112AcSUB2   || replay==N112AcSUB3)   g =   N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if(replay==N112BcSUB2   || replay==N112BcSUB3)   g =   N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N112cSUB2  || replay==N112cSUB3)   g = N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N112AcSUB2 || replay==N112AcSUB3)  g = N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N112BcSUB2 || replay==N112BcSUB3)  g = N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
 
-  if(replay==N112dSUB2   || replay==N112dSUB3)   g =   N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if(replay==N112AdSUB2   || replay==N112AdSUB3)   g =   N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if(replay==N112BdSUB2   || replay==N112BdSUB3)   g =   N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N112dSUB2  || replay==N112dSUB3)  g = N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N112AdSUB2 || replay==N112AdSUB3) g = N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N112BdSUB2 || replay==N112BdSUB3) g = N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
 
-  if(replay==N112eSUB2   || replay==N112eSUB3)   g =   N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if(replay==N112AeSUB2   || replay==N112AeSUB3)   g =   N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if(replay==N112BeSUB2   || replay==N112BeSUB3)   g =   N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N112eSUB2  || replay==N112eSUB3)  g = N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N112AeSUB2 || replay==N112AeSUB3) g = N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N112BeSUB2 || replay==N112BeSUB3) g = N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
 
-  if(replay==N112fSUB2   || replay==N112fSUB3)   g =   N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if(replay==N112AfSUB2   || replay==N112AfSUB3)   g =   N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if(replay==N112BfSUB2   || replay==N112BfSUB3)   g =   N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N112fSUB2  || replay==N112fSUB3)  g = N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N112AfSUB2 || replay==N112AfSUB3) g = N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N112BfSUB2 || replay==N112BfSUB3) g = N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
 
-  // if(replay==N123SUB2   || replay==N123SUB3)   g =   N123(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  // if(replay==N123ASUB2   || replay==N123ASUB3)   g =   N123(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  // if(replay==N123BSUB2   || replay==N123BSUB3)   g =   N123(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if(replay==N2SUB2   || replay==N2SUB3)   g =   N2(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if(replay==N3SUB2   || replay==N3SUB3)   g =   N3(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if(replay==N4SUB2   || replay==N4SUB3)   g =   N4(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if(replay==N5SUB2   || replay==N5SUB3)   g =   N5(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if(replay==N6SUB2   || replay==N6SUB3)   g =   N6(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if(replay==N7SUB2   || replay==N7SUB3)   g =   N7(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if(replay==N523SUB2 || replay==N523SUB3) g = N523(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if(replay==N523ASUB2 || replay==N523ASUB3) g = N523(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if(replay==N42SUB2   || replay==N42SUB3)   g =   N42(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if(replay==N42ASUB2   || replay==N42ASUB3)   g =   N42(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if( replay==N42BSUB3)   g =   N42(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if( replay==N42CSUB3)   g =   N42(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if(replay==N62SUB2   || replay==N62SUB3)   g =   N62(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if(replay==N62ASUB3)   g =   N62(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if(replay==N63SUB2   || replay==N63SUB3)   g =   N63(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if(replay==N63ASUB2 || replay==N63ASUB3)   g =   N63(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if( replay==N63BSUB3)   g =   N63(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if( replay==N63CSUB3)   g =   N63(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if( replay==Chi4)    g = CHI4(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if( replay==Chi4A)   g = CHI4(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if( replay==Chi5)    g = CHI5(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if( replay==Chi5A)   g = CHI5(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if( replay==Chi62)    g = CHI62(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if( replay==Chi62A)   g = CHI62(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if( replay==Chi63)    g = CHI63(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if( replay==Chi63A)   g = CHI63(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if( replay==Chi7)    g = CHI7(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if( replay==Chi7A)   g = CHI7(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if(replay==N723SUB2 || replay==N723SUB3) g = N723(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-  if(replay==N723ASUB2 || replay==N723ASUB3) g = N723(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    // if(replay==N123SUB2   || replay==N123SUB3)   g =   N123(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    // if(replay==N123ASUB2   || replay==N123ASUB3)   g =   N123(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    // if(replay==N123BSUB2   || replay==N123BSUB3)   g =   N123(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N2SUB2   || replay==N2SUB3)   g =   N2(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N3SUB2   || replay==N3SUB3)   g =   N3(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N4SUB2   || replay==N4SUB3)   g =   N4(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N5SUB2   || replay==N5SUB3)   g =   N5(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N6SUB2   || replay==N6SUB3)   g =   N6(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N7SUB2   || replay==N7SUB3)   g =   N7(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N523SUB2 || replay==N523SUB3) g = N523(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N523ASUB2 || replay==N523ASUB3) g = N523(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N42SUB2   || replay==N42SUB3)   g =   N42(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N42ASUB2   || replay==N42ASUB3)   g =   N42(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N42BSUB3)   g =   N42(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N42CSUB3)   g =   N42(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N62SUB2   || replay==N62SUB3)   g =   N62(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N62ASUB3)   g =   N62(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N63SUB2   || replay==N63SUB3)   g =   N63(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N63ASUB2 || replay==N63ASUB3)   g =   N63(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N63BSUB3)   g =   N63(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N63CSUB3)   g =   N63(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==Chi4)    g = CHI4(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==Chi4A)   g = CHI4(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==Chi5)    g = CHI5(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==Chi5A)   g = CHI5(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==Chi62)    g = CHI62(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==Chi62A)   g = CHI62(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==Chi63)    g = CHI63(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==Chi63A)   g = CHI63(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==Chi7)    g = CHI7(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==Chi7A)   g = CHI7(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N723SUB2 || replay==N723SUB3) g = N723(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
+    if (replay==N723ASUB2 || replay==N723ASUB3) g = N723(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
 
-  double ymaxspec = 0;
-  h->SetMinimum(ymin);
-  h->SetMaximum(ymax);
-  if(VNMIN>-10) h->SetMinimum(VNMIN);
-  if(VNMAX>-10) h->SetMaximum(VNMAX);
+    double ymaxspec = 0;
+    h->SetMinimum(ymin);
+    h->SetMaximum(ymax);
+    if (VNMIN>-10) h->SetMinimum(VNMIN);
+    if (VNMAX>-10) h->SetMaximum(VNMAX);
 
-  TCanvas * c=NULL;
-  if(plotit) {
-    string extcname = "canvas_"+cname;
-    c = new TCanvas(extcname.data(),extcname.data(),650,500);
-    gPad->SetGrid(1,1);
-    h->Draw();
+    TCanvas * c=NULL;
+    if (plotit) {
+        string extcname = "canvas_"+cname;
+        c = new TCanvas(extcname.data(),extcname.data(),650,500);
+        gPad->SetGrid(1,1);
+        h->Draw();
 
-    h->SetXTitle("P_{T} (GeV/c)");
-  }
-  string numdenom = "";
-  if(NumOnly) numdenom=" (Numerator) ";
-  if(DenomOnly) numdenom=" (Denominator) ";
- 
-
-  string yt = ANALS[replay][1]+numdenom+" ("+to_string(cmin[bin])+" #leq N_{trk}^{off} < "+to_string(cmax[bin])+")";
-  if(!ntrkbinning) yt = ANALS[replay][1]+numdenom+" ("+to_string(cmin[bin])+" - "+to_string(cmax[bin])+"%)";
-
-  FILE * fout;
-  if(plotit) {
-
-    h->SetYTitle(yt.data());
-    if(strncmp(g->GetTitle(),"NOGOOD",6)!=0) g->Draw("p");  
-
-    TLegend * leg = new TLegend(0.45,0.15,0.95,0.33);
-    leg->SetTextFont(43);
-    leg->SetTextSize(16);
-    leg->SetFillColor(kWhite);
-    leg->SetBorderSize(0);
-
-    string s = "A+B only";
-    string gtitle = g->GetTitle();
-    string gAtitle = gA->GetTitle();
-    string gBtitle = gB->GetTitle();
-    if(strncmp(g->GetTitle(),"Graph",5)!=0) {
-      s = g->GetTitle(); 
+        h->SetXTitle("P_{T} (GeV/c)");
     }
-    string append =Form("%5.4f#pm%5.4f",vint,vinte); 
-    s+=" (<> = "+append+")";
-    if(gtitle.find("NOGOOD")==std::string::npos) leg->AddEntry(g,s.data(),"lp");
+    string numdenom = "";
+    if (NumOnly) numdenom = " (Numerator) ";
+    if (DenomOnly) numdenom = " (Denominator) ";
+
+
+    string yt = ANALS[replay][1]+numdenom+" ("+to_string(cmin[bin])+" #leq N_{trk}^{off} < "+to_string(cmax[bin])+")";
+    if (!ntrkbinning) yt = ANALS[replay][1]+numdenom+" ("+to_string(cmin[bin])+" - "+to_string(cmax[bin])+"%)";
+
+    FILE * fout;
+    if (plotit) {
+
+        h->SetYTitle(yt.data());
+        if (strncmp(g->GetTitle(),"NOGOOD",6)!=0) g->Draw("p");
+
+        TLegend * leg = new TLegend(0.45,0.15,0.95,0.33);
+        leg->SetTextFont(43);
+        leg->SetTextSize(16);
+        leg->SetFillColor(kWhite);
+        leg->SetBorderSize(0);
+
+        string s = "A+B only";
+        string gtitle = g->GetTitle();
+        string gAtitle = gA->GetTitle();
+        string gBtitle = gB->GetTitle();
+        ifc(strncmp(g->GetTitle(),"Graph",5)!=0) {
+            s = g->GetTitle();
+        }
+        string append =Form("%5.4f#pm%5.4f",vint,vinte);
+        s+=" (<> = "+append+")";
+        if (gtitle.find("NOGOOD")==std::string::npos) leg->AddEntry(g,s.data(),"lp");
 
     string sA = "A only";
     if(strncmp(gA->GetTitle(),"Graph",5)!=0) {
-      sA = gA->GetTitle(); 
+      sA = gA->GetTitle();
     }
-    append =Form("%5.4f#pm%5.4f",vintA,vintAe); 
+    append =Form("%5.4f#pm%5.4f",vintA,vintAe);
     sA+=" (<> = "+append+")";
     if(gAtitle.find("NOGOOD")==std::string::npos) leg->AddEntry(gA,sA.data(),"lp");
 
     string sB = "B only";
     if(strncmp(gB->GetTitle(),"Graph",5)!=0) {
-      sB = gB->GetTitle(); 
+      sB = gB->GetTitle();
     }
-    append =Form("%5.4f#pm%5.4f",vintB,vintBe); 
+    append =Form("%5.4f#pm%5.4f",vintB,vintBe);
     sB+=" (<> = "+append+")";
     if(gBtitle.find("NOGOOD")==std::string::npos) leg->AddEntry(gB,sB.data(),"lp");
-    
+
     leg->Draw();
 
     if(gAtitle.find("NOGOOD")==std::string::npos) gA->Draw("p");
@@ -290,7 +294,7 @@ void GetVNCreate(int replay , int bin , TGraphErrors * & gint, TGraphErrors * & 
 
   fclose(fout);
 
- 
+
 }
 void GetVN(string rootfile = "../MH.root", string name="N2SUB3",  double mineta = -0.8, double maxeta = 0.8, bool decor = false, int selbin = -1,
 	   double ptmax = 12, double vnmin=-100, double vnmax=-100, double vnintmin=-100, double vnintmax=-100){
@@ -382,7 +386,7 @@ void GetVN(string rootfile = "../MH.root", string name="N2SUB3",  double mineta 
   }
   FigSubDir = "figures/"+tag+"/"+name.data();
   if(Decor) FigSubDir+="_decor";
- 
+
   if((ftest=fopen(FigSubDir.data(),"r"))==NULL) {
     system(Form("mkdir %s",FigSubDir.data()));
   } else {
@@ -436,7 +440,7 @@ void GetVN(string rootfile = "../MH.root", string name="N2SUB3",  double mineta 
     } else {
       fclose(ftest);
     }
-    
+
     string cetaname = Form("canvas_EtaInt_%s_%d_%d",nlabel.data(),cmin[bin],cmax[bin]);
     ceta[bin] = new TCanvas(cetaname.data(),cetaname.data(),800,500);
     double xmin,xmax,ymin,ymax;
@@ -452,7 +456,7 @@ void GetVN(string rootfile = "../MH.root", string name="N2SUB3",  double mineta 
     if(!ntrkbinning) nl3+="%";
 
     nl3+=")";
-    
+
     TH1D * heta = new TH1D(Form("heta_%s",nl2.data()),Form("heta_%s",nl2.data()),100,-2.5,2.5);
     gint[bin]->ComputeRange(xmin,ymin,xmax,ymax);
     gintA[bin]->ComputeRange(xminA,yminA,xmaxA,ymaxA);
