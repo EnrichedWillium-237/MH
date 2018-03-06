@@ -29,6 +29,8 @@ TGraphErrors * N1(int replay, int bin, double eMin, double eMax, double & ymin, 
   if(replay==N1ASUB2) {
     A = N1ASUB2;
     B = N1BSUB2;
+    epindxA = HFp1;
+    epindxB = HFm1;
     Decor = false;
   } else if (replay == N1ASUB3) {
     A = N1ASUB3;
@@ -39,6 +41,8 @@ TGraphErrors * N1(int replay, int bin, double eMin, double eMax, double & ymin, 
   if(replay==N1BSUB2) {
     A = N1BSUB2;
     B = N1ASUB2;
+    epindxA = HFp1;
+    epindxB = HFm1;
     Decor = false;
   } else if (replay == N1BSUB3) {
     A = N1BSUB3;
@@ -50,6 +54,8 @@ TGraphErrors * N1(int replay, int bin, double eMin, double eMax, double & ymin, 
   if(replay==N1SUB2) {
     A = N1ASUB2;
     B = N1BSUB2;
+    epindxA = HFp1;
+    epindxB = HFm1;
     Decor = false;
   } else if (replay == N1SUB3) {
     A = N1ASUB3;
@@ -61,6 +67,8 @@ TGraphErrors * N1(int replay, int bin, double eMin, double eMax, double & ymin, 
   if(replay==N1HFcSUB2) {
     A = N1HFp1cSUB2;
     B = N1HFm1cSUB2;
+    epindxA = HFp1c;
+    epindxB = HFm1c;
     Decor = false;
   } else if (replay == N1HFcSUB3) {
     A = N1HFp1cSUB3;
@@ -72,6 +80,8 @@ TGraphErrors * N1(int replay, int bin, double eMin, double eMax, double & ymin, 
   if(replay==N1HFdSUB2) {
     A = N1HFp1dSUB2;
     B = N1HFm1dSUB2;
+    epindxA = HFp1d;
+    epindxB = HFm1d;
     Decor = false;
   } else if (replay == N1HFdSUB3) {
     A = N1HFp1dSUB3;
@@ -83,6 +93,8 @@ TGraphErrors * N1(int replay, int bin, double eMin, double eMax, double & ymin, 
   if(replay==N1HFeSUB2) {
     A = N1HFp1eSUB2;
     B = N1HFm1eSUB2;
+    epindxA = HFp1e;
+    epindxB = HFm1e;
     Decor = false;
   } else if (replay == N1HFeSUB3) {
     A = N1HFp1eSUB3;
@@ -94,6 +106,8 @@ TGraphErrors * N1(int replay, int bin, double eMin, double eMax, double & ymin, 
   if(replay==N1HFfSUB2) {
     A = N1HFp1fSUB2;
     B = N1HFm1fSUB2;
+    epindxA = HFp1f;
+    epindxB = HFm1f;
     Decor = false;
   } else if (replay == N1HFfSUB3) {
     A = N1HFp1fSUB3;
@@ -105,6 +119,8 @@ TGraphErrors * N1(int replay, int bin, double eMin, double eMax, double & ymin, 
   if(replay==N1HFgSUB2) {
     A = N1HFp1gSUB2;
     B = N1HFm1gSUB2;
+    epindxA = HFp1g;
+    epindxB = HFm1g;
     Decor = false;
   } else if (replay == N1HFgSUB3) {
     A = N1HFp1gSUB3;
@@ -149,7 +165,7 @@ TGraphErrors * N1(int replay, int bin, double eMin, double eMax, double & ymin, 
       double arg = pow(vintAe,2)+pow(vintAe2,2)+2*vintA*vintA2*min(vintAe,vintAe2);
       if(arg<=0) arg=pow(vintAe,2)+pow(vintAe2,2);
       double e = sqrt(arg)/2.;
-      //cout<<"e: "<<e<<"\t"<<gint->GetY()[i]<<endl; 
+      //cout<<"e: "<<e<<"\t"<<gint->GetY()[i]<<endl;
       gint->GetEY()[i] = e;
       gintA->GetY()[i]=(vintA-vintA2)/2.;
       gintA->GetEY()[i]= gintA->GetY()[i]*e;
