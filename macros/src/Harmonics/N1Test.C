@@ -194,7 +194,7 @@ TGraphErrors * N1Test( int replay, int bin, double eMin, double eMax, double &ym
         double e = sqrt( pow(gA->GetEY()[i],2)+pow(gA2->GetEY()[i],2)+2*gA->GetEY()[i]*gA2->GetEY()[i]*min(gA->GetEY()[i],gA2->GetEY()[i]) );
         g->GetEY()[i] = e;
         gB->GetY()[i] = gA2->GetY()[i];
-        gB->GetEY()[i]=gA2->GetEY()[i];
+        gB->GetEY()[i] = gA2->GetEY()[i];
     }
     ymin = setYmin(g);
     ymax = setYmax(g);
@@ -219,7 +219,7 @@ TGraphErrors * N1Test( int replay, int bin, double eMin, double eMax, double &ym
     gg7->Write();
     gg8->Write();
     ctest->Write();
-    foutTest->Close();
+    //foutTest->Close();
 
     return g;
 }

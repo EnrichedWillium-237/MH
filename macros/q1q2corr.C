@@ -6,10 +6,10 @@ void q1q2corr(string cent="25_30"){
   TH2D * res12ep = (TH2D *) tf->Get(Form("vnanalyzer/Resolutions/%s/resep12",cent.data()));
   TH2D * res12cnt = (TH2D *) tf->Get(Form("vnanalyzer/Resolutions/%s/rescnt12",cent.data()));
   res12ep->Divide(res12cnt);
-  res12ep->Draw();
+  //res12ep->Draw();
   TH1D * prjp = res12ep->ProjectionX("prjp",HFp2g-HFm2+1,HFp2g-HFm2+1);
   TH1D * prjm = res12ep->ProjectionX("prjm",HFm2g-HFm2+1,HFm2g-HFm2+1);
-  TCanvas * c = new TCanvas("c","c",1000,800);
+  TCanvas * c = new TCanvas(Form("c_%s",cent.data()),Form("c_%s",cent.data()),1000,800);
   c->cd();
   //prj->Draw();
   double xp[12];
@@ -41,5 +41,5 @@ void q1q2corr(string cent="25_30"){
   leg->AddEntry(gp,"Q_{2} (4<#eta<5)","lp");
   leg->AddEntry(gm,"Q_{2} (-5<#eta<-4)","lp");
   leg->Draw();
-  c->Print("q1q2corr.pdf","pdf");
+  c->Print(Form("q1q2/q1q2corr_%s.pdf",cent.data()),"pdf");
 }
