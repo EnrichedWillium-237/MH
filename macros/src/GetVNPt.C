@@ -1,4 +1,4 @@
-TGraphErrors * GetVNPt(int replay, int bin, int epindx,  double etamin, double etamax, TGraphErrors * &gA, TGraphErrors * &gB, TGraphErrors * &gspec,  double & vint, double & vinte,    double & vintA, double & vintAe, double & vintB, double & vintBe, bool nonorm=false, double * covint = 0, TGraphErrors ** covg = 0){
+TGraphErrors * GetVNPt(int replay, int bin, int epindx,  double etamin, double etamax, TGraphErrors * &gA, TGraphErrors * &gB, TGraphErrors * &gspec,  double & vint, double & vinte,    double & vintA, double & vintAe, double & vintB, double & vintBe, bool nonorm=false, double * covint = 0, TGraphErrors ** covg = 0, int Aep = -1, int Bep = -1, int Cep = -1){
   TH1D * hspec = 0;
   TH1D * xpt=0;
   TH1D * sp=0;
@@ -52,7 +52,6 @@ TGraphErrors * GetVNPt(int replay, int bin, int epindx,  double etamin, double e
   } else {
     strip = strip.substr(0,strip.find("SUB3"));
   }
-  cout<<strip.data()<<endl;
   double qBA = 0;
   double qCA = 0;
   double qCB = 0;
@@ -106,7 +105,7 @@ TGraphErrors * GetVNPt(int replay, int bin, int epindx,  double etamin, double e
       qBA += ((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qBA",crange.data(),strip.data())))->GetBinContent(1);
       qBAcnt+=((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qBAcnt",crange.data(),strip.data())))->GetBinContent(1);
       qCA += ((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCA",crange.data(),strip.data())))->GetBinContent(1);
-      qCAcnt+=((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCAcnt",crange.data(),strip.data())))->GetBinContent(1);
+      qCAcnt+=((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCAcnt",crange.data(),strip.data())))->GetBinContent(1); 
       qCB += ((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCB",crange.data(),strip.data())))->GetBinContent(1);
       qCBcnt+=((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCBcnt",crange.data(),strip.data())))->GetBinContent(1);
       for(int i = 0; i<10; i++) {
@@ -142,11 +141,11 @@ TGraphErrors * GetVNPt(int replay, int bin, int epindx,  double etamin, double e
       qBA += ((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qBA",crange.data(),strip.data())))->GetBinContent(1);
       qBAcnt+=((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qBAcnt",crange.data(),strip.data())))->GetBinContent(1);
       qCA += ((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCA",crange.data(),strip.data())))->GetBinContent(1);
-      qCAcnt+=((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCAcnt",crange.data(),strip.data())))->GetBinContent(1);
+      qCAcnt+=((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCAcnt",crange.data(),strip.data())))->GetBinContent(1); 
       qCB += ((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCB",crange.data(),strip.data())))->GetBinContent(1);
       qCBcnt+=((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCBcnt",crange.data(),strip.data())))->GetBinContent(1);
-
-
+      
+      
       for(int i = 0; i<10; i++) {
 	qAe[i]->Add(flip2D( (TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qA_%d",crange.data(),strip.data(),i+1))));
 	qBe[i]->Add( flip2D((TH2D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qB_%d",crange.data(),strip.data(),i+1))));
@@ -167,7 +166,7 @@ TGraphErrors * GetVNPt(int replay, int bin, int epindx,  double etamin, double e
     return NULL;
   }
   ptav->Divide(ptcnt);
-
+  
   int ietamin1=0;
 
   int ietamax1=0;
@@ -201,9 +200,9 @@ TGraphErrors * GetVNPt(int replay, int bin, int epindx,  double etamin, double e
   for(int i = 0; i<10; i++) {
     qBAe[i]/=qBAecnt[i];
     qCAe[i]/=qCAecnt[i];
-    qCBe[i]/=qCBecnt[i];
+    qCBe[i]/=qCBecnt[i];    
   }
-  if(epindx>=0 && ietamin1==ietamax1 && Decor) {
+  if(epindx>=0 && ietamin1==ietamax1 && (Decor || Aep>0)) {
     res2D->Divide(resw2D);
     int iorder = EPOrder[epindx];
     int epmin = 0;
@@ -242,11 +241,21 @@ TGraphErrors * GetVNPt(int replay, int bin, int epindx,  double etamin, double e
       epB = trackp122mc;
       epC = trackm122mc+ietamin1-1;
     }
-
+   
     if(epindx==HFm1c) --epC;
     if(epindx==HFm1d) --epC;
     if(epindx==HFm1e) --epC;
     if(epindx==HFm1f) --epC;
+    if(epindx==HFm1g) --epC;
+    if(!Decor) {
+      epA = Aep;
+      epB = Bep;
+      epC = Cep;
+    } else {
+      epA = Aep;
+      epB = Bep;
+      cout<<"DECOR "<<epC<<endl;
+    }
     int iABx = min(epA-epmin+1,epB-epmin+1);
     int iABy = max(epA-epmin+1,epB-epmin+1);
     int iACx = min(epA-epmin+1,epC-epmin+1);
@@ -268,9 +277,9 @@ TGraphErrors * GetVNPt(int replay, int bin, int epindx,  double etamin, double e
     for(int i = 0; i<10; i++) {
       qBAe[i] = qBA;
       qCAe[i] = qCA;
-      qCBe[i] = qCB;
+      qCBe[i] = qCB;    
     }
-
+    
   }
   qA->Divide(wnA);
   qB->Divide(wnB);
@@ -298,12 +307,12 @@ TGraphErrors * GetVNPt(int replay, int bin, int epindx,  double etamin, double e
   }
 
   for(int i = 0; i<10; i++) {
-
+    
     qAe1[i] = (TH1D *) qAe[i]->ProjectionX(Form("qAe1_%d",i),ietamin1,ietamax1);
     qBe1[i] = (TH1D *) qBe[i]->ProjectionX(Form("qBe1_%d",i),ietamin2,ietamax2);
     wAe1[i] = (TH1D *) wnAe[i]->ProjectionX(Form("wA1_%d",i),ietamin1,ietamax1);
     wBe1[i] = (TH1D *) wnBe[i]->ProjectionX(Form("wB1_%d",i),ietamin2,ietamax2);
-
+    
     qAe[i]->Divide(wnAe[i]);
     qBe[i]->Divide(wnBe[i]);
     qAe1[i]->Divide(wAe1[i]);
@@ -314,7 +323,7 @@ TGraphErrors * GetVNPt(int replay, int bin, int epindx,  double etamin, double e
       qCBe[i]=fabs(qCBe[i]);
       if(sub2) {
 	qAe[i]->Scale(1./sqrt(qBAe[i]));
-	qBe[i]->Scale(1./sqrt(qBAe[i]));
+	qBe[i]->Scale(1./sqrt(qBAe[i]));  
 	resA[i+1]= sqrt(qBAe[i]);
 	resB[i+1]= sqrt(qBAe[i]);
       } else {
@@ -369,7 +378,7 @@ TGraphErrors * GetVNPt(int replay, int bin, int epindx,  double etamin, double e
       vnAe->Scale(1./ebinsA);
       vnBe->Scale(1./ebinsB);
       vne->Scale(1./(ebinsA+ebinsB));
-
+      
       for(int j = 0; j<vne->GetNbinsX(); j++) {
 	vnm[j]+= vne->GetBinContent(j+1);
 	vnAm[j]+= vnAe->GetBinContent(j+1);
@@ -443,7 +452,7 @@ TGraphErrors * GetVNPt(int replay, int bin, int epindx,  double etamin, double e
 	vnAe->Scale(1./ebinsA);
 	vnBe->Scale(1./ebinsA);
 	vne->Scale(1./(ebinsA+ebinsA));
-
+      
       for(int j = 0; j<vne->GetNbinsX(); j++) {
 	vnm[j]+= vne->GetBinContent(j+1);
 	vnAm[j]+= vnAe->GetBinContent(j+1);
@@ -532,7 +541,7 @@ TGraphErrors * GetVNPt(int replay, int bin, int epindx,  double etamin, double e
       if(pt<3.) {
 	double eff = 0;
 	double cent = (cmin[bin] + cmax[bin])/2.;
-
+	
 	double fake = FakeAndEff(cent,pt,etamin,etamax,eff);
 	wvn += y[npt]*yld->GetBinContent(i)/eff;
 	wvne+= ey[npt]*yld->GetBinContent(i)/eff;

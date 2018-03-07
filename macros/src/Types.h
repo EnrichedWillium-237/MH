@@ -29,7 +29,7 @@ enum AnalTypes{
       N112dSUB2,    N112dSUB3,   N112AdSUB2,  N112AdSUB3,   N112BdSUB2,  //28    
      N112BdSUB3,    N112eSUB2,    N112eSUB3,  N112AeSUB2,   N112AeSUB3,  //29    
      N112BeSUB2,   N112BeSUB3,    N112fSUB2,   N112fSUB3,   N112AfSUB2,  //30    
-     N112AfSUB3,   N112BfSUB2,   N112BfSUB3,       LAST  //31 
+	 N112AfSUB3,   N112BfSUB2,   N112BfSUB3,   N1TEST,    LAST  //31 
 };
 
 static const string ANALS[250][3] {
@@ -216,6 +216,7 @@ static const string ANALS[250][3] {
 //31
   "N112AfSUB3",  "v_{1}\{#Psi_{1Af},#Psi_{2Af}}",  "qA is the correct version, n=1 in HF+",
   "N112BfSUB2",  "v_{1}\{#Psi_{1Bf},#Psi_{2Bf}}",  "qA is the correct version, n=1 in HF-",    
-  "N112BfSUB3",  "v_{1}\{#Psi_{1Bf},#Psi_{2Bf}}",  "qA is the correct version, n=1 in HF-"
+      "N112BfSUB3",  "v_{1}\{#Psi_{1Bf},#Psi_{2Bf}}",  "qA is the correct version, n=1 in HF-",
+  "N1TEST",  "v_{1}\{test}",  "qA is the correct version, n=1"
 
       };
