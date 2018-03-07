@@ -66,7 +66,6 @@ TGraphErrors * GetVNPt( int replay, int bin, int epindx,  double etamin, double 
     double qCBecnt[10] = {0};
     double centcnt = 0;
     for (int j = jmin; j<=jmax; j++) {
-        cout<<"!!!  "<<__LINE__<<"  !!!"<<endl;
         string crange = to_string(cmin[j])+"_"+to_string(cmax[j]);
         TDirectory * d = (TDirectory *) fin->Get("vnanalyzer/Resolutions");
         TList * l = (TList *) d->GetListOfKeys();
@@ -246,347 +245,347 @@ TGraphErrors * GetVNPt( int replay, int bin, int epindx,  double etamin, double 
         if (epindx==HFm1f) --epC;
         if (epindx==HFm1g) --epC;
         if (!Decor) {
-                epA = Aep;
-                epB = Bep;
-                epC = Cep;
-            } else {
-                epA = Aep;
-                epB = Bep;
-                cout<<"DECOR "<<epC<<endl;
-            }
-            int iABx = min(epA-epmin+1,epB-epmin+1);
-            int iABy = max(epA-epmin+1,epB-epmin+1);
-            int iACx = min(epA-epmin+1,epC-epmin+1);
-            int iACy = max(epA-epmin+1,epC-epmin+1);
-            int iBCx = min(epB-epmin+1,epC-epmin+1);
-            int iBCy = max(epB-epmin+1,epC-epmin+1);
-
-            double rAB = res2D->GetBinContent(iABx, iABy);
-            double rAC = res2D->GetBinContent(iACx, iACy);
-            double rBC = res2D->GetBinContent(iBCx, iBCy);
-            cout<<"------------"<<endl;
-            cout<<etamin<<"\t"<<etamax<<"\t"<<EPNames[epA]<<"\t"<<EPNames[epB]<<"\t"<<rAB<<endl;
-            cout<<etamin<<"\t"<<etamax<<"\t"<<EPNames[epA]<<"\t"<<EPNames[epC]<<"\t"<<rAC<<endl;
-            cout<<etamin<<"\t"<<etamax<<"\t"<<EPNames[epC]<<"\t"<<EPNames[epB]<<"\t"<<rBC<<endl;
-            qBA = rAB;
-            qCA = rAC;
-            qCB = rBC;
-            for (int i = 0; i<10; i++) {
-                qBAe[i] = qBA;
-                qCAe[i] = qCA;
-                qCBe[i] = qCB;
-            }
-
+            epA = Aep;
+            epB = Bep;
+            epC = Cep;
+        } else {
+            epA = Aep;
+            epB = Bep;
+            cout<<"DECOR "<<epC<<endl;
         }
-        qA->Divide(wnA);
-        qB->Divide(wnB);
-        qA1->Divide(wA1);
-        qB1->Divide(wB1);
-        if (!nonorm) {
-            qBA=fabs(qBA);
-            qCA=fabs(qCA);
-            qCB=fabs(qCB);
-            if (sub2) {
-                qA->Scale(1./sqrt(qBA));
-                qB->Scale(1./sqrt(qBA));
-                qA1->Scale(1./sqrt(qBA));
-                qB1->Scale(1./sqrt(qBA));
-                resA[0]= sqrt(qBA);
-                resB[0]= sqrt(qBA);
-            } else {
-                qA->Scale(1./sqrt(qBA*qCA/qCB));
-                qB->Scale(1./sqrt(qBA*qCB/qCA));
-                qA1->Scale(1./sqrt(qBA*qCA/qCB));
-                qB1->Scale(1./sqrt(qBA*qCB/qCA));
-                resA[0]= sqrt(qBA*qCA/qCB);
-                resB[0]= sqrt(qBA*qCB/qCA);
-            }
-        }
+        int iABx = min(epA-epmin+1,epB-epmin+1);
+        int iABy = max(epA-epmin+1,epB-epmin+1);
+        int iACx = min(epA-epmin+1,epC-epmin+1);
+        int iACy = max(epA-epmin+1,epC-epmin+1);
+        int iBCx = min(epB-epmin+1,epC-epmin+1);
+        int iBCy = max(epB-epmin+1,epC-epmin+1);
 
+        double rAB = res2D->GetBinContent(iABx, iABy);
+        double rAC = res2D->GetBinContent(iACx, iACy);
+        double rBC = res2D->GetBinContent(iBCx, iBCy);
+        cout<<"------------"<<endl;
+        cout<<etamin<<"\t"<<etamax<<"\t"<<EPNames[epA]<<"\t"<<EPNames[epB]<<"\t"<<rAB<<endl;
+        cout<<etamin<<"\t"<<etamax<<"\t"<<EPNames[epA]<<"\t"<<EPNames[epC]<<"\t"<<rAC<<endl;
+        cout<<etamin<<"\t"<<etamax<<"\t"<<EPNames[epC]<<"\t"<<EPNames[epB]<<"\t"<<rBC<<endl;
+        qBA = rAB;
+        qCA = rAC;
+        qCB = rBC;
         for (int i = 0; i<10; i++) {
-            qAe1[i] = (TH1D *) qAe[i]->ProjectionX(Form("qAe1_%d",i),ietamin1,ietamax1);
-            qBe1[i] = (TH1D *) qBe[i]->ProjectionX(Form("qBe1_%d",i),ietamin2,ietamax2);
-            wAe1[i] = (TH1D *) wnAe[i]->ProjectionX(Form("wA1_%d",i),ietamin1,ietamax1);
-            wBe1[i] = (TH1D *) wnBe[i]->ProjectionX(Form("wB1_%d",i),ietamin2,ietamax2);
-
-            qAe[i]->Divide(wnAe[i]);
-            qBe[i]->Divide(wnBe[i]);
-            qAe1[i]->Divide(wAe1[i]);
-            qBe1[i]->Divide(wBe1[i]);
-            if(!nonorm) {
-                qBAe[i] = fabs(qBAe[i]);
-                qCAe[i] = fabs(qCAe[i]);
-                qCBe[i] = fabs(qCBe[i]);
-                if(sub2) {
-	                qAe[i]->Scale(1./sqrt(qBAe[i]));
-	                qBe[i]->Scale(1./sqrt(qBAe[i]));
-                	resA[i+1] = sqrt(qBAe[i]);
-                	resB[i+1] = sqrt(qBAe[i]);
-                } else {
-	                qAe[i]->Scale(1./sqrt( qBAe[i]*qCAe[i]/qCBe[i] ));
-                	qBe[i]->Scale(1./sqrt( qBAe[i]*qCBe[i]/qCAe[i] ));
-                	resA[i+1]= sqrt( qBAe[i]*qCAe[i]/qCBe[i] );
-                	resB[i+1]= sqrt( qBAe[i]*qCBe[i]/qCAe[i] );
-                }
-            }
+            qBAe[i] = qBA;
+            qCAe[i] = qCA;
+            qCBe[i] = qCB;
         }
-        TH2D * hsEff;
-        if (etamin*etamax<0) {
-            xpt = (TH1D *) ptav->ProjectionX("xpt",ietamin1,ietamax2);
-            double c = (cmin[bin]+cmax[bin])/2.;
-            hsEff = ptcntEff(ptcnt,c);
-            sp = (TH1D *) hsEff->ProjectionX("sp",ietamin1,ietamax2);
-            double ebinsA = ietamax1-ietamin1+1 ;
-            double ebinsB = ietamax2-ietamin2+1;
-            xpt->Scale(1./(ebinsA+ebinsB));
-            sp->Scale(1./(ebinsA+ebinsB));
-            vnA = (TH1D *) qA->ProjectionX("vnA",ietamin1,ietamax1);
-            vnA->SetDirectory(0);
-            vnB = (TH1D *) qB->ProjectionX("vnB",ietamin2,ietamax2);
-            vnB->SetDirectory(0);
-            vn = (TH1D *) vnA->Clone("vn");
-            vn->SetDirectory(0);
-            vn->Add(vnB,sign);
-            vn->Scale(sign);
-            vnA->Scale(1./ebinsA);
-            vnB->Scale(1./ebinsB);
-            vn->Scale(1./(ebinsA+ebinsB));
-            double vnm[50] = {0};
-            double vnAm[50] = {0};
-            double vnBm[50] = {0};
-            double vn2[50] = {0};
-            double vnA2[50] = {0};
-            double vnB2[50] = {0};
-            for (int i = 0; i<50; i++) {
-                vnm[i] = 0;
-                vnAm[i] = 0;
-                vnBm[i] = 0;
-                vn2[i] = 0;
-                vnA2[i] = 0;
-                vnB2[i] = 0;
-            }
-            for (int i = 0; i<10; i++) {
-                vnAe = (TH1D *) qAe[i]->ProjectionX(Form("vnA%d",i),ietamin1,ietamax1);
-                vnBe = (TH1D *) qBe[i]->ProjectionX(Form("vnB%d",i),ietamin2,ietamax2);
-                vne = (TH1D *) vnAe->Clone(Form("vn%d",i));
-                vne->Add(vnBe,sign);
-                vn->Scale(sign);
-                vnAe->Scale(1./ebinsA);
-                vnBe->Scale(1./ebinsB);
-                vne->Scale(1./(ebinsA+ebinsB));
 
-                for (int j = 0; j<vne->GetNbinsX(); j++) {
-                	vnm[j] += vne->GetBinContent(j+1);
-                	vnAm[j] += vnAe->GetBinContent(j+1);
-                	vnBm[j] += vnBe->GetBinContent(j+1);
-                	vn2[j] += pow(vne->GetBinContent(j+1),2);
-                	vnA2[j] += pow(vnAe->GetBinContent(j+1),2);
-                	vnB2[j] += pow(vnBe->GetBinContent(j+1),2);
-                }
-                vnAe->Delete();
-                vnBe->Delete();
-                vne->Delete();
-            }
-            for (int j = 0; j<vn->GetNbinsX(); j++) {
-                vnm[j]/=10.;
-                vnAm[j]/=10.;
-                vnBm[j]/=10.;
-                vn2[j]/=10.;
-                vnA2[j]/=10.;
-                vnB2[j]/=10.;
-                vn->SetBinError(j+1, sqrt( (1./9.)*( vn2[j] - pow(vnm[j], 2)) ));
-                vnA->SetBinError(j+1,sqrt( (1./9.)*(vnA2[j] - pow(vnAm[j],2)) ));
-                vnB->SetBinError(j+1,sqrt( (1./9.)*(vnB2[j] - pow(vnBm[j],2)) ));
-            }
+    }
+    qA->Divide(wnA);
+    qB->Divide(wnB);
+    qA1->Divide(wA1);
+    qB1->Divide(wB1);
+    if (!nonorm) {
+        qBA=fabs(qBA);
+        qCA=fabs(qCA);
+        qCB=fabs(qCB);
+        if (sub2) {
+            qA->Scale(1./sqrt( qBA ));
+            qB->Scale(1./sqrt( qBA ));
+            qA1->Scale(1./sqrt( qBA ));
+            qB1->Scale(1./sqrt( qBA ));
+            resA[0]= sqrt( qBA );
+            resB[0]= sqrt( qBA );
         } else {
-            xpt = (TH1D *) ptav->ProjectionX("xpt",ietamin1,ietamax1);
-            double c = (cmin[bin]+cmax[bin])/2.;
-            hsEff = ptcntEff(ptcnt,c);
-            //hsEff->Draw("colz");
+            qA->Scale(1./sqrt( qBA*qCA/qCB ));
+            qB->Scale(1./sqrt( qBA*qCB/qCA ));
+            qA1->Scale(1./sqrt( qBA*qCA/qCB ));
+            qB1->Scale(1./sqrt( qBA*qCB/qCA ));
+            resA[0]= sqrt( qBA*qCA/qCB );
+            resB[0]= sqrt( qBA*qCB/qCA );
+        }
+    }
 
-            sp = (TH1D *) hsEff->ProjectionX("sp",ietamin1,ietamax1);
-            double ebinsA = ietamax1-ietamin1+1 ;
-            xpt->Scale(1./ebinsA);
-            sp->Scale(1./ebinsA);
-            vnA = (TH1D *) qA->ProjectionX("vnA",ietamin1,ietamax1);
-            vnA->SetDirectory(0);
-            vnB = (TH1D *) qB->ProjectionX("vnB",ietamin1,ietamax1);
-            vnB->SetDirectory(0);
-            vn = (TH1D *) vnA->Clone("vn");
-            vn->SetDirectory(0);
-            vn->Add(vnB,sign);
+    for (int i = 0; i<10; i++) {
+        qAe1[i] = (TH1D *) qAe[i]->ProjectionX(Form("qAe1_%d",i),ietamin1,ietamax1);
+        qBe1[i] = (TH1D *) qBe[i]->ProjectionX(Form("qBe1_%d",i),ietamin2,ietamax2);
+        wAe1[i] = (TH1D *) wnAe[i]->ProjectionX(Form("wA1_%d",i),ietamin1,ietamax1);
+        wBe1[i] = (TH1D *) wnBe[i]->ProjectionX(Form("wB1_%d",i),ietamin2,ietamax2);
+
+        qAe[i]->Divide(wnAe[i]);
+        qBe[i]->Divide(wnBe[i]);
+        qAe1[i]->Divide(wAe1[i]);
+        qBe1[i]->Divide(wBe1[i]);
+        if (!nonorm) {
+            qBAe[i] = fabs(qBAe[i]);
+            qCAe[i] = fabs(qCAe[i]);
+            qCBe[i] = fabs(qCBe[i]);
+            if (sub2) {
+	            qAe[i]->Scale(1./sqrt(qBAe[i]));
+	            qBe[i]->Scale(1./sqrt(qBAe[i]));
+                resA[i+1] = sqrt(qBAe[i]);
+            	resB[i+1] = sqrt(qBAe[i]);
+            } else {
+	            qAe[i]->Scale(1./sqrt( qBAe[i]*qCAe[i]/qCBe[i] ));
+                qBe[i]->Scale(1./sqrt( qBAe[i]*qCBe[i]/qCAe[i] ));
+                resA[i+1]= sqrt( qBAe[i]*qCAe[i]/qCBe[i] );
+                resB[i+1]= sqrt( qBAe[i]*qCBe[i]/qCAe[i] );
+            }
+        }
+    }
+    TH2D * hsEff;
+    if (etamin*etamax<0) {
+        xpt = (TH1D *) ptav->ProjectionX("xpt",ietamin1,ietamax2);
+        double c = (cmin[bin]+cmax[bin])/2.;
+        hsEff = ptcntEff(ptcnt,c);
+        sp = (TH1D *) hsEff->ProjectionX("sp",ietamin1,ietamax2);
+        double ebinsA = ietamax1-ietamin1+1 ;
+        double ebinsB = ietamax2-ietamin2+1;
+        xpt->Scale(1./(ebinsA+ebinsB));
+        sp->Scale(1./(ebinsA+ebinsB));
+        vnA = (TH1D *) qA->ProjectionX("vnA",ietamin1,ietamax1);
+        vnA->SetDirectory(0);
+        vnB = (TH1D *) qB->ProjectionX("vnB",ietamin2,ietamax2);
+        vnB->SetDirectory(0);
+        vn = (TH1D *) vnA->Clone("vn");
+        vn->SetDirectory(0);
+        vn->Add(vnB,sign);
+        vn->Scale(sign);
+        vnA->Scale(1./ebinsA);
+        vnB->Scale(1./ebinsB);
+        vn->Scale(1./(ebinsA+ebinsB));
+        double vnm[50] = {0};
+        double vnAm[50] = {0};
+        double vnBm[50] = {0};
+        double vn2[50] = {0};
+        double vnA2[50] = {0};
+        double vnB2[50] = {0};
+        for (int i = 0; i<50; i++) {
+            vnm[i] = 0;
+            vnAm[i] = 0;
+            vnBm[i] = 0;
+            vn2[i] = 0;
+            vnA2[i] = 0;
+            vnB2[i] = 0;
+        }
+        for (int i = 0; i<10; i++) {
+            vnAe = (TH1D *) qAe[i]->ProjectionX(Form("vnA%d",i),ietamin1,ietamax1);
+            vnBe = (TH1D *) qBe[i]->ProjectionX(Form("vnB%d",i),ietamin2,ietamax2);
+            vne = (TH1D *) vnAe->Clone(Form("vn%d",i));
+            vne->Add(vnBe,sign);
             vn->Scale(sign);
-            vnA->Scale(1./ebinsA);
+            vnAe->Scale(1./ebinsA);
+            vnBe->Scale(1./ebinsB);
+            vne->Scale(1./(ebinsA+ebinsB));
 
-            vnB->Scale(1./ebinsA);
-            vn->Scale(1./(ebinsA+ebinsA));
-            double vnm[50] = {0};
-            double vnAm[50] = {0};
-            double vnBm[50] = {0};
-            double vn2[50] = {0};
-            double vnA2[50] = {0};
-            double vnB2[50] = {0};
-
-            for (int i = 0; i<50; i++) {
-                vnm[i] = 0;
-                vnAm[i] = 0;
-                vnBm[i] = 0;
-
-                vn2[i] = 0;
-                vnA2[i] = 0;
-                vnB2[i] = 0;
+            for (int j = 0; j<vne->GetNbinsX(); j++) {
+                vnm[j] += vne->GetBinContent(j+1);
+                vnAm[j] += vnAe->GetBinContent(j+1);
+                vnBm[j] += vnBe->GetBinContent(j+1);
+                vn2[j] += pow(vne->GetBinContent(j+1),2);
+            	vnA2[j] += pow(vnAe->GetBinContent(j+1),2);
+                vnB2[j] += pow(vnBe->GetBinContent(j+1),2);
             }
-            for (int i = 0; i<10; i++) {
-            	vnAe = (TH1D *) qAe[i]->ProjectionX(Form("vnA%d",i),ietamin1,ietamax1);
-            	vnBe = (TH1D *) qBe[i]->ProjectionX(Form("vnB%d",i),ietamin1,ietamax1);
-            	vne = (TH1D *) vnAe->Clone(Form("vn%d",i));
-            	vne->Add(vnBe,sign);
-            	vne->Scale(sign);
+            vnAe->Delete();
+            vnBe->Delete();
+            vne->Delete();
+        }
+        for (int j = 0; j<vn->GetNbinsX(); j++) {
+            vnm[j]/=10.;
+            vnAm[j]/=10.;
+            vnBm[j]/=10.;
+            vn2[j]/=10.;
+            vnA2[j]/=10.;
+            vnB2[j]/=10.;
+            vn->SetBinError(j+1, sqrt( (1./9.)*( vn2[j] - pow(vnm[j], 2)) ));
+            vnA->SetBinError(j+1,sqrt( (1./9.)*(vnA2[j] - pow(vnAm[j],2)) ));
+            vnB->SetBinError(j+1,sqrt( (1./9.)*(vnB2[j] - pow(vnBm[j],2)) ));
+        }
+    } else {
+        xpt = (TH1D *) ptav->ProjectionX("xpt",ietamin1,ietamax1);
+        double c = (cmin[bin]+cmax[bin])/2.;
+        hsEff = ptcntEff(ptcnt,c);
+        //hsEff->Draw("colz");
 
-            	vnAe->Scale(1./ebinsA);
-            	vnBe->Scale(1./ebinsA);
-            	vne->Scale(1./(ebinsA+ebinsA));
+        sp = (TH1D *) hsEff->ProjectionX("sp",ietamin1,ietamax1);
+        double ebinsA = ietamax1-ietamin1+1 ;
+        xpt->Scale(1./ebinsA);
+        sp->Scale(1./ebinsA);
+        vnA = (TH1D *) qA->ProjectionX("vnA",ietamin1,ietamax1);
+        vnA->SetDirectory(0);
+        vnB = (TH1D *) qB->ProjectionX("vnB",ietamin1,ietamax1);
+        vnB->SetDirectory(0);
+        vn = (TH1D *) vnA->Clone("vn");
+        vn->SetDirectory(0);
+        vn->Add(vnB,sign);
+        vn->Scale(sign);
+        vnA->Scale(1./ebinsA);
 
-                for (int j = 0; j<vne->GetNbinsX(); j++) {
-                	vnm[j] += vne->GetBinContent(j+1);
-                	vnAm[j] += vnAe->GetBinContent(j+1);
-                	vnBm[j] += vnBe->GetBinContent(j+1);
-                	vn2[j] += pow(vne->GetBinContent(j+1),2);
-                	vnA2[j] += pow(vnAe->GetBinContent(j+1),2);
-	                vnB2[j] += pow(vnBe->GetBinContent(j+1),2);
-                }
-                vnAe->Delete();
-                vnBe->Delete();
-                vne->Delete();
+        vnB->Scale(1./ebinsA);
+        vn->Scale(1./(ebinsA+ebinsA));
+        double vnm[50] = {0};
+        double vnAm[50] = {0};
+        double vnBm[50] = {0};
+        double vn2[50] = {0};
+        double vnA2[50] = {0};
+        double vnB2[50] = {0};
+
+        for (int i = 0; i<50; i++) {
+            vnm[i] = 0;
+            vnAm[i] = 0;
+            vnBm[i] = 0;
+
+            vn2[i] = 0;
+            vnA2[i] = 0;
+            vnB2[i] = 0;
+        }
+        for (int i = 0; i<10; i++) {
+        	vnAe = (TH1D *) qAe[i]->ProjectionX(Form("vnA%d",i),ietamin1,ietamax1);
+        	vnBe = (TH1D *) qBe[i]->ProjectionX(Form("vnB%d",i),ietamin1,ietamax1);
+        	vne = (TH1D *) vnAe->Clone(Form("vn%d",i));
+        	vne->Add(vnBe,sign);
+        	vne->Scale(sign);
+
+        	vnAe->Scale(1./ebinsA);
+        	vnBe->Scale(1./ebinsA);
+        	vne->Scale(1./(ebinsA+ebinsA));
+
+            for (int j = 0; j<vne->GetNbinsX(); j++) {
+            	vnm[j] += vne->GetBinContent(j+1);
+            	vnAm[j] += vnAe->GetBinContent(j+1);
+            	vnBm[j] += vnBe->GetBinContent(j+1);
+            	vn2[j] += pow(vne->GetBinContent(j+1),2);
+            	vnA2[j] += pow(vnAe->GetBinContent(j+1),2);
+	            vnB2[j] += pow(vnBe->GetBinContent(j+1),2);
             }
-            for (int j = 0; j<vn->GetNbinsX(); j++) {
-                vnm[j]/=10.;
-                vnAm[j]/=10.;
-                vnBm[j]/=10.;
-                vn2[j]/=10.;
-                vnA2[j]/=10.;
-                vnB2[j]/=10.;
-                vn->SetBinError(j+1, sqrt( (1./9.)*( vn2[j] - pow(vnm[j], 2)) ));
-                vnA->SetBinError(j+1,sqrt( (1./9.)*(vnA2[j] - pow(vnAm[j],2)) ));
-                vnB->SetBinError(j+1,sqrt( (1./9.)*(vnB2[j] - pow(vnBm[j],2)) ));
+            vnAe->Delete();
+            vnBe->Delete();
+            vne->Delete();
+        }
+        for (int j = 0; j<vn->GetNbinsX(); j++) {
+            vnm[j]/=10.;
+            vnAm[j]/=10.;
+            vnBm[j]/=10.;
+            vn2[j]/=10.;
+            vnA2[j]/=10.;
+            vnB2[j]/=10.;
+            vn->SetBinError(j+1, sqrt( (1./9.)*( vn2[j] - pow(vnm[j], 2)) ));
+            vnA->SetBinError(j+1,sqrt( (1./9.)*(vnA2[j] - pow(vnAm[j],2)) ));
+            vnB->SetBinError(j+1,sqrt( (1./9.)*(vnB2[j] - pow(vnBm[j],2)) ));
+        }
+    }
+
+    TH1D * yld;
+    if (ietamax2>0) {
+        yld = ptcnt->ProjectionX("yld",ietamin1,ietamax2);
+    } else {
+        yld = ptcnt->ProjectionX("yld",ietamin1,ietamax1);
+    }
+    double x[20];
+    double y[20];
+    double yA[20];
+    double yB[20];
+    double ex[20];
+    double ey[20];
+    double eyA[20];
+    double eyB[20];
+    double xspec[20];
+    double yspec[20];
+    double exspec[20];
+    double eyspec[20];
+    for (int i = 0; i<20; i++) {
+        x[i] = 0;
+        y[i] = 0;
+        yA[i] = 0;
+        yB[i] = 0;
+        ex[i] = 0;
+        ey[i] = 0;
+        eyA[i] = 0;
+        eyB[i] = 0;
+        xspec[i] = 0;
+        yspec[i] = 0;
+        exspec[i] = 0;
+        eyspec[i] = 0;
+    }
+    int npt = 0;
+    double wvn = 0;
+    double wvne = 0;
+    double w = 0;
+    double wvnA = 0;
+    double wvnAe = 0;
+    double wA = 0;
+    double wvnB = 0;
+    double wvnBe = 0;
+    double wB = 0;
+    for (int i = 1; i<=xpt->GetNbinsX(); i++) {
+        double pt = xpt->GetBinContent(i);
+        if (sp->GetBinContent(i)<10) break;
+        if (pt>=0.3 && pt < 12.) {
+            x[npt] = pt;
+            y[npt] = vn->GetBinContent(i);
+            yA[npt] = vnA->GetBinContent(i);
+            yB[npt] = vnB->GetBinContent(i);
+            ex[npt] = 0;
+            ey[npt] = vn->GetBinError(i);
+            eyA[npt] = vnA->GetBinError(i);
+            eyB[npt] = vnB->GetBinError(i);
+            xspec[npt] = pt;
+            yspec[npt] = sp->GetBinContent(i)/sp->GetBinWidth(i)/(etamax-etamin)/centcnt;
+            exspec[npt] = 0;
+            eyspec[npt] = 0;
+            if (sp->GetBinContent(i)>1) eyspec[npt] = sqrt( sp->GetBinContent(i) )/sp->GetBinWidth(i)/(etamax-etamin)/centcnt;
+            if (pt<3.) {
+	            double eff = 0;
+	            double cent = (cmin[bin] + cmax[bin])/2.;
+
+                double fake = FakeAndEff(cent,pt,etamin,etamax,eff);
+            	wvn   += y[npt]*yld->GetBinContent(i)/eff;
+                wvne  += ey[npt]*yld->GetBinContent(i)/eff;
+                w     += yld->GetBinContent(i)/eff;
+                wvnA  += yA[npt]*yld->GetBinContent(i)/eff;
+                wvnAe += eyA[npt]*yld->GetBinContent(i)/eff;
+                wA    += yld->GetBinContent(i)/eff;
+            	wvnB  += yB[npt]*yld->GetBinContent(i)/eff;
+            	wvnBe += eyB[npt]*yld->GetBinContent(i)/eff;
+                wB    += yld->GetBinContent(i)/eff;
             }
+            ++npt;
         }
+    }
+    yld->Delete();
+    vint = wvn/w;
+    vinte = wvne/w;
+    vintA = wvnA/wA;
+    vintAe = wvnAe/wA;
+    vintB = wvnB/wB;
+    vintBe = wvnBe/wB;
+    TGraphErrors * g = new TGraphErrors(npt, x, y, ex, ey);
+    g->SetMarkerStyle(20);
+    g->SetMarkerColor(kBlue);
+    g->SetLineColor(kBlue);
+    g->SetLineWidth(2);
+    gspec = new TGraphErrors(npt, xspec, yspec, exspec, eyspec);
+    gspec->SetMarkerStyle(20);
+    gspec->SetMarkerColor(kBlue);
+    gspec->SetLineColor(kBlue);
+    gspec->SetLineWidth(2);
+    gA = new TGraphErrors(npt, x, yA, ex, eyA);
+    gA->SetMarkerStyle(28);
+    gA->SetMarkerColor(kMagenta);
+    gA->SetLineColor(kMagenta);
+    gA->SetLineWidth(2);
+    gB = new TGraphErrors(npt, x, yB, ex, eyB);
+    gB->SetMarkerStyle(28);
+    gB->SetMarkerColor(kCyan);
+    gB->SetLineColor(kCyan);
+    gB->SetLineWidth(2);
 
-        TH1D * yld;
-        if (ietamax2>0) {
-            yld = ptcnt->ProjectionX("yld",ietamin1,ietamax2);
-        } else {
-            yld = ptcnt->ProjectionX("yld",ietamin1,ietamax1);
-        }
-        double x[20];
-        double y[20];
-        double yA[20];
-        double yB[20];
-        double ex[20];
-        double ey[20];
-        double eyA[20];
-        double eyB[20];
-        double xspec[20];
-        double yspec[20];
-        double exspec[20];
-        double eyspec[20];
-        for (int i = 0; i<20; i++) {
-            x[i] = 0;
-            y[i] = 0;
-            yA[i] = 0;
-            yB[i] = 0;
-            ex[i] = 0;
-            ey[i] = 0;
-            eyA[i] = 0;
-            eyB[i] = 0;
-            xspec[i] = 0;
-            yspec[i] = 0;
-            exspec[i] = 0;
-            eyspec[i] = 0;
-        }
-        int npt = 0;
-        double wvn = 0;
-        double wvne = 0;
-        double w = 0;
-        double wvnA = 0;
-        double wvnAe = 0;
-        double wA = 0;
-        double wvnB = 0;
-        double wvnBe = 0;
-        double wB = 0;
-        for (int i = 1; i<=xpt->GetNbinsX(); i++) {
-            double pt = xpt->GetBinContent(i);
-            if (sp->GetBinContent(i)<10) break;
-            if (pt>=0.3 && pt < 12.) {
-                x[npt] = pt;
-                y[npt] = vn->GetBinContent(i);
-                yA[npt] = vnA->GetBinContent(i);
-                yB[npt] = vnB->GetBinContent(i);
-                ex[npt] = 0;
-                ey[npt] = vn->GetBinError(i);
-                eyA[npt] = vnA->GetBinError(i);
-                eyB[npt] = vnB->GetBinError(i);
-                xspec[npt] = pt;
-                yspec[npt] = sp->GetBinContent(i)/sp->GetBinWidth(i)/(etamax-etamin)/centcnt;
-                exspec[npt] = 0;
-                eyspec[npt] = 0;
-                if (sp->GetBinContent(i)>1) eyspec[npt] = sqrt( sp->GetBinContent(i) )/sp->GetBinWidth(i)/(etamax-etamin)/centcnt;
-                if (pt<3.) {
-	                double eff = 0;
-	                double cent = (cmin[bin] + cmax[bin])/2.;
-
-                	double fake = FakeAndEff(cent,pt,etamin,etamax,eff);
-                	wvn += y[npt]*yld->GetBinContent(i)/eff;
-                	wvne+= ey[npt]*yld->GetBinContent(i)/eff;
-                	w   += yld->GetBinContent(i)/eff;
-                	wvnA += yA[npt]*yld->GetBinContent(i)/eff;
-                	wvnAe+= eyA[npt]*yld->GetBinContent(i)/eff;
-                	wA   += yld->GetBinContent(i)/eff;
-                	wvnB += yB[npt]*yld->GetBinContent(i)/eff;
-                	wvnBe+= eyB[npt]*yld->GetBinContent(i)/eff;
-                	wB   += yld->GetBinContent(i)/eff;
-                }
-                ++npt;
-            }
-        }
-        yld->Delete();
-        vint = wvn/w;
-        vinte = wvne/w;
-        vintA = wvnA/wA;
-        vintAe = wvnAe/wA;
-        vintB = wvnB/wB;
-        vintBe = wvnBe/wB;
-        TGraphErrors * g = new TGraphErrors(npt, x, y, ex, ey);
-        g->SetMarkerStyle(20);
-        g->SetMarkerColor(kBlue);
-        g->SetLineColor(kBlue);
-        g->SetLineWidth(2);
-        gspec = new TGraphErrors(npt, xspec, yspec, exspec, eyspec);
-        gspec->SetMarkerStyle(20);
-        gspec->SetMarkerColor(kBlue);
-        gspec->SetLineColor(kBlue);
-        gspec->SetLineWidth(2);
-        gA = new TGraphErrors(npt, x, yA, ex, eyA);
-        gA->SetMarkerStyle(28);
-        gA->SetMarkerColor(kMagenta);
-        gA->SetLineColor(kMagenta);
-        gA->SetLineWidth(2);
-        gB = new TGraphErrors(npt, x, yB, ex, eyB);
-        gB->SetMarkerStyle(28);
-        gB->SetMarkerColor(kCyan);
-        gB->SetLineColor(kCyan);
-        gB->SetLineWidth(2);
-
-        hsEff->Delete();
-        xpt->Delete();
-        sp->Delete();
-        vn->Delete();
-        vnA->Delete();
-        vnB->Delete();
-        qA1->Delete();
-        qB1->Delete();
-        wA1->Delete();
-        wB1->Delete();
+    hsEff->Delete();
+    xpt->Delete();
+    sp->Delete();
+    vn->Delete();
+    vnA->Delete();
+    vnB->Delete();
+    qA1->Delete();
+    qB1->Delete();
+    wA1->Delete();
+    wB1->Delete();
     ptav->Delete();
     ptcnt->Delete();
     badcnt->Delete();

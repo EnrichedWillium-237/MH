@@ -1,4 +1,4 @@
-TGraphErrors * N1( int replay, int bin, double eMin, double eMax, double & ymin, double & ymax, TGraphErrors * &g,TGraphErrors * &gA, TGraphErrors * &gB, TGraphErrors * &gSpec, TGraphErrors * &gint, TGraphErrors *& gintA, TGraphErrors *& gintB, double & vint, double & vinte, double & vintA, double & vintAe, double & vintB, double & vintBe ) {
+TGraphErrors * N1( int replay, int bin, double eMin, double eMax, double &ymin, double &ymax, TGraphErrors * &g,TGraphErrors * &gA, TGraphErrors * &gB, TGraphErrors * &gSpec, TGraphErrors * &gint, TGraphErrors * &gintA, TGraphErrors * &gintB, double &vint, double &vinte, double &vintA, double &vintAe, double &vintB, double &vintBe ) {
     fin = new TFile(rootFile.data(),"r");
     TGraphErrors * g2;
     TGraphErrors * gA2;
@@ -119,8 +119,8 @@ TGraphErrors * N1( int replay, int bin, double eMin, double eMax, double & ymin,
    if (replay == N1HFgSUB2) {
         A = N1HFp1gSUB2;
         B = N1HFm1gSUB2;
-        // epindxA = HFp1g;
-        // epindxB = HFm1g;
+        epindxA = HFp1g;
+        epindxB = HFm1g;
         Decor = false;
     } else if (replay == N1HFgSUB3) {
         A = N1HFp1gSUB3;
@@ -142,7 +142,6 @@ TGraphErrors * N1( int replay, int bin, double eMin, double eMax, double & ymin,
             double EtaMax = EtaMin+0.4;
             if (fabs(EtaMin)<0.001) EtaMin = 0.;
             if (fabs(EtaMax)<0.001) EtaMax = 0.;
-            cout<<"!!!  "<<__LINE__<<"  !!!"<<endl;
             gtmp = GetVNPt( replay, bin, epindxA, EtaMin, EtaMax, gtmp, gtmp, gtmp, vint, vinte, vintA, vintAe, vintB, vintBe, false );
             gint->GetY()[i] = vint;
             gint->GetEY()[i] = vinte;
