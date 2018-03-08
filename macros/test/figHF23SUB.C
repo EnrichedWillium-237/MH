@@ -249,12 +249,12 @@ void figHF23SUB() {
     N1HFgSUB3->SetLineColor(kBlack);
     N1HFgSUB3->RemovePoint(0);
     N1HFgSUB3->RemovePoint(N1HFgSUB3->GetN()-1);
-    Double_t xval[30], yval[30], yerr[30];
-    int num = N1HFgSUB3->GetN();
-    for (int j = 0; j<num; j++) {
-        N1HFgSUB3->GetPoint(j, xval[j], yval[j]);
-        cout<<yval[j]<<endl;
-    }
+    // Double_t xval[30], yval[30], yerr[30];
+    // int num = N1HFgSUB3->GetN();
+    // for (int j = 0; j<num; j++) {
+    //     N1HFgSUB3->GetPoint(j, xval[j], yval[j]);
+    //     cout<<yval[j]<<endl;
+    // }
 
     TCanvas * c2 = new TCanvas("c2", "c2", 620, 600);
     TPad * pad2 = (TPad *) c2->cd();

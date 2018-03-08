@@ -78,8 +78,8 @@ void symtest() {
         xad[j] = xval[j+5];
         double yneg = yval[j];
         double ynegErr = yerr[j];
-        double ypos = yval[11-j];
-        double yposErr = yerr[11-j];
+        double ypos = yval[9-j];
+        double yposErr = yerr[9-j];
         yad[j] = fabs(fabs(ypos) - fabs(yneg));
         yaderr[j] = sqrt( pow(yposErr,2) + pow(ynegErr,2) );
     }
@@ -97,8 +97,8 @@ void symtest() {
         xad[j] = xval[j+5];
         double yneg = yval[j];
         double ynegErr = yerr[j];
-        double ypos = yval[11-j];
-        double yposErr = yerr[11-j];
+        double ypos = yval[9-j];
+        double yposErr = yerr[9-j];
         yad[j] = fabs(fabs(ypos) - fabs(yneg));
         yaderr[j] = sqrt( pow(yposErr,2) + pow(ynegErr,2) );
     }
@@ -113,7 +113,7 @@ void symtest() {
     TPad * pad0 = (TPad *) c0->cd();
     pad0->SetTopMargin(0.08);
     pad0->SetLeftMargin(0.18);
-    h0 = new TH1D("h0", "", 100, 0, 2.5);
+    h0 = new TH1D("h0", "", 100, 0, 2.2);
     h0->SetStats(0);
     h0->SetXTitle("#eta");
     h0->SetYTitle("|v_{1}^{HF+}| - |v_{1}^{HF-}|");
@@ -123,7 +123,7 @@ void symtest() {
     h0->GetYaxis()->CenterTitle();
     h0->GetXaxis()->SetTitleOffset(1.15);
     h0->GetYaxis()->SetTitleOffset(1.65);
-    h0->GetYaxis()->SetRangeUser(0, 0.02);
+    h0->GetYaxis()->SetRangeUser(-0.0008, 0.0024);
     h0->Draw();
     diffN1HFgSUB2->Draw("same p");
     diffN1HFgSUB3->Draw("same p");
@@ -133,13 +133,13 @@ void symtest() {
     tx00->AddText("#bf{CMS} #it{Preliminary},  PbPb 5.02 TeV,  0.3 < p_{T} < 3.0 GeV/c");
     tx00->Draw();
 
-    TPaveText * tx01 = new TPaveText(0.65, 0.76, 0.80, 0.88, "NDC");
+    TPaveText * tx01 = new TPaveText(0.44, 0.76, 0.59, 0.88, "NDC");
     SetTPaveTxt(tx01, 24);
     tx01->AddText("4.0 < |#eta_{EP}| < 5.0");
     tx01->AddText("20 - 60%");
     tx01->Draw();
 
-    TLegend * leg0 = new TLegend(0.65, 0.62, 0.83, 0.74);
+    TLegend * leg0 = new TLegend(0.74, 0.76, 0.92, 0.88);
     SetLegend(leg0, 22);
     leg0->AddEntry(diffN1HFgSUB2,"   2SUB","p");
     leg0->AddEntry(diffN1HFgSUB3,"   3SUB","p");
