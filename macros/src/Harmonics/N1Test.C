@@ -35,10 +35,17 @@ TGraphErrors * N1Test( int replay, int bin, double eMin, double eMax, double &ym
     int A = 0;
     int B = 0;
     if (replay == N1TEST) {
-        A = N1HFp1gSUB3;
-        B = N1HFm1gSUB3;
-        // A = N1HFm1gSUB3;
-        // B = N1HFp1gSUB3;
+        // A = N1HFp1gSUB2;
+        // B = N1HFm1gSUB2;
+        //
+        // A = N1HFm1gSUB2;
+        // B = N1HFp1gSUB2;
+        //
+        // A = N1HFp1gSUB3;
+        // B = N1HFm1gSUB3;
+        //
+        A = N1HFm1gSUB3;
+        B = N1HFp1gSUB3;
     }
     cout<<"epindx: "<<epindx<<endl;
     if (epindx>=0) {
@@ -127,8 +134,8 @@ TGraphErrors * N1Test( int replay, int bin, double eMin, double eMax, double &ym
         gg8->GetEY()[i] = vintAe;
         fin = new TFile(rootFile.data(),"r");*/
 
-        // symmetric Pos side
-        /*g = GetVNPt( A, bin, AepA, EtaMin, EtaMax, gA, gB, gSpec, vint, vinte, vintA, vintAe, vintB, vintBe, false, 0, 0, aa, bb, cc );
+        // symmetric pos side C
+/*        g = GetVNPt( A, bin, AepA, EtaMin, EtaMax, gA, gB, gSpec, vint, vinte, vintA, vintAe, vintB, vintBe, false, 0, 0, aa, bb, cc );
         gg1->GetY()[i] = vintA;
         gg1->GetEY()[i] = vintAe;
         aa = HFp1f;
@@ -152,7 +159,7 @@ TGraphErrors * N1Test( int replay, int bin, double eMin, double eMax, double &ym
         gg4->GetEY()[i] = vintAe;
         aa = HFp1c;
         bb = HFm1c;
-        cc = trackp106;
+        cc = trackp102;
         g  = GetVNPt( A, bin, AepA, EtaMin, EtaMax, gA, gB, gSpec, vint, vinte, vintA, vintAe, vintB, vintBe, false, 0, 0,aa, bb, cc );
         gg5->GetY()[i] = vintA;
         gg5->GetEY()[i] = vintAe;
@@ -176,49 +183,49 @@ TGraphErrors * N1Test( int replay, int bin, double eMin, double eMax, double &ym
         gg8->GetEY()[i] = vintAe;
         fin = new TFile(rootFile.data(),"r");*/
 
-        // symmetric Neg side
+        // symmetric Neg side C
         g = GetVNPt( A, bin, AepA, EtaMin, EtaMax, gA, gB, gSpec, vint, vinte, vintA, vintAe, vintB, vintBe, false, 0, 0, aa, bb, cc );
         gg1->GetY()[i] = vintA;
         gg1->GetEY()[i] = vintAe;
-        aa = HFm1f;
-        bb = HFp1f;
+        aa = HFp1f;
+        bb = HFm1f;
         g = GetVNPt( A, bin, AepA, EtaMin, EtaMax, gA, gB, gSpec, vint, vinte, vintA, vintAe, vintB, vintBe, false, 0, 0, aa, bb, cc );
         cc = trackm106;
         gg2->GetY()[i] = vintA;
         gg2->GetEY()[i] = vintAe;
         fin = new TFile(rootFile.data(),"r");
-        aa = HFm1e;
-        bb = HFp1e;
+        aa = HFp1e;
+        bb = HFm1e;
         cc = trackm106;
         g  = GetVNPt( A, bin, AepA, EtaMin, EtaMax, gA, gB, gSpec, vint, vinte, vintA, vintAe, vintB, vintBe, false, 0, 0,aa, bb, cc );
         gg3->GetY()[i] = vintA;
         gg3->GetEY()[i] = vintAe;
-        aa = HFp1d;
-        bb = HFm1d;
+        aa = HFm1d;
+        bb = HFp1d;
         cc = trackp106;
         g  = GetVNPt( A, bin, AepA, EtaMin, EtaMax, gA, gB, gSpec, vint, vinte, vintA, vintAe, vintB, vintBe, false, 0, 0, aa, bb, cc );
         gg4->GetY()[i] = vintA;
         gg4->GetEY()[i] = vintAe;
-        aa = HFm1c;
-        bb = HFp1c;
-        cc = trackm106;
+        aa = HFp1c;
+        bb = HFm1c;
+        cc = trackm102;
         g  = GetVNPt( A, bin, AepA, EtaMin, EtaMax, gA, gB, gSpec, vint, vinte, vintA, vintAe, vintB, vintBe, false, 0, 0,aa, bb, cc );
         gg5->GetY()[i] = vintA;
         gg5->GetEY()[i] = vintAe;
-        aa = trackm122;
-        bb = trackp122;
+        aa = trackp122;
+        bb = trackm122;
         cc = trackm102;
         g  = GetVNPt( A, bin, AepA, EtaMin, EtaMax, gA, gB, gSpec, vint, vinte, vintA, vintAe, vintB, vintBe, false, 0, 0, aa, bb, cc );
         gg6->GetY()[i] = vintA;
         gg6->GetEY()[i] = vintAe;
-        aa = trackm118;
-        bb = trackp118;
+        aa = trackp118;
+        bb = trackm118;
         cc = trackm102;
         g  = GetVNPt( A, bin, AepA, EtaMin, EtaMax, gA, gB, gSpec, vint, vinte, vintA, vintAe, vintB, vintBe, false, 0, 0, aa, bb, cc );
         gg7->GetY()[i] = vintA;
         gg7->GetEY()[i] = vintAe;
-        aa = trackm114;
-        bb = trackp114;
+        aa = trackp114;
+        bb = trackm114;
         cc = trackm102;
         g  = GetVNPt( A, bin, AepA, EtaMin, EtaMax, gA, gB, gSpec, vint, vinte, vintA, vintAe, vintB, vintBe, false, 0, 0, aa, bb, cc );
         gg8->GetY()[i] = vintA;
@@ -304,12 +311,13 @@ TGraphErrors * N1Test( int replay, int bin, double eMin, double eMax, double &ym
     //gB->SetTitle("NOGOOD");
 
     TFile * foutTest = new TFile("vnTest.root","UPDATE");
-    TDirectory * dirA = (TDirectory *) foutTest->mkdir(Form("%d_%d",cminCENT[bin],cmaxCENT[bin]));
+    TDirectory * dirA = (TDirectory *) foutTest->Get(Form("%s",ANALS[A][0].data()));
+    if (!dirA) dirA = foutTest->mkdir(Form("%s",ANALS[A][0].data()));
     TDirectory * dirB = (TDirectory *) dirA->mkdir(Form("%0.1f_%0.1f",eMin,eMax));
-    // TDirectory * dirA = (TDirectory *) foutTest->mkdir(Form("%s",ANALS[A][0].data()));
-    // TDirectory * dirB = (TDirectory *) dirA->mkdir(Form("%0.1f_%0.1f",eMin,eMax));
-    // TDirectory * dirC = (TDirectory *) dirB->mkdir(Form("%d_%d",cminCENT[bin],cmaxCENT[bin]));
-    dirB->cd();
+    if (!dirB) dirB = dirA->mkdir(Form("%0.1f_%0.1f",eMin,eMax));
+    TDirectory * dirC = (TDirectory *) dirB->mkdir(Form("%d_%d",cminCENT[bin],cmaxCENT[bin]));
+    if (!dirC) dirC = dirB->mkdir(Form("%d_%d",cminCENT[bin],cmaxCENT[bin]));
+    dirC->cd();
     h->Write();
     gg1->Write();
     gg2->Write();
