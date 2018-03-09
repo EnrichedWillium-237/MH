@@ -325,7 +325,7 @@ void plotv1EPBscan() {
     legA->Draw();
 
     cA->Print("fig_v1EPBscanA.pdf","pdf");
-    // cA->Print("fig_v1EPBscanA.png","png");
+    cA->Print("fig_v1EPBscanA.png","png");
 
 
     //--  --//
@@ -380,7 +380,7 @@ void plotv1EPBscan() {
     legB->Draw();
 
     cB->Print("fig_v1EPBscanB.pdf","pdf");
-    // cB->Print("fig_v1EPBscanB.png","png");
+    cB->Print("fig_v1EPBscanB.png","png");
 
 
     //--  --//
@@ -435,7 +435,7 @@ void plotv1EPBscan() {
     legAB->Draw();
 
     cAB->Print("fig_v1EPBscanAB.pdf","pdf");
-    // cAB->Print("fig_v1EPBscanAB.png","png");
+    cAB->Print("fig_v1EPBscanAB.png","png");
 
 
 }
