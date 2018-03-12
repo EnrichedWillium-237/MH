@@ -37,7 +37,7 @@ TGraphErrors * N1Test(int replay, int bin, double eMin, double eMax, double & ym
   if(replay==N1TEST) {
     A = N1HFp1gSUB3;
     B = N1HFm1gSUB3;
-  } 
+  }
   cout<<"epindx: "<<epindx<<endl;
   if(epindx>=0) {
     cout<<"A: "<<A<<"\t"<<ANALS[A][0]<<"\t"<<EPNames[epindx]<<"\t"<<EPNames[RCMate1[epindx]]<<"\t"<<EPNames[RCMate2[epindx]]<<endl;
