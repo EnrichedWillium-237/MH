@@ -177,7 +177,7 @@ TGraphErrors * N1Test(int replay, int bin, double eMin, double eMax, double & ym
   fin = new TFile(rootFile.data(),"r");
   for(int i = 0; i<g->GetN(); i++) {
     g->GetY()[i] = (gA->GetY()[i]-gA2->GetY()[i])/2.;
-    double e = sqrt(pow(gA->GetEY()[i],2)+pow(gA2->GetEY()[i],2)+2*gA->GetEY()[i]*gA2->GetEY()[i]*min(gA->GetEY()[i],gA2->GetEY()[i]));
+    double e = sqrt( pow(gA->GetEY()[i],2)+pow(gA2->GetEY()[i],2)+2*gA->GetEY()[i]*gA2->GetEY()[i]*min(gA->GetEY()[i],gA2->GetEY()[i]) );
     g->GetEY()[i] = e;
     gB->GetY()[i] = gA2->GetY()[i];
     gB->GetEY()[i]=gA2->GetEY()[i];

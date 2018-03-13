@@ -14,7 +14,7 @@
 static const int ncbins = 11;
 static const int centbins[] = {0, 5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70};
 
-TFile * fin = new TFile("../MH.root","read");
+TFile * finRes = new TFile("../MH.root","read");
 TGraphErrors * N1track118SUB2;
 TGraphErrors * N1track122SUB2;
 TGraphErrors * N1trackm118SUB3;
@@ -47,18 +47,18 @@ TH1D * h0;
 using namespace hi;
 
 void SetTPaveTxt( TPaveText * txtemplate, int txtsize ) {
-  txtemplate->SetFillColor(0);
-  txtemplate->SetBorderSize(0);
-  txtemplate->SetTextFont(43);
-  txtemplate->SetTextAlign(12);
-  txtemplate->SetTextSize(txtsize);
+    txtemplate->SetFillColor(0);
+    txtemplate->SetBorderSize(0);
+    txtemplate->SetTextFont(43);
+    txtemplate->SetTextAlign(12);
+    txtemplate->SetTextSize(txtsize);
 }
 
 void SetLegend( TLegend * legtemplate, int legsize ) {
-  legtemplate->SetFillColor(0);
-  legtemplate->SetBorderSize(0);
-  legtemplate->SetTextFont(43);
-  legtemplate->SetTextSize(legsize);
+    legtemplate->SetFillColor(0);
+    legtemplate->SetBorderSize(0);
+    legtemplate->SetTextFont(43);
+    legtemplate->SetTextSize(legsize);
 }
 
 TGraphErrors * getRes( TString type, TGraphErrors * &g, bool sub2 ) {
@@ -72,19 +72,19 @@ TGraphErrors * getRes( TString type, TGraphErrors * &g, bool sub2 ) {
         TString ctag = Form("%d_%d",centbins[cbin],centbins[cbin+1]);
         xval[cbin] = 0.5*(centbins[cbin]+centbins[cbin+1]);
 
-        qba = ((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qBA",ctag.Data(),type.Data())))->GetBinContent(1);
-        qca = ((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCA",ctag.Data(),type.Data())))->GetBinContent(1);
-        qcb = ((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCB",ctag.Data(),type.Data())))->GetBinContent(1);
-        qbacnt = ((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qBAcnt",ctag.Data(),type.Data())))->GetBinContent(1);
-        qcacnt = ((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCAcnt",ctag.Data(),type.Data())))->GetBinContent(1);
-        qcbcnt = ((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCBcnt",ctag.Data(),type.Data())))->GetBinContent(1);
+        qba = ((TH1D *) finRes->Get(Form("vnanalyzer/Harmonics/%s/%s/qBA",ctag.Data(),type.Data())))->GetBinContent(1);
+        qca = ((TH1D *) finRes->Get(Form("vnanalyzer/Harmonics/%s/%s/qCA",ctag.Data(),type.Data())))->GetBinContent(1);
+        qcb = ((TH1D *) finRes->Get(Form("vnanalyzer/Harmonics/%s/%s/qCB",ctag.Data(),type.Data())))->GetBinContent(1);
+        qbacnt = ((TH1D *) finRes->Get(Form("vnanalyzer/Harmonics/%s/%s/qBAcnt",ctag.Data(),type.Data())))->GetBinContent(1);
+        qcacnt = ((TH1D *) finRes->Get(Form("vnanalyzer/Harmonics/%s/%s/qCAcnt",ctag.Data(),type.Data())))->GetBinContent(1);
+        qcbcnt = ((TH1D *) finRes->Get(Form("vnanalyzer/Harmonics/%s/%s/qCBcnt",ctag.Data(),type.Data())))->GetBinContent(1);
 
-        qbae = ((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qBA",ctag.Data(),type.Data())))->GetBinError(1);
-        qcae = ((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCA",ctag.Data(),type.Data())))->GetBinError(1);
-        qcbe = ((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCB",ctag.Data(),type.Data())))->GetBinError(1);
-        qbacnte = ((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qBAcnt",ctag.Data(),type.Data())))->GetBinError(1);
-        qcacnte = ((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCAcnt",ctag.Data(),type.Data())))->GetBinError(1);
-        qcbcnte = ((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCBcnt",ctag.Data(),type.Data())))->GetBinError(1);
+        qbae = ((TH1D *) finRes->Get(Form("vnanalyzer/Harmonics/%s/%s/qBA",ctag.Data(),type.Data())))->GetBinError(1);
+        qcae = ((TH1D *) finRes->Get(Form("vnanalyzer/Harmonics/%s/%s/qCA",ctag.Data(),type.Data())))->GetBinError(1);
+        qcbe = ((TH1D *) finRes->Get(Form("vnanalyzer/Harmonics/%s/%s/qCB",ctag.Data(),type.Data())))->GetBinError(1);
+        qbacnte = ((TH1D *) finRes->Get(Form("vnanalyzer/Harmonics/%s/%s/qBAcnt",ctag.Data(),type.Data())))->GetBinError(1);
+        qcacnte = ((TH1D *) finRes->Get(Form("vnanalyzer/Harmonics/%s/%s/qCAcnt",ctag.Data(),type.Data())))->GetBinError(1);
+        qcbcnte = ((TH1D *) finRes->Get(Form("vnanalyzer/Harmonics/%s/%s/qCBcnt",ctag.Data(),type.Data())))->GetBinError(1);
 
         qba/=qbacnt;
         qca/=qcacnt;
@@ -110,12 +110,12 @@ TGraphErrors * getRes( TString type, TGraphErrors * &g, bool sub2 ) {
         double resm = 0;
         double res2 = 0;
         for (int k = 1; k<10; k++) {
-            qbae = ((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qBA_%d",ctag.Data(),type.Data(),k)))->GetBinContent(1);
-            qcae = ((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCA_%d",ctag.Data(),type.Data(),k)))->GetBinContent(1);
-            qcbe = ((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCB_%d",ctag.Data(),type.Data(),k)))->GetBinContent(1);
-            qbacnte = ((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qBAcnt_%d",ctag.Data(),type.Data(),k)))->GetBinContent(1);
-            qcacnte = ((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCAcnt_%d",ctag.Data(),type.Data(),k)))->GetBinContent(1);
-            qcbcnte = ((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCBcnt_%d",ctag.Data(),type.Data(),k)))->GetBinContent(1);
+            qbae = ((TH1D *) finRes->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qBA_%d",ctag.Data(),type.Data(),k)))->GetBinContent(1);
+            qcae = ((TH1D *) finRes->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCA_%d",ctag.Data(),type.Data(),k)))->GetBinContent(1);
+            qcbe = ((TH1D *) finRes->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCB_%d",ctag.Data(),type.Data(),k)))->GetBinContent(1);
+            qbacnte = ((TH1D *) finRes->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qBAcnt_%d",ctag.Data(),type.Data(),k)))->GetBinContent(1);
+            qcacnte = ((TH1D *) finRes->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCAcnt_%d",ctag.Data(),type.Data(),k)))->GetBinContent(1);
+            qcbcnte = ((TH1D *) finRes->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCBcnt_%d",ctag.Data(),type.Data(),k)))->GetBinContent(1);
             qbae/=qbacnte;
             qcae/=qcacnte;
             qcbe/=qcbcnte;
@@ -181,7 +181,7 @@ void resolution() {
     h0->GetYaxis()->SetDecimals();
     h0->GetYaxis()->SetNdivisions(508);
     h0->SetXTitle("Centrality (%)");
-    h0->SetYTitle("Scalar-product denomenator");
+    h0->SetYTitle("Scalar-product denominator");
     h0->Draw();
     N1HFcSUB2->Draw("same p");
     N1HFdSUB2->Draw("same p");

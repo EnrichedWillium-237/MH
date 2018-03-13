@@ -286,19 +286,19 @@ TGraphErrors * GetVNPt( int replay, int bin, int epindx,  double etamin, double 
         qCA=fabs(qCA);
         qCB=fabs(qCB);
         if (sub2) {
-            qA->Scale(1./sqrt(qBA));
-            qB->Scale(1./sqrt(qBA));
-            qA1->Scale(1./sqrt(qBA));
-            qB1->Scale(1./sqrt(qBA));
-            resA[0]= sqrt(qBA);
-            resB[0]= sqrt(qBA);
+            qA->Scale(1./sqrt( qBA ));
+            qB->Scale(1./sqrt( qBA ));
+            qA1->Scale(1./sqrt( qBA ));
+            qB1->Scale(1./sqrt( qBA ));
+            resA[0]= sqrt( qBA );
+            resB[0]= sqrt( qBA );
         } else {
-            qA->Scale(1./sqrt(qBA*qCA/qCB));
-            qB->Scale(1./sqrt(qBA*qCB/qCA));
-            qA1->Scale(1./sqrt(qBA*qCA/qCB));
-            qB1->Scale(1./sqrt(qBA*qCB/qCA));
-            resA[0]= sqrt(qBA*qCA/qCB);
-            resB[0]= sqrt(qBA*qCB/qCA);
+            qA->Scale(1./sqrt( qBA*qCA/qCB ));
+            qB->Scale(1./sqrt( qBA*qCB/qCA ));
+            qA1->Scale(1./sqrt( qBA*qCA/qCB ));
+            qB1->Scale(1./sqrt( qBA*qCB/qCA ));
+            resA[0]= sqrt( qBA*qCA/qCB );
+            resB[0]= sqrt( qBA*qCB/qCA );
         }
     }
 
@@ -318,15 +318,15 @@ TGraphErrors * GetVNPt( int replay, int bin, int epindx,  double etamin, double 
             qCAe[i]=fabs(qCAe[i]);
             qCBe[i]=fabs(qCBe[i]);
             if (sub2) {
-	            qAe[i]->Scale(1./sqrt(qBAe[i]));
-            	qBe[i]->Scale(1./sqrt(qBAe[i]));
-            	resA[i+1]= sqrt(qBAe[i]);
-            	resB[i+1]= sqrt(qBAe[i]);
+	            qAe[i]->Scale(1./sqrt( qBAe[i] ));
+            	qBe[i]->Scale(1./sqrt( qBAe[i] ));
+            	resA[i+1]= sqrt( qBAe[i] );
+            	resB[i+1]= sqrt( qBAe[i] );
             } else {
-	            qAe[i]->Scale(1./sqrt(qBAe[i]*qCAe[i]/qCBe[i]));
-            	qBe[i]->Scale(1./sqrt(qBAe[i]*qCBe[i]/qCAe[i]));
-            	resA[i+1]= sqrt(qBAe[i]*qCAe[i]/qCBe[i]);
-            	resB[i+1]= sqrt(qBAe[i]*qCBe[i]/qCAe[i]);
+	            qAe[i]->Scale(1./sqrt( qBAe[i]*qCAe[i]/qCBe[i] ));
+            	qBe[i]->Scale(1./sqrt( qBAe[i]*qCBe[i]/qCAe[i] ));
+            	resA[i+1]= sqrt( qBAe[i]*qCAe[i]/qCBe[i] );
+            	resB[i+1]= sqrt( qBAe[i]*qCBe[i]/qCAe[i] );
             }
         }
     }
@@ -394,9 +394,9 @@ TGraphErrors * GetVNPt( int replay, int bin, int epindx,  double etamin, double 
             vn2[j]/=10.;
             vnA2[j]/=10.;
             vnB2[j]/=10.;
-            vn->SetBinError(j+1, sqrt((1./9.)*( vn2[j] - pow(vnm[j], 2))));
-            vnA->SetBinError(j+1,sqrt((1./9.)*(vnA2[j] - pow(vnAm[j],2))));
-            vnB->SetBinError(j+1,sqrt((1./9.)*(vnB2[j] - pow(vnBm[j],2))));
+            vn->SetBinError(j+1, sqrt( (1./9.)*( vn2[j] - pow(vnm[j], 2)) ));
+            vnA->SetBinError(j+1,sqrt( (1./9.)*(vnA2[j] - pow(vnAm[j],2)) ));
+            vnB->SetBinError(j+1,sqrt( (1./9.)*(vnB2[j] - pow(vnBm[j],2)) ));
         }
     } else {
         xpt = (TH1D *) ptav->ProjectionX("xpt",ietamin1,ietamax1);
@@ -466,9 +466,9 @@ TGraphErrors * GetVNPt( int replay, int bin, int epindx,  double etamin, double 
             vn2[j]/=10.;
             vnA2[j]/=10.;
             vnB2[j]/=10.;
-            vn->SetBinError(j+1, sqrt((1./9.)*( vn2[j] - pow(vnm[j], 2))));
-            vnA->SetBinError(j+1,sqrt((1./9.)*(vnA2[j] - pow(vnAm[j],2))));
-            vnB->SetBinError(j+1,sqrt((1./9.)*(vnB2[j] - pow(vnBm[j],2))));
+            vn->SetBinError(j+1, sqrt( (1./9.)*( vn2[j] - pow(vnm[j], 2)) ));
+            vnA->SetBinError(j+1,sqrt( (1./9.)*(vnA2[j] - pow(vnAm[j],2)) ));
+            vnB->SetBinError(j+1,sqrt( (1./9.)*(vnB2[j] - pow(vnBm[j],2)) ));
         }
 
     }
@@ -531,7 +531,7 @@ TGraphErrors * GetVNPt( int replay, int bin, int epindx,  double etamin, double 
             yspec[npt] = sp->GetBinContent(i)/sp->GetBinWidth(i)/(etamax-etamin)/centcnt;
             exspec[npt] = 0;
             eyspec[npt] = 0;
-            if (sp->GetBinContent(i)>1) eyspec[npt] = sqrt(sp->GetBinContent(i))/sp->GetBinWidth(i)/(etamax-etamin)/centcnt;
+            if (sp->GetBinContent(i)>1) eyspec[npt] = sqrt( sp->GetBinContent(i) )/sp->GetBinWidth(i)/(etamax-etamin)/centcnt;
             if (pt<3.) {
 	            double eff = 0;
 	            double cent = (cmin[bin] + cmax[bin])/2.;

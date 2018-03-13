@@ -164,7 +164,7 @@ TGraphErrors * N1( int replay, int bin, double eMin, double eMax, double &ymin, 
             gint->GetY()[i] = (vintA-vintA2)/2.;
             double arg = pow(vintAe,2)+pow(vintAe2,2)+2*vintA*vintA2*min(vintAe,vintAe2);
             if (arg<=0) arg=pow(vintAe,2)+pow(vintAe2,2);
-            double e = sqrt(arg)/2.;
+            double e = sqrt( arg )/2.;
             //cout<<"e: "<<e<<"\t"<<gint->GetY()[i]<<endl;
             gint->GetEY()[i] = e;
             gintA->GetY()[i] = vintA;
