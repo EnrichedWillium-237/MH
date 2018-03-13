@@ -1,12 +1,12 @@
 TGraphErrors * N1Test(int replay, int bin, double eMin, double eMax, double & ymin, double & ymax, TGraphErrors * &g,TGraphErrors * &gA, TGraphErrors * &gB, TGraphErrors * &gSpec, TGraphErrors * &gint, TGraphErrors *& gintA, TGraphErrors *& gintB, double & vint, double & vinte, double & vintA, double & vintAe, double & vintB, double & vintBe ){
   fin = new TFile(rootFile.data(),"r");
-  TGraphErrors * g2 ;
-  TGraphErrors * gA2 ;
-  TGraphErrors * gB2 ;
-  TGraphErrors * gSpec2 ;
-  TGraphErrors * gint2 ;
-  TGraphErrors * gintA2 ;
-  TGraphErrors * gintB2 ;
+  TGraphErrors * g2;
+  TGraphErrors * gA2;
+  TGraphErrors * gB2;
+  TGraphErrors * gSpec2;
+  TGraphErrors * gint2;
+  TGraphErrors * gintA2;
+  TGraphErrors * gintB2;
   TGraphErrors * gtmp;
   double x[12];
   double y[12];
