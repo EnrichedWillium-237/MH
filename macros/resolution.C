@@ -15,17 +15,13 @@ static const int ncbins = 11;
 static const int centbins[] = {0, 5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70};
 
 TFile * finRes = new TFile("../MH.root","read");
-TGraphErrors * N1track118SUB2;
-TGraphErrors * N1track122SUB2;
-TGraphErrors * N1trackm118SUB3;
-TGraphErrors * N1trackp118SUB3;
-TGraphErrors * N1trackm122SUB3;
-TGraphErrors * N1trackp122SUB3;
-TGraphErrors * N1HFcSUB2;
-TGraphErrors * N1HFdSUB2;
-TGraphErrors * N1HFeSUB2;
-TGraphErrors * N1HFfSUB2;
-TGraphErrors * N1HFgSUB2;
+TFile * finNum = new TFile("MH_hists_NumOnly.root","read");
+TFile * finSP = new TFile("vnPlots.root","read");
+TGraphErrors * N1HFcSUB3;
+TGraphErrors * N1HFdSUB3;
+TGraphErrors * N1HFeSUB3;
+TGraphErrors * N1HFfSUB3;
+TGraphErrors * N1HFgSUB3;
 TGraphErrors * N1mHFcSUB3;
 TGraphErrors * N1pHFcSUB3;
 TGraphErrors * N1mHFdSUB3;
@@ -43,6 +39,8 @@ TH1D * qBAcnt;
 TH1D * qCAcnt;
 TH1D * qCBcnt;
 TH1D * h0;
+TH1D * h1;
+TH1D * h2;
 
 using namespace hi;
 
@@ -137,41 +135,29 @@ TGraphErrors * getRes( TString type, TGraphErrors * &g, bool sub2 ) {
 
 void resolution() {
 
-    N1HFcSUB2 = getRes("N1HFm1c", N1HFcSUB2, true);
-    N1HFcSUB2->SetMarkerStyle(20);
-    N1HFcSUB2->SetMarkerSize(1.3);
-    N1HFcSUB2->SetMarkerColor(kBlack);
-    N1HFcSUB2->SetLineColor(kBlack);
+    N1HFcSUB3 = getRes("N1HFm1c", N1HFcSUB3, false);
+    N1HFcSUB3->SetMarkerStyle(20);
+    N1HFcSUB3->SetMarkerSize(1.3);
+    N1HFcSUB3->SetMarkerColor(kBlack);
+    N1HFcSUB3->SetLineColor(kBlack);
 
-    N1HFdSUB2 = getRes("N1HFm1d", N1HFdSUB2, true);
-    N1HFdSUB2->SetMarkerStyle(25);
-    N1HFdSUB2->SetMarkerSize(1.2);
-    N1HFdSUB2->SetMarkerColor(kRed);
-    N1HFdSUB2->SetLineColor(kRed);
+    N1HFdSUB3 = getRes("N1HFm1d", N1HFdSUB3, false);
+    N1HFdSUB3->SetMarkerStyle(25);
+    N1HFdSUB3->SetMarkerSize(1.2);
+    N1HFdSUB3->SetMarkerColor(kRed);
+    N1HFdSUB3->SetLineColor(kRed);
 
-    N1HFeSUB2 = getRes("N1HFm1e", N1HFeSUB2, true);
-    N1HFeSUB2->SetMarkerStyle(21);
-    N1HFeSUB2->SetMarkerSize(1.2);
-    N1HFeSUB2->SetMarkerColor(kGreen+2);
-    N1HFeSUB2->SetLineColor(kGreen+2);
+    N1HFeSUB3 = getRes("N1HFm1e", N1HFeSUB3, false);
+    N1HFeSUB3->SetMarkerStyle(21);
+    N1HFeSUB3->SetMarkerSize(1.2);
+    N1HFeSUB3->SetMarkerColor(kGreen+2);
+    N1HFeSUB3->SetLineColor(kGreen+2);
 
-    N1HFfSUB2 = getRes("N1HFm1f", N1HFfSUB2, true);
-    N1HFfSUB2->SetMarkerStyle(24);
-    N1HFfSUB2->SetMarkerSize(1.3);
-    N1HFfSUB2->SetMarkerColor(kBlue);
-    N1HFfSUB2->SetLineColor(kBlue);
-
-    N1track118SUB2 = getRes("N1MCm18", N1track118SUB2, true);
-    N1track118SUB2->SetMarkerStyle(28);
-    N1track118SUB2->SetMarkerSize(1.6);
-    N1track118SUB2->SetMarkerColor(kCyan+2);
-    N1track118SUB2->SetLineColor(kCyan+2);
-
-    N1track122SUB2 = getRes("N1MCm22", N1track122SUB2, true);
-    N1track122SUB2->SetMarkerStyle(34);
-    N1track122SUB2->SetMarkerSize(1.6);
-    N1track122SUB2->SetMarkerColor(kMagenta);
-    N1track122SUB2->SetLineColor(kMagenta);
+    N1HFfSUB3 = getRes("N1HFm1f", N1HFfSUB3, false);
+    N1HFfSUB3->SetMarkerStyle(24);
+    N1HFfSUB3->SetMarkerSize(1.3);
+    N1HFfSUB3->SetMarkerColor(kBlue);
+    N1HFfSUB3->SetLineColor(kBlue);
 
 
     TCanvas * c0 = new TCanvas("c0", "c0", 650, 600);
@@ -183,23 +169,135 @@ void resolution() {
     h0->SetXTitle("Centrality (%)");
     h0->SetYTitle("Scalar-product denominator");
     h0->Draw();
-    N1HFcSUB2->Draw("same p");
-    N1HFdSUB2->Draw("same p");
-    N1HFeSUB2->Draw("same p");
-    N1HFfSUB2->Draw("same p");
-    // N1track118SUB2->Draw("same p");
-    // N1track122SUB2->Draw("same p");
+    N1HFcSUB3->Draw("same p");
+    N1HFdSUB3->Draw("same p");
+    N1HFeSUB3->Draw("same p");
+    N1HFfSUB3->Draw("same p");
     TLegend * leg0 = new TLegend(0.20, 0.63, 0.47, 0.90);
     SetLegend(leg0, 20);
-    leg0->SetHeader("2 subevent v_{1}");
-    // leg0->AddEntry(N1track118SUB2,"1.6 < |#eta_{EP}| < 2.0","p");
-    // leg0->AddEntry(N1track122SUB2,"2.0 < |#eta_{EP}| < 2.4","p");
-    leg0->AddEntry(N1HFcSUB2,"3.0 < |#eta_{EP}| < 3.5","p");
-    leg0->AddEntry(N1HFdSUB2,"3.5 < |#eta_{EP}| < 4.0","p");
-    leg0->AddEntry(N1HFeSUB2,"4.0 < |#eta_{EP}| < 4.5","p");
-    leg0->AddEntry(N1HFfSUB2,"4.5 < |#eta_{EP}| < 5.0","p");
+    leg0->SetHeader("3 subevent v_{1}");
+    leg0->AddEntry(N1HFcSUB3,"3.0 < |#eta_{EP}| < 3.5","p");
+    leg0->AddEntry(N1HFdSUB3,"3.5 < |#eta_{EP}| < 4.0","p");
+    leg0->AddEntry(N1HFeSUB3,"4.0 < |#eta_{EP}| < 4.5","p");
+    leg0->AddEntry(N1HFfSUB3,"4.5 < |#eta_{EP}| < 5.0","p");
     leg0->Draw();
     c0->Print("resPlot.png","png");
+
+
+
+    TGraphErrors * N1HFcSUB3_num = (TGraphErrors *) finNum->Get("default/N1HFcSUB3/-2.0_2.0/20_60/gintA");
+    N1HFcSUB3_num->SetMarkerStyle(20);
+    N1HFcSUB3_num->SetMarkerSize(1.3);
+    N1HFcSUB3_num->SetMarkerColor(kBlack);
+    N1HFcSUB3_num->SetLineColor(kBlack);
+    N1HFcSUB3_num->RemovePoint(0);
+    N1HFcSUB3_num->RemovePoint(N1HFcSUB3_num->GetN()-1);
+
+    TGraphErrors * N1HFdSUB3_num = (TGraphErrors *) finNum->Get("default/N1HFdSUB3/-2.0_2.0/20_60/gintA");
+    N1HFdSUB3_num->SetMarkerStyle(25);
+    N1HFdSUB3_num->SetMarkerSize(1.2);
+    N1HFdSUB3_num->SetMarkerColor(kRed);
+    N1HFdSUB3_num->SetLineColor(kRed);
+    N1HFdSUB3_num->RemovePoint(0);
+    N1HFdSUB3_num->RemovePoint(N1HFdSUB3_num->GetN()-1);
+
+    TGraphErrors * N1HFeSUB3_num = (TGraphErrors *) finNum->Get("default/N1HFeSUB3/-2.0_2.0/20_60/gintA");
+    N1HFeSUB3_num->SetMarkerStyle(21);
+    N1HFeSUB3_num->SetMarkerSize(1.2);
+    N1HFeSUB3_num->SetMarkerColor(kGreen+2);
+    N1HFeSUB3_num->SetLineColor(kGreen+2);
+    N1HFeSUB3_num->RemovePoint(0);
+    N1HFeSUB3_num->RemovePoint(N1HFeSUB3_num->GetN()-1);
+
+    TGraphErrors * N1HFfSUB3_num = (TGraphErrors *) finNum->Get("default/N1HFfSUB3/-2.0_2.0/20_60/gintA");
+    N1HFfSUB3_num->SetMarkerStyle(24);
+    N1HFfSUB3_num->SetMarkerSize(1.3);
+    N1HFfSUB3_num->SetMarkerColor(kBlue);
+    N1HFfSUB3_num->SetLineColor(kBlue);
+    N1HFfSUB3_num->RemovePoint(0);
+    N1HFfSUB3_num->RemovePoint(N1HFfSUB3_num->GetN()-1);
+
+    TCanvas * c1 = new TCanvas("c1", "c1", 650, 600);
+    TPad * pad1 = (TPad *) c1->cd();
+    h1 = new TH1D("h1", "h1", 100, -2.5, 2.5);
+    h1->GetYaxis()->SetRangeUser(-0.0006, 0);
+    h1->GetYaxis()->SetDecimals();
+    h1->GetYaxis()->SetNdivisions(508);
+    h1->SetXTitle("#eta");
+    h1->GetXaxis()->CenterTitle();
+    h1->SetYTitle("Scalar-product numerator");
+    h1->Draw();
+    N1HFcSUB3_num->Draw("same p");
+    N1HFdSUB3_num->Draw("same p");
+    N1HFeSUB3_num->Draw("same p");
+    N1HFfSUB3_num->Draw("same p");
+    TLegend * leg1 = new TLegend(0.61, 0.64, 0.88, 0.91);
+    SetLegend(leg1, 20);
+    leg1->SetHeader("20 - 60%");
+    leg1->AddEntry(N1HFcSUB3_num,"3.0 < |#eta_{EP}| < 3.5","p");
+    leg1->AddEntry(N1HFdSUB3_num,"3.5 < |#eta_{EP}| < 4.0","p");
+    leg1->AddEntry(N1HFeSUB3_num,"4.0 < |#eta_{EP}| < 4.5","p");
+    leg1->AddEntry(N1HFfSUB3_num,"4.5 < |#eta_{EP}| < 5.0","p");
+    leg1->Draw();
+    c1->Print("numPlot.png","png");
+
+
+
+    TGraphErrors * gN1HFcSUB3 = (TGraphErrors *) finSP->Get("default/N1HFcSUB3/-2.0_2.0/20_60/gintA");
+    gN1HFcSUB3->SetMarkerStyle(20);
+    gN1HFcSUB3->SetMarkerSize(1.3);
+    gN1HFcSUB3->SetMarkerColor(kBlack);
+    gN1HFcSUB3->SetLineColor(kBlack);
+    gN1HFcSUB3->RemovePoint(0);
+    gN1HFcSUB3->RemovePoint(gN1HFcSUB3->GetN()-1);
+
+    TGraphErrors * gN1HFdSUB3 = (TGraphErrors *) finSP->Get("default/N1HFdSUB3/-2.0_2.0/20_60/gintA");
+    gN1HFdSUB3->SetMarkerStyle(25);
+    gN1HFdSUB3->SetMarkerSize(1.2);
+    gN1HFdSUB3->SetMarkerColor(kRed);
+    gN1HFdSUB3->SetLineColor(kRed);
+    gN1HFdSUB3->RemovePoint(0);
+    gN1HFdSUB3->RemovePoint(gN1HFdSUB3->GetN()-1);
+
+    TGraphErrors * gN1HFeSUB3 = (TGraphErrors *) finSP->Get("default/N1HFeSUB3/-2.0_2.0/20_60/gintA");
+    gN1HFeSUB3->SetMarkerStyle(21);
+    gN1HFeSUB3->SetMarkerSize(1.2);
+    gN1HFeSUB3->SetMarkerColor(kGreen+2);
+    gN1HFeSUB3->SetLineColor(kGreen+2);
+    gN1HFeSUB3->RemovePoint(0);
+    gN1HFeSUB3->RemovePoint(gN1HFeSUB3->GetN()-1);
+
+    TGraphErrors * gN1HFfSUB3 = (TGraphErrors *) finSP->Get("default/N1HFfSUB3/-2.0_2.0/20_60/gintA");
+    gN1HFfSUB3->SetMarkerStyle(24);
+    gN1HFfSUB3->SetMarkerSize(1.3);
+    gN1HFfSUB3->SetMarkerColor(kBlue);
+    gN1HFfSUB3->SetLineColor(kBlue);
+    gN1HFfSUB3->RemovePoint(0);
+    gN1HFfSUB3->RemovePoint(gN1HFfSUB3->GetN()-1);
+
+    TCanvas * c2 = new TCanvas("c2", "c2", 650, 600);
+    TPad * pad2 = (TPad *) c2->cd();
+    h2 = new TH1D("h2", "h2", 100, -2.5, 2.5);
+    h2->GetYaxis()->SetRangeUser(-0.06, 0);
+    h2->GetYaxis()->SetDecimals();
+    h2->GetYaxis()->SetNdivisions(508);
+    h2->SetXTitle("#eta");
+    h2->GetXaxis()->CenterTitle();
+    h2->SetYTitle("v_{1}{HF+} (3-subevent)");
+    h2->Draw();
+    gN1HFcSUB3->Draw("same p");
+    gN1HFdSUB3->Draw("same p");
+    gN1HFeSUB3->Draw("same p");
+    gN1HFfSUB3->Draw("same p");
+    TLegend * leg2 = new TLegend(0.61, 0.64, 0.88, 0.91);
+    SetLegend(leg2, 20);
+    leg2->SetHeader("20 - 60%");
+    leg2->AddEntry(gN1HFcSUB3,"3.0 < |#eta_{EP}| < 3.5","p");
+    leg2->AddEntry(gN1HFdSUB3,"3.5 < |#eta_{EP}| < 4.0","p");
+    leg2->AddEntry(gN1HFeSUB3,"4.0 < |#eta_{EP}| < 4.5","p");
+    leg2->AddEntry(gN1HFfSUB3,"4.5 < |#eta_{EP}| < 5.0","p");
+    leg2->Draw();
+    c2->Print("SPPlot.png","png");
 
 
 }

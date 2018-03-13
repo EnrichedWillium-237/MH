@@ -22,239 +22,238 @@ TFile * fakeFile=NULL;
 TFile * effFile=NULL;
 
 TrackType SetTracking( ){
-  //
-  //Use directory path to determine reaction
-  //
-  system("pwd > pwd.lis");
-  FILE * fpwd = fopen("pwd.lis","r");
-  char buf[80];
-  fgets(buf,80,fpwd);
-  fclose(fpwd);
-  system("rm pwd.lis");
-  string spwd = buf;
-  //cout<<spwd<<endl;
-  if(spwd.find("AMPT")!=std::string::npos) sTrackType = MC;
-  if(spwd.find("pp")!=std::string::npos) {
-    sTrackReaction=pp;
-    cout<<"System: pp"<<endl;
-  } else if (spwd.find("pPb")!=std::string::npos) {
-    sTrackReaction = pPb;
-    cout<<"System: pPb"<<endl;
-  } else if (spwd.find("XeXe")!=std::string::npos) {
-    sTrackReaction = XeXe;
-    cout<<"System: XeXe"<<endl;
-  } else if (spwd.find("PbPb")!=std::string::npos) {
-    sTrackReaction = PbPb;
-    cout<<"System: PbPb"<<endl;
-  } else {
-    sTrackReaction = reacUndefined;
-    cout<<"System: undefined"<<endl;
-  }
-
-  TFile * fin = new TFile(rootFile.data(),"read");
-  string fname = fin->GetName();
-  if(sTrackReaction==pPb) {
-    if(fname.find("pPb")!=std::string::npos) {
-      sTrackOrientation = Type_pPb;
-      cout<<"Orientation: pPb"<<endl;
-    } else if (fname.find("Pbp")!=std::string::npos) {
-      sTrackOrientation = Type_Pbp;
-      cout<<"Orientation: Pbp"<<endl;
+    //
+    //Use directory path to determine reaction
+    //
+    system("pwd > pwd.lis");
+    FILE * fpwd = fopen("pwd.lis","r");
+    char buf[80];
+    fgets(buf,80,fpwd);
+    fclose(fpwd);
+    system("rm pwd.lis");
+    string spwd = buf;
+    //cout<<spwd<<endl;
+    if (spwd.find("AMPT")!=std::string::npos) sTrackType = MC;
+    if (spwd.find("pp")!=std::string::npos) {
+        sTrackReaction=pp;
+        cout<<"System: pp"<<endl;
+    } else if (spwd.find("pPb")!=std::string::npos) {
+        sTrackReaction = pPb;
+        cout<<"System: pPb"<<endl;
+    } else if (spwd.find("XeXe")!=std::string::npos) {
+        sTrackReaction = XeXe;
+        cout<<"System: XeXe"<<endl;
+    } else if (spwd.find("PbPb")!=std::string::npos) {
+        sTrackReaction = PbPb;
+        cout<<"System: PbPb"<<endl;
     } else {
-      sTrackOrientation = orientationUndefined;
+        sTrackReaction = reacUndefined;
+        cout<<"System: undefined"<<endl;
     }
-  }
-  
-  TDirectory * d = (TDirectory *) fin->Get("vnanalyzer/Conditions");
-  TList * l = (TList *) d->GetListOfKeys();
-  int indx = 0;
-  sTrackType = typeUndefined;
-  sTrackQuality = qualityUndefined;
-  while(l->At(indx) != l->Last() && sTrackType!=MC) {
-    string condition = l->At(indx++)->GetName();
-    if(condition == "hiGeneralAndPixelTracks") sTrackType = Pixel;
-    if(condition == "hiGeneralTracks") sTrackType = HIReco;
-    if(condition == "generalTracks") sTrackType = ppReco;
-    if(sTrackType == Pixel) {
-      if(condition == "dzdzerror_0002.00") sTrackQuality = normal;
-      if(condition == "dzdzerror_0005.00") sTrackQuality = loose;
-      if(condition == "dzdzerror_0001.50") sTrackQuality = tight;
-    } else if (sTrackType == ppReco || sTrackReaction == pPb) {
-      //cout<<"pPb with ppReco: "<<condition<<":"<<endl;
-      if(condition == "dzdzerror_0003.00") sTrackQuality = normal;
-      if(condition == "dzdzerror_0005.00") sTrackQuality = loose;
-      if(condition == "dzdzerror_0002.00") sTrackQuality = tight;
-    } else if (sTrackType == ppReco || sTrackReaction == XeXe) {
-      //cout<<"XeXe with ppReco: "<<condition<<":"<<endl;
-      if(condition == "dzdzerror_0003.00") sTrackQuality = normal;
-      if(condition == "dzdzerror_0005.00") sTrackQuality = loose;
-      if(condition == "dzdzerror_0002.00") sTrackQuality = tight;
-    } else if (sTrackType == HIReco) {
-      //cout<<"HIReco: "<<condition<<":"<<endl;
+
+    TFile * fin = new TFile(rootFile.data(),"read");
+    string fname = fin->GetName();
+    if (sTrackReaction==pPb) {
+        if (fname.find("pPb")!=std::string::npos) {
+            sTrackOrientation = Type_pPb;
+            cout<<"Orientation: pPb"<<endl;
+        } else if (fname.find("Pbp")!=std::string::npos) {
+            sTrackOrientation = Type_Pbp;
+            cout<<"Orientation: Pbp"<<endl;
+        } else {
+            sTrackOrientation = orientationUndefined;
+        }
+    }
+
+    TDirectory * d = (TDirectory *) fin->Get("vnanalyzer/Conditions");
+    TList * l = (TList *) d->GetListOfKeys();
+    int indx = 0;
+    sTrackType = typeUndefined;
+    sTrackQuality = qualityUndefined;
+    while(l->At(indx) != l->Last() && sTrackType!=MC) {
+        string condition = l->At(indx++)->GetName();
+        if (condition == "hiGeneralAndPixelTracks") sTrackType = Pixel;
+        if (condition == "hiGeneralTracks") sTrackType = HIReco;
+        if (condition == "generalTracks") sTrackType = ppReco;
+        if (sTrackType == Pixel) {
+            if (condition == "dzdzerror_0002.00") sTrackQuality = normal;
+            if (condition == "dzdzerror_0005.00") sTrackQuality = loose;
+            if (condition == "dzdzerror_0001.50") sTrackQuality = tight;
+        } else if (sTrackType == ppReco || sTrackReaction == pPb) {
+            //cout<<"pPb with ppReco: "<<condition<<":"<<endl;
+            if (condition == "dzdzerror_0003.00") sTrackQuality = normal;
+            if (condition == "dzdzerror_0005.00") sTrackQuality = loose;
+            if (condition == "dzdzerror_0002.00") sTrackQuality = tight;
+        } else if (sTrackType == ppReco || sTrackReaction == XeXe) {
+            //cout<<"XeXe with ppReco: "<<condition<<":"<<endl;
+            if (condition == "dzdzerror_0003.00") sTrackQuality = normal;
+            if (condition == "dzdzerror_0005.00") sTrackQuality = loose;
+            if (condition == "dzdzerror_0002.00") sTrackQuality = tight;
+        } else if (sTrackType == HIReco) {
+            //cout<<"HIReco: "<<condition<<":"<<endl;
+        } else {
+            //   cout<<"undefined TrackType: "<<condition<<endl;
+        }
+        if (condition == "vtx_-15.0_ 3.0") sTrackQuality = narrow;
+        if (condition == "vtx_- 3.0_15.0") sTrackQuality = wide;
+
+    }
+    cout<<TrackReactionNames[sTrackReaction]<<"\t"<<TrackTypeNames[sTrackType]<<"\t"<<TrackQualityNames[sTrackQuality]<<endl;
+    if (sTrackReaction==pp || sTrackReaction==pPb) {
+        ncentbins = ncentbinsNOFF;
+        cbins = cbinsNOFF;
+        for (int i = 0; i<=ncentbins; i++) {
+            centBins[i] = centBinsNOFF[i];
+            centRefBins[i] = centRefBinsNOFF[i];
+        }
+        for (int i = 0; i<cbins;i++) {
+            cmin[i] = cminNOFF[i];
+            cmax[i] = cmaxNOFF[i];
+        }
+        ntrkbinning = true;
     } else {
-      //   cout<<"undefined TrackType: "<<condition<<endl;
+        ncentbins = ncentbinsCENT;
+        cbins = cbinsCENT;
+        for (int i = 0; i<=ncentbins; i++) {
+            centBins[i] = centBinsCENT[i];
+            centRefBins[i] = centRefBinsCENT[i];
+        }
+        for (int i = 0; i<cbins;i++) {
+            cmin[i] = cminCENT[i];
+            cmax[i] = cmaxCENT[i];
+        }
     }
-    if(condition == "vtx_-15.0_ 3.0") sTrackQuality = narrow;
-    if(condition == "vtx_- 3.0_15.0") sTrackQuality = wide;
-
-  }
-  cout<<TrackReactionNames[sTrackReaction]<<"\t"<<TrackTypeNames[sTrackType]<<"\t"<<TrackQualityNames[sTrackQuality]<<endl;
-  if(sTrackReaction==pp || sTrackReaction==pPb) {
-    ncentbins = ncentbinsNOFF;
-    cbins = cbinsNOFF;
-    for(int i = 0; i<=ncentbins; i++) {
-      centBins[i] = centBinsNOFF[i];
-      centRefBins[i] = centRefBinsNOFF[i];
+    if (ntrkbinning) {
+        rcnt = (TH1D *) fin->Get("vnanalyzer/Noff");
+    } else {
+        rcnt = (TH1D *) fin->Get("vnanalyzer/cent");
     }
-    for(int i = 0; i<cbins;i++) {
-      cmin[i] = cminNOFF[i];
-      cmax[i] = cmaxNOFF[i];
+    rcnt->SetDirectory(0);
+    fin->Close();
+    if (sTrackReaction==PbPb) {
+        if (sTrackType == Pixel && sTrackQuality == normal) {
+            fakeFile = new TFile("EffAndFake/PbPb/FakeRatesPixelPbPb_tight.root");
+            effFile = new TFile("EffAndFake/PbPb/EffCorrectionsPixelPbPb_tight.root");
+        }
+        if (sTrackType == Pixel && sTrackQuality == tight){
+            fakeFile = new TFile("EffAndFake/PbPb/FakeRatesPixelPbPb_tight.root");
+            effFile = new TFile("EffAndFake/PbPb/EffCorrectionsPixelPbPb_TightB.root");
+        }
+        if (sTrackType == Pixel && sTrackQuality == loose){
+            fakeFile = new TFile("EffAndFake/PbPb/FakeRatesPixelPbPb_loose.root");
+            effFile = new TFile("EffAndFake/PbPb/EffCorrectionsPixelPbPb_loose.root");
+        }
+    } else if (sTrackReaction==pPb) {
+        if (sTrackQuality == normal) {
+            effFile = new TFile("EffAndFake/pPb_8TeV/Hijing_8TeV_dataBS.root");
+        } else if (sTrackQuality == loose) {
+            effFile = new TFile("EffAndFake/pPb_8TeV/Hijing_8TeV_MB_eff_v3_loose.root");
+        } else if (sTrackQuality == tight) {
+            effFile = new TFile("EffAndFake/pPb_8TeV/Hijing_8TeV_MB_eff_v3_tight.root");
+        } else if (sTrackQuality == narrow) {
+            effFile = new TFile("EffAndFake/pPb_8TeV/Hijing_8TeV_eff_v4_narrow.root");
+        } else if (sTrackQuality == wide) {
+            effFile = new TFile("EffAndFake/pPb_8TeV/Hijing_8TeV_v4_wide.root");
+        }
+    } else if (sTrackReaction==XeXe) {
+        if (sTrackQuality == normal) {
+            effFile = new TFile("EffAndFake/XeXe/XeXe_eff_table_94x_cent.root");
+        } else if (sTrackQuality == loose) {
+            effFile = new TFile("EffAndFake/XeXe/XeXe_eff_loose_table_94x_cent.root");
+        } else if (sTrackQuality == tight) {
+            effFile = new TFile("EffAndFake/XeXe/XeXe_eff_tight_table_94x_cent.root");
+        } else if (sTrackQuality == narrow) {
+            effFile = new TFile("EffAndFake/XeXe/XeXe_eff_narrow_table_94x_cent.root");
+        } else if (sTrackQuality == wide) {
+            effFile = new TFile("EffAndFake/XeXe/XeXe_eff_wide_table_94x_cent.root");
+        }
     }
-    ntrkbinning = true;
-  } else {
-    ncentbins = ncentbinsCENT;
-    cbins = cbinsCENT;
-    for(int i = 0; i<=ncentbins; i++) {
-      centBins[i] = centBinsCENT[i];
-      centRefBins[i] = centRefBinsCENT[i];
+    if (effFile!=NULL) {
+        cout<<"Efficiency File: "<<effFile->GetName()<<endl;
+    } else {
+        cout<<"Efficiency file not found."<<endl;
     }
-    for(int i = 0; i<cbins;i++) {
-      cmin[i] = cminCENT[i];
-      cmax[i] = cmaxCENT[i];
-    }
-  }
-  if(ntrkbinning) {
-    rcnt = (TH1D *) fin->Get("vnanalyzer/Noff");
-  } else {
-    rcnt = (TH1D *) fin->Get("vnanalyzer/cent");
-  }
-  rcnt->SetDirectory(0);
-  fin->Close();
-  if(sTrackReaction==PbPb) {
-    if(sTrackType == Pixel && sTrackQuality == normal) {
-      fakeFile = new TFile("EffAndFake/PbPb/FakeRatesPixelPbPb_tight.root");
-      effFile = new TFile("EffAndFake/PbPb/EffCorrectionsPixelPbPb_tight.root");
-    }
-    if(sTrackType == Pixel && sTrackQuality == tight){ 
-      fakeFile = new TFile("EffAndFake/PbPb/FakeRatesPixelPbPb_tight.root");
-      effFile = new TFile("EffAndFake/PbPb/EffCorrectionsPixelPbPb_TightB.root");
-    }
-    if(sTrackType == Pixel && sTrackQuality == loose){ 
-      fakeFile = new TFile("EffAndFake/PbPb/FakeRatesPixelPbPb_loose.root");
-      effFile = new TFile("EffAndFake/PbPb/EffCorrectionsPixelPbPb_loose.root");
-    }
-  } else if (sTrackReaction==pPb) {
-    if(sTrackQuality == normal) {
-      effFile = new TFile("EffAndFake/pPb_8TeV/Hijing_8TeV_dataBS.root");
-    } else if (sTrackQuality == loose) {
-      effFile = new TFile("EffAndFake/pPb_8TeV/Hijing_8TeV_MB_eff_v3_loose.root");
-    } else if (sTrackQuality == tight) {
-      effFile = new TFile("EffAndFake/pPb_8TeV/Hijing_8TeV_MB_eff_v3_tight.root");
-    } else if (sTrackQuality == narrow) {
-      effFile = new TFile("EffAndFake/pPb_8TeV/Hijing_8TeV_eff_v4_narrow.root");
-    } else if (sTrackQuality == wide) {
-      effFile = new TFile("EffAndFake/pPb_8TeV/Hijing_8TeV_v4_wide.root");
-    } 
-  } else if (sTrackReaction==XeXe) {
-    if(sTrackQuality == normal) {
-      effFile = new TFile("EffAndFake/XeXe/XeXe_eff_table_94x_cent.root");
-    } else if (sTrackQuality == loose) {
-      effFile = new TFile("EffAndFake/XeXe/XeXe_eff_loose_table_94x_cent.root");
-    } else if (sTrackQuality == tight) {
-      effFile = new TFile("EffAndFake/XeXe/XeXe_eff_tight_table_94x_cent.root");
-    } else if (sTrackQuality == narrow) {
-      effFile = new TFile("EffAndFake/XeXe/XeXe_eff_narrow_table_94x_cent.root");
-    } else if (sTrackQuality == wide) {
-      effFile = new TFile("EffAndFake/XeXe/XeXe_eff_wide_table_94x_cent.root");
-    } 
-  }
-  if(effFile!=NULL) {
-    cout<<"Efficiency File: "<<effFile->GetName()<<endl;
-  } else {
-    cout<<"Efficiency file not found."<<endl;
-  }
-  cen = new TH1I("cen","cen",13,cb);
-  cene = new TH1I("cene","cene",5,cbe);
-  ceneXeXe = new TH1I("ceneXeXe","ceneXeXe",5,cbeXeXe);
-  cen->SetDirectory(0);
-  cene->SetDirectory(0);
-  ceneXeXe->SetDirectory(0);
-  if(sTrackType==MC) effFile = NULL;
-  return sTrackType;
-}
-double FakeAndEff(int cent, double pt, double emin, double emax, double &eff) {
-  eff = 1.;
-  if(sTrackType==MC) {
-    return 0;
-  }
-  double val = 0;
-  double holdemin = emin;
-  double holdemax = emax;
-  emax = emax - 0.002;
-  if(sTrackReaction==pPb && sTrackOrientation==Type_pPb) {
-    double hold = emax;
-    emax = -emin-0.001;
-    if(emin>0) emax = -emin+0.001;
-    emin = -hold;
-  }
-  if(sTrackType == typeUndefined) return 0.;
-  int ib = cen->FindBin(cent)-1;
-  int ibe = cene->FindBin(cent)-1;
-  if(sTrackReaction==XeXe) ibe = ceneXeXe->FindBin(cent)-1;
-  if(effFile!=NULL) {
-    string re = "Eff_"+to_string((int)cbe[ibe])+"_"+to_string((int)cbe[ibe+1]);
-    if(sTrackReaction==pPb) re = "rTotalEff3D_0";
-    if(sTrackReaction==XeXe) re = "rTotalEff3D_"+to_string((int)cbeXeXe[ibe])+"_"+to_string((int)cbeXeXe[ibe+1]);
-    TH2D * he = (TH2D *) effFile->Get(re.data());
-    int ptbin = he->GetYaxis()->FindBin(pt);
-    if(pt>he->GetYaxis()->GetXmax()) ptbin = he->GetYaxis()->GetLast();
-    int etabinmin = he->GetXaxis()->FindBin(emin+0.001);
-    int etabinmax = he->GetXaxis()->FindBin(emax-0.001);
-    eff = 0;
-    for(int i = etabinmin; i<=etabinmax; i++) {
-      eff += he->GetBinContent(i,ptbin);
-    }
-    eff /=(double)(etabinmax-etabinmin+1);
-    he->Delete();
-
-  } 
-
-  if(fakeFile!=NULL) {
-    string rc = "hfak_"+to_string((int)cb[ib])+"_"+to_string((int)cb[ib+1]);
-    TH2D * hf = (TH2D *) fakeFile->Get(rc.data());
-    if(hf==NULL) {
-      cout<<"Failed to find "<<rc<<endl;
-    }
-    int ptbin = hf->GetYaxis()->FindBin(pt);
-    int etabinmin = hf->GetXaxis()->FindBin(emin+0.001);
-    int etabinmax = hf->GetXaxis()->FindBin(emax-0.001);
-    val = 0;
-    for(int i = etabinmin; i<=etabinmax; i++) {
-      val += hf->GetBinContent(i,ptbin);
-    }
-    val /=(double)(etabinmax-etabinmin+1);
-    hf->Delete();
-  }
-  return val ;
+    cen = new TH1I("cen","cen",13,cb);
+    cene = new TH1I("cene","cene",5,cbe);
+    ceneXeXe = new TH1I("ceneXeXe","ceneXeXe",5,cbeXeXe);
+    cen->SetDirectory(0);
+    cene->SetDirectory(0);
+    ceneXeXe->SetDirectory(0);
+    if (sTrackType==MC) effFile = NULL;
+    return sTrackType;
 }
 
-
-
-TH2D * ptcntEff(TH2D * ptcnt, double cent) {
-  TH2D * hsEff = (TH2D *) ptcnt->Clone("ptcntEff");
-  hsEff->Reset();
-  hsEff->SetDirectory(0);
-  for(int i = 1; i<=ptcnt->GetNbinsX(); i++) {
-    for(int j = 1; j<=ptcnt->GetNbinsY(); j++) {
-      double pt = ptcnt->GetXaxis()->GetBinCenter(i);
-      double etmin = ptcnt->GetYaxis()->GetBinLowEdge(j);
-      double etmax = etmin+ptcnt->GetYaxis()->GetBinWidth(j)-0.001;
-      double eff = 1.;
-      FakeAndEff(centbins->FindBin(cent), pt, etmin, etmax, eff);
-      if(eff<=0 ) eff = 1;
-      hsEff->SetBinContent(i,j,ptcnt->GetBinContent(i,j)/eff);
+double FakeAndEff( int cent, double pt, double emin, double emax, double &eff ) {
+    eff = 1.;
+    if (sTrackType==MC) {
+        return 0;
     }
-  }
-  if(sTrackType==MC) cout<<"Set FakeAndEff = 0, 1 for MC calculation"<<endl;
-  return hsEff ;
+    double val = 0;
+    double holdemin = emin;
+    double holdemax = emax;
+    emax = emax - 0.002;
+    if (sTrackReaction==pPb && sTrackOrientation==Type_pPb) {
+        double hold = emax;
+        emax = -emin-0.001;
+        if (emin>0) emax = -emin+0.001;
+        emin = -hold;
+    }
+    if (sTrackType == typeUndefined) return 0.;
+    int ib = cen->FindBin(cent)-1;
+    int ibe = cene->FindBin(cent)-1;
+    if (sTrackReaction==XeXe) ibe = ceneXeXe->FindBin(cent)-1;
+    if (effFile!=NULL) {
+        string re = "Eff_"+to_string((int)cbe[ibe])+"_"+to_string((int)cbe[ibe+1]);
+        if (sTrackReaction==pPb) re = "rTotalEff3D_0";
+        if (sTrackReaction==XeXe) re = "rTotalEff3D_"+to_string((int)cbeXeXe[ibe])+"_"+to_string((int)cbeXeXe[ibe+1]);
+        TH2D * he = (TH2D *) effFile->Get(re.data());
+        int ptbin = he->GetYaxis()->FindBin(pt);
+        if (pt>he->GetYaxis()->GetXmax()) ptbin = he->GetYaxis()->GetLast();
+        int etabinmin = he->GetXaxis()->FindBin(emin+0.001);
+        int etabinmax = he->GetXaxis()->FindBin(emax-0.001);
+        eff = 0;
+        for (int i = etabinmin; i<=etabinmax; i++) {
+            eff += he->GetBinContent(i,ptbin);
+        }
+        eff/=(double)(etabinmax-etabinmin+1);
+        he->Delete();
+
+    }
+
+    if (fakeFile!=NULL) {
+        string rc = "hfak_"+to_string((int)cb[ib])+"_"+to_string((int)cb[ib+1]);
+        TH2D * hf = (TH2D *) fakeFile->Get(rc.data());
+        if (hf==NULL) {
+            cout<<"Failed to find "<<rc<<endl;
+        }
+        int ptbin = hf->GetYaxis()->FindBin(pt);
+        int etabinmin = hf->GetXaxis()->FindBin(emin+0.001);
+        int etabinmax = hf->GetXaxis()->FindBin(emax-0.001);
+        val = 0;
+        for (int i = etabinmin; i<=etabinmax; i++) {
+            val += hf->GetBinContent(i,ptbin);
+        }
+        val/=(double)(etabinmax-etabinmin+1);
+        hf->Delete();
+    }
+    return val;
+}
+
+TH2D * ptcntEff( TH2D * ptcnt, double cent ) {
+    TH2D * hsEff = (TH2D *) ptcnt->Clone("ptcntEff");
+    hsEff->Reset();
+    hsEff->SetDirectory(0);
+    for (int i = 1; i<=ptcnt->GetNbinsX(); i++) {
+        for (int j = 1; j<=ptcnt->GetNbinsY(); j++) {
+            double pt = ptcnt->GetXaxis()->GetBinCenter(i);
+            double etmin = ptcnt->GetYaxis()->GetBinLowEdge(j);
+            double etmax = etmin+ptcnt->GetYaxis()->GetBinWidth(j)-0.001;
+            double eff = 1.;
+            FakeAndEff(centbins->FindBin(cent), pt, etmin, etmax, eff);
+            if (eff<=0 ) eff = 1;
+            hsEff->SetBinContent(i,j,ptcnt->GetBinContent(i,j)/eff);
+        }
+    }
+    if (sTrackType==MC) cout<<"Set FakeAndEff = 0, 1 for MC calculation"<<endl;
+    return hsEff;
 }
