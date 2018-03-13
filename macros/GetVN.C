@@ -1,24 +1,26 @@
-#include "TH1D.h"
-#include "TH2D.h"
-#include "TFile.h"
-#include "TLatex.h"
-#include "TLegend.h"
-#include "TCanvas.h"
-#include "TGraphErrors.h"
-#include "TMath.h"
-#include "TStopwatch.h"
-#include <iostream>
+# include "TH1D.h"
+# include "TH2D.h"
+# include "TFile.h"
+# include "TLatex.h"
+# include "TLegend.h"
+# include "TCanvas.h"
+# include "TGraphErrors.h"
+# include "TMath.h"
+# include "TStopwatch.h"
+# include <iostream>
 
-#include "src/HiEvtPlaneList.h"
+# include "src/HiEvtPlaneList.h"
+
 using namespace hi;
+
 static const int ncentbinsNOFF = 25;
-static const int centBinsNOFF[]={0, 10, 20, 30, 40, 50, 60, 70, 80, 100, 120, 135, 150, 160, 185, 210, 230, 250, 270, 300, 330, 350, 370, 390, 420, 500};
-static const double centRefBinsNOFF[]={0, 10, 20, 30, 40, 50, 60, 70, 80, 100, 120, 135, 150, 160, 185, 210, 230, 250, 270, 300, 330, 350, 370, 390, 420, 500};
+static const int centBinsNOFF[] = {0, 10, 20, 30, 40, 50, 60, 70, 80, 100, 120, 135, 150, 160, 185, 210, 230, 250, 270, 300, 330, 350, 370, 390, 420, 500};
+static const double centRefBinsNOFF[] = {0, 10, 20, 30, 40, 50, 60, 70, 80, 100, 120, 135, 150, 160, 185, 210, 230, 250, 270, 300, 330, 350, 370, 390, 420, 500};
 static const int cbinsNOFF = 25;
 static const int cminNOFF[]={1, 10, 20, 30, 40, 50, 60, 70, 80, 100, 120, 135, 150, 160, 185, 210, 230, 250, 270, 300, 330, 350, 370, 390, 420};
 static const int cmaxNOFF[]={10, 20, 30, 40, 50, 60, 70, 80, 100, 120, 135, 150, 160, 185, 210, 230, 250, 270, 300, 330, 350, 370, 390, 420, 500};
 static const int ncentbinsCENT = 11;
-static const int centBinsCENT[]={0,5,10,15,20,25,30,35,40,50,60,70};
+static const int centBinsCENT[]={0, 5, 10,15,20,25,30,35,40,50,60,70};
 static const double centRefBinsCENT[]={0,5,10,15,20,25,30,35,40,50,60,70};
 static const int cbinsCENT = 13;
 static const int cminCENT[]={0, 5,10,15,20,25,30,35,40,50,60,  0,20, 60};
@@ -121,7 +123,7 @@ void GetVNCreate(int replay , int bin , TGraphErrors * & gint, TGraphErrors * & 
      replay==N1MCp14SUB3 || replay==N1MCp10SUB3 ||  replay==N1MCp06SUB3 || replay==N1MCp02SUB3 )
     g =   N1EVEN(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
   if(replay==N1MCm22SUB2 || replay==N1MCm18SUB2 || replay==N1MCm14SUB2 || replay==N1MCm10SUB2 ||
-     replay==N1MCm06SUB2 || replay==N1MCm02SUB2 || replay==N1MCp22SUB2 || replay==N1MCp18SUB2 ||     
+     replay==N1MCm06SUB2 || replay==N1MCm02SUB2 || replay==N1MCp22SUB2 || replay==N1MCp18SUB2 ||
      replay==N1MCp14SUB2 || replay==N1MCp10SUB2 ||  replay==N1MCp06SUB2 || replay==N1MCp02SUB2 )
     g =   N1EVEN(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
   if(replay==N1EVENSUB2 || replay==N1EVENSUB3) g =   N1EVEN(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
@@ -198,7 +200,7 @@ void GetVNCreate(int replay , int bin , TGraphErrors * & gint, TGraphErrors * & 
   string numdenom = "";
   if(NumOnly) numdenom=" (Numerator) ";
   if(DenomOnly) numdenom=" (Denominator) ";
- 
+
 
   string yt = ANALS[replay][1]+numdenom+" ("+to_string(cmin[bin])+" #leq N_{trk}^{off} < "+to_string(cmax[bin])+")";
   if(!ntrkbinning) yt = ANALS[replay][1]+numdenom+" ("+to_string(cmin[bin])+" - "+to_string(cmax[bin])+"%)";
@@ -207,7 +209,7 @@ void GetVNCreate(int replay , int bin , TGraphErrors * & gint, TGraphErrors * & 
   if(plotit) {
 
     h->SetYTitle(yt.data());
-    if(strncmp(g->GetTitle(),"NOGOOD",6)!=0) g->Draw("p");  
+    if(strncmp(g->GetTitle(),"NOGOOD",6)!=0) g->Draw("p");
 
     TLegend * leg = new TLegend(0.45,0.15,0.95,0.33);
     leg->SetTextFont(43);
@@ -220,28 +222,28 @@ void GetVNCreate(int replay , int bin , TGraphErrors * & gint, TGraphErrors * & 
     string gAtitle = gA->GetTitle();
     string gBtitle = gB->GetTitle();
     if(strncmp(g->GetTitle(),"Graph",5)!=0) {
-      s = g->GetTitle(); 
+      s = g->GetTitle();
     }
-    string append =Form("%5.4f#pm%5.4f",vint,vinte); 
+    string append =Form("%5.4f#pm%5.4f",vint,vinte);
     s+=" (<> = "+append+")";
     if(gtitle.find("NOGOOD")==std::string::npos) leg->AddEntry(g,s.data(),"lp");
 
     string sA = "A only";
     if(strncmp(gA->GetTitle(),"Graph",5)!=0) {
-      sA = gA->GetTitle(); 
+      sA = gA->GetTitle();
     }
-    append =Form("%5.4f#pm%5.4f",vintA,vintAe); 
+    append =Form("%5.4f#pm%5.4f",vintA,vintAe);
     sA+=" (<> = "+append+")";
     if(gAtitle.find("NOGOOD")==std::string::npos) leg->AddEntry(gA,sA.data(),"lp");
 
     string sB = "B only";
     if(strncmp(gB->GetTitle(),"Graph",5)!=0) {
-      sB = gB->GetTitle(); 
+      sB = gB->GetTitle();
     }
-    append =Form("%5.4f#pm%5.4f",vintB,vintBe); 
+    append =Form("%5.4f#pm%5.4f",vintB,vintBe);
     sB+=" (<> = "+append+")";
     if(gBtitle.find("NOGOOD")==std::string::npos) leg->AddEntry(gB,sB.data(),"lp");
-    
+
     leg->Draw();
 
     if(gAtitle.find("NOGOOD")==std::string::npos) gA->Draw("p");
@@ -294,7 +296,7 @@ void GetVNCreate(int replay , int bin , TGraphErrors * & gint, TGraphErrors * & 
 
   fclose(fout);
 
- 
+
 }
 void GetVN(string rootfile = "../MH.root", string name="N2SUB3",  double mineta = -0.8, double maxeta = 0.8, bool decor = false, int selbin = -1,
 	   double ptmax = 12, double vnmin=-100, double vnmax=-100, double vnintmin=-100, double vnintmax=-100){
@@ -386,7 +388,7 @@ void GetVN(string rootfile = "../MH.root", string name="N2SUB3",  double mineta 
   }
   FigSubDir = "figures/"+tag+"/"+name.data();
   if(Decor) FigSubDir+="_decor";
- 
+
   if((ftest=fopen(FigSubDir.data(),"r"))==NULL) {
     system(Form("mkdir %s",FigSubDir.data()));
   } else {
@@ -440,7 +442,7 @@ void GetVN(string rootfile = "../MH.root", string name="N2SUB3",  double mineta 
     } else {
       fclose(ftest);
     }
-    
+
     string cetaname = Form("canvas_EtaInt_%s_%d_%d",nlabel.data(),cmin[bin],cmax[bin]);
     ceta[bin] = new TCanvas(cetaname.data(),cetaname.data(),800,500);
     double xmin,xmax,ymin,ymax;
@@ -456,7 +458,7 @@ void GetVN(string rootfile = "../MH.root", string name="N2SUB3",  double mineta 
     if(!ntrkbinning) nl3+="%";
 
     nl3+=")";
-    
+
     TH1D * heta = new TH1D(Form("heta_%s",nl2.data()),Form("heta_%s",nl2.data()),100,-2.5,2.5);
     gint[bin]->ComputeRange(xmin,ymin,xmax,ymax);
     gintA[bin]->ComputeRange(xminA,yminA,xmaxA,ymaxA);
