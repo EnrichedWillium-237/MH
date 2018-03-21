@@ -36,11 +36,11 @@ TGraphErrors * N1Test( int replay, int bin, double eMin, double eMax, double &ym
     int B = 0;
     if (replay==N1TEST) {
         // Fix EPA, 2-subevent
-        // A = N1HFp1gSUB2;
-        // B = N1HFm1gSUB2;
+        A = N1HFp1gSUB2;
+        B = N1HFm1gSUB2;
         // Fix EPB, 2-subevent
-        A = N1HFm1gSUB2;
-        B = N1HFp1gSUB2;
+        // A = N1HFm1gSUB2;
+        // B = N1HFp1gSUB2;
         // Fix EPA, 3-subevent
         // A = N1HFp1gSUB3;
         // B = N1HFm1gSUB3;
@@ -87,54 +87,56 @@ TGraphErrors * N1Test( int replay, int bin, double eMin, double eMax, double &ym
         int bb = BepA;
         int cc = CepA;
         // fix EPA and move EPB inwards in eta (default)
-        // g = GetVNPt(A, bin, AepA, EtaMin, EtaMax, gA, gB, gSpec, vint, vinte, vintA, vintAe, vintB, vintBe, false, 0, 0, aa, bb, cc);
-        // gg1->GetY()[i] = vintA;
-        // gg1->GetEY()[i] = vintAe;
-        // aa = HFp1g;
-        // bb = HFm1f;
-        // g = GetVNPt(A, bin, AepA, EtaMin, EtaMax, gA, gB, gSpec, vint, vinte, vintA, vintAe, vintB, vintBe, false, 0, 0, aa, bb, cc);
-        // cc = trackp106;
-        // gg2->GetY()[i] = vintA;
-        // gg2->GetEY()[i] = vintAe;
-        // aa = HFp1g;
-        // bb = HFm1e;
-        // cc = trackp106;
-        // g = GetVNPt(A, bin, AepA, EtaMin, EtaMax, gA, gB, gSpec, vint, vinte, vintA, vintAe, vintB, vintBe, false, 0, 0, aa, bb, cc);
-        // gg3->GetY()[i] = vintA;
-        // gg3->GetEY()[i] = vintAe;
-        // aa = HFp1g;
-        // bb = HFm1d;
-        // cc = trackp106;
-        // g = GetVNPt(A, bin, AepA, EtaMin, EtaMax, gA, gB, gSpec, vint, vinte, vintA, vintAe, vintB, vintBe, false, 0, 0, aa, bb, cc);
-        // gg4->GetY()[i] = vintA;
-        // gg4->GetEY()[i] = vintAe;
-        // aa = HFp1g;
-        // bb = HFm1c;
-        // cc = trackp106;
-        // g = GetVNPt(A, bin, AepA, EtaMin, EtaMax, gA, gB, gSpec, vint, vinte, vintA, vintAe, vintB, vintBe, false, 0, 0, aa, bb, cc);
-        // gg5->GetY()[i] = vintA;
-        // gg5->GetEY()[i] = vintAe;
-        // aa = HFp1g;
-        // bb = trackm122;
-        // cc = trackp106;
-        // g = GetVNPt(A, bin, AepA, EtaMin, EtaMax, gA, gB, gSpec, vint, vinte, vintA, vintAe, vintB, vintBe, false, 0, 0, aa, bb, cc);
-        // gg6->GetY()[i] = vintA;
-        // gg6->GetEY()[i] = vintAe;
-        // aa = HFp1g;
-        // bb = trackm118;
-        // cc = trackp106;
-        // g = GetVNPt(A, bin, AepA, EtaMin, EtaMax, gA, gB, gSpec, vint, vinte, vintA, vintAe, vintB, vintBe, false, 0, 0, aa, bb, cc);
-        // gg7->GetY()[i] = vintA;
-        // gg7->GetEY()[i] = vintAe;
-        // aa = HFp1g;
-        // bb = trackm114;
-        // cc = trackp106;
-        // g = GetVNPt(A, bin, AepA, EtaMin, EtaMax, gA, gB, gSpec, vint, vinte, vintA, vintAe, vintB, vintBe, false, 0, 0, aa, bb, cc);
-        // gg8->GetY()[i] = vintA;
-        // gg8->GetEY()[i] = vintAe;
+        g = GetVNPt(A, bin, AepA, EtaMin, EtaMax, gA, gB, gSpec, vint, vinte, vintA, vintAe, vintB, vintBe, false, 0, 0, aa, bb, cc);
+        gg1->GetY()[i] = vintA;
+        gg1->GetEY()[i] = vintAe;
+        aa = HFp1g;
+        bb = HFm1f;
+        // aa = HFp1;
+        // bb = HFm1;
+        g = GetVNPt(A, bin, AepA, EtaMin, EtaMax, gA, gB, gSpec, vint, vinte, vintA, vintAe, vintB, vintBe, false, 0, 0, aa, bb, cc);
+        cc = trackp106;
+        gg2->GetY()[i] = vintA;
+        gg2->GetEY()[i] = vintAe;
+        aa = HFp1g;
+        bb = HFm1e;
+        cc = trackp106;
+        g = GetVNPt(A, bin, AepA, EtaMin, EtaMax, gA, gB, gSpec, vint, vinte, vintA, vintAe, vintB, vintBe, false, 0, 0, aa, bb, cc);
+        gg3->GetY()[i] = vintA;
+        gg3->GetEY()[i] = vintAe;
+        aa = HFp1g;
+        bb = HFm1d;
+        cc = trackp106;
+        g = GetVNPt(A, bin, AepA, EtaMin, EtaMax, gA, gB, gSpec, vint, vinte, vintA, vintAe, vintB, vintBe, false, 0, 0, aa, bb, cc);
+        gg4->GetY()[i] = vintA;
+        gg4->GetEY()[i] = vintAe;
+        aa = HFp1g;
+        bb = HFm1c;
+        cc = trackp106;
+        g = GetVNPt(A, bin, AepA, EtaMin, EtaMax, gA, gB, gSpec, vint, vinte, vintA, vintAe, vintB, vintBe, false, 0, 0, aa, bb, cc);
+        gg5->GetY()[i] = vintA;
+        gg5->GetEY()[i] = vintAe;
+        aa = HFp1g;
+        bb = trackm122;
+        cc = trackp106;
+        g = GetVNPt(A, bin, AepA, EtaMin, EtaMax, gA, gB, gSpec, vint, vinte, vintA, vintAe, vintB, vintBe, false, 0, 0, aa, bb, cc);
+        gg6->GetY()[i] = vintA;
+        gg6->GetEY()[i] = vintAe;
+        aa = HFp1g;
+        bb = trackm118;
+        cc = trackp106;
+        g = GetVNPt(A, bin, AepA, EtaMin, EtaMax, gA, gB, gSpec, vint, vinte, vintA, vintAe, vintB, vintBe, false, 0, 0, aa, bb, cc);
+        gg7->GetY()[i] = vintA;
+        gg7->GetEY()[i] = vintAe;
+        aa = HFp1g;
+        bb = trackm114;
+        cc = trackp106;
+        g = GetVNPt(A, bin, AepA, EtaMin, EtaMax, gA, gB, gSpec, vint, vinte, vintA, vintAe, vintB, vintBe, false, 0, 0, aa, bb, cc);
+        gg8->GetY()[i] = vintA;
+        gg8->GetEY()[i] = vintAe;
 
         // fix EPB and move EPA inwards in eta (default)
-        g = GetVNPt(A, bin, AepA, EtaMin, EtaMax, gA, gB, gSpec, vint, vinte, vintA, vintAe, vintB, vintBe, false, 0, 0, aa, bb, cc);
+        /*g = GetVNPt(A, bin, AepA, EtaMin, EtaMax, gA, gB, gSpec, vint, vinte, vintA, vintAe, vintB, vintBe, false, 0, 0, aa, bb, cc);
         gg1->GetY()[i] = vintA;
         gg1->GetEY()[i] = vintAe;
         aa = HFm1g;
@@ -178,7 +180,7 @@ TGraphErrors * N1Test( int replay, int bin, double eMin, double eMax, double &ym
         cc = trackm106;
         g = GetVNPt(A, bin, AepA, EtaMin, EtaMax, gA, gB, gSpec, vint, vinte, vintA, vintAe, vintB, vintBe, false, 0, 0, aa, bb, cc);
         gg8->GetY()[i] = vintA;
-        gg8->GetEY()[i] = vintAe;
+        gg8->GetEY()[i] = vintAe;*/
     }
     gint->SetName("gint");
     gintA->SetName("gintA");

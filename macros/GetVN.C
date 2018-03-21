@@ -1,7 +1,7 @@
 # include "TH1D.h"
 # include "TH2D.h"
 # include "TFile.h"
-# include "TLatex.h"
+# include "TPaveText.h"
 # include "TLegend.h"
 # include "TCanvas.h"
 # include "TGraphErrors.h"
@@ -250,22 +250,40 @@ void GetVNCreate( int replay, int bin, TGraphErrors * &gint, TGraphErrors * &gin
         if (gAtitle.find("NOGOOD")==std::string::npos) gA->Draw("p");
         if (gBtitle.find("NOGOOD")==std::string::npos) gB->Draw("p");
         if (gtitle.find("NOGOOD")==std::string::npos) g->Draw("p");
-        TLatex * text = new TLatex(0.1*PTMAX,0.92*ymax,ANALS[replay][0].data());
+        // TLatex * text = new TLatex(0.1*PTMAX,0.92*ymax,ANALS[replay][0].data());
+        // text->SetTextFont(43);
+        // text->SetTextSize(24);
+        // text->Draw();
+        TPaveText * text = new TPaveText(0.2, 0.2, 0.4, 0.4, "NDC");
         text->SetTextFont(43);
         text->SetTextSize(24);
+        text->AddText(Form("%s",ANALS[replay][0].data()));
         text->Draw();
-        TLatex * t2;
-        if (ntrkbinning) {
-            t2 = new TLatex(0.1*PTMAX,0.87*(ymax-ymin)+ymin,Form("%d #leq N_{tkr}^{off} < %d",cmin[bin],cmax[bin]));
-        } else {
-            t2 = new TLatex(0.1*PTMAX,0.87*(ymax-ymin)+ymin,Form("%d - %d%c",cmin[bin],cmax[bin],'%'));
-        }
+
+        // TLatex * t2;
+        // if (ntrkbinning) {
+        //     t2 = new TLatex(0.1*PTMAX,0.87*(ymax-ymin)+ymin,Form("%d #leq N_{tkr}^{off} < %d",cmin[bin],cmax[bin]));
+        // } else {
+        //     t2 = new TLatex(0.1*PTMAX,0.87*(ymax-ymin)+ymin,Form("%d - %d%c",cmin[bin],cmax[bin],'%'));
+        // }
+        // t2->SetTextFont(43);
+        // t2->SetTextSize(20);
+        // t2->Draw();
+        TPaveText * t2 = new TPaveText(0.4, 0.4, 0.6, 0.6, "NDC");
         t2->SetTextFont(43);
         t2->SetTextSize(20);
+        t2->SetTextAlign(12);
+        if (ntrkbinning) {
+            t2->AddText(Form("%d #leq N_{tkr}^{off} < %d",cmin[bin],cmax[bin]));
+        } else {
+            t2->AddText(Form("%d - %d%c",cmin[bin],cmax[bin],'%'));
+        }
         t2->Draw();
-        TLatex * t3 = new TLatex(0.1*PTMAX,0.82*(ymax-ymin)+ymin,Form("%03.1f < #eta < %03.1f",EtaMin,EtaMax));
+        // TLatex * t3 = new TLatex(0.1*PTMAX,0.82*(ymax-ymin)+ymin,Form("%03.1f < #eta < %03.1f",EtaMin,EtaMax));
+        TPaveText * t3 = new TPaveText(0.2, 0.2, 0.4, 0.4, "NDC");
         t3->SetTextFont(43);
         t3->SetTextSize(20);
+        t3->AddText(Form("%03.1f < #eta < %03.1f",EtaMin,EtaMax));
         t3->Draw();
         TDirectory * save = gDirectory;
         toutsubsubsub->cd();
@@ -500,12 +518,16 @@ void GetVN( string rootfile = "../MH.root", string name = "N2SUB3", double minet
         }
 
         leg2->Draw();
-        TLatex * tl = new TLatex( -2.3,0.9*(ymax-ymin)+ymin,nl3.data());
+        // TLatex * tl = new TLatex( -2.3,0.9*(ymax-ymin)+ymin,nl3.data());
+        TPaveText * tl = new TPaveText(0.2, 0.2, 0.4, 0.4, "NDC");
+        tl->AddText(Form("%s",nl3.data()));
         tl->Draw();
         if (ANALS[en][2]!="") {
             string tmp = ANALS[en][2];
             if (Decor) tmp+=" (EP Decorrelation corrected)";
-            TLatex * tl2 = new TLatex( -2.3,0.85*(ymax-ymin)+ymin,tmp.data());
+            // TLatex * tl2 = new TLatex( -2.3,0.85*(ymax-ymin)+ymin,tmp.data());
+            TPaveText * tl2 = new TPaveText(0.4, 0.4, 0.6, 0.6, "NDC");
+            tl2->AddText(Form("%s",tmp.data()));
             tl2->SetTextFont(43);
             tl2->SetTextSize(16);
             tl2->Draw();
