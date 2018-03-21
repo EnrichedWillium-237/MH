@@ -92,8 +92,6 @@ TGraphErrors * N1Test( int replay, int bin, double eMin, double eMax, double &ym
         gg1->GetEY()[i] = vintAe;
         aa = HFp1g;
         bb = HFm1f;
-        // aa = HFp1;
-        // bb = HFm1;
         g = GetVNPt(A, bin, AepA, EtaMin, EtaMax, gA, gB, gSpec, vint, vinte, vintA, vintAe, vintB, vintBe, false, 0, 0, aa, bb, cc);
         cc = trackp106;
         gg2->GetY()[i] = vintA;

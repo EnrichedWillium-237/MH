@@ -29,7 +29,11 @@ enum AnalTypes{
       N112dSUB2,    N112dSUB3,   N112AdSUB2,  N112AdSUB3,   N112BdSUB2,  //28
      N112BdSUB3,    N112eSUB2,    N112eSUB3,  N112AeSUB2,   N112AeSUB3,  //29
      N112BeSUB2,   N112BeSUB3,    N112fSUB2,   N112fSUB3,   N112AfSUB2,  //30
-	 N112AfSUB3,   N112BfSUB2,   N112BfSUB3,   N1TEST,    LAST  //31
+	 N112AfSUB3,   N112BfSUB2,   N112BfSUB3,   N1TEST,    N1trackm1dSUB2, //31
+     N1trackm1eSUB2, N1trackm1fSUB2, N1trackp1dSUB2,  N1trackp1eSUB2, N1trackp1fSUB2, //32
+     N1trackm1dSUB3, N1trackm1eSUB3, N1trackm1fSUB3, N1trackp1dSUB3,  N1trackp1eSUB3, //33
+     N1trackp1fSUB3, N1trackdSUB2, N1trackeSUB2, N1trackfSUB2, N1trackdSUB3, //34
+     N1trackeSUB3, N1trackfSUB3, LAST //35
 };
 
 static const string ANALS[250][3] {
@@ -217,6 +221,27 @@ static const string ANALS[250][3] {
   "N112AfSUB3",  "v_{1}\{#Psi_{1Af},#Psi_{2Af}}",  "qA is the correct version, n=1 in HF+",
   "N112BfSUB2",  "v_{1}\{#Psi_{1Bf},#Psi_{2Bf}}",  "qA is the correct version, n=1 in HF-",
       "N112BfSUB3",  "v_{1}\{#Psi_{1Bf},#Psi_{2Bf}}",  "qA is the correct version, n=1 in HF-",
-  "N1TEST",  "v_{1}\{test}",  "qA is the correct version, n=1"
-
-      };
+  "N1TEST",  "v_{1}\{test}",  "qA is the correct version, n=1",
+  "N1trackm1dSUB2",           "v_{1}\{#Psi_{1}}",    "2 sub-event resolution",
+//32
+    "N1trackm1eSUB2",           "v_{1}\{#Psi_{1}}",    "2 sub-event resolution",
+    "N1trackm1fSUB2",           "v_{1}\{#Psi_{1}}",    "2 sub-event resolution",
+    "N1trackp1dSUB2",           "v_{1}\{#Psi_{1}}",    "2 sub-event resolution",
+    "N1trackp1eSUB2",           "v_{1}\{#Psi_{1}}",    "2 sub-event resolution",
+    "N1trackp1fSUB2",           "v_{1}\{#Psi_{1}}",    "2 sub-event resolution",
+//33
+    "N1trackm1dSUB3",           "v_{1}\{#Psi_{1}}",    "3 sub-event resolution",
+    "N1trackm1eSUB3",           "v_{1}\{#Psi_{1}}",    "3 sub-event resolution",
+    "N1trackm1fSUB3",           "v_{1}\{#Psi_{1}}",    "3 sub-event resolution",
+    "N1trackp1dSUB3",           "v_{1}\{#Psi_{1}}",    "3 sub-event resolution",
+    "N1trackp1eSUB3",           "v_{1}\{#Psi_{1}}",    "3 sub-event resolution",
+//34
+    "N1trackp1fSUB3",           "v_{1}\{#Psi_{1}}",    "3 sub-event resolution",
+    "N1trackdSUB2",             "v_{1}\{#Psi_{1}}",    "2 sub-event resolution",
+    "N1trackeSUB2",             "v_{1}\{#Psi_{1}}",    "2 sub-event resolution",
+    "N1trackfSUB2",             "v_{1}\{#Psi_{1}}",    "2 sub-event resolution",
+    "N1trackdSUB3",             "v_{1}\{#Psi_{1}}",    "3 sub-event resolution",
+//35
+    "N1trackeSUB3",             "v_{1}\{#Psi_{1}}",    "3 sub-event resolution",
+    "N1trackfSUB3",             "v_{1}\{#Psi_{1}}",    "3 sub-event resolution"
+};
