@@ -134,16 +134,6 @@ void GetVNCreate( int replay, int bin, TGraphErrors * &gint, TGraphErrors * &gin
     if (replay==N112ASUB2  || replay==N112ASUB3)   g =   N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
     if (replay==N112BSUB2  || replay==N112BSUB3)   g =   N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
 
-    if (replay==N1trackdSUB2 || replay==N1trackdSUB3)   g =   N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-    if (replay==N1trackeSUB2 || replay==N1trackeSUB3)   g =   N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-    if (replay==N1trackfSUB2 || replay==N1trackfSUB3)   g =   N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-    if (replay==N1trackm1dSUB2 || replay==N1trackm1dSUB3)   g =   N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-    if (replay==N1trackm1eSUB2 || replay==N1trackm1eSUB3)   g =   N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-    if (replay==N1trackm1fSUB2 || replay==N1trackm1fSUB3)   g =   N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-    if (replay==N1trackp1dSUB2 || replay==N1trackp1dSUB3)   g =   N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-    if (replay==N1trackp1eSUB2 || replay==N1trackp1eSUB3)   g =   N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-    if (replay==N1trackp1fSUB2 || replay==N1trackp1fSUB3)   g =   N1(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
-
     if (replay==N112cSUB2  || replay==N112cSUB3)   g =   N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
     if (replay==N112AcSUB2 || replay==N112AcSUB3)   g =   N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);
     if (replay==N112BcSUB2 || replay==N112BcSUB3)   g =   N112(replay,bin,EtaMin,EtaMax,ymin,ymax,g,gA,gB,gspec,gint,gintA, gintB,vint,vinte,vintA,vintAe,vintB,vintBe);

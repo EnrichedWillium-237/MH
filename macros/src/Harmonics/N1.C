@@ -129,45 +129,6 @@ TGraphErrors * N1( int replay, int bin, double eMin, double eMax, double &ymin, 
         epindxB = HFm1g;
     }
 
-    if (replay == N1trackdSUB2) {
-        A = N1HFp1gSUB2;
-        B = N1HFm1gSUB2;
-        epindxA = trackp114;
-        epindxB = trackm114;
-        Decor = false;
-    } else if (replay == N1trackdSUB3) {
-        A = N1HFp1gSUB3;
-        B = N1HFm1gSUB3;
-        epindxA = trackp114;
-        epindxB = trackm114;
-    }
-
-    if (replay == N1trackeSUB2) {
-        A = N1HFp1gSUB2;
-        B = N1HFm1gSUB2;
-        epindxA = trackp118;
-        epindxB = trackm118;
-        Decor = false;
-    } else if (replay == N1trackeSUB3) {
-        A = N1HFp1gSUB3;
-        B = N1HFm1gSUB3;
-        epindxA = trackp118;
-        epindxB = trackm118;
-    }
-
-    if (replay == N1trackfSUB2) {
-        A = N1HFp1gSUB2;
-        B = N1HFm1gSUB2;
-        epindxA = trackp122;
-        epindxB = trackm122;
-        Decor = false;
-    } else if (replay == N1trackfSUB3) {
-        A = N1HFp1gSUB2;
-        B = N1HFm1gSUB3;
-        epindxA = trackp122;
-        epindxB = trackm122;
-    }
-
     cout << "epindxA: " << epindxA << endl;
     if (epindxA>=0) {
         cout<<"A: "<<A<<"\t"<<ANALS[A][0]<<"\t"<<EPNames[epindxA]<<"\t"<<EPNames[RCMate1[epindxA]]<<"\t"<<EPNames[RCMate2[epindxA]]<<endl;

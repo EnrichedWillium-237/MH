@@ -180,10 +180,7 @@ TGraphErrors * GetVNPt( int replay, int bin, int epindx,  double etamin, double 
          || replay==N1HFp1fSUB2 || replay==N1HFp1gSUB2 || replay==N1HFp1cSUB3 || replay==N1HFp1dSUB3 || replay==N1HFp1eSUB3
          || replay==N1HFp1fSUB3 || replay==N1HFp1gSUB3 || replay==N1HFcSUB2 || replay==N1HFdSUB2 || replay==N1HFeSUB2
          || replay==N1HFfSUB2 || replay==N1HFgSUB2 || replay==N1HFcSUB3 || replay==N1HFdSUB3 || replay==N1HFeSUB3
-         || replay==N1HFfSUB3 || replay==N1HFgSUB3 || N1trackm1dSUB2 || N1trackm1eSUB2 || N1trackm1fSUB2
-         || N1trackp1dSUB2 || N1trackp1eSUB2 || N1trackp1fSUB2 || N1trackm1dSUB3 || N1trackm1eSUB3 || N1trackm1fSUB3
-         || N1trackp1dSUB3 || N1trackp1eSUB3 || N1trackdSUB2 || N1trackeSUB2 || N1trackfSUB2 || N1trackdSUB3
-         || N1trackeSUB3 || N1trackfSUB3) ord1 = true;
+         || replay==N1HFfSUB3 || replay==N1HFgSUB3) ord1 = true;
          if (ord1) sign = -1.;
     //if (replay==N112ASUB2 || replay==N112ASUB3) sign=-1.;
     if (etamin*etamax<0) {

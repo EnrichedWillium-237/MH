@@ -12,6 +12,11 @@ root -l -b -q 'GetVN.C+("../MH.root","N1HFeSUB3",-2.0,2.0,false,-1,3,-0.05,0.05,
 root -l -b -q 'GetVN.C+("../MH.root","N1HFfSUB3",-2.0,2.0,false,-1,3,-0.05,0.05,-0.02,0.02)'
 root -l -b -q 'GetVN.C+("../MH.root","N1HFgSUB3",-2.0,2.0,false,-1,3,-0.05,0.05,-0.02,0.02)'
 
+root -l -b -q 'GetVN.C+("../MH.root","N1ASUB2",-2.0,0.0,false,-1,3,-0.05,0.05,-0.02,0.02)'
+root -l -b -q 'GetVN.C+("../MH.root","N1BSUB2",0.0,2.0,false,-1,3,-0.05,0.05,-0.02,0.02)'
+root -l -b -q 'GetVN.C+("../MH.root","N1ASUB3",-2.0,0.0,false,-1,3,-0.05,0.05,-0.02,0.02)'
+root -l -b -q 'GetVN.C+("../MH.root","N1BSUB3",0.0,2.0,false,-1,3,-0.05,0.05,-0.02,0.02)'
+
 root -l -b -q 'GetVN.C+("../MH.root","N1HFcSUB3",-1.6,-1.2,true,-1,3,-0.05,0.05,-0.02,0.02)'
 root -l -b -q 'GetVN.C+("../MH.root","N1HFdSUB3",-1.6,-1.2,true,-1,3,-0.05,0.05,-0.02,0.02)'
 root -l -b -q 'GetVN.C+("../MH.root","N1HFeSUB3",-1.6,-1.2,true,-1,3,-0.05,0.05,-0.02,0.02)'
@@ -24,4 +29,24 @@ root -l -b -q 'GetVN.C+("../MH.root","N1HFeSUB3",1.2,1.6,true,-1,3,-0.05,0.05,-0
 root -l -b -q 'GetVN.C+("../MH.root","N1HFfSUB3",1.2,1.6,true,-1,3,-0.05,0.05,-0.02,0.02)'
 root -l -b -q 'GetVN.C+("../MH.root","N1HFgSUB3",1.2,1.6,true,-1,3,-0.05,0.05,-0.02,0.02)'
 
-mv v1Plots.root data_figHF23SUB.root
+root -l -b -q 'GetVN.C+("../MH.root","N1HFm1fSUB2",-2.0,2.0,false,-1,3,-0.05,0.05,-0.02,0.02)'
+root -l -b -q 'GetVN.C+("../MH.root","N1HFp1fSUB2",-2.0,2.0,false,-1,3,-0.05,0.05,-0.02,0.02)'
+root -l -b -q 'GetVN.C+("../MH.root","N1HFm1gSUB2",-2.0,2.0,false,-1,3,-0.05,0.05,-0.02,0.02)'
+root -l -b -q 'GetVN.C+("../MH.root","N1HFp1gSUB2",-2.0,2.0,false,-1,3,-0.05,0.05,-0.02,0.02)'
+
+root -l -b -q 'GetVN.C+("../MH.root","N1HFm1fSUB3",-2.0,2.0,false,-1,3,-0.05,0.05,-0.02,0.02)'
+root -l -b -q 'GetVN.C+("../MH.root","N1HFp1fSUB3",-2.0,2.0,false,-1,3,-0.05,0.05,-0.02,0.02)'
+root -l -b -q 'GetVN.C+("../MH.root","N1HFm1gSUB3",-2.0,2.0,false,-1,3,-0.05,0.05,-0.02,0.02)'
+root -l -b -q 'GetVN.C+("../MH.root","N1HFp1gSUB3",-2.0,2.0,false,-1,3,-0.05,0.05,-0.02,0.02)'
+
+root -l -b -q 'GetVN.C+("../MH.root","N1HFm1fSUB2",-2.0,2.0,true,-1,3,-0.05,0.05,-0.02,0.02)'
+root -l -b -q 'GetVN.C+("../MH.root","N1HFp1fSUB2",-2.0,2.0,true,-1,3,-0.05,0.05,-0.02,0.02)'
+root -l -b -q 'GetVN.C+("../MH.root","N1HFm1gSUB2",-2.0,2.0,true,-1,3,-0.05,0.05,-0.02,0.02)'
+root -l -b -q 'GetVN.C+("../MH.root","N1HFp1gSUB2",-2.0,2.0,true,-1,3,-0.05,0.05,-0.02,0.02)'
+
+root -l -b -q 'GetVN.C+("../MH.root","N1HFm1fSUB3",-2.0,2.0,true,-1,3,-0.05,0.05,-0.02,0.02)'
+root -l -b -q 'GetVN.C+("../MH.root","N1HFp1fSUB3",-2.0,2.0,true,-1,3,-0.05,0.05,-0.02,0.02)'
+root -l -b -q 'GetVN.C+("../MH.root","N1HFm1gSUB3",-2.0,2.0,true,-1,3,-0.05,0.05,-0.02,0.02)'
+root -l -b -q 'GetVN.C+("../MH.root","N1HFp1gSUB3",-2.0,2.0,true,-1,3,-0.05,0.05,-0.02,0.02)'
+
+mv vnPlots.root data_figHF23SUB.root

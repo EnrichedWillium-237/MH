@@ -44,4 +44,4 @@ root -l -b -q 'GetVN.C+("../PbPb_AMPT.root","N1HFp1fSUB3",-2.0,2.0,true,-1,3,-0.
 root -l -b -q 'GetVN.C+("../PbPb_AMPT.root","N1HFm1gSUB3",-2.0,2.0,true,-1,3,-0.05,0.05,-0.02,0.02)'
 root -l -b -q 'GetVN.C+("../PbPb_AMPT.root","N1HFp1gSUB3",-2.0,2.0,true,-1,3,-0.05,0.05,-0.02,0.02)'
 
-mv vnPlots.root PbPb_AMPT_hists.root
+cp vnPlots.root PbPb_AMPT_hists.root
