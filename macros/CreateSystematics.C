@@ -4,10 +4,10 @@
 # include "TFile.h"
 # include "TGraphErrors.h"
 # include "TH1.h"
-# include "TLatex.h"
 # include "TLegend.h"
 # include "TLine.h"
 # include "TList.h"
+# include "TPaveText.h"
 # include "TString.h"
 # include <iostream>
 # include <stdio.h>
@@ -331,18 +331,16 @@ TCanvas *  CreateSystematics2( string replay, TGraphErrors * gDefault, TGraphErr
     h->GetYaxis()->SetTitleOffset(2.8);
     h->GetYaxis()->CenterTitle(1);
     h->Draw();
-    TLatex * lcalc = new TLatex(0.1*(maxx-minx)+minx,0.92*(1.4*setymax-setymin)+setymin,replay.data());
+    TPaveText * lcalc = new TPaveText(0.24, 0.68, 0.45, 0.96, "NDC");
     lcalc->SetTextFont(43);
-    lcalc->SetTextSize(26);
+    lcalc->SetTextSize(24);
+    lcalc->SetTextAlign(12);
+    lcalc->SetFillColor(0);
+    lcalc->SetBorderSize(0);
+    lcalc->AddText(Form("%s",replay.data()));
+    lcalc->AddText(Form("%s",crange.data()));
+    if (title.find("gint")==std::string::npos) lcalc->AddText(Form("%s",erange.data()));
     lcalc->Draw();
-    TLatex * lr = new TLatex(0.1*(maxx-minx)+minx, 0.82*(1.4*setymax-setymin)+setymin, crange.data());
-    lr->SetTextFont(43);
-    lr->SetTextSize(26);
-    lr->Draw();
-    TLatex * lr2 = new TLatex(0.1*(maxx-minx)+minx, 0.72*(1.4*setymax-setymin)+setymin, erange.data());
-    lr2->SetTextFont(43);
-    lr2->SetTextSize(26);
-    if (title.find("gint")==std::string::npos) lr2->Draw();
     gSys1->Draw("p");
     gDefault->Draw("p");
     TLegend * leg = new TLegend(0.75, 0.75, 0.89, 0.95);
@@ -512,4 +510,5 @@ TCanvas *  CreateSystematics2( string replay, TGraphErrors * gDefault, TGraphErr
     }
 
     return c;
+    
 }
