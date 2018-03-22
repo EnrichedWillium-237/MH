@@ -87,6 +87,11 @@ void CreateSystematics(string name) {
                 	sloose+="/"+subsubbase;
                 	swide+="/"+subsubbase;
                 	snarrow+="/"+subsubbase;
+
+                    string stightN = "tight2_"+base2;
+                    string slooseN = "loose_"+base2;
+                    string swideN = "wide_"+base2;
+                    string snarrowN = "narrow_"+base2;
                 	TDirectory * subsubsubdir = (TDirectory *) subsubdir->Get(subsubbase.data());
                 	TList * lsubsubsub = (TList *) subsubsubdir->GetListOfKeys();
                 	int subsubsubindx = 0;
@@ -102,10 +107,10 @@ void CreateSystematics(string name) {
                 	        if (tightFound && looseFound) {
                         		TGraphErrors * gSys1 = (TGraphErrors *) fin->Get(Form("%s/%s",sloose.data(),subsubsubbase.data()));
                         		TGraphErrors * gSys2 = (TGraphErrors *) fin->Get(Form("%s/%s",stight.data(),subsubsubbase.data()));
-                                TGraphErrors * gDiff = (TGraphErrors *) gSys1->Clone(Form("Difference_%s_%s_%s_%s",sloose.data(),subbase.data(),subsubbase.data(),subsubsubbase.data()));
-                                TGraphErrors * gDiff2 = (TGraphErrors *) gSys2->Clone(Form("Difference_%s_%s_%s_%s",stight.data(),subbase.data(),subsubbase.data(),subsubsubbase.data()));
-                                TGraphErrors * gRatio = (TGraphErrors *) gSys1->Clone(Form("Ratio_%s_%s_%s_%s",sloose.data(),subbase.data(),subsubbase.data(),subsubsubbase.data()));
-                                TGraphErrors * gRatio2 = (TGraphErrors *) gSys2->Clone(Form("Ratio_%s_%s_%s_%s",stight.data(),subbase.data(),subsubbase.data(),subsubsubbase.data()));
+                                TGraphErrors * gDiff = (TGraphErrors *) gSys1->Clone(Form("Difference_%s_%s_%s_%s",slooseN.data(),subbase.data(),subsubbase.data(),subsubsubbase.data()));
+                                TGraphErrors * gDiff2 = (TGraphErrors *) gSys2->Clone(Form("Difference_%s_%s_%s_%s",stightN.data(),subbase.data(),subsubbase.data(),subsubsubbase.data()));
+                                TGraphErrors * gRatio = (TGraphErrors *) gSys1->Clone(Form("Ratio_%s_%s_%s_%s",slooseN.data(),subbase.data(),subsubbase.data(),subsubsubbase.data()));
+                                TGraphErrors * gRatio2 = (TGraphErrors *) gSys2->Clone(Form("Ratio_%s_%s_%s_%s",stightN.data(),subbase.data(),subsubbase.data(),subsubsubbase.data()));
                         		TCanvas * can =  CreateSystematics2( base2 ,g, gSys1, "loose", gSys2, "tight", gRatio, gRatio2, gDiff, gDiff2, subbase, subsubbase,"p_{T} (GeV/c)", ytitle, subsubsubbase.data() );
                                 gDiff->SetMarkerColor(kBlue);
                                 gDiff->SetLineColor(kBlue);
@@ -126,10 +131,10 @@ void CreateSystematics(string name) {
                 	        if (narrowFound && wideFound) {
                 		        TGraphErrors * gSys1 = (TGraphErrors *) fin->Get(Form("%s/%s",swide.data(),subsubsubbase.data()));
                         		TGraphErrors * gSys2 = (TGraphErrors *) fin->Get(Form("%s/%s",snarrow.data(),subsubsubbase.data()));
-                                TGraphErrors * gDiff = (TGraphErrors *) gSys1->Clone(Form("Difference_%s_%s_%s_%s",swide.data(),subbase.data(),subsubbase.data(),subsubsubbase.data()));
-                                TGraphErrors * gDiff2 = (TGraphErrors *) gSys2->Clone(Form("Difference_%s_%s_%s_%s",snarrow.data(),subbase.data(),subsubbase.data(),subsubsubbase.data()));
-                                TGraphErrors * gRatio = (TGraphErrors *) gSys1->Clone(Form("Ratio_%s_%s_%s_%s",swide.data(),subbase.data(),subsubbase.data(),subsubsubbase.data()));
-                                TGraphErrors * gRatio2 = (TGraphErrors *) gSys2->Clone(Form("Ratio_%s_%s_%s_%s",snarrow.data(),subbase.data(),subsubbase.data(),subsubsubbase.data()));
+                                TGraphErrors * gDiff = (TGraphErrors *) gSys1->Clone(Form("Difference_%s_%s_%s_%s",swideN.data(),subbase.data(),subsubbase.data(),subsubsubbase.data()));
+                                TGraphErrors * gDiff2 = (TGraphErrors *) gSys2->Clone(Form("Difference_%s_%s_%s_%s",snarrowN.data(),subbase.data(),subsubbase.data(),subsubsubbase.data()));
+                                TGraphErrors * gRatio = (TGraphErrors *) gSys1->Clone(Form("Ratio_%s_%s_%s_%s",swideN.data(),subbase.data(),subsubbase.data(),subsubsubbase.data()));
+                                TGraphErrors * gRatio2 = (TGraphErrors *) gSys2->Clone(Form("Ratio_%s_%s_%s_%s",snarrowN.data(),subbase.data(),subsubbase.data(),subsubsubbase.data()));
                         		TCanvas * can =  CreateSystematics2(base2, g, gSys1, "wide", gSys2, "narrow", gRatio, gRatio2, gDiff, gDiff2, subbase, subsubbase, "p_{T} (GeV/c)", ytitle, subsubsubbase.data() );
                                 gDiff->SetMarkerColor(kBlue);
                                 gDiff->SetLineColor(kBlue);
@@ -153,10 +158,10 @@ void CreateSystematics(string name) {
                 	        if (tightFound && looseFound) {
                         		TGraphErrors * gSys1 = (TGraphErrors *) fin->Get(Form("%s/%s",sloose.data(),subsubsubbase.data()));
                         		TGraphErrors * gSys2 = (TGraphErrors *) fin->Get(Form("%s/%s",stight.data(),subsubsubbase.data()));
-                                TGraphErrors * gDiff = (TGraphErrors *) gSys1->Clone(Form("Difference_%s_%s_%s_%s",sloose.data(),subbase.data(),subsubbase.data(),subsubsubbase.data()));
-                                TGraphErrors * gDiff2 = (TGraphErrors *) gSys2->Clone(Form("Difference_%s_%s_%s_%s",stight.data(),subbase.data(),subsubbase.data(),subsubsubbase.data()));
-                                TGraphErrors * gRatio = (TGraphErrors *) gSys1->Clone(Form("Ratio_%s_%s_%s_%s",sloose.data(),subbase.data(),subsubbase.data(),subsubsubbase.data()));
-                                TGraphErrors * gRatio2 = (TGraphErrors *) gSys2->Clone(Form("Ratio_%s_%s_%s_%s",stight.data(),subbase.data(),subsubbase.data(),subsubsubbase.data()));
+                                TGraphErrors * gDiff = (TGraphErrors *) gSys1->Clone(Form("Difference_%s_%s_%s_%s",slooseN.data(),subbase.data(),subsubbase.data(),subsubsubbase.data()));
+                                TGraphErrors * gDiff2 = (TGraphErrors *) gSys2->Clone(Form("Difference_%s_%s_%s_%s",stightN.data(),subbase.data(),subsubbase.data(),subsubsubbase.data()));
+                                TGraphErrors * gRatio = (TGraphErrors *) gSys1->Clone(Form("Ratio_%s_%s_%s_%s",slooseN.data(),subbase.data(),subsubbase.data(),subsubsubbase.data()));
+                                TGraphErrors * gRatio2 = (TGraphErrors *) gSys2->Clone(Form("Ratio_%s_%s_%s_%s",stightN.data(),subbase.data(),subsubbase.data(),subsubsubbase.data()));
                         		TCanvas * can =  CreateSystematics2( base2, g, gSys1, "loose", gSys2, "tight", gRatio, gRatio2, gDiff, gDiff2, subbase, subsubbase, "#eta", ytitle, subsubsubbase.data() );
                                 gDiff->SetMarkerColor(kBlue);
                                 gDiff->SetLineColor(kBlue);
@@ -177,10 +182,10 @@ void CreateSystematics(string name) {
         	                if (narrowFound && wideFound) {
                         		TGraphErrors * gSys1 = (TGraphErrors *) fin->Get(Form("%s/%s",swide.data(),subsubsubbase.data()));
                         		TGraphErrors * gSys2 = (TGraphErrors *) fin->Get(Form("%s/%s",snarrow.data(),subsubsubbase.data()));
-                                TGraphErrors * gDiff = (TGraphErrors *) gSys1->Clone(Form("Difference_%s_%s_%s_%s",swide.data(),subbase.data(),subsubbase.data(),subsubsubbase.data()));
-                                TGraphErrors * gDiff2 = (TGraphErrors *) gSys2->Clone(Form("Difference_%s_%s_%s_%s",snarrow.data(),subbase.data(),subsubbase.data(),subsubsubbase.data()));
-                                TGraphErrors * gRatio = (TGraphErrors *) gSys1->Clone(Form("Ratio_%s_%s_%s_%s",swide.data(),subbase.data(),subsubbase.data(),subsubsubbase.data()));
-                                TGraphErrors * gRatio2 = (TGraphErrors *) gSys2->Clone(Form("Ratio_%s_%s_%s_%s",snarrow.data(),subbase.data(),subsubbase.data(),subsubsubbase.data()));
+                                TGraphErrors * gDiff = (TGraphErrors *) gSys1->Clone(Form("Difference_%s_%s_%s_%s",swideN.data(),subbase.data(),subsubbase.data(),subsubsubbase.data()));
+                                TGraphErrors * gDiff2 = (TGraphErrors *) gSys2->Clone(Form("Difference_%s_%s_%s_%s",snarrowN.data(),subbase.data(),subsubbase.data(),subsubsubbase.data()));
+                                TGraphErrors * gRatio = (TGraphErrors *) gSys1->Clone(Form("Ratio_%s_%s_%s_%s",swideN.data(),subbase.data(),subsubbase.data(),subsubsubbase.data()));
+                                TGraphErrors * gRatio2 = (TGraphErrors *) gSys2->Clone(Form("Ratio_%s_%s_%s_%s",snarrowN.data(),subbase.data(),subsubbase.data(),subsubsubbase.data()));
                         		TCanvas * can =  CreateSystematics2( base2, g, gSys1, "wide", gSys2, "narrow", gRatio, gRatio2, gDiff, gDiff2, subbase, subsubbase, "#eta", ytitle, subsubsubbase.data() );
                                 gDiff->SetMarkerColor(kBlue);
                                 gDiff->SetLineColor(kBlue);
@@ -268,7 +273,8 @@ TCanvas *  CreateSystematics2( string replay, TGraphErrors * gDefault, TGraphErr
     TCanvas * c = new TCanvas(canname.data(), canname.data(), 600, 900);
     c->Draw();
     c->Divide(1,3,0.0,0.0);
-    c->cd(1);
+    TPad * pad1 = (TPad *) c->cd(1);
+    pad1->SetRightMargin(0.03);
     string erange = etarange;
     erange.replace(erange.find("_"),1,"< #eta <");
     string crange = centrange;
@@ -331,19 +337,19 @@ TCanvas *  CreateSystematics2( string replay, TGraphErrors * gDefault, TGraphErr
     h->GetYaxis()->SetTitleOffset(2.8);
     h->GetYaxis()->CenterTitle(1);
     h->Draw();
-    TPaveText * lcalc = new TPaveText(0.24, 0.68, 0.45, 0.96, "NDC");
+    TPaveText * lcalc = new TPaveText(0.24, 0.76, 0.45, 0.93, "NDC");
     lcalc->SetTextFont(43);
     lcalc->SetTextSize(24);
     lcalc->SetTextAlign(12);
     lcalc->SetFillColor(0);
     lcalc->SetBorderSize(0);
-    lcalc->AddText(Form("%s",replay.data()));
+    // lcalc->AddText(Form("%s",replay.data()));
     lcalc->AddText(Form("%s",crange.data()));
     if (title.find("gint")==std::string::npos) lcalc->AddText(Form("%s",erange.data()));
     lcalc->Draw();
     gSys1->Draw("p");
     gDefault->Draw("p");
-    TLegend * leg = new TLegend(0.75, 0.75, 0.89, 0.95);
+    TLegend * leg = new TLegend(0.73, 0.69, 0.87, 0.94);
     leg->SetBorderSize(0);
     leg->SetFillColor(kWhite);
     leg->SetTextFont(43);
@@ -407,7 +413,8 @@ TCanvas *  CreateSystematics2( string replay, TGraphErrors * gDefault, TGraphErr
             }
         }
     }
-    c->cd(2);
+    TPad * pad2 = (TPad *) c->cd(2);
+    pad2->SetRightMargin(0.03);
     TH1D * hr = new TH1D("hr", "hr", 100, minx, maxx);
     hr->SetDirectory(0);
     hr->SetMinimum(0.901);
@@ -425,7 +432,7 @@ TCanvas *  CreateSystematics2( string replay, TGraphErrors * gDefault, TGraphErr
         }
     }
     hr->SetXTitle(xlabel.data());
-    hr->SetYTitle(Form("%s/%s{default}",ylabel.data(),ylabel.data()));
+    hr->SetYTitle(Form("%s/%s{nominal}",ylabel.data(),ylabel.data()));
     hr->GetXaxis()->SetLabelFont(43);
     hr->GetXaxis()->SetLabelSize(14);
     hr->GetXaxis()->SetTitleFont(43);
@@ -469,17 +476,18 @@ TCanvas *  CreateSystematics2( string replay, TGraphErrors * gDefault, TGraphErr
         }
         gDiff->ComputeRange(xminSys2, yminSys2, xmaxSys2, ymaxSys2);
     }
-    c->cd(3);
+    TPad * pad3 = (TPad *) c->cd(3);
+    pad3->SetRightMargin(0.03);
     TH1D * hd = new TH1D("hd", "hd", 100, minx, maxx);
     hd->SetDirectory(0);
     setymin = 0;
     if (yminSys1<0) setymin = yminSys1;
     if (rep2!="" && yminSys2<setymin) setymin = yminSys2;
     setymax = max(ymaxSys1,ymaxSys2);
-    hd->SetMinimum(setymin-0.1*(setymax-setymin));
-    hd->SetMaximum(setymax+0.1*(setymax-setymin));
+    hd->SetMinimum(setymin-0.13*(setymax-setymin));
+    hd->SetMaximum(setymax+0.13*(setymax-setymin));
     hd->SetXTitle(xlabel.data());
-    hd->SetYTitle(Form("%s - %s{default} (#times 1000)",ylabel.data(),ylabel.data()));
+    hd->SetYTitle(Form("%s - %s{nominal} (#times 1000)",ylabel.data(),ylabel.data()));
     hd->GetXaxis()->SetLabelFont(43);
     hd->GetXaxis()->SetLabelSize(14);
     hd->GetXaxis()->SetTitleFont(43);
@@ -510,5 +518,5 @@ TCanvas *  CreateSystematics2( string replay, TGraphErrors * gDefault, TGraphErr
     }
 
     return c;
-    
+
 }
