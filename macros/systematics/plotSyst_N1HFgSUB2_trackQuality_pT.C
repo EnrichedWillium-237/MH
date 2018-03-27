@@ -65,11 +65,13 @@ void plotSyst_N1HFgSUB2_trackQuality_pT() {
     Double_t fitLoose_diff_p1[ncbins];
     Double_t fitTight_diff_p0[ncbins];
     Double_t fitTight_diff_p1[ncbins];
+    Double_t fitLoose_diff_p0_err[ncbins];
+    Double_t fitLoose_diff_p1_err[ncbins];
+    Double_t fitTight_diff_p0_err[ncbins];
+    Double_t fitTight_diff_p1_err[ncbins];
 
     for (int cbin = 0; cbin<ncbins; cbin++) {
         string tag = Form("default/N1HFgSUB2/-2.0_2.0/%d_%d",cmin[cbin],cmax[cbin]);
-
-        // cN1HFgSUB2_gA_trackQuality[cbin] = (TCanvas *) fin->Get(Form("%s/syserr_N1HFgSUB2_gA_-2.0_2.0_%d_%d_trackQuality",tag.data(),cmin[cbin],cmax[cbin]));
 
         gA_N1HFgSUB2[cbin] = (TGraphErrors *) fin->Get(Form("%s/gA",tag.data()));
         gA_N1HFgSUB2_tight[cbin] = (TGraphErrors *) fin->Get(Form("tight2/N1HFgSUB2/-2.0_2.0/%d_%d/gA",cmin[cbin],cmax[cbin]));
@@ -80,16 +82,6 @@ void plotSyst_N1HFgSUB2_trackQuality_pT() {
 
         diff_gA_N1HFgSUB2_tight[cbin] = (TGraphErrors *) fin->Get(Form("%s/Difference_tight2_N1HFgSUB2_-2.0_2.0_%d_%d_gA",tag.data(),cmin[cbin],cmax[cbin]));
         diff_gA_N1HFgSUB2_loose[cbin] = (TGraphErrors *) fin->Get(Form("%s/Difference_loose_N1HFgSUB2_-2.0_2.0_%d_%d_gA",tag.data(),cmin[cbin],cmax[cbin]));
-
-        // g_N1HFgSUB2[cbin] = (TGraphErrors *) fin->Get(Form("%s/g",tag.data()));)
-        // g_N1HFgSUB2_tight[ncbins];
-        // g_N1HFgSUB2_loose[ncbins];
-        //
-        // ratio_g_N1HFgSUB2_tight[ncbins];
-        // ratio_g_N1HFgSUB2_loose[ncbins];
-        //
-        // diff_g_N1HFgSUB2_tight[ncbins];
-        // diff_g_N1HFgSUB2_loose[ncbins];
 
         gA_N1HFgSUB2[cbin]->SetMarkerStyle(25);
         gA_N1HFgSUB2[cbin]->SetMarkerSize(1.0);
@@ -115,7 +107,6 @@ void plotSyst_N1HFgSUB2_trackQuality_pT() {
         ratio_gA_N1HFgSUB2_loose[cbin]->SetMarkerSize(1.0);
         ratio_gA_N1HFgSUB2_loose[cbin]->SetMarkerColor(kBlue);
         ratio_gA_N1HFgSUB2_loose[cbin]->SetLineColor(kBlue);
-
 
         diff_gA_N1HFgSUB2_tight[cbin]->SetMarkerStyle(20);
         diff_gA_N1HFgSUB2_tight[cbin]->SetMarkerSize(1.0);
@@ -192,7 +183,7 @@ void plotSyst_N1HFgSUB2_trackQuality_pT() {
         if (cbin==8) h3->GetYaxis()->SetRangeUser(-1.15, 1.15);
         if (cbin==9) h3->GetYaxis()->SetRangeUser(-1.55, 1.55);
         if (cbin==10) h3->GetYaxis()->SetRangeUser(-3.95,3.95);
-        h3->SetXTitle("#eta");
+        h3->SetXTitle("p_{T} (GeV/c)");
         h3->GetXaxis()->SetLabelSize(0.06);
         h3->GetXaxis()->SetTitleSize(0.08);
         h3->GetXaxis()->SetTitleOffset(0.95);
@@ -218,19 +209,26 @@ void plotSyst_N1HFgSUB2_trackQuality_pT() {
         cout<<"tight difference: "<<endl;
         tmp_diff_tight->Fit(fit_diff_tight);
         fitLoose_diff_p0[cbin] = 0.001 * fit_diff_loose->GetParameter(0);
+        fitLoose_diff_p0_err[cbin] = 0.001 * fit_diff_loose->GetParError(0);
         fitLoose_diff_p1[cbin] = 0.001 * fit_diff_loose->GetParameter(1);
+        fitLoose_diff_p1_err[cbin] = 0.001 * fit_diff_loose->GetParError(1);
         fitTight_diff_p0[cbin] = 0.001 * fit_diff_tight->GetParameter(0);
+        fitTight_diff_p0_err[cbin] = 0.001 * fit_diff_tight->GetParError(0);
         fitTight_diff_p1[cbin] = 0.001 * fit_diff_tight->GetParameter(1);
+        fitTight_diff_p1_err[cbin] = 0.001 * fit_diff_tight->GetParError(1);
 
         cN1HFgSUB2_gA_trackQuality[cbin]->Print(Form("plots/N1HFgSUB2/cN1HFgSUB2_gA_trackQuality_%d_%d.pdf",cmin[cbin],cmax[cbin]),"pdf");
         cN1HFgSUB2_gA_trackQuality[cbin]->Close();
 
     }
 
-    // cout<<"cmin\tcmax\twide rat p0\tnarrow ratp0\twide diff p0\twide diff p1\tnarrow diff p0\tnarrow diff p1"<<endl;
-    // for (int cbin = 0; cbin<ncbins; cbin++) {
-    //     cout<<cmin[cbin]<<"\t"<<cmax[cbin]<<"\t"<<fitWide_rat_p0[cbin]<<"\t"<<fitNarrow_rat_p0[cbin]<<"\t"<<fitWide_diff_p0[cbin]<<"\t"<<fitWide_diff_p1[cbin]<<"\t"<<fitNarrow_diff_p0[cbin]<<"\t"<<fitNarrow_diff_p1[cbin]<<endl;
-    // }
+    cout<<"cmin\tcmax\tloose diff p0\t\tloose diff p1\t\ttight diff p0\t\ttight diff p1"<<endl;
+    for (int cbin = 0; cbin<ncbins; cbin++) {
+        cout<<cmin[cbin]<<"\t"<<cmax[cbin]<<"\t"<<fitLoose_diff_p0[cbin]<<" +/- "<<fitLoose_diff_p0_err[cbin]<<"\t"
+        <<fitLoose_diff_p1[cbin]<<" +/- "<<fitLoose_diff_p1_err[cbin]<<"\t"
+        <<fitTight_diff_p0[cbin]<<" +/- "<<fitTight_diff_p0_err[cbin]<<"\t"
+        <<fitTight_diff_p1[cbin]<<" +/- "<<fitTight_diff_p1_err[cbin]<<"\t"<<endl;
+    }
 
 
 
@@ -238,7 +236,7 @@ void plotSyst_N1HFgSUB2_trackQuality_pT() {
     c0->Divide(4,2,0,0);
     c0->cd(1);
     TH1D * h0_1 = new TH1D("h0_1", "", 100, 0, 8);
-    h0_1->GetYaxis()->SetRangeUser(-0.029, 0.29);
+    h0_1->GetYaxis()->SetRangeUser(-0.075, -0.0001);
     h0_1->SetYTitle("v_{1}^{odd}");
     h0_1->GetYaxis()->SetLabelSize(0.07);
     h0_1->GetYaxis()->SetTitleSize(0.09);
@@ -254,7 +252,7 @@ void plotSyst_N1HFgSUB2_trackQuality_pT() {
     SetTPaveTxt(txt0_1, 24);
     txt0_1->AddText("0 - 5%");
     txt0_1->Draw();
-    TLegend * leg0 = new TLegend(0.25, 0.60, 0.45, 0.94);
+    TLegend * leg0 = new TLegend(0.25, 0.06, 0.45, 0.40);
     SetLegend(leg0, 24);
     leg0->AddEntry(gA_N1HFgSUB2_loose[0],"loose","p");
     leg0->AddEntry(gA_N1HFgSUB2_tight[0],"tight","p");
@@ -296,8 +294,8 @@ void plotSyst_N1HFgSUB2_trackQuality_pT() {
     gPad->SetGrid(1,1);
     TH1D * h0_5 = (TH1D *) h0_1->Clone("h0_5");
     h0_5->SetYTitle("v_{1} - v_{1}{nominal} (#times 1000)");
-    h0_5->GetYaxis()->SetRangeUser(-12, 12);
-    h0_5->SetXTitle("#eta");
+    h0_5->GetYaxis()->SetRangeUser(-7, 7);
+    h0_5->SetXTitle("p_{T} (GeV/c)");
     h0_5->GetXaxis()->CenterTitle();
     h0_5->GetXaxis()->SetLabelSize(0.06);
     h0_5->GetXaxis()->SetTitleSize(0.08);
@@ -340,7 +338,7 @@ void plotSyst_N1HFgSUB2_trackQuality_pT() {
     c1->Divide(4,2,0,0);
     c1->cd(1);
     TH1D * h1_1 = new TH1D("h1_1", "", 100, 0, 8);
-    h1_1->GetYaxis()->SetRangeUser(-0.029, 0.29);
+    h1_1->GetYaxis()->SetRangeUser(-0.09, -0.0001);
     h1_1->SetYTitle("v_{1}^{odd}");
     h1_1->GetYaxis()->SetLabelSize(0.07);
     h1_1->GetYaxis()->SetTitleSize(0.09);
@@ -356,7 +354,7 @@ void plotSyst_N1HFgSUB2_trackQuality_pT() {
     SetTPaveTxt(txt1_1, 24);
     txt1_1->AddText("20 - 25%");
     txt1_1->Draw();
-    TLegend * leg1 = new TLegend(0.25, 0.60, 0.45, 0.94);
+    TLegend * leg1 = new TLegend(0.25, 0.06, 0.45, 0.40);
     SetLegend(leg1, 24);
     leg1->AddEntry(gA_N1HFgSUB2_loose[4],"loose","p");
     leg1->AddEntry(gA_N1HFgSUB2_tight[4],"tight","p");
@@ -398,8 +396,8 @@ void plotSyst_N1HFgSUB2_trackQuality_pT() {
     gPad->SetGrid(1,1);
     TH1D * h1_5 = (TH1D *) h1_1->Clone("h1_5");
     h1_5->SetYTitle("v_{1} - v_{1}{nominal} (#times 1000)");
-    h1_5->GetYaxis()->SetRangeUser(-15, 15);
-    h1_5->SetXTitle("#eta");
+    h1_5->GetYaxis()->SetRangeUser(-9, 9);
+    h1_5->SetXTitle("p_{T} (GeV/c)");
     h1_5->GetXaxis()->CenterTitle();
     h1_5->GetXaxis()->SetLabelSize(0.06);
     h1_5->GetXaxis()->SetTitleSize(0.08);
@@ -442,7 +440,7 @@ void plotSyst_N1HFgSUB2_trackQuality_pT() {
     c2->Divide(3,2,0,0);
     c2->cd(1);
     TH1D * h2_1 = new TH1D("h2_1", "", 100, 0, 8);
-    h2_1->GetYaxis()->SetRangeUser(-0.22, 0);
+    h2_1->GetYaxis()->SetRangeUser(-0.24, -0.0001);
     h2_1->SetYTitle("v_{1}^{odd}");
     h2_1->GetYaxis()->SetLabelSize(0.07);
     h2_1->GetYaxis()->SetTitleSize(0.09);
@@ -458,7 +456,7 @@ void plotSyst_N1HFgSUB2_trackQuality_pT() {
     SetTPaveTxt(txt2_1, 24);
     txt2_1->AddText("40 - 50%");
     txt2_1->Draw();
-    TLegend * leg1_1 = new TLegend(0.25, 0.60, 0.45, 0.94);
+    TLegend * leg1_1 = new TLegend(0.25, 0.06, 0.45, 0.40);
     SetLegend(leg1_1, 24);
     leg1_1->AddEntry(gA_N1HFgSUB2_loose[8],"loose","p");
     leg1_1->AddEntry(gA_N1HFgSUB2_tight[8],"tight","p");
@@ -490,8 +488,8 @@ void plotSyst_N1HFgSUB2_trackQuality_pT() {
     gPad->SetGrid(1,1);
     TH1D * h2_5 = (TH1D *) h2_1->Clone("h2_5");
     h2_5->SetYTitle("v_{1} - v_{1}{nominal} (#times 1000)");
-    h2_5->GetYaxis()->SetRangeUser(-10, 10);
-    h2_5->SetXTitle("#eta");
+    h2_5->GetYaxis()->SetRangeUser(-11, 11);
+    h2_5->SetXTitle("p_{T} (GeV/c)");
     h2_5->GetXaxis()->CenterTitle();
     h2_5->GetXaxis()->SetLabelSize(0.06);
     h2_5->GetXaxis()->SetTitleSize(0.08);

@@ -73,8 +73,6 @@ void plotSyst_N1HFgSUB2_trackQuality() {
     for (int cbin = 0; cbin<ncbins; cbin++) {
         string tag = Form("default/N1HFgSUB2/-2.0_2.0/%d_%d",cmin[cbin],cmax[cbin]);
 
-        // cN1HFgSUB2_gint_trackQuality[cbin] = (TCanvas *) fin->Get(Form("%s/syserr_N1HFgSUB2_gint_-2.0_2.0_%d_%d_trackQuality",tag.data(),cmin[cbin],cmax[cbin]));
-
         gint_N1HFgSUB2[cbin] = (TGraphErrors *) fin->Get(Form("%s/gint",tag.data()));
         gint_N1HFgSUB2_tight[cbin] = (TGraphErrors *) fin->Get(Form("tight2/N1HFgSUB2/-2.0_2.0/%d_%d/gint",cmin[cbin],cmax[cbin]));
         gint_N1HFgSUB2_loose[cbin] = (TGraphErrors *) fin->Get(Form("loose/N1HFgSUB2/-2.0_2.0/%d_%d/gint",cmin[cbin],cmax[cbin]));

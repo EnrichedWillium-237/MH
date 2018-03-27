@@ -61,15 +61,17 @@ void plotSyst_N1EVENSUB2_vtxRange() {
 
     Double_t fitwide_rat_p0[ncbins];
     Double_t fitNarrow_rat_p0[ncbins];
-    Double_t fitwide_diff_p0[ncbins];
-    Double_t fitwide_diff_p1[ncbins];
+    Double_t fitWide_diff_p0[ncbins];
+    Double_t fitWide_diff_p1[ncbins];
     Double_t fitNarrow_diff_p0[ncbins];
     Double_t fitNarrow_diff_p1[ncbins];
+    Double_t fitWide_diff_p0_err[ncbins];
+    Double_t fitWide_diff_p1_err[ncbins];
+    Double_t fitNarrow_diff_p0_err[ncbins];
+    Double_t fitNarrow_diff_p1_err[ncbins];
 
     for (int cbin = 0; cbin<ncbins; cbin++) {
         string tag = Form("default/N1EVENSUB2/0.4_2.4/%d_%d",cmin[cbin],cmax[cbin]);
-
-        // cN1EVENSUB2_gint_vtxRange[cbin] = (TCanvas *) fin->Get(Form("%s/syserr_N1EVENSUB2_gint_0.4_2.4_%d_%d_vtxRange",tag.data(),cmin[cbin],cmax[cbin]));
 
         gint_N1EVENSUB2[cbin] = (TGraphErrors *) fin->Get(Form("%s/gint",tag.data()));
         gint_N1EVENSUB2_narrow[cbin] = (TGraphErrors *) fin->Get(Form("narrow/N1EVENSUB2/0.4_2.4/%d_%d/gint",cmin[cbin],cmax[cbin]));
@@ -135,201 +137,112 @@ void plotSyst_N1EVENSUB2_vtxRange() {
         string mtag = Form("N1EVENSUB2_%d_%d",cmin[cbin],cmax[cbin]);
 
 
-        // cN1EVENSUB2_gint_vtxRange[cbin] = new TCanvas(Form("c%s_vtxRange",mtag.data()), Form("c%s_vtxRange",mtag.data()), 600, 900);
-        // cN1EVENSUB2_gint_vtxRange[cbin]->Divide(1,3,0,0);
-        // TPad * pad1 = (TPad *) cN1EVENSUB2_gint_vtxRange[cbin]->cd(1);
-        // pad1->SetRightMargin(0.03);
-        // TH1D * h1 = new TH1D(Form("h1%s",mtag.data()), "", 100, -2.8, 2.8);
-        // h1->GetYaxis()->SetRangeUser(-0.019, 0.019);
-        // if (cbin == 9) h1->GetYaxis()->SetRangeUser(-0.029, 0.029);
-        // if (cbin == 10) h1->GetYaxis()->SetRangeUser(-0.039, 0.039);
-        // h1->SetYTitle("v_{1}");
-        // h1->GetYaxis()->SetLabelSize(0.07);
-        // h1->GetYaxis()->SetTitleSize(0.09);
-        // h1->GetYaxis()->SetTitleOffset(0.9);
-        // h1->GetYaxis()->CenterTitle();
-        // h1->GetYaxis()->SetDecimals();
-        // h1->Draw();
-        // gint_N1EVENSUB2_wide[cbin]->Draw("same p");
-        // gint_N1EVENSUB2_narrow[cbin]->Draw("same p");
-        // gint_N1EVENSUB2[cbin]->Draw("same p");
-        // TPaveText * text = new TPaveText(0.52, 0.83, 0.73, 0.94, "NDC");
-        // SetTPaveTxt(text, 24);
-        // text->AddText(Form("%d - %d%%",cmin[cbin],cmax[cbin]));
-        // text->Draw();
-        // TLegend * leg = new TLegend(0.73, 0.65, 0.91, 0.93);
-        // SetLegend(leg, 24);
-        // leg->AddEntry(gint_N1EVENSUB2_wide[cbin],"wide","p");
-        // leg->AddEntry(gint_N1EVENSUB2_narrow[cbin],"narrow","p");
-        // leg->AddEntry(gint_N1EVENSUB2[cbin],"nominal","p");
-        // leg->Draw();
-        //
-        // TPad * pad2 = (TPad *) cN1EVENSUB2_gint_vtxRange[cbin]->cd(2);
-        // pad2->SetRightMargin(0.03);
-        // TH1D * h2 = (TH1D *) h1->Clone(Form("h2%s",mtag.data()));
-        // h2->GetYaxis()->SetRangeUser(0.75, 1.25);
-        // h2->SetYTitle("v_{1}/v_{1}{nominal}");
-        // h2->GetYaxis()->SetDecimals();
-        // h2->GetYaxis()->SetNdivisions(509);
-        // gPad->SetGrid(1,1);
-        // h2->Draw();
-        // TLine * lnrat = new TLine(-2.3, 1.0, 2.3, 1.0);
-        // lnrat->Draw();
-        // ratio_gint_N1EVENSUB2_wide[cbin]->Draw("same p");
-        // ratio_gint_N1EVENSUB2_narrow[cbin]->Draw("same p");
-        // TF1 * fit_rat_wide = new TF1("fir_rat_wide", "pol0", -2, 2);
-        // TGraphErrors * tmp_rat_wide = (TGraphErrors *) ratio_gint_N1EVENSUB2_wide[cbin]->Clone();
-        // cout<<"\ncrange: "<<cmin[cbin]<<"\t"<<cmax[cbin]<<endl;
-        // cout<<"wide ratio: "<<endl;
-        // tmp_rat_wide->Fit(fit_rat_wide);
-        // TF1 * fit_rat_narrow = new TF1("fir_rat_narrow", "pol0", -2, 2);
-        // TGraphErrors * tmp_rat_narrow = (TGraphErrors *) ratio_gint_N1EVENSUB2_narrow[cbin]->Clone();
-        // cout<<"narrow ratio: "<<endl;
-        // tmp_rat_narrow->Fit(fit_rat_narrow);
-        // fitwide_rat_p0[cbin] = fit_rat_wide->GetParameter(0);
-        // fitnarrow_rat_p0[cbin] = fit_rat_narrow->GetParameter(0);
-        //
-        // TPad * pad3 = (TPad *) cN1EVENSUB2_gint_vtxRange[cbin]->cd(3);
-        // pad3->SetRightMargin(0.03);
-        // TH1D * h3 = (TH1D *) h1->Clone(Form("h3%s",mtag.data()));
-        // h3->GetYaxis()->SetRangeUser(-1.05, 1.05);
-        // if (cbin==8) h3->GetYaxis()->SetRangeUser(-1.15, 1.15);
-        // if (cbin==9) h3->GetYaxis()->SetRangeUser(-1.55, 1.55);
-        // if (cbin==10) h3->GetYaxis()->SetRangeUser(-3.95,3.95);
-        // h3->SetXTitle("#eta");
-        // h3->GetXaxis()->SetLabelSize(0.06);
-        // h3->GetXaxis()->SetTitleSize(0.08);
-        // h3->GetXaxis()->SetTitleOffset(0.95);
-        // h3->SetYTitle("v_{1} - v_{1}{nominal} (#times 1000)");
-        // h3->GetYaxis()->SetLabelSize(0.06);
-        // h3->GetYaxis()->SetTitleSize(0.08);
-        // h3->GetYaxis()->SetTitleOffset(1.00);
-        // h3->GetYaxis()->SetDecimals();
-        // h3->GetYaxis()->SetNdivisions(508);
-        // gPad->SetGrid(1,1);
-        // h3->Draw();
-        // TLine * lndiff = new TLine(-2.3, 0.0, 2.3, 0.0);
-        // lndiff->Draw();
-        // diff_gint_N1EVENSUB2_wide[cbin]->Draw("same p");
-        // diff_gint_N1EVENSUB2_narrow[cbin]->Draw("same p");
-        // TF1 * fit_diff_wide = new TF1("fir_diff_wide", "pol1", -2, 2);
-        // TGraphErrors * tmp_diff_wide = (TGraphErrors *) diff_gint_N1EVENSUB2_wide[cbin]->Clone();
-        // cout<<"\ncrange: "<<cmin[cbin]<<"\t"<<cmax[cbin]<<endl;
-        // cout<<"wide difference: "<<endl;
-        // tmp_diff_wide->Fit(fit_diff_wide);
-        // TF1 * fit_diff_narrow = new TF1("fir_diff_narrow", "pol1", -2, 2);
-        // TGraphErrors * tmp_diff_narrow = (TGraphErrors *) diff_gint_N1EVENSUB2_narrow[cbin]->Clone();
-        // cout<<"narrow difference: "<<endl;
-        // tmp_diff_narrow->Fit(fit_diff_narrow);
-        // fitwide_diff_p0[cbin] = 0.001 * fit_diff_wide->GetParameter(0);
-        // fitwide_diff_p1[cbin] = 0.001 * fit_diff_wide->GetParameter(1);
-        // fitnarrow_diff_p0[cbin] = 0.001 * fit_diff_narrow->GetParameter(0);
-        // fitnarrow_diff_p1[cbin] = 0.001 * fit_diff_narrow->GetParameter(1);
-        //
-        // cN1EVENSUB2_gint_vtxRange[cbin]->Print(Form("plots/N1EVENSUB2/cN1EVENSUB2_gint_vtxRange_%d_%d.pdf",cmin[cbin],cmax[cbin]),"pdf");
-        // cN1EVENSUB2_gint_vtxRange[cbin]->Close();
-        //
-        //
-        // cN1EVENSUB2_gint_vtxRange[cbin] = new TCanvas(Form("c%s_vtxRange",mtag.data()), Form("c%s_vtxRange",mtag.data()), 600, 900);
-        // cN1EVENSUB2_gint_vtxRange[cbin]->Divide(1,3,0,0);
-        // TPad * pad1a = (TPad *) cN1EVENSUB2_gint_vtxRange[cbin]->cd(1);
-        // pad1a->SetRightMargin(0.03);
-        // TH1D * h1a = new TH1D(Form("h1%s",mtag.data()), "", 100, -2.8, 2.8);
-        // h1a->GetYaxis()->SetRangeUser(-0.019, 0.019);
-        // if (cbin == 9) h1a->GetYaxis()->SetRangeUser(-0.029, 0.029);
-        // if (cbin == 10) h1a->GetYaxis()->SetRangeUser(-0.039, 0.039);
-        // h1a->SetYTitle("v_{1}");
-        // h1a->GetYaxis()->SetLabelSize(0.07);
-        // h1a->GetYaxis()->SetTitleSize(0.09);
-        // h1a->GetYaxis()->SetTitleOffset(0.9);
-        // h1a->GetYaxis()->CenterTitle();
-        // h1a->GetYaxis()->SetDecimals();
-        // h1a->Draw();
-        // gint_N1EVENSUB2_wide[cbin]->Draw("same p");
-        // gint_N1EVENSUB2_narrow[cbin]->Draw("same p");
-        // gint_N1EVENSUB2[cbin]->Draw("same p");
-        // TPaveText * texta = new TPaveText(0.52, 0.83, 0.73, 0.94, "NDC");
-        // SetTPaveTxt(texta, 24);
-        // texta->AddText(Form("%d - %d%%",cmin[cbin],cmax[cbin]));
-        // texta->Draw();
-        // TLegend * lega = new TLegend(0.73, 0.65, 0.91, 0.93);
-        // SetLegend(lega, 24);
-        // lega->AddEntry(gint_N1EVENSUB2_wide[cbin],"wide","p");
-        // lega->AddEntry(gint_N1EVENSUB2_narrow[cbin],"narrow","p");
-        // lega->AddEntry(gint_N1EVENSUB2[cbin],"nominal","p");
-        // lega->Draw();
-        //
-        // TPad * pad2a = (TPad *) cN1EVENSUB2_gint_vtxRange[cbin]->cd(2);
-        // pad2a->SetRightMargin(0.03);
-        // TH1D * h2a = (TH1D *) h1->Clone(Form("h2%s",mtag.data()));
-        // h2a->GetYaxis()->SetRangeUser(0.75, 1.25);
-        // h2a->SetYTitle("v_{1}/v_{1}{nominal}");
-        // h2a->GetYaxis()->SetDecimals();
-        // h2a->GetYaxis()->SetNdivisions(509);
-        // gPad->SetGrid(1,1);
-        // h2a->Draw();
-        // TLine * lnrata = new TLine(-2.3, 1.0, 2.3, 1.0);
-        // lnrata->Draw();
-        // ratio_gint_N1EVENSUB2_wide[cbin]->Draw("same p");
-        // ratio_gint_N1EVENSUB2_narrow[cbin]->Draw("same p");
-        // TF1 * fit_rat_wide = new TF1("fir_rat_wide", "pol0", -2, 2);
-        // TGraphErrors * tmp_rat_wide = (TGraphErrors *) ratio_gint_N1EVENSUB2_wide[cbin]->Clone();
-        // cout<<"\ncrange: "<<cmin[cbin]<<"\t"<<cmax[cbin]<<endl;
-        // cout<<"wide ratio: "<<endl;
-        // tmp_rat_wide->Fit(fit_rat_wide);
-        // TF1 * fit_rat_narrow = new TF1("fir_rat_narrow", "pol0", -2, 2);
-        // TGraphErrors * tmp_rat_narrow = (TGraphErrors *) ratio_gint_N1EVENSUB2_narrow[cbin]->Clone();
-        // cout<<"narrow ratio: "<<endl;
-        // tmp_rat_narrow->Fit(fit_rat_narrow);
-        // fitwide_rat_p0[cbin] = fit_rat_wide->GetParameter(0);
-        // fitNarrow_rat_p0[cbin] = fit_rat_narrow->GetParameter(0);
-        //
-        // TPad * pad3a = (TPad *) cN1EVENSUB2_gint_vtxRange[cbin]->cd(3);
-        // pad3a->SetRightMargin(0.03);
-        // TH1D * h3a = (TH1D *) h1->Clone(Form("h3%s",mtag.data()));
-        // h3a->GetYaxis()->SetRangeUser(-1.05, 1.05);
-        // if (cbin==8) h3a->GetYaxis()->SetRangeUser(-1.15, 1.15);
-        // if (cbin==9) h3a->GetYaxis()->SetRangeUser(-1.55, 1.55);
-        // if (cbin==10) h3a->GetYaxis()->SetRangeUser(-3.95,3.95);
-        // h3a->SetXTitle("#eta");
-        // h3a->GetXaxis()->SetLabelSize(0.06);
-        // h3a->GetXaxis()->SetTitleSize(0.08);
-        // h3a->GetXaxis()->SetTitleOffset(0.95);
-        // h3a->SetYTitle("v_{1} - v_{1}{nominal} (#times 1000)");
-        // h3a->GetYaxis()->SetLabelSize(0.06);
-        // h3a->GetYaxis()->SetTitleSize(0.08);
-        // h3a->GetYaxis()->SetTitleOffset(1.00);
-        // h3a->GetYaxis()->SetDecimals();
-        // h3a->GetYaxis()->SetNdivisions(508);
-        // gPad->SetGrid(1,1);
-        // h3a->Draw();
-        // TLine * lndiffa = new TLine(-2.3, 0.0, 2.3, 0.0);
-        // lndiffa->Draw();
-        // diff_gint_N1EVENSUB2_wide[cbin]->Draw("same p");
-        // diff_gint_N1EVENSUB2_narrow[cbin]->Draw("same p");
-        // TF1 * fit_diff_wide = new TF1("fir_diff_wide", "pol1", -2, 2);
-        // TGraphErrors * tmp_diff_wide = (TGraphErrors *) diff_gint_N1EVENSUB2_wide[cbin]->Clone();
-        // cout<<"\ncrange: "<<cmin[cbin]<<"\t"<<cmax[cbin]<<endl;
-        // cout<<"wide difference: "<<endl;
-        // tmp_diff_wide->Fit(fit_diff_wide);
-        // TF1 * fit_diff_narrow = new TF1("fir_diff_narrow", "pol1", -2, 2);
-        // TGraphErrors * tmp_diff_narrow = (TGraphErrors *) diff_gint_N1EVENSUB2_narrow[cbin]->Clone();
-        // cout<<"narrow difference: "<<endl;
-        // tmp_diff_narrow->Fit(fit_diff_narrow);
-        // fitwide_diff_p0[cbin] = 0.001 * fit_diff_wide->GetParameter(0);
-        // fitwide_diff_p1[cbin] = 0.001 * fit_diff_wide->GetParameter(1);
-        // fitNarrow_diff_p0[cbin] = 0.001 * fit_diff_narrow->GetParameter(0);
-        // fitNarrow_diff_p1[cbin] = 0.001 * fit_diff_narrow->GetParameter(1);
-        //
-        // cN1EVENSUB2_gint_vtxRange[cbin]->Print(Form("plots/N1EVENSUB2/cN1EVENSUB2_gint_vtxRange_%d_%d.pdf",cmin[cbin],cmax[cbin]),"pdf");
-        // cN1EVENSUB2_gint_vtxRange[cbin]->Close();
+        cN1EVENSUB2_gint_vtxRange[cbin] = new TCanvas(Form("c%s_vtxRange",mtag.data()), Form("c%s_vtxRange",mtag.data()), 600, 900);
+        cN1EVENSUB2_gint_vtxRange[cbin]->Divide(1,3,0,0);
+        TPad * pad1a = (TPad *) cN1EVENSUB2_gint_vtxRange[cbin]->cd(1);
+        pad1a->SetRightMargin(0.03);
+        TH1D * h1a = new TH1D(Form("h1%s",mtag.data()), "", 100, -2.8, 2.8);
+        h1a->GetYaxis()->SetRangeUser(-0.019, 0.019);
+        if (cbin == 9) h1a->GetYaxis()->SetRangeUser(-0.029, 0.029);
+        if (cbin == 10) h1a->GetYaxis()->SetRangeUser(-0.039, 0.039);
+        h1a->SetYTitle("v_{1}");
+        h1a->GetYaxis()->SetLabelSize(0.07);
+        h1a->GetYaxis()->SetTitleSize(0.09);
+        h1a->GetYaxis()->SetTitleOffset(0.9);
+        h1a->GetYaxis()->CenterTitle();
+        h1a->GetYaxis()->SetDecimals();
+        h1a->Draw();
+        gint_N1EVENSUB2_wide[cbin]->Draw("same p");
+        gint_N1EVENSUB2_narrow[cbin]->Draw("same p");
+        gint_N1EVENSUB2[cbin]->Draw("same p");
+        TPaveText * texta = new TPaveText(0.52, 0.83, 0.73, 0.94, "NDC");
+        SetTPaveTxt(texta, 24);
+        texta->AddText(Form("%d - %d%%",cmin[cbin],cmax[cbin]));
+        texta->Draw();
+        TLegend * lega = new TLegend(0.73, 0.65, 0.91, 0.93);
+        SetLegend(lega, 24);
+        lega->AddEntry(gint_N1EVENSUB2_wide[cbin],"wide","p");
+        lega->AddEntry(gint_N1EVENSUB2_narrow[cbin],"narrow","p");
+        lega->AddEntry(gint_N1EVENSUB2[cbin],"nominal","p");
+        lega->Draw();
+
+        TPad * pad2a = (TPad *) cN1EVENSUB2_gint_vtxRange[cbin]->cd(2);
+        pad2a->SetRightMargin(0.03);
+        TH1D * h2a = (TH1D *) h1a->Clone(Form("h2%s",mtag.data()));
+        h2a->GetYaxis()->SetRangeUser(0.75, 1.25);
+        h2a->SetYTitle("v_{1}/v_{1}{nominal}");
+        h2a->GetYaxis()->SetDecimals();
+        h2a->GetYaxis()->SetNdivisions(509);
+        gPad->SetGrid(1,1);
+        h2a->Draw();
+        TLine * lnrata = new TLine(-2.3, 1.0, 2.3, 1.0);
+        lnrata->Draw();
+        ratio_gint_N1EVENSUB2_wide[cbin]->Draw("same p");
+        ratio_gint_N1EVENSUB2_narrow[cbin]->Draw("same p");
+        TF1 * fit_rat_wide = new TF1("fir_rat_wide", "pol0", -2, 2);
+        TGraphErrors * tmp_rat_wide = (TGraphErrors *) ratio_gint_N1EVENSUB2_wide[cbin]->Clone();
+        cout<<"\ncrange: "<<cmin[cbin]<<"\t"<<cmax[cbin]<<endl;
+        cout<<"wide ratio: "<<endl;
+        tmp_rat_wide->Fit(fit_rat_wide);
+        TF1 * fit_rat_narrow = new TF1("fir_rat_narrow", "pol0", -2, 2);
+        TGraphErrors * tmp_rat_narrow = (TGraphErrors *) ratio_gint_N1EVENSUB2_narrow[cbin]->Clone();
+        cout<<"narrow ratio: "<<endl;
+        tmp_rat_narrow->Fit(fit_rat_narrow);
+        fitwide_rat_p0[cbin] = fit_rat_wide->GetParameter(0);
+        fitNarrow_rat_p0[cbin] = fit_rat_narrow->GetParameter(0);
+
+        TPad * pad3a = (TPad *) cN1EVENSUB2_gint_vtxRange[cbin]->cd(3);
+        pad3a->SetRightMargin(0.03);
+        TH1D * h3a = (TH1D *) h1a->Clone(Form("h3%s",mtag.data()));
+        h3a->GetYaxis()->SetRangeUser(-1.05, 1.05);
+        if (cbin==8) h3a->GetYaxis()->SetRangeUser(-1.15, 1.15);
+        if (cbin==9) h3a->GetYaxis()->SetRangeUser(-1.55, 1.55);
+        if (cbin==10) h3a->GetYaxis()->SetRangeUser(-3.95,3.95);
+        h3a->SetXTitle("#eta");
+        h3a->GetXaxis()->SetLabelSize(0.06);
+        h3a->GetXaxis()->SetTitleSize(0.08);
+        h3a->GetXaxis()->SetTitleOffset(0.95);
+        h3a->SetYTitle("v_{1} - v_{1}{nominal} (#times 1000)");
+        h3a->GetYaxis()->SetLabelSize(0.06);
+        h3a->GetYaxis()->SetTitleSize(0.08);
+        h3a->GetYaxis()->SetTitleOffset(1.00);
+        h3a->GetYaxis()->SetDecimals();
+        h3a->GetYaxis()->SetNdivisions(508);
+        gPad->SetGrid(1,1);
+        h3a->Draw();
+        TLine * lndiffa = new TLine(-2.3, 0.0, 2.3, 0.0);
+        lndiffa->Draw();
+        diff_gint_N1EVENSUB2_wide[cbin]->Draw("same p");
+        diff_gint_N1EVENSUB2_narrow[cbin]->Draw("same p");
+        TF1 * fit_diff_wide = new TF1("fir_diff_wide", "pol1", -2, 2);
+        TGraphErrors * tmp_diff_wide = (TGraphErrors *) diff_gint_N1EVENSUB2_wide[cbin]->Clone();
+        cout<<"\ncrange: "<<cmin[cbin]<<"\t"<<cmax[cbin]<<endl;
+        cout<<"wide difference: "<<endl;
+        tmp_diff_wide->Fit(fit_diff_wide);
+        TF1 * fit_diff_narrow = new TF1("fir_diff_narrow", "pol1", -2, 2);
+        TGraphErrors * tmp_diff_narrow = (TGraphErrors *) diff_gint_N1EVENSUB2_narrow[cbin]->Clone();
+        cout<<"narrow difference: "<<endl;
+        tmp_diff_narrow->Fit(fit_diff_narrow);
+        fitWide_diff_p0[cbin] = 0.001 * fit_diff_wide->GetParameter(0);
+        fitWide_diff_p0_err[cbin] = 0.001 * fit_diff_wide->GetParError(0);
+        fitWide_diff_p1[cbin] = 0.001 * fit_diff_wide->GetParameter(1);
+        fitWide_diff_p1_err[cbin] = 0.001 * fit_diff_wide->GetParError(1);
+        fitNarrow_diff_p0[cbin] = 0.001 * fit_diff_narrow->GetParameter(0);
+        fitNarrow_diff_p0_err[cbin] = 0.001 * fit_diff_narrow->GetParError(0);
+        fitNarrow_diff_p1[cbin] = 0.001 * fit_diff_narrow->GetParameter(1);
+        fitNarrow_diff_p1_err[cbin] = 0.001 * fit_diff_narrow->GetParError(1);
+
+        cN1EVENSUB2_gint_vtxRange[cbin]->Print(Form("plots/N1EVENSUB2/cN1EVENSUB2_gint_vtxRange_%d_%d.pdf",cmin[cbin],cmax[cbin]),"pdf");
+        cN1EVENSUB2_gint_vtxRange[cbin]->Close();
     }
 
-    // cout<<"cmin\tcmax\twide rat p0\tnarrow ratp0\twide diff p0\twide diff p1\tnarrow diff p0\tnarrow diff p1"<<endl;
-    // for (int cbin = 0; cbin<ncbins; cbin++) {
-    //     cout<<cmin[cbin]<<"\t"<<cmax[cbin]<<"\t"<<fitwide_rat_p0[cbin]<<"\t"<<fitNarrow_rat_p0[cbin]<<"\t"<<fitwide_diff_p0[cbin]<<"\t"<<fitwide_diff_p1[cbin]<<"\t"<<fitNarrow_diff_p0[cbin]<<"\t"<<fitNarrow_diff_p1[cbin]<<endl;
-    // }
-
+    cout<<"cmin\tcmax\twide diff p0\t\twide diff p1\t\tnarrow diff p0\t\tnarrow diff p1"<<endl;
+    for (int cbin = 0; cbin<ncbins; cbin++) {
+        cout<<cmin[cbin]<<"\t"<<cmax[cbin]<<"\t"<<fitWide_diff_p0[cbin]<<" +/- "<<fitWide_diff_p0_err[cbin]<<"\t"
+        <<fitWide_diff_p1[cbin]<<" +/- "<<fitWide_diff_p1_err[cbin]<<"\t"
+        <<fitNarrow_diff_p0[cbin]<<" +/- "<<fitNarrow_diff_p0_err[cbin]<<"\t"
+        <<fitNarrow_diff_p1[cbin]<<" +/- "<<fitNarrow_diff_p1_err[cbin]<<"\t"<<endl;
+    }
 
 
     TCanvas * c0 = new TCanvas("c0", "c0", 1200, 600);
@@ -337,7 +250,7 @@ void plotSyst_N1EVENSUB2_vtxRange() {
     c0->cd(1);
     TH1D * h0_1 = new TH1D("h0_1", "", 100, -2.8, 2.8);
     h0_1->GetYaxis()->SetRangeUser(-0.014, 0.014);
-    h0_1->SetYTitle("v_{1}^{odd}");
+    h0_1->SetYTitle("v_{1}^{even}");
     h0_1->GetYaxis()->SetLabelSize(0.07);
     h0_1->GetYaxis()->SetTitleSize(0.09);
     h0_1->GetYaxis()->SetTitleOffset(1.05);
@@ -439,7 +352,7 @@ void plotSyst_N1EVENSUB2_vtxRange() {
     c1->cd(1);
     TH1D * h1_1 = new TH1D("h1_1", "", 100, -2.8, 2.8);
     h1_1->GetYaxis()->SetRangeUser(-0.018, 0.018);
-    h1_1->SetYTitle("v_{1}^{odd}");
+    h1_1->SetYTitle("v_{1}^{even}");
     h1_1->GetYaxis()->SetLabelSize(0.07);
     h1_1->GetYaxis()->SetTitleSize(0.09);
     h1_1->GetYaxis()->SetTitleOffset(1.05);
@@ -541,7 +454,7 @@ void plotSyst_N1EVENSUB2_vtxRange() {
     c2->cd(1);
     TH1D * h2_1 = new TH1D("h2_1", "", 100, -2.8, 2.8);
     h2_1->GetYaxis()->SetRangeUser(-0.072, 0.072);
-    h2_1->SetYTitle("v_{1}^{odd}");
+    h2_1->SetYTitle("v_{1}^{even}");
     h2_1->GetYaxis()->SetLabelSize(0.07);
     h2_1->GetYaxis()->SetTitleSize(0.09);
     h2_1->GetYaxis()->SetTitleOffset(1.05);

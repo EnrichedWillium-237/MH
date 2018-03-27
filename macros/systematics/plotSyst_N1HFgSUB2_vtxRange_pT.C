@@ -57,7 +57,7 @@ void SetLegend( TLegend * legtemplate, int legsize ) {
     legtemplate->SetTextSize(legsize);
 }
 
-void plotSyst_N1EVENSUB2_vtxRange_pT() {
+void plotSyst_N1HFgSUB2_vtxRange_pT() {
 
     Double_t fitwide_rat_p0[ncbins];
     Double_t fitnarrow_rat_p0[ncbins];
@@ -71,19 +71,19 @@ void plotSyst_N1EVENSUB2_vtxRange_pT() {
     Double_t fitNarrow_diff_p1_err[ncbins];
 
     for (int cbin = 0; cbin<ncbins; cbin++) {
-        string tag = Form("default/N1EVENSUB2/0.4_2.4/%d_%d",cmin[cbin],cmax[cbin]);
+        string tag = Form("default/N1HFgSUB2/-2.0_2.0/%d_%d",cmin[cbin],cmax[cbin]);
 
         // cN1EVENSUB2_gA_vtxRange[cbin] = (TCanvas *) fin->Get(Form("%s/syserr_N1EVENSUB2_gA_0.4_2.4_%d_%d_vtxRange",tag.data(),cmin[cbin],cmax[cbin]));
 
         gA_N1EVENSUB2[cbin] = (TGraphErrors *) fin->Get(Form("%s/gA",tag.data()));
-        gA_N1EVENSUB2_narrow[cbin] = (TGraphErrors *) fin->Get(Form("narrow/N1EVENSUB2/0.4_2.4/%d_%d/gA",cmin[cbin],cmax[cbin]));
-        gA_N1EVENSUB2_wide[cbin] = (TGraphErrors *) fin->Get(Form("wide/N1EVENSUB2/0.4_2.4/%d_%d/gA",cmin[cbin],cmax[cbin]));
+        gA_N1EVENSUB2_narrow[cbin] = (TGraphErrors *) fin->Get(Form("narrow/N1HFgSUB2/-2.0_2.0/%d_%d/gA",cmin[cbin],cmax[cbin]));
+        gA_N1EVENSUB2_wide[cbin] = (TGraphErrors *) fin->Get(Form("wide/N1HFgSUB2/-2.0_2.0/%d_%d/gA",cmin[cbin],cmax[cbin]));
 
-        ratio_gA_N1EVENSUB2_narrow[cbin] = (TGraphErrors *) fin->Get(Form("%s/Ratio_narrow_N1EVENSUB2_0.4_2.4_%d_%d_gA",tag.data(),cmin[cbin],cmax[cbin]));
-        ratio_gA_N1EVENSUB2_wide[cbin] = (TGraphErrors *) fin->Get(Form("%s/Ratio_wide_N1EVENSUB2_0.4_2.4_%d_%d_gA",tag.data(),cmin[cbin],cmax[cbin]));
+        ratio_gA_N1EVENSUB2_narrow[cbin] = (TGraphErrors *) fin->Get(Form("%s/Ratio_narrow_N1HFgSUB2_-2.0_2.0_%d_%d_gA",tag.data(),cmin[cbin],cmax[cbin]));
+        ratio_gA_N1EVENSUB2_wide[cbin] = (TGraphErrors *) fin->Get(Form("%s/Ratio_wide_N1HFgSUB2_-2.0_2.0_%d_%d_gA",tag.data(),cmin[cbin],cmax[cbin]));
 
-        diff_gA_N1EVENSUB2_narrow[cbin] = (TGraphErrors *) fin->Get(Form("%s/Difference_narrow_N1EVENSUB2_0.4_2.4_%d_%d_gA",tag.data(),cmin[cbin],cmax[cbin]));
-        diff_gA_N1EVENSUB2_wide[cbin] = (TGraphErrors *) fin->Get(Form("%s/Difference_wide_N1EVENSUB2_0.4_2.4_%d_%d_gA",tag.data(),cmin[cbin],cmax[cbin]));
+        diff_gA_N1EVENSUB2_narrow[cbin] = (TGraphErrors *) fin->Get(Form("%s/Difference_narrow_N1HFgSUB2_-2.0_2.0_%d_%d_gA",tag.data(),cmin[cbin],cmax[cbin]));
+        diff_gA_N1EVENSUB2_wide[cbin] = (TGraphErrors *) fin->Get(Form("%s/Difference_wide_N1HFgSUB2_-2.0_2.0_%d_%d_gA",tag.data(),cmin[cbin],cmax[cbin]));
 
         // g_N1EVENSUB2[cbin] = (TGraphErrors *) fin->Get(Form("%s/g",tag.data()));)
         // g_N1EVENSUB2_narrow[ncbins];
@@ -344,7 +344,7 @@ void plotSyst_N1EVENSUB2_vtxRange_pT() {
     c0->cd(1);
     TH1D * h0_1 = new TH1D("h0_1", "", 100, 0, 8);
     h0_1->GetYaxis()->SetRangeUser(-0.029, 0.29);
-    h0_1->SetYTitle("v_{1}^{even}");
+    h0_1->SetYTitle("v_{1}^{odd}");
     h0_1->GetYaxis()->SetLabelSize(0.07);
     h0_1->GetYaxis()->SetTitleSize(0.09);
     h0_1->GetYaxis()->SetTitleOffset(1.05);
@@ -446,7 +446,7 @@ void plotSyst_N1EVENSUB2_vtxRange_pT() {
     c1->cd(1);
     TH1D * h1_1 = new TH1D("h1_1", "", 100, 0, 8);
     h1_1->GetYaxis()->SetRangeUser(-0.029, 0.29);
-    h1_1->SetYTitle("v_{1}^{even}");
+    h1_1->SetYTitle("v_{1}^{odd}");
     h1_1->GetYaxis()->SetLabelSize(0.07);
     h1_1->GetYaxis()->SetTitleSize(0.09);
     h1_1->GetYaxis()->SetTitleOffset(1.05);
@@ -548,7 +548,7 @@ void plotSyst_N1EVENSUB2_vtxRange_pT() {
     c2->cd(1);
     TH1D * h2_1 = new TH1D("h2_1", "", 100, 0, 8);
     h2_1->GetYaxis()->SetRangeUser(-0.049, 0.49);
-    h2_1->SetYTitle("v_{1}^{even}");
+    h2_1->SetYTitle("v_{1}^{odd}");
     h2_1->GetYaxis()->SetLabelSize(0.07);
     h2_1->GetYaxis()->SetTitleSize(0.09);
     h2_1->GetYaxis()->SetTitleOffset(1.05);

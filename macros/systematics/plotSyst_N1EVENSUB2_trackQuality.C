@@ -254,7 +254,7 @@ void plotSyst_N1EVENSUB2_trackQuality() {
     c0->cd(1);
     TH1D * h0_1 = new TH1D("h0_1", "", 100, -2.6, 2.6);
     h0_1->GetYaxis()->SetRangeUser(-0.022, 0.022);
-    h0_1->SetYTitle("v_{1}^{odd}");
+    h0_1->SetYTitle("v_{1}^{even}");
     h0_1->GetYaxis()->SetLabelSize(0.07);
     h0_1->GetYaxis()->SetTitleSize(0.09);
     h0_1->GetYaxis()->SetTitleOffset(1.05);
@@ -356,7 +356,7 @@ void plotSyst_N1EVENSUB2_trackQuality() {
     c1->cd(1);
     TH1D * h1_1 = new TH1D("h1_1", "", 100, -2.6, 2.6);
     h1_1->GetYaxis()->SetRangeUser(-0.022, 0.022);
-    h1_1->SetYTitle("v_{1}^{odd}");
+    h1_1->SetYTitle("v_{1}^{even}");
     h1_1->GetYaxis()->SetLabelSize(0.07);
     h1_1->GetYaxis()->SetTitleSize(0.09);
     h1_1->GetYaxis()->SetTitleOffset(1.05);
@@ -458,7 +458,7 @@ void plotSyst_N1EVENSUB2_trackQuality() {
     c2->cd(1);
     TH1D * h2_1 = new TH1D("h2_1", "", 100, -2.6, 2.6);
     h2_1->GetYaxis()->SetRangeUser(-0.042, 0.042);
-    h2_1->SetYTitle("v_{1}^{odd}");
+    h2_1->SetYTitle("v_{1}^{even}");
     h2_1->GetYaxis()->SetLabelSize(0.07);
     h2_1->GetYaxis()->SetTitleSize(0.09);
     h2_1->GetYaxis()->SetTitleOffset(1.05);
