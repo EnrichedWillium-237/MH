@@ -22,34 +22,22 @@ TFile * fin = new TFile("../MH_hists_master.root","read");
 TGraphErrors * gint_N1EVENSUB2[ncbins];
 TGraphErrors * gint_N1EVENSUB2_narrow[ncbins];
 TGraphErrors * gint_N1EVENSUB2_wide[ncbins];
-TGraphErrors * gint_N1EVENSUB2_tight[ncbins];
-TGraphErrors * gint_N1EVENSUB2_loose[ncbins];
 
 TGraphErrors * ratio_gint_N1EVENSUB2_narrow[ncbins];
 TGraphErrors * ratio_gint_N1EVENSUB2_wide[ncbins];
-TGraphErrors * ratio_gint_N1EVENSUB2_tight[ncbins];
-TGraphErrors * ratio_gint_N1EVENSUB2_loose[ncbins];
 
 TGraphErrors * diff_gint_N1EVENSUB2_narrow[ncbins];
 TGraphErrors * diff_gint_N1EVENSUB2_wide[ncbins];
-TGraphErrors * diff_gint_N1EVENSUB2_tight[ncbins];
-TGraphErrors * diff_gint_N1EVENSUB2_loose[ncbins];
 
 TGraphErrors * g_N1EVENSUB2[ncbins];
 TGraphErrors * g_N1EVENSUB2_narrow[ncbins];
 TGraphErrors * g_N1EVENSUB2_wide[ncbins];
-TGraphErrors * g_N1EVENSUB2_tight[ncbins];
-TGraphErrors * g_N1EVENSUB2_loose[ncbins];
 
 TGraphErrors * ratio_g_N1EVENSUB2_narrow[ncbins];
 TGraphErrors * ratio_g_N1EVENSUB2_wide[ncbins];
-TGraphErrors * ratio_g_N1EVENSUB2_tight[ncbins];
-TGraphErrors * ratio_g_N1EVENSUB2_loose[ncbins];
 
 TGraphErrors * diff_g_N1EVENSUB2_narrow[ncbins];
 TGraphErrors * diff_g_N1EVENSUB2_wide[ncbins];
-TGraphErrors * diff_g_N1EVENSUB2_tight[ncbins];
-TGraphErrors * diff_g_N1EVENSUB2_loose[ncbins];
 
 TCanvas * cN1EVENSUB2_gint_trackQuality[ncbins];
 TCanvas * cN1EVENSUB2_gint_vtxRange[ncbins];
@@ -71,13 +59,6 @@ void SetLegend( TLegend * legtemplate, int legsize ) {
 
 void plotSyst_N1EVENSUB2_vtxRange() {
 
-    Double_t fitLoose_rat_p0[ncbins];
-    Double_t fitTight_rat_p0[ncbins];
-    Double_t fitLoose_diff_p0[ncbins];
-    Double_t fitLoose_diff_p1[ncbins];
-    Double_t fitTight_diff_p0[ncbins];
-    Double_t fitTight_diff_p1[ncbins];
-
     Double_t fitwide_rat_p0[ncbins];
     Double_t fitNarrow_rat_p0[ncbins];
     Double_t fitwide_diff_p0[ncbins];
@@ -93,18 +74,12 @@ void plotSyst_N1EVENSUB2_vtxRange() {
         gint_N1EVENSUB2[cbin] = (TGraphErrors *) fin->Get(Form("%s/gint",tag.data()));
         gint_N1EVENSUB2_narrow[cbin] = (TGraphErrors *) fin->Get(Form("narrow/N1EVENSUB2/0.4_2.4/%d_%d/gint",cmin[cbin],cmax[cbin]));
         gint_N1EVENSUB2_wide[cbin] = (TGraphErrors *) fin->Get(Form("wide/N1EVENSUB2/0.4_2.4/%d_%d/gint",cmin[cbin],cmax[cbin]));
-        gint_N1EVENSUB2_tight[cbin] = (TGraphErrors *) fin->Get(Form("tight2/N1EVENSUB2/0.4_2.4/%d_%d/gint",cmin[cbin],cmax[cbin]));
-        gint_N1EVENSUB2_loose[cbin] = (TGraphErrors *) fin->Get(Form("loose/N1EVENSUB2/0.4_2.4/%d_%d/gint",cmin[cbin],cmax[cbin]));
 
         ratio_gint_N1EVENSUB2_narrow[cbin] = (TGraphErrors *) fin->Get(Form("%s/Ratio_narrow_N1EVENSUB2_0.4_2.4_%d_%d_gint",tag.data(),cmin[cbin],cmax[cbin]));
         ratio_gint_N1EVENSUB2_wide[cbin] = (TGraphErrors *) fin->Get(Form("%s/Ratio_wide_N1EVENSUB2_0.4_2.4_%d_%d_gint",tag.data(),cmin[cbin],cmax[cbin]));
-        ratio_gint_N1EVENSUB2_tight[cbin] = (TGraphErrors *) fin->Get(Form("%s/Ratio_tight2_N1EVENSUB2_0.4_2.4_%d_%d_gint",tag.data(),cmin[cbin],cmax[cbin]));
-        ratio_gint_N1EVENSUB2_loose[cbin] = (TGraphErrors *) fin->Get(Form("%s/Ratio_loose_N1EVENSUB2_0.4_2.4_%d_%d_gint",tag.data(),cmin[cbin],cmax[cbin]));
 
         diff_gint_N1EVENSUB2_narrow[cbin] = (TGraphErrors *) fin->Get(Form("%s/Difference_narrow_N1EVENSUB2_0.4_2.4_%d_%d_gint",tag.data(),cmin[cbin],cmax[cbin]));
         diff_gint_N1EVENSUB2_wide[cbin] = (TGraphErrors *) fin->Get(Form("%s/Difference_wide_N1EVENSUB2_0.4_2.4_%d_%d_gint",tag.data(),cmin[cbin],cmax[cbin]));
-        diff_gint_N1EVENSUB2_tight[cbin] = (TGraphErrors *) fin->Get(Form("%s/Difference_tight2_N1EVENSUB2_0.4_2.4_%d_%d_gint",tag.data(),cmin[cbin],cmax[cbin]));
-        diff_gint_N1EVENSUB2_loose[cbin] = (TGraphErrors *) fin->Get(Form("%s/Difference_loose_N1EVENSUB2_0.4_2.4_%d_%d_gint",tag.data(),cmin[cbin],cmax[cbin]));
 
         gint_N1EVENSUB2[cbin]->SetMarkerStyle(25);
         gint_N1EVENSUB2[cbin]->SetMarkerSize(1.0);
@@ -112,20 +87,6 @@ void plotSyst_N1EVENSUB2_vtxRange() {
         gint_N1EVENSUB2[cbin]->SetLineColor(kRed);
         gint_N1EVENSUB2[cbin]->RemovePoint(5);
         gint_N1EVENSUB2[cbin]->RemovePoint(5);
-
-        gint_N1EVENSUB2_loose[cbin]->SetMarkerStyle(20);
-        gint_N1EVENSUB2_loose[cbin]->SetMarkerSize(1.0);
-        gint_N1EVENSUB2_loose[cbin]->SetMarkerColor(kBlue);
-        gint_N1EVENSUB2_loose[cbin]->SetLineColor(kBlue);
-        gint_N1EVENSUB2_loose[cbin]->RemovePoint(5);
-        gint_N1EVENSUB2_loose[cbin]->RemovePoint(5);
-
-        gint_N1EVENSUB2_tight[cbin]->SetMarkerStyle(20);
-        gint_N1EVENSUB2_tight[cbin]->SetMarkerSize(1.0);
-        gint_N1EVENSUB2_tight[cbin]->SetMarkerColor(kGreen+2);
-        gint_N1EVENSUB2_tight[cbin]->SetLineColor(kGreen+2);
-        gint_N1EVENSUB2_tight[cbin]->RemovePoint(5);
-        gint_N1EVENSUB2_tight[cbin]->RemovePoint(5);
 
         gint_N1EVENSUB2_wide[cbin]->SetMarkerStyle(20);
         gint_N1EVENSUB2_wide[cbin]->SetMarkerSize(1.0);
@@ -155,20 +116,6 @@ void plotSyst_N1EVENSUB2_vtxRange() {
         ratio_gint_N1EVENSUB2_wide[cbin]->RemovePoint(5);
         ratio_gint_N1EVENSUB2_wide[cbin]->RemovePoint(5);
 
-        ratio_gint_N1EVENSUB2_tight[cbin]->SetMarkerStyle(20);
-        ratio_gint_N1EVENSUB2_tight[cbin]->SetMarkerSize(1.0);
-        ratio_gint_N1EVENSUB2_tight[cbin]->SetMarkerColor(kGreen+2);
-        ratio_gint_N1EVENSUB2_tight[cbin]->SetLineColor(kGreen+2);
-        ratio_gint_N1EVENSUB2_tight[cbin]->RemovePoint(5);
-        ratio_gint_N1EVENSUB2_tight[cbin]->RemovePoint(5);
-
-        ratio_gint_N1EVENSUB2_loose[cbin]->SetMarkerStyle(20);
-        ratio_gint_N1EVENSUB2_loose[cbin]->SetMarkerSize(1.0);
-        ratio_gint_N1EVENSUB2_loose[cbin]->SetMarkerColor(kBlue);
-        ratio_gint_N1EVENSUB2_loose[cbin]->SetLineColor(kBlue);
-        ratio_gint_N1EVENSUB2_loose[cbin]->RemovePoint(5);
-        ratio_gint_N1EVENSUB2_loose[cbin]->RemovePoint(5);
-
 
         diff_gint_N1EVENSUB2_narrow[cbin]->SetMarkerStyle(20);
         diff_gint_N1EVENSUB2_narrow[cbin]->SetMarkerSize(1.0);
@@ -183,20 +130,6 @@ void plotSyst_N1EVENSUB2_vtxRange() {
         diff_gint_N1EVENSUB2_wide[cbin]->SetLineColor(kBlue);
         diff_gint_N1EVENSUB2_wide[cbin]->RemovePoint(5);
         diff_gint_N1EVENSUB2_wide[cbin]->RemovePoint(5);
-
-        diff_gint_N1EVENSUB2_tight[cbin]->SetMarkerStyle(20);
-        diff_gint_N1EVENSUB2_tight[cbin]->SetMarkerSize(1.0);
-        diff_gint_N1EVENSUB2_tight[cbin]->SetMarkerColor(kGreen+2);
-        diff_gint_N1EVENSUB2_tight[cbin]->SetLineColor(kGreen+2);
-        diff_gint_N1EVENSUB2_tight[cbin]->RemovePoint(5);
-        diff_gint_N1EVENSUB2_tight[cbin]->RemovePoint(5);
-
-        diff_gint_N1EVENSUB2_loose[cbin]->SetMarkerStyle(20);
-        diff_gint_N1EVENSUB2_loose[cbin]->SetMarkerSize(1.0);
-        diff_gint_N1EVENSUB2_loose[cbin]->SetMarkerColor(kBlue);
-        diff_gint_N1EVENSUB2_loose[cbin]->SetLineColor(kBlue);
-        diff_gint_N1EVENSUB2_loose[cbin]->RemovePoint(5);
-        diff_gint_N1EVENSUB2_loose[cbin]->RemovePoint(5);
 
 
         string mtag = Form("N1EVENSUB2_%d_%d",cmin[cbin],cmax[cbin]);
@@ -403,7 +336,7 @@ void plotSyst_N1EVENSUB2_vtxRange() {
     c0->Divide(4,2,0,0);
     c0->cd(1);
     TH1D * h0_1 = new TH1D("h0_1", "", 100, -2.8, 2.8);
-    h0_1->GetYaxis()->SetRangeUser(-0.022, 0.022);
+    h0_1->GetYaxis()->SetRangeUser(-0.014, 0.014);
     h0_1->SetYTitle("v_{1}^{odd}");
     h0_1->GetYaxis()->SetLabelSize(0.07);
     h0_1->GetYaxis()->SetTitleSize(0.09);
@@ -412,8 +345,8 @@ void plotSyst_N1EVENSUB2_vtxRange() {
     h0_1->GetYaxis()->SetDecimals();
     h0_1->GetYaxis()->SetNdivisions(507);
     h0_1->Draw();
-    gint_N1EVENSUB2_wide[0]->Draw("same p");
     gint_N1EVENSUB2_narrow[0]->Draw("same p");
+    gint_N1EVENSUB2_wide[0]->Draw("same p");
     gint_N1EVENSUB2[0]->Draw("same p");
     TPaveText * txt0_1 = new TPaveText(0.50, 0.84, 0.70, 0.93, "NDC");
     SetTPaveTxt(txt0_1, 24);
@@ -428,8 +361,8 @@ void plotSyst_N1EVENSUB2_vtxRange() {
     c0->cd(2);
     TH1D * h0_2 = (TH1D *) h0_1->Clone("h0_2");
     h0_2->Draw();
-    gint_N1EVENSUB2_wide[1]->Draw("same p");
     gint_N1EVENSUB2_narrow[1]->Draw("same p");
+    gint_N1EVENSUB2_wide[1]->Draw("same p");
     gint_N1EVENSUB2[1]->Draw("same p");
     TPaveText * txt0_2 = new TPaveText(0.40, 0.84, 0.60, 0.93, "NDC");
     SetTPaveTxt(txt0_2, 24);
@@ -438,8 +371,8 @@ void plotSyst_N1EVENSUB2_vtxRange() {
     c0->cd(3);
     TH1D * h0_3 = (TH1D *) h0_1->Clone("h0_3");
     h0_3->Draw();
-    gint_N1EVENSUB2_wide[2]->Draw("same p");
     gint_N1EVENSUB2_narrow[2]->Draw("same p");
+    gint_N1EVENSUB2_wide[2]->Draw("same p");
     gint_N1EVENSUB2[2]->Draw("same p");
     TPaveText * txt0_3 = new TPaveText(0.40, 0.84, 0.60, 0.93, "NDC");
     SetTPaveTxt(txt0_3, 24);
@@ -449,8 +382,8 @@ void plotSyst_N1EVENSUB2_vtxRange() {
     pad0_4->SetRightMargin(0.02);
     TH1D * h0_4 = (TH1D *) h0_1->Clone("h0_4");
     h0_4->Draw();
-    gint_N1EVENSUB2_wide[3]->Draw("same p");
     gint_N1EVENSUB2_narrow[3]->Draw("same p");
+    gint_N1EVENSUB2_wide[3]->Draw("same p");
     gint_N1EVENSUB2[3]->Draw("same p");
     TPaveText * txt0_4 = new TPaveText(0.40, 0.84, 0.60, 0.93, "NDC");
     SetTPaveTxt(txt0_4, 24);
@@ -461,7 +394,7 @@ void plotSyst_N1EVENSUB2_vtxRange() {
     gPad->SetGrid(1,1);
     TH1D * h0_5 = (TH1D *) h0_1->Clone("h0_5");
     h0_5->SetYTitle("v_{1} - v_{1}{nominal} (#times 1000)");
-    h0_5->GetYaxis()->SetRangeUser(-2.2, 2.2);
+    h0_5->GetYaxis()->SetRangeUser(-4.8, 4.8);
     h0_5->SetXTitle("#eta");
     h0_5->GetXaxis()->CenterTitle();
     h0_5->GetXaxis()->SetLabelSize(0.06);
@@ -472,27 +405,27 @@ void plotSyst_N1EVENSUB2_vtxRange() {
     h0_5->GetYaxis()->SetTitleOffset(1.20);
     h0_5->GetYaxis()->SetNdivisions(507);
     h0_5->Draw();
-    diff_gint_N1EVENSUB2_wide[0]->Draw("same p");
     diff_gint_N1EVENSUB2_narrow[0]->Draw("same p");
+    diff_gint_N1EVENSUB2_wide[0]->Draw("same p");
     c0->cd(6);
     gPad->SetGrid(1,1);
     TH1D * h0_6 = (TH1D *) h0_5->Clone("h0_6");
     h0_6->Draw();
-    diff_gint_N1EVENSUB2_wide[1]->Draw("same p");
     diff_gint_N1EVENSUB2_narrow[1]->Draw("same p");
+    diff_gint_N1EVENSUB2_wide[1]->Draw("same p");
     c0->cd(7);
     gPad->SetGrid(1,1);
     TH1D * h0_7 = (TH1D *) h0_5->Clone("h0_7");
     h0_7->Draw();
-    diff_gint_N1EVENSUB2_wide[2]->Draw("same p");
     diff_gint_N1EVENSUB2_narrow[2]->Draw("same p");
+    diff_gint_N1EVENSUB2_wide[2]->Draw("same p");
     TPad * pad0_8 = (TPad *) c0->cd(8);
     pad0_8->SetRightMargin(0.02);
     gPad->SetGrid(1,1);
     TH1D * h0_8 = (TH1D *) h0_5->Clone("h0_8");
     h0_8->Draw();
-    diff_gint_N1EVENSUB2_wide[3]->Draw("same p");
     diff_gint_N1EVENSUB2_narrow[3]->Draw("same p");
+    diff_gint_N1EVENSUB2_wide[3]->Draw("same p");
 
     c0->Print("plots/N1EVENSUB2/N1EVENSUB2_vtxRange_0_20.pdf","pdf");
     c0->Print("plots/N1EVENSUB2/N1EVENSUB2_vtxRange_0_20.png","png");
@@ -505,7 +438,7 @@ void plotSyst_N1EVENSUB2_vtxRange() {
     c1->Divide(4,2,0,0);
     c1->cd(1);
     TH1D * h1_1 = new TH1D("h1_1", "", 100, -2.8, 2.8);
-    h1_1->GetYaxis()->SetRangeUser(-0.022, 0.022);
+    h1_1->GetYaxis()->SetRangeUser(-0.018, 0.018);
     h1_1->SetYTitle("v_{1}^{odd}");
     h1_1->GetYaxis()->SetLabelSize(0.07);
     h1_1->GetYaxis()->SetTitleSize(0.09);
@@ -514,8 +447,8 @@ void plotSyst_N1EVENSUB2_vtxRange() {
     h1_1->GetYaxis()->SetDecimals();
     h1_1->GetYaxis()->SetNdivisions(507);
     h1_1->Draw();
-    gint_N1EVENSUB2_wide[4]->Draw("same p");
     gint_N1EVENSUB2_narrow[4]->Draw("same p");
+    gint_N1EVENSUB2_wide[4]->Draw("same p");
     gint_N1EVENSUB2[4]->Draw("same p");
     TPaveText * txt1_1 = new TPaveText(0.50, 0.84, 0.70, 0.93, "NDC");
     SetTPaveTxt(txt1_1, 24);
@@ -530,8 +463,8 @@ void plotSyst_N1EVENSUB2_vtxRange() {
     c1->cd(2);
     TH1D * h1_2 = (TH1D *) h1_1->Clone("h1_2");
     h1_2->Draw();
-    gint_N1EVENSUB2_wide[5]->Draw("same p");
     gint_N1EVENSUB2_narrow[5]->Draw("same p");
+    gint_N1EVENSUB2_wide[5]->Draw("same p");
     gint_N1EVENSUB2[5]->Draw("same p");
     TPaveText * txt1_2 = new TPaveText(0.40, 0.84, 0.60, 0.93, "NDC");
     SetTPaveTxt(txt1_2, 24);
@@ -540,8 +473,8 @@ void plotSyst_N1EVENSUB2_vtxRange() {
     c1->cd(3);
     TH1D * h1_3 = (TH1D *) h1_1->Clone("h1_3");
     h1_3->Draw();
-    gint_N1EVENSUB2_wide[6]->Draw("same p");
     gint_N1EVENSUB2_narrow[6]->Draw("same p");
+    gint_N1EVENSUB2_wide[6]->Draw("same p");
     gint_N1EVENSUB2[6]->Draw("same p");
     TPaveText * txt1_3 = new TPaveText(0.40, 0.84, 0.60, 0.93, "NDC");
     SetTPaveTxt(txt1_3, 24);
@@ -551,8 +484,8 @@ void plotSyst_N1EVENSUB2_vtxRange() {
     pad1_4->SetRightMargin(0.02);
     TH1D * h1_4 = (TH1D *) h1_1->Clone("h1_4");
     h1_4->Draw();
-    gint_N1EVENSUB2_wide[7]->Draw("same p");
     gint_N1EVENSUB2_narrow[7]->Draw("same p");
+    gint_N1EVENSUB2_wide[7]->Draw("same p");
     gint_N1EVENSUB2[7]->Draw("same p");
     TPaveText * txt1_4 = new TPaveText(0.40, 0.84, 0.60, 0.93, "NDC");
     SetTPaveTxt(txt1_4, 24);
@@ -563,7 +496,7 @@ void plotSyst_N1EVENSUB2_vtxRange() {
     gPad->SetGrid(1,1);
     TH1D * h1_5 = (TH1D *) h1_1->Clone("h1_5");
     h1_5->SetYTitle("v_{1} - v_{1}{nominal} (#times 1000)");
-    h1_5->GetYaxis()->SetRangeUser(-3.5, 3.5);
+    h1_5->GetYaxis()->SetRangeUser(-6.5, 6.5);
     h1_5->SetXTitle("#eta");
     h1_5->GetXaxis()->CenterTitle();
     h1_5->GetXaxis()->SetLabelSize(0.06);
@@ -574,27 +507,27 @@ void plotSyst_N1EVENSUB2_vtxRange() {
     h1_5->GetYaxis()->SetTitleOffset(1.20);
     h1_5->GetYaxis()->SetNdivisions(507);
     h1_5->Draw();
-    diff_gint_N1EVENSUB2_wide[4]->Draw("same p");
     diff_gint_N1EVENSUB2_narrow[4]->Draw("same p");
+    diff_gint_N1EVENSUB2_wide[4]->Draw("same p");
     c1->cd(6);
     gPad->SetGrid(1,1);
     TH1D * h1_6 = (TH1D *) h1_5->Clone("h1_6");
     h1_6->Draw();
-    diff_gint_N1EVENSUB2_wide[5]->Draw("same p");
     diff_gint_N1EVENSUB2_narrow[5]->Draw("same p");
+    diff_gint_N1EVENSUB2_wide[5]->Draw("same p");
     c1->cd(7);
     gPad->SetGrid(1,1);
     TH1D * h1_7 = (TH1D *) h1_5->Clone("h1_7");
     h1_7->Draw();
-    diff_gint_N1EVENSUB2_wide[6]->Draw("same p");
     diff_gint_N1EVENSUB2_narrow[6]->Draw("same p");
+    diff_gint_N1EVENSUB2_wide[6]->Draw("same p");
     TPad * pad1_8 = (TPad *) c1->cd(8);
     pad1_8->SetRightMargin(0.02);
     gPad->SetGrid(1,1);
     TH1D * h1_8 = (TH1D *) h1_5->Clone("h1_8");
     h1_8->Draw();
-    diff_gint_N1EVENSUB2_wide[7]->Draw("same p");
     diff_gint_N1EVENSUB2_narrow[7]->Draw("same p");
+    diff_gint_N1EVENSUB2_wide[7]->Draw("same p");
 
     c1->Print("plots/N1EVENSUB2/N1EVENSUB2_vtxRange_20_40.pdf","pdf");
     c1->Print("plots/N1EVENSUB2/N1EVENSUB2_vtxRange_20_40.png","png");
@@ -607,7 +540,7 @@ void plotSyst_N1EVENSUB2_vtxRange() {
     c2->Divide(3,2,0,0);
     c2->cd(1);
     TH1D * h2_1 = new TH1D("h2_1", "", 100, -2.8, 2.8);
-    h2_1->GetYaxis()->SetRangeUser(-0.042, 0.042);
+    h2_1->GetYaxis()->SetRangeUser(-0.072, 0.072);
     h2_1->SetYTitle("v_{1}^{odd}");
     h2_1->GetYaxis()->SetLabelSize(0.07);
     h2_1->GetYaxis()->SetTitleSize(0.09);
@@ -616,8 +549,8 @@ void plotSyst_N1EVENSUB2_vtxRange() {
     h2_1->GetYaxis()->SetDecimals();
     h2_1->GetYaxis()->SetNdivisions(507);
     h2_1->Draw();
-    gint_N1EVENSUB2_wide[8]->Draw("same p");
     gint_N1EVENSUB2_narrow[8]->Draw("same p");
+    gint_N1EVENSUB2_wide[8]->Draw("same p");
     gint_N1EVENSUB2[8]->Draw("same p");
     TPaveText * txt2_1 = new TPaveText(0.50, 0.84, 0.70, 0.93, "NDC");
     SetTPaveTxt(txt2_1, 24);
@@ -632,8 +565,8 @@ void plotSyst_N1EVENSUB2_vtxRange() {
     c2->cd(2);
     TH1D * h2_2 = (TH1D *) h2_1->Clone("h2_2");
     h2_2->Draw();
-    gint_N1EVENSUB2_wide[9]->Draw("same p");
     gint_N1EVENSUB2_narrow[9]->Draw("same p");
+    gint_N1EVENSUB2_wide[9]->Draw("same p");
     gint_N1EVENSUB2[9]->Draw("same p");
     TPaveText * txt2_2 = new TPaveText(0.40, 0.84, 0.60, 0.93, "NDC");
     SetTPaveTxt(txt2_2, 24);
@@ -643,8 +576,8 @@ void plotSyst_N1EVENSUB2_vtxRange() {
     pad2_3->SetRightMargin(0.02);
     TH1D * h2_3 = (TH1D *) h2_1->Clone("h2_3");
     h2_3->Draw();
-    gint_N1EVENSUB2_wide[10]->Draw("same p");
     gint_N1EVENSUB2_narrow[10]->Draw("same p");
+    gint_N1EVENSUB2_wide[10]->Draw("same p");
     gint_N1EVENSUB2[10]->Draw("same p");
     TPaveText * txt2_3 = new TPaveText(0.40, 0.84, 0.60, 0.93, "NDC");
     SetTPaveTxt(txt2_3, 24);
@@ -655,7 +588,7 @@ void plotSyst_N1EVENSUB2_vtxRange() {
     gPad->SetGrid(1,1);
     TH1D * h2_5 = (TH1D *) h2_1->Clone("h2_5");
     h2_5->SetYTitle("v_{1} - v_{1}{nominal} (#times 1000)");
-    h2_5->GetYaxis()->SetRangeUser(-5.4, 5.4);
+    h2_5->GetYaxis()->SetRangeUser(-25.9, 25.9);
     h2_5->SetXTitle("#eta");
     h2_5->GetXaxis()->CenterTitle();
     h2_5->GetXaxis()->SetLabelSize(0.06);
@@ -666,20 +599,20 @@ void plotSyst_N1EVENSUB2_vtxRange() {
     h2_5->GetYaxis()->SetTitleOffset(1.20);
     h2_5->GetYaxis()->SetNdivisions(507);
     h2_5->Draw();
-    diff_gint_N1EVENSUB2_wide[8]->Draw("same p");
     diff_gint_N1EVENSUB2_narrow[8]->Draw("same p");
+    diff_gint_N1EVENSUB2_wide[8]->Draw("same p");
     c2->cd(5);
     gPad->SetGrid(1,1);
     TH1D * h2_6 = (TH1D *) h2_5->Clone("h2_6");
     h2_6->Draw();
-    diff_gint_N1EVENSUB2_wide[9]->Draw("same p");
     diff_gint_N1EVENSUB2_narrow[9]->Draw("same p");
+    diff_gint_N1EVENSUB2_wide[9]->Draw("same p");
     c2->cd(6);
     gPad->SetGrid(1,1);
     TH1D * h2_7 = (TH1D *) h2_5->Clone("h2_7");
     h2_7->Draw();
-    diff_gint_N1EVENSUB2_wide[10]->Draw("same p");
     diff_gint_N1EVENSUB2_narrow[10]->Draw("same p");
+    diff_gint_N1EVENSUB2_wide[10]->Draw("same p");
     TPad * pad2_8 = (TPad *) c2->cd(7);
     pad2_8->SetRightMargin(0.02);
     gPad->SetGrid(1,1);

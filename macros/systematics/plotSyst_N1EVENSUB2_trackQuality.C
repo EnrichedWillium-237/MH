@@ -655,7 +655,7 @@ void plotSyst_N1EVENSUB2_trackQuality() {
     gPad->SetGrid(1,1);
     TH1D * h2_5 = (TH1D *) h2_1->Clone("h2_5");
     h2_5->SetYTitle("v_{1} - v_{1}{nominal} (#times 1000)");
-    h2_5->GetYaxis()->SetRangeUser(-5.4, 5.4);
+    h2_5->GetYaxis()->SetRangeUser(-9.9, 9.9);
     h2_5->SetXTitle("#eta");
     h2_5->GetXaxis()->CenterTitle();
     h2_5->GetXaxis()->SetLabelSize(0.06);
