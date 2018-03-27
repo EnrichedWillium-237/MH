@@ -20,34 +20,22 @@ static const int cmax[] = {5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70,  20, 60, 1
 TFile * fin = new TFile("../MH_hists_master.root","read");
 
 TGraphErrors * gint_N1EVENSUB2[ncbins];
-TGraphErrors * gint_N1EVENSUB2_narrow[ncbins];
-TGraphErrors * gint_N1EVENSUB2_wide[ncbins];
 TGraphErrors * gint_N1EVENSUB2_tight[ncbins];
 TGraphErrors * gint_N1EVENSUB2_loose[ncbins];
 
-TGraphErrors * ratio_gint_N1EVENSUB2_narrow[ncbins];
-TGraphErrors * ratio_gint_N1EVENSUB2_wide[ncbins];
 TGraphErrors * ratio_gint_N1EVENSUB2_tight[ncbins];
 TGraphErrors * ratio_gint_N1EVENSUB2_loose[ncbins];
 
-TGraphErrors * diff_gint_N1EVENSUB2_narrow[ncbins];
-TGraphErrors * diff_gint_N1EVENSUB2_wide[ncbins];
 TGraphErrors * diff_gint_N1EVENSUB2_tight[ncbins];
 TGraphErrors * diff_gint_N1EVENSUB2_loose[ncbins];
 
 TGraphErrors * g_N1EVENSUB2[ncbins];
-TGraphErrors * g_N1EVENSUB2_narrow[ncbins];
-TGraphErrors * g_N1EVENSUB2_wide[ncbins];
 TGraphErrors * g_N1EVENSUB2_tight[ncbins];
 TGraphErrors * g_N1EVENSUB2_loose[ncbins];
 
-TGraphErrors * ratio_g_N1EVENSUB2_narrow[ncbins];
-TGraphErrors * ratio_g_N1EVENSUB2_wide[ncbins];
 TGraphErrors * ratio_g_N1EVENSUB2_tight[ncbins];
 TGraphErrors * ratio_g_N1EVENSUB2_loose[ncbins];
 
-TGraphErrors * diff_g_N1EVENSUB2_narrow[ncbins];
-TGraphErrors * diff_g_N1EVENSUB2_wide[ncbins];
 TGraphErrors * diff_g_N1EVENSUB2_tight[ncbins];
 TGraphErrors * diff_g_N1EVENSUB2_loose[ncbins];
 
@@ -77,13 +65,10 @@ void plotSyst_N1EVENSUB2_trackQuality() {
     Double_t fitLoose_diff_p1[ncbins];
     Double_t fitTight_diff_p0[ncbins];
     Double_t fitTight_diff_p1[ncbins];
-
-    Double_t fitWide_rat_p0[ncbins];
-    Double_t fitNarrow_rat_p0[ncbins];
-    Double_t fitWide_diff_p0[ncbins];
-    Double_t fitWide_diff_p1[ncbins];
-    Double_t fitNarrow_diff_p0[ncbins];
-    Double_t fitNarrow_diff_p1[ncbins];
+    Double_t fitLoose_diff_p0_err[ncbins];
+    Double_t fitLoose_diff_p1_err[ncbins];
+    Double_t fitTight_diff_p0_err[ncbins];
+    Double_t fitTight_diff_p1_err[ncbins];
 
     for (int cbin = 0; cbin<ncbins; cbin++) {
         string tag = Form("default/N1EVENSUB2/0.4_2.4/%d_%d",cmin[cbin],cmax[cbin]);
@@ -91,18 +76,12 @@ void plotSyst_N1EVENSUB2_trackQuality() {
         // cN1EVENSUB2_gint_trackQuality[cbin] = (TCanvas *) fin->Get(Form("%s/syserr_N1EVENSUB2_gint_0.4_2.4_%d_%d_trackQuality",tag.data(),cmin[cbin],cmax[cbin]));
 
         gint_N1EVENSUB2[cbin] = (TGraphErrors *) fin->Get(Form("%s/gint",tag.data()));
-        gint_N1EVENSUB2_narrow[cbin] = (TGraphErrors *) fin->Get(Form("narrow/N1EVENSUB2/0.4_2.4/%d_%d/gint",cmin[cbin],cmax[cbin]));
-        gint_N1EVENSUB2_wide[cbin] = (TGraphErrors *) fin->Get(Form("wide/N1EVENSUB2/0.4_2.4/%d_%d/gint",cmin[cbin],cmax[cbin]));
         gint_N1EVENSUB2_tight[cbin] = (TGraphErrors *) fin->Get(Form("tight2/N1EVENSUB2/0.4_2.4/%d_%d/gint",cmin[cbin],cmax[cbin]));
         gint_N1EVENSUB2_loose[cbin] = (TGraphErrors *) fin->Get(Form("loose/N1EVENSUB2/0.4_2.4/%d_%d/gint",cmin[cbin],cmax[cbin]));
 
-        ratio_gint_N1EVENSUB2_narrow[cbin] = (TGraphErrors *) fin->Get(Form("%s/Ratio_narrow_N1EVENSUB2_0.4_2.4_%d_%d_gint",tag.data(),cmin[cbin],cmax[cbin]));
-        ratio_gint_N1EVENSUB2_wide[cbin] = (TGraphErrors *) fin->Get(Form("%s/Ratio_wide_N1EVENSUB2_0.4_2.4_%d_%d_gint",tag.data(),cmin[cbin],cmax[cbin]));
         ratio_gint_N1EVENSUB2_tight[cbin] = (TGraphErrors *) fin->Get(Form("%s/Ratio_tight2_N1EVENSUB2_0.4_2.4_%d_%d_gint",tag.data(),cmin[cbin],cmax[cbin]));
         ratio_gint_N1EVENSUB2_loose[cbin] = (TGraphErrors *) fin->Get(Form("%s/Ratio_loose_N1EVENSUB2_0.4_2.4_%d_%d_gint",tag.data(),cmin[cbin],cmax[cbin]));
 
-        diff_gint_N1EVENSUB2_narrow[cbin] = (TGraphErrors *) fin->Get(Form("%s/Difference_narrow_N1EVENSUB2_0.4_2.4_%d_%d_gint",tag.data(),cmin[cbin],cmax[cbin]));
-        diff_gint_N1EVENSUB2_wide[cbin] = (TGraphErrors *) fin->Get(Form("%s/Difference_wide_N1EVENSUB2_0.4_2.4_%d_%d_gint",tag.data(),cmin[cbin],cmax[cbin]));
         diff_gint_N1EVENSUB2_tight[cbin] = (TGraphErrors *) fin->Get(Form("%s/Difference_tight2_N1EVENSUB2_0.4_2.4_%d_%d_gint",tag.data(),cmin[cbin],cmax[cbin]));
         diff_gint_N1EVENSUB2_loose[cbin] = (TGraphErrors *) fin->Get(Form("%s/Difference_loose_N1EVENSUB2_0.4_2.4_%d_%d_gint",tag.data(),cmin[cbin],cmax[cbin]));
 
@@ -127,34 +106,6 @@ void plotSyst_N1EVENSUB2_trackQuality() {
         gint_N1EVENSUB2_tight[cbin]->RemovePoint(5);
         gint_N1EVENSUB2_tight[cbin]->RemovePoint(5);
 
-        gint_N1EVENSUB2_wide[cbin]->SetMarkerStyle(20);
-        gint_N1EVENSUB2_wide[cbin]->SetMarkerSize(1.0);
-        gint_N1EVENSUB2_wide[cbin]->SetMarkerColor(kBlue);
-        gint_N1EVENSUB2_wide[cbin]->SetLineColor(kBlue);
-        gint_N1EVENSUB2_wide[cbin]->RemovePoint(5);
-        gint_N1EVENSUB2_wide[cbin]->RemovePoint(5);
-
-        gint_N1EVENSUB2_narrow[cbin]->SetMarkerStyle(20);
-        gint_N1EVENSUB2_narrow[cbin]->SetMarkerSize(1.0);
-        gint_N1EVENSUB2_narrow[cbin]->SetMarkerColor(kGreen+2);
-        gint_N1EVENSUB2_narrow[cbin]->SetLineColor(kGreen+2);
-        gint_N1EVENSUB2_narrow[cbin]->RemovePoint(5);
-        gint_N1EVENSUB2_narrow[cbin]->RemovePoint(5);
-
-        ratio_gint_N1EVENSUB2_narrow[cbin]->SetMarkerStyle(20);
-        ratio_gint_N1EVENSUB2_narrow[cbin]->SetMarkerSize(1.0);
-        ratio_gint_N1EVENSUB2_narrow[cbin]->SetMarkerColor(kGreen+2);
-        ratio_gint_N1EVENSUB2_narrow[cbin]->SetLineColor(kGreen+2);
-        ratio_gint_N1EVENSUB2_narrow[cbin]->RemovePoint(5);
-        ratio_gint_N1EVENSUB2_narrow[cbin]->RemovePoint(5);
-
-        ratio_gint_N1EVENSUB2_wide[cbin]->SetMarkerStyle(20);
-        ratio_gint_N1EVENSUB2_wide[cbin]->SetMarkerSize(1.0);
-        ratio_gint_N1EVENSUB2_wide[cbin]->SetMarkerColor(kBlue);
-        ratio_gint_N1EVENSUB2_wide[cbin]->SetLineColor(kBlue);
-        ratio_gint_N1EVENSUB2_wide[cbin]->RemovePoint(5);
-        ratio_gint_N1EVENSUB2_wide[cbin]->RemovePoint(5);
-
         ratio_gint_N1EVENSUB2_tight[cbin]->SetMarkerStyle(20);
         ratio_gint_N1EVENSUB2_tight[cbin]->SetMarkerSize(1.0);
         ratio_gint_N1EVENSUB2_tight[cbin]->SetMarkerColor(kGreen+2);
@@ -169,20 +120,6 @@ void plotSyst_N1EVENSUB2_trackQuality() {
         ratio_gint_N1EVENSUB2_loose[cbin]->RemovePoint(5);
         ratio_gint_N1EVENSUB2_loose[cbin]->RemovePoint(5);
 
-
-        diff_gint_N1EVENSUB2_narrow[cbin]->SetMarkerStyle(20);
-        diff_gint_N1EVENSUB2_narrow[cbin]->SetMarkerSize(1.0);
-        diff_gint_N1EVENSUB2_narrow[cbin]->SetMarkerColor(kGreen+2);
-        diff_gint_N1EVENSUB2_narrow[cbin]->SetLineColor(kGreen+2);
-        diff_gint_N1EVENSUB2_narrow[cbin]->RemovePoint(5);
-        diff_gint_N1EVENSUB2_narrow[cbin]->RemovePoint(5);
-
-        diff_gint_N1EVENSUB2_wide[cbin]->SetMarkerStyle(20);
-        diff_gint_N1EVENSUB2_wide[cbin]->SetMarkerSize(1.0);
-        diff_gint_N1EVENSUB2_wide[cbin]->SetMarkerColor(kBlue);
-        diff_gint_N1EVENSUB2_wide[cbin]->SetLineColor(kBlue);
-        diff_gint_N1EVENSUB2_wide[cbin]->RemovePoint(5);
-        diff_gint_N1EVENSUB2_wide[cbin]->RemovePoint(5);
 
         diff_gint_N1EVENSUB2_tight[cbin]->SetMarkerStyle(20);
         diff_gint_N1EVENSUB2_tight[cbin]->SetMarkerSize(1.0);
@@ -289,112 +226,25 @@ void plotSyst_N1EVENSUB2_trackQuality() {
         cout<<"tight difference: "<<endl;
         tmp_diff_tight->Fit(fit_diff_tight);
         fitLoose_diff_p0[cbin] = 0.001 * fit_diff_loose->GetParameter(0);
+        fitLoose_diff_p0_err[cbin] = 0.001 * fit_diff_loose->GetParError(0);
         fitLoose_diff_p1[cbin] = 0.001 * fit_diff_loose->GetParameter(1);
+        fitLoose_diff_p1_err[cbin] = 0.001 * fit_diff_loose->GetParError(1);
         fitTight_diff_p0[cbin] = 0.001 * fit_diff_tight->GetParameter(0);
+        fitTight_diff_p0_err[cbin] = 0.001 * fit_diff_tight->GetParError(0);
         fitTight_diff_p1[cbin] = 0.001 * fit_diff_tight->GetParameter(1);
+        fitTight_diff_p1_err[cbin] = 0.001 * fit_diff_tight->GetParError(1);
 
         cN1EVENSUB2_gint_trackQuality[cbin]->Print(Form("plots/N1EVENSUB2/cN1EVENSUB2_gint_trackQuality_%d_%d.pdf",cmin[cbin],cmax[cbin]),"pdf");
         cN1EVENSUB2_gint_trackQuality[cbin]->Close();
 
-
-        cN1EVENSUB2_gint_vtxRange[cbin] = new TCanvas(Form("c%s_vtxRange",mtag.data()), Form("c%s_vtxRange",mtag.data()), 600, 900);
-        cN1EVENSUB2_gint_vtxRange[cbin]->Divide(1,3,0,0);
-        TPad * pad1a = (TPad *) cN1EVENSUB2_gint_vtxRange[cbin]->cd(1);
-        pad1a->SetRightMargin(0.03);
-        TH1D * h1a = new TH1D(Form("h1%s",mtag.data()), "", 100, -2.6, 2.6);
-        h1a->GetYaxis()->SetRangeUser(-0.019, 0.019);
-        if (cbin == 9) h1a->GetYaxis()->SetRangeUser(-0.029, 0.029);
-        if (cbin == 10) h1a->GetYaxis()->SetRangeUser(-0.039, 0.039);
-        h1a->SetYTitle("v_{1}");
-        h1a->GetYaxis()->SetLabelSize(0.07);
-        h1a->GetYaxis()->SetTitleSize(0.09);
-        h1a->GetYaxis()->SetTitleOffset(0.9);
-        h1a->GetYaxis()->CenterTitle();
-        h1a->GetYaxis()->SetDecimals();
-        h1a->Draw();
-        gint_N1EVENSUB2_wide[cbin]->Draw("same p");
-        gint_N1EVENSUB2_narrow[cbin]->Draw("same p");
-        gint_N1EVENSUB2[cbin]->Draw("same p");
-        TPaveText * texta = new TPaveText(0.52, 0.83, 0.73, 0.94, "NDC");
-        SetTPaveTxt(texta, 24);
-        texta->AddText(Form("%d - %d%%",cmin[cbin],cmax[cbin]));
-        texta->Draw();
-        TLegend * lega = new TLegend(0.73, 0.65, 0.91, 0.93);
-        SetLegend(lega, 24);
-        lega->AddEntry(gint_N1EVENSUB2_wide[cbin],"wide","p");
-        lega->AddEntry(gint_N1EVENSUB2_narrow[cbin],"narrow","p");
-        lega->AddEntry(gint_N1EVENSUB2[cbin],"nominal","p");
-        lega->Draw();
-
-        TPad * pad2a = (TPad *) cN1EVENSUB2_gint_vtxRange[cbin]->cd(2);
-        pad2a->SetRightMargin(0.03);
-        TH1D * h2a = (TH1D *) h1->Clone(Form("h2%s",mtag.data()));
-        h2a->GetYaxis()->SetRangeUser(0.75, 1.25);
-        h2a->SetYTitle("v_{1}/v_{1}{nominal}");
-        h2a->GetYaxis()->SetDecimals();
-        h2a->GetYaxis()->SetNdivisions(509);
-        gPad->SetGrid(1,1);
-        h2a->Draw();
-        TLine * lnrata = new TLine(-2.3, 1.0, 2.3, 1.0);
-        lnrata->Draw();
-        ratio_gint_N1EVENSUB2_wide[cbin]->Draw("same p");
-        ratio_gint_N1EVENSUB2_narrow[cbin]->Draw("same p");
-        TF1 * fit_rat_wide = new TF1("fir_rat_wide", "pol0", -2, 2);
-        TGraphErrors * tmp_rat_wide = (TGraphErrors *) ratio_gint_N1EVENSUB2_wide[cbin]->Clone();
-        cout<<"\ncrange: "<<cmin[cbin]<<"\t"<<cmax[cbin]<<endl;
-        cout<<"wide ratio: "<<endl;
-        tmp_rat_wide->Fit(fit_rat_wide);
-        TF1 * fit_rat_narrow = new TF1("fir_rat_narrow", "pol0", -2, 2);
-        TGraphErrors * tmp_rat_narrow = (TGraphErrors *) ratio_gint_N1EVENSUB2_narrow[cbin]->Clone();
-        cout<<"narrow ratio: "<<endl;
-        tmp_rat_narrow->Fit(fit_rat_narrow);
-        fitWide_rat_p0[cbin] = fit_rat_wide->GetParameter(0);
-        fitNarrow_rat_p0[cbin] = fit_rat_narrow->GetParameter(0);
-
-        TPad * pad3a = (TPad *) cN1EVENSUB2_gint_vtxRange[cbin]->cd(3);
-        pad3a->SetRightMargin(0.03);
-        TH1D * h3a = (TH1D *) h1->Clone(Form("h3%s",mtag.data()));
-        h3a->GetYaxis()->SetRangeUser(-1.05, 1.05);
-        if (cbin==8) h3a->GetYaxis()->SetRangeUser(-1.15, 1.15);
-        if (cbin==9) h3a->GetYaxis()->SetRangeUser(-1.55, 1.55);
-        if (cbin==10) h3a->GetYaxis()->SetRangeUser(-3.95,3.95);
-        h3a->SetXTitle("#eta");
-        h3a->GetXaxis()->SetLabelSize(0.06);
-        h3a->GetXaxis()->SetTitleSize(0.08);
-        h3a->GetXaxis()->SetTitleOffset(0.95);
-        h3a->SetYTitle("v_{1} - v_{1}{nominal} (#times 1000)");
-        h3a->GetYaxis()->SetLabelSize(0.06);
-        h3a->GetYaxis()->SetTitleSize(0.08);
-        h3a->GetYaxis()->SetTitleOffset(1.00);
-        h3a->GetYaxis()->SetDecimals();
-        h3a->GetYaxis()->SetNdivisions(508);
-        gPad->SetGrid(1,1);
-        h3a->Draw();
-        TLine * lndiffa = new TLine(-2.3, 0.0, 2.3, 0.0);
-        lndiffa->Draw();
-        diff_gint_N1EVENSUB2_wide[cbin]->Draw("same p");
-        diff_gint_N1EVENSUB2_narrow[cbin]->Draw("same p");
-        TF1 * fit_diff_wide = new TF1("fir_diff_wide", "pol1", -2, 2);
-        TGraphErrors * tmp_diff_wide = (TGraphErrors *) diff_gint_N1EVENSUB2_wide[cbin]->Clone();
-        cout<<"\ncrange: "<<cmin[cbin]<<"\t"<<cmax[cbin]<<endl;
-        cout<<"wide difference: "<<endl;
-        tmp_diff_wide->Fit(fit_diff_wide);
-        TF1 * fit_diff_narrow = new TF1("fir_diff_narrow", "pol1", -2, 2);
-        TGraphErrors * tmp_diff_narrow = (TGraphErrors *) diff_gint_N1EVENSUB2_narrow[cbin]->Clone();
-        cout<<"narrow difference: "<<endl;
-        tmp_diff_narrow->Fit(fit_diff_narrow);
-        fitWide_diff_p0[cbin] = 0.001 * fit_diff_wide->GetParameter(0);
-        fitWide_diff_p1[cbin] = 0.001 * fit_diff_wide->GetParameter(1);
-        fitNarrow_diff_p0[cbin] = 0.001 * fit_diff_narrow->GetParameter(0);
-        fitNarrow_diff_p1[cbin] = 0.001 * fit_diff_narrow->GetParameter(1);
-
-        cN1EVENSUB2_gint_vtxRange[cbin]->Print(Form("plots/N1EVENSUB2/cN1EVENSUB2_gint_vtxRange_%d_%d.pdf",cmin[cbin],cmax[cbin]),"pdf");
-        cN1EVENSUB2_gint_vtxRange[cbin]->Close();
     }
 
-    cout<<"cmin\tcmax\twide rat p0\tnarrow ratp0\twide diff p0\twide diff p1\tnarrow diff p0\tnarrow diff p1"<<endl;
+    cout<<"cmin\tcmax\tloose diff p0\t\tloose diff p1\t\ttight diff p0\t\ttight diff p1"<<endl;
     for (int cbin = 0; cbin<ncbins; cbin++) {
-        cout<<cmin[cbin]<<"\t"<<cmax[cbin]<<"\t"<<fitWide_rat_p0[cbin]<<"\t"<<fitNarrow_rat_p0[cbin]<<"\t"<<fitWide_diff_p0[cbin]<<"\t"<<fitWide_diff_p1[cbin]<<"\t"<<fitNarrow_diff_p0[cbin]<<"\t"<<fitNarrow_diff_p1[cbin]<<endl;
+        cout<<cmin[cbin]<<"\t"<<cmax[cbin]<<"\t"<<fitLoose_diff_p0[cbin]<<" +/- "<<fitLoose_diff_p0_err[cbin]<<"\t"
+        <<fitLoose_diff_p1[cbin]<<" +/- "<<fitLoose_diff_p1_err[cbin]<<"\t"
+        <<fitTight_diff_p0[cbin]<<" +/- "<<fitTight_diff_p0_err[cbin]<<"\t"
+        <<fitTight_diff_p1[cbin]<<" +/- "<<fitTight_diff_p1_err[cbin]<<"\t"<<endl;
     }
 
 

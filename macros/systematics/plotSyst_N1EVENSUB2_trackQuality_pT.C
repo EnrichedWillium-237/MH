@@ -329,8 +329,8 @@ void plotSyst_N1EVENSUB2_trackQuality_pT() {
     diff_gA_N1EVENSUB2_tight[3]->Draw("same p");
     diff_gA_N1EVENSUB2_loose[3]->Draw("same p");
 
-    c0->Print("plots/N1EVENSUB2/N1EVENSUB2_trackQuality_0_20.pdf","pdf");
-    c0->Print("plots/N1EVENSUB2/N1EVENSUB2_trackQuality_0_20.png","png");
+    c0->Print("plots/N1EVENSUB2/N1EVENSUB2_trackQuality_pt_0_20.pdf","pdf");
+    c0->Print("plots/N1EVENSUB2/N1EVENSUB2_trackQuality_pt_0_20.png","png");
 
 
     //-- --//
@@ -431,8 +431,8 @@ void plotSyst_N1EVENSUB2_trackQuality_pT() {
     diff_gA_N1EVENSUB2_tight[7]->Draw("same p");
     diff_gA_N1EVENSUB2_loose[7]->Draw("same p");
 
-    c1->Print("plots/N1EVENSUB2/N1EVENSUB2_trackQuality_20_40.pdf","pdf");
-    c1->Print("plots/N1EVENSUB2/N1EVENSUB2_trackQuality_20_40.png","png");
+    c1->Print("plots/N1EVENSUB2/N1EVENSUB2_trackQuality_pt_20_40.pdf","pdf");
+    c1->Print("plots/N1EVENSUB2/N1EVENSUB2_trackQuality_pt_20_40.png","png");
 
 
     //-- --//
@@ -519,7 +519,7 @@ void plotSyst_N1EVENSUB2_trackQuality_pT() {
     pad2_8->SetRightMargin(0.02);
     gPad->SetGrid(1,1);
 
-    c2->Print("plots/N1EVENSUB2/N1EVENSUB2_trackQuality_40_70.pdf","pdf");
-    c2->Print("plots/N1EVENSUB2/N1EVENSUB2_trackQuality_40_70.png","png");
+    c2->Print("plots/N1EVENSUB2/N1EVENSUB2_trackQuality_pt_40_70.pdf","pdf");
+    c2->Print("plots/N1EVENSUB2/N1EVENSUB2_trackQuality_pt_40_70.png","png");
 
 }
