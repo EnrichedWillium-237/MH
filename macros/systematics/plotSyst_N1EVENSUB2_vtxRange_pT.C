@@ -390,7 +390,7 @@ void plotSyst_N1EVENSUB2_vtxRange_pT() {
     gPad->SetGrid(1,1);
     TH1D * h0_5 = (TH1D *) h0_1->Clone("h0_5");
     h0_5->SetYTitle("v_{1} - v_{1}{nominal} (#times 1000)");
-    h0_5->GetYaxis()->SetRangeUser(-10, 10);
+    h0_5->GetYaxis()->SetRangeUser(-15, 15);
     h0_5->SetXTitle("#eta");
     h0_5->GetXaxis()->CenterTitle();
     h0_5->GetXaxis()->SetLabelSize(0.06);
@@ -492,7 +492,7 @@ void plotSyst_N1EVENSUB2_vtxRange_pT() {
     gPad->SetGrid(1,1);
     TH1D * h1_5 = (TH1D *) h1_1->Clone("h1_5");
     h1_5->SetYTitle("v_{1} - v_{1}{nominal} (#times 1000)");
-    h1_5->GetYaxis()->SetRangeUser(-10, 10);
+    h1_5->GetYaxis()->SetRangeUser(-30, 30);
     h1_5->SetXTitle("#eta");
     h1_5->GetXaxis()->CenterTitle();
     h1_5->GetXaxis()->SetLabelSize(0.06);
@@ -536,7 +536,7 @@ void plotSyst_N1EVENSUB2_vtxRange_pT() {
     c2->Divide(3,2,0,0);
     c2->cd(1);
     TH1D * h2_1 = new TH1D("h2_1", "", 100, 0, 8);
-    h2_1->GetYaxis()->SetRangeUser(-0.029, 0.29);
+    h2_1->GetYaxis()->SetRangeUser(-0.049, 0.49);
     h2_1->SetYTitle("v_{1}^{odd}");
     h2_1->GetYaxis()->SetLabelSize(0.07);
     h2_1->GetYaxis()->SetTitleSize(0.09);
@@ -584,7 +584,7 @@ void plotSyst_N1EVENSUB2_vtxRange_pT() {
     gPad->SetGrid(1,1);
     TH1D * h2_5 = (TH1D *) h2_1->Clone("h2_5");
     h2_5->SetYTitle("v_{1} - v_{1}{nominal} (#times 1000)");
-    h2_5->GetYaxis()->SetRangeUser(-10, 10);
+    h2_5->GetYaxis()->SetRangeUser(-135, 135);
     h2_5->SetXTitle("#eta");
     h2_5->GetXaxis()->CenterTitle();
     h2_5->GetXaxis()->SetLabelSize(0.06);
