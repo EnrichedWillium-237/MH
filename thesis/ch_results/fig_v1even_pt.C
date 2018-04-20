@@ -96,7 +96,7 @@ void fig_v1even_pt() {
     c0->Divide(3,2,0,0);
     h0 = new TH1D("h0", "", 1000, 0, 8.2);
     h0->SetStats(0);
-    h0->SetXTitle("#eta");
+    h0->SetXTitle("p_{T} (GeV/c)");
     h0->SetYTitle("v_{1}^{even}");
     h0->GetYaxis()->SetDecimals();
     h0->GetYaxis()->SetNdivisions(508);
@@ -116,8 +116,8 @@ void fig_v1even_pt() {
             htmp->GetYaxis()->SetLabelSize(0.06);
         }
         if (cbin == 3) {
-            htmp->GetXaxis()->SetTitleSize(0.08);
-            htmp->GetXaxis()->SetTitleOffset(0.98);
+            htmp->GetXaxis()->SetTitleSize(0.06);
+            htmp->GetXaxis()->SetTitleOffset(1.34);
             htmp->GetXaxis()->SetLabelSize(0.06);
             htmp->GetXaxis()->SetLabelOffset(0.017);
             htmp->GetYaxis()->SetTitleSize(0.09);
@@ -125,8 +125,8 @@ void fig_v1even_pt() {
             htmp->GetYaxis()->SetLabelSize(0.05);
         }
         if (cbin>=4) {
-            htmp->GetXaxis()->SetTitleSize(0.10);
-            htmp->GetXaxis()->SetTitleOffset(0.78);
+            htmp->GetXaxis()->SetTitleSize(0.07);
+            htmp->GetXaxis()->SetTitleOffset(1.16);
             htmp->GetXaxis()->SetLabelSize(0.07);
             htmp->GetYaxis()->SetLabelOffset(0.010);
         }
@@ -154,7 +154,7 @@ void fig_v1even_pt() {
     c0->cd(2);
     TPaveText * tx0_1 = new TPaveText(0.000, 0.914, 0.527, 0.986, "NDC");
     SetTPaveTxt(tx0_1, 20);
-    tx0_1->AddText("0.3 < p_{T} < 3.0 GeV/c");
+    tx0_1->AddText("0.4 < |#eta| < 2.4");
     tx0_1->Draw();
 
     c0->cd(3);
@@ -172,7 +172,7 @@ void fig_v1even_pt() {
     c1->Divide(3,2,0,0);
     h1 = new TH1D("h1", "", 1000, 0, 8.2);
     h1->SetStats(0);
-    h1->SetXTitle("#eta");
+    h1->SetXTitle("p_{T} (GeV/c)");
     h1->SetYTitle("v_{1}^{even}");
     h1->GetYaxis()->SetDecimals();
     h1->GetYaxis()->SetNdivisions(508);
@@ -192,8 +192,8 @@ void fig_v1even_pt() {
             htmp->GetYaxis()->SetLabelSize(0.06);
         }
         if (cbin == 3) {
-            htmp->GetXaxis()->SetTitleSize(0.08);
-            htmp->GetXaxis()->SetTitleOffset(0.98);
+            htmp->GetXaxis()->SetTitleSize(0.06);
+            htmp->GetXaxis()->SetTitleOffset(1.34);
             htmp->GetXaxis()->SetLabelSize(0.06);
             htmp->GetXaxis()->SetLabelOffset(0.017);
             htmp->GetYaxis()->SetTitleSize(0.09);
@@ -201,8 +201,8 @@ void fig_v1even_pt() {
             htmp->GetYaxis()->SetLabelSize(0.05);
         }
         if (cbin>=4) {
-            htmp->GetXaxis()->SetTitleSize(0.10);
-            htmp->GetXaxis()->SetTitleOffset(0.78);
+            htmp->GetXaxis()->SetTitleSize(0.07);
+            htmp->GetXaxis()->SetTitleOffset(1.16);
             htmp->GetXaxis()->SetLabelSize(0.07);
             htmp->GetYaxis()->SetLabelOffset(0.010);
         }
@@ -231,13 +231,14 @@ void fig_v1even_pt() {
     TBox * box1 = new TBox(-2.38, -0.1, 2.5, 0.0496);
     box1->SetFillColor(0);
     box1->Draw();
-    TPaveText * txeta = new TPaveText(0.044, 0.912, 0.87, 0.982, "NDC");
+    TPaveText * txeta = new TPaveText(0.048, 0.912, 0.954, 0.982, "NDC");
     SetTPaveTxt2(txeta, 20);
-    txeta->AddText("-2      -1      0      1       2");
+    //c1->cd(5);
+    txeta->AddText("1    2    3    4    5    6    7    8");
     txeta->Draw();
     TPaveText * txeta1 = new TPaveText(0.44, 0.83, 0.54, 0.904, "NDC");
-    SetTPaveTxt2(txeta1, 28);
-    txeta1->AddText("#eta");
+    SetTPaveTxt2(txeta1, 20);
+    txeta1->AddText("p_{T} (GeV/c)");
     txeta1->Draw();
 
     c1->cd(1);
@@ -249,7 +250,7 @@ void fig_v1even_pt() {
     c1->cd(2);
     TPaveText * tx1_1 = new TPaveText(0.000, 0.914, 0.527, 0.986, "NDC");
     SetTPaveTxt(tx1_1, 20);
-    tx1_1->AddText("0.3 < p_{T} < 3.0 GeV/c");
+    tx1_1->AddText("0.4 < |#eta| < 2.4");
     tx1_1->Draw();
 
     c1->cd(3);
