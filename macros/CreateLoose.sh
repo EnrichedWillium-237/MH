@@ -34,7 +34,7 @@ root -l -b -q 'GetVN.C+("../MH_loose.root","N1HFeSUB3",-1.6,-1.2,true,-1,3,-0.05
 root -l -b -q 'GetVN.C+("../MH_loose.root","N1HFfSUB3",-1.6,-1.2,true,-1,3,-0.05,0.05,-0.02,0.02)'
 root -l -b -q 'GetVN.C+("../MH_loose.root","N1HFgSUB3",-1.6,-1.2,true,-1,3,-0.05,0.05,-0.02,0.02)'
 
-root -l -b -q 'GetVN.C+("../MH_loose.root","N1EVENSUB3",1.2,1.6,true,-1,3,-0.05,0.05,-0.02,0.02)'
-root -l -b -q 'GetVN.C+("../MH_loose.root","N1EVENSUB3",-1.6,-1.2,true,-1,3,-0.05,0.05,-0.02,0.02)'
+root -l -b -q 'GetVN.C+("../MH_loose.root","N1EVENSUB3",0.4,2.4,true,-1,3,-0.05,0.05,-0.02,0.02)'
+root -l -b -q 'GetVN.C+("../MH_loose.root","N1EVENSUB3",-2.4,-0.4,true,-1,3,-0.05,0.05,-0.02,0.02)'
 
 cp vnPlots.root MH_hists_loose.root

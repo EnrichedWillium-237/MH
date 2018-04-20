@@ -80,7 +80,7 @@ void getRes() {
 
     cout << "First- and second-order resolutions written out to Resolutions.root... " << endl;
 
-    //fout->Close();
-    //fin->Close();
+    fout->Close();
+    fin->Close();
 
 }
