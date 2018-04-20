@@ -278,7 +278,7 @@ void fig_syst_fits() {
     leg0_1->AddEntry(gN1HFgSUB2_narrow, "narrow", "p");
     leg0_1->Draw();
 
-    c0->Print("../fig_syst_fits_v1odd_pt.pdf","pdf");
+    c0->Print("../fig_syst_fits_v1odd_eta.pdf","pdf");
 
 
     TCanvas * c1 = new TCanvas("c1", "c1", 1000, 600);
