@@ -17,7 +17,7 @@ static const int ncbins = 13;
 static const int cmin[] = {0,  5, 10, 15, 20, 25, 30, 35, 40, 50, 60,   0, 20,  60};
 static const int cmax[] = {5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70,  20, 60, 100};
 
-TFile * fin = new TFile("../MH_hists_master.root","read");
+TFile * fin = new TFile("../../data/MH_hists_master.root","read");
 
 TGraphErrors * gint_N1HFgSUB2[ncbins];
 TGraphErrors * gint_N1HFgSUB2_narrow[ncbins];
@@ -57,7 +57,7 @@ void SetLegend( TLegend * legtemplate, int legsize ) {
     legtemplate->SetTextSize(legsize);
 }
 
-void plotSyst_N1HFgSUB2_vtxRange() {
+void fig_syst_v1odd_eta_vtxcut() {
 
     Double_t fitWide_rat_p0[ncbins];
     Double_t fitNarrow_rat_p0[ncbins];
@@ -341,8 +341,7 @@ void plotSyst_N1HFgSUB2_vtxRange() {
     diff_gint_N1HFgSUB2_wide[3]->Draw("same p");
     diff_gint_N1HFgSUB2_narrow[3]->Draw("same p");
 
-    c0->Print("plots/N1HFgSUB2/N1HFgSUB2_vtxRange_0_20.pdf","pdf");
-    c0->Print("plots/N1HFgSUB2/N1HFgSUB2_vtxRange_0_20.png","png");
+    c0->Print("../fig_syst_v1odd_eta_vtxcut_0_20.pdf","pdf");
 
 
     //-- --//
@@ -443,8 +442,7 @@ void plotSyst_N1HFgSUB2_vtxRange() {
     diff_gint_N1HFgSUB2_narrow[7]->Draw("same p");
     diff_gint_N1HFgSUB2_wide[7]->Draw("same p");
 
-    c1->Print("plots/N1HFgSUB2/N1HFgSUB2_vtxRange_20_40.pdf","pdf");
-    c1->Print("plots/N1HFgSUB2/N1HFgSUB2_vtxRange_20_40.png","png");
+    c1->Print("../fig_syst_v1odd_eta_vtxcut_20_40.pdf","pdf");
 
 
     //-- --//
@@ -531,10 +529,6 @@ void plotSyst_N1HFgSUB2_vtxRange() {
     pad2_8->SetRightMargin(0.02);
     gPad->SetGrid(1,1);
 
-    c2->Print("plots/N1HFgSUB2/N1HFgSUB2_vtxRange_40_70.pdf","pdf");
-    c2->Print("plots/N1HFgSUB2/N1HFgSUB2_vtxRange_40_70.png","png");
-
-
-
+    c2->Print("../fig_syst_v1odd_eta_vtxcut_40_70.pdf","pdf");
 
 }

@@ -340,7 +340,7 @@ void fig_syst_v1even_eta_vtxcut() {
     diff_gint_N1EVENSUB2_narrow[3]->Draw("same p");
     diff_gint_N1EVENSUB2_wide[3]->Draw("same p");
 
-    c0->Print("../fig_v1even_eta_vtxcut_0_20.pdf","pdf");
+    c0->Print("../fig_syst_v1even_eta_vtxcut_0_20.pdf","pdf");
 
 
     //-- --//
@@ -441,7 +441,7 @@ void fig_syst_v1even_eta_vtxcut() {
     diff_gint_N1EVENSUB2_narrow[7]->Draw("same p");
     diff_gint_N1EVENSUB2_wide[7]->Draw("same p");
 
-    c1->Print("../fig_v1even_eta_vtxcut_20_40.pdf","pdf");
+    c1->Print("../fig_syst_v1even_eta_vtxcut_20_40.pdf","pdf");
 
 
     //-- --//
@@ -528,6 +528,6 @@ void fig_syst_v1even_eta_vtxcut() {
     pad2_8->SetRightMargin(0.02);
     gPad->SetGrid(1,1);
 
-    c2->Print("../fig_v1even_eta_vtxcut_40_70.pdf","pdf");
+    c2->Print("../fig_syst_v1even_eta_vtxcut_40_70.pdf","pdf");
 
 }

@@ -327,7 +327,7 @@ void fig_syst_v1even_pt_trckqual() {
     diff_gA_N1EVENSUB2_tight[3]->Draw("same p");
     diff_gA_N1EVENSUB2_loose[3]->Draw("same p");
 
-    c0->Print("../fig_v1even_pt_trackQuality_0_20.pdf","pdf");
+    c0->Print("../fig_syst_v1even_pt_trackQuality_0_20.pdf","pdf");
 
 
     //-- --//
@@ -428,7 +428,7 @@ void fig_syst_v1even_pt_trckqual() {
     diff_gA_N1EVENSUB2_tight[7]->Draw("same p");
     diff_gA_N1EVENSUB2_loose[7]->Draw("same p");
 
-    c1->Print("../fig_v1even_pt_trackQuality_20_40.pdf","pdf");
+    c1->Print("../fig_syst_v1even_pt_trackQuality_20_40.pdf","pdf");
 
 
     //-- --//
@@ -515,6 +515,6 @@ void fig_syst_v1even_pt_trckqual() {
     pad2_8->SetRightMargin(0.02);
     gPad->SetGrid(1,1);
 
-    c2->Print("../fig_v1even_pt_trackQuality_40_70.pdf","pdf");
+    c2->Print("../fig_syst_v1even_pt_trackQuality_40_70.pdf","pdf");
 
 }
