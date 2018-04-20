@@ -105,7 +105,7 @@ void SetLegend( TLegend * legtemplate, int legsize ) {
     legtemplate->SetTextSize(legsize);
 }
 
-void fig_syst_fits() {
+void plotFits() {
 
     double xval[] = {2.5, 7.5, 12.5, 17.5, 22.5, 27.5, 32.5, 37.5, 45, 55, 65};
 
@@ -151,84 +151,84 @@ void fig_syst_fits() {
 
 
     gN1HFgSUB2_loose->SetMarkerStyle(20);
-    gN1HFgSUB2_loose->SetMarkerSize(1.3);
+    gN1HFgSUB2_loose->SetMarkerSize(1.2);
     gN1HFgSUB2_loose->SetMarkerColor(kBlue);
     gN1HFgSUB2_loose->SetLineColor(kBlue);
 
-    gN1HFgSUB2_tight->SetMarkerStyle(25);
+    gN1HFgSUB2_tight->SetMarkerStyle(24);
     gN1HFgSUB2_tight->SetMarkerSize(1.2);
     gN1HFgSUB2_tight->SetMarkerColor(kGreen+2);
     gN1HFgSUB2_tight->SetLineColor(kGreen+2);
 
     gN1HFgSUB2_wide->SetMarkerStyle(20);
-    gN1HFgSUB2_wide->SetMarkerSize(1.3);
+    gN1HFgSUB2_wide->SetMarkerSize(1.2);
     gN1HFgSUB2_wide->SetMarkerColor(kBlue);
     gN1HFgSUB2_wide->SetLineColor(kBlue);
 
-    gN1HFgSUB2_narrow->SetMarkerStyle(25);
+    gN1HFgSUB2_narrow->SetMarkerStyle(24);
     gN1HFgSUB2_narrow->SetMarkerSize(1.2);
     gN1HFgSUB2_narrow->SetMarkerColor(kGreen+2);
     gN1HFgSUB2_narrow->SetLineColor(kGreen+2);
 
 
     gN1HFgSUB2_pt_loose->SetMarkerStyle(20);
-    gN1HFgSUB2_pt_loose->SetMarkerSize(1.3);
+    gN1HFgSUB2_pt_loose->SetMarkerSize(1.2);
     gN1HFgSUB2_pt_loose->SetMarkerColor(kBlue);
     gN1HFgSUB2_pt_loose->SetLineColor(kBlue);
 
-    gN1HFgSUB2_pt_tight->SetMarkerStyle(25);
+    gN1HFgSUB2_pt_tight->SetMarkerStyle(24);
     gN1HFgSUB2_pt_tight->SetMarkerSize(1.2);
     gN1HFgSUB2_pt_tight->SetMarkerColor(kGreen+2);
     gN1HFgSUB2_pt_tight->SetLineColor(kGreen+2);
 
     gN1HFgSUB2_pt_wide->SetMarkerStyle(20);
-    gN1HFgSUB2_pt_wide->SetMarkerSize(1.3);
+    gN1HFgSUB2_pt_wide->SetMarkerSize(1.2);
     gN1HFgSUB2_pt_wide->SetMarkerColor(kBlue);
     gN1HFgSUB2_pt_wide->SetLineColor(kBlue);
 
-    gN1HFgSUB2_pt_narrow->SetMarkerStyle(25);
+    gN1HFgSUB2_pt_narrow->SetMarkerStyle(24);
     gN1HFgSUB2_pt_narrow->SetMarkerSize(1.2);
     gN1HFgSUB2_pt_narrow->SetMarkerColor(kGreen+2);
     gN1HFgSUB2_pt_narrow->SetLineColor(kGreen+2);
 
 
     gN1EVENSUB2_loose->SetMarkerStyle(20);
-    gN1EVENSUB2_loose->SetMarkerSize(1.3);
+    gN1EVENSUB2_loose->SetMarkerSize(1.2);
     gN1EVENSUB2_loose->SetMarkerColor(kBlue);
     gN1EVENSUB2_loose->SetLineColor(kBlue);
 
-    gN1EVENSUB2_tight->SetMarkerStyle(25);
+    gN1EVENSUB2_tight->SetMarkerStyle(24);
     gN1EVENSUB2_tight->SetMarkerSize(1.2);
     gN1EVENSUB2_tight->SetMarkerColor(kGreen+2);
     gN1EVENSUB2_tight->SetLineColor(kGreen+2);
 
     gN1EVENSUB2_wide->SetMarkerStyle(20);
-    gN1EVENSUB2_wide->SetMarkerSize(1.3);
+    gN1EVENSUB2_wide->SetMarkerSize(1.2);
     gN1EVENSUB2_wide->SetMarkerColor(kBlue);
     gN1EVENSUB2_wide->SetLineColor(kBlue);
 
-    gN1EVENSUB2_narrow->SetMarkerStyle(25);
+    gN1EVENSUB2_narrow->SetMarkerStyle(24);
     gN1EVENSUB2_narrow->SetMarkerSize(1.2);
     gN1EVENSUB2_narrow->SetMarkerColor(kGreen+2);
     gN1EVENSUB2_narrow->SetLineColor(kGreen+2);
 
 
     gN1EVENSUB2_pt_loose->SetMarkerStyle(20);
-    gN1EVENSUB2_pt_loose->SetMarkerSize(1.3);
+    gN1EVENSUB2_pt_loose->SetMarkerSize(1.2);
     gN1EVENSUB2_pt_loose->SetMarkerColor(kBlue);
     gN1EVENSUB2_pt_loose->SetLineColor(kBlue);
 
-    gN1EVENSUB2_pt_tight->SetMarkerStyle(25);
+    gN1EVENSUB2_pt_tight->SetMarkerStyle(24);
     gN1EVENSUB2_pt_tight->SetMarkerSize(1.2);
     gN1EVENSUB2_pt_tight->SetMarkerColor(kGreen+2);
     gN1EVENSUB2_pt_tight->SetLineColor(kGreen+2);
 
     gN1EVENSUB2_pt_wide->SetMarkerStyle(20);
-    gN1EVENSUB2_pt_wide->SetMarkerSize(1.3);
+    gN1EVENSUB2_pt_wide->SetMarkerSize(1.2);
     gN1EVENSUB2_pt_wide->SetMarkerColor(kBlue);
     gN1EVENSUB2_pt_wide->SetLineColor(kBlue);
 
-    gN1EVENSUB2_pt_narrow->SetMarkerStyle(25);
+    gN1EVENSUB2_pt_narrow->SetMarkerStyle(24);
     gN1EVENSUB2_pt_narrow->SetMarkerSize(1.2);
     gN1EVENSUB2_pt_narrow->SetMarkerColor(kGreen+2);
     gN1EVENSUB2_pt_narrow->SetLineColor(kGreen+2);
@@ -237,30 +237,30 @@ void fig_syst_fits() {
     TCanvas * c0 = new TCanvas("c0", "c0", 1000, 600);
     c0->Divide(2,1,0,0);
     TPad * pad0_1 = (TPad *) c0->cd(1);
-    pad0_1->SetTopMargin(0.08);
+    pad0_1->SetTopMargin(0.05);
     TH1D * h0 = new TH1D("h0", "", 200, 0, 79);
     h0->GetYaxis()->SetRangeUser(-0.0006, 0.0016);
     h0->GetYaxis()->SetNdivisions(508);
     h0->GetYaxis()->SetDecimals();
     h0->SetXTitle("Centrality (%)");
-    h0->SetYTitle("|v_{1}^{odd}(#eta)  pol1 fit|");
+    h0->SetYTitle("|v_{1}^{odd}(#eta) pol1 fit|");
     h0->GetXaxis()->SetTitleOffset(1.10);
     h0->GetXaxis()->CenterTitle();
     h0->GetYaxis()->CenterTitle();
     h0->GetYaxis()->SetTitleSize(0.06);
-    h0->GetYaxis()->SetTitleOffset(1.4);
+    h0->GetYaxis()->SetTitleOffset(1.5);
     TGaxis::SetMaxDigits(3);
     h0->Draw();
     gN1HFgSUB2_tight->Draw("same p");
     gN1HFgSUB2_loose->Draw("same p");
     TLegend * leg0_0 = new TLegend(0.26, 0.75, 0.47, 0.89);
-    SetLegend(leg0_0, 24);
+    SetLegend(leg0_0, 28);
     leg0_0->AddEntry(gN1HFgSUB2_loose, "loose", "p");
     leg0_0->AddEntry(gN1HFgSUB2_tight, "tight", "p");
     leg0_0->Draw();
 
     TPad * pad0_2 = (TPad *) c0->cd(2);
-    pad0_2->SetTopMargin(0.08);
+    pad0_2->SetTopMargin(0.05);
     pad0_2->SetRightMargin(0.02);
     TH1D * h0_2 = (TH1D *) h0->Clone("h0_2");
     h0_2->GetXaxis()->SetRangeUser(0.5, 79);
@@ -273,45 +273,42 @@ void fig_syst_fits() {
     gN1HFgSUB2_narrow->Draw("same p");
     gN1HFgSUB2_wide->Draw("same p");
     TLegend * leg0_1 = new TLegend(0.06, 0.75, 0.27, 0.89);
-    SetLegend(leg0_1, 24);
+    SetLegend(leg0_1, 28);
     leg0_1->AddEntry(gN1HFgSUB2_wide, "wide", "p");
     leg0_1->AddEntry(gN1HFgSUB2_narrow, "narrow", "p");
     leg0_1->Draw();
-    TPaveText * tx0 = new TPaveText(0.84, 0.94, 0.99, 0.98, "NDC");
-    SetTPaveTxt(tx0, 24);
-    tx0->AddText("#eta_{C} = 0");
-    tx0->Draw();
 
-    c0->Print("../fig_syst_fits_v1odd_eta.pdf","pdf");
+    c0->Print("plots/systSummary_N1HFgSUB2_eta.pdf","pdf");
+    c0->Print("plots/systSummary_N1HFgSUB2_eta.png","png");
 
 
     TCanvas * c1 = new TCanvas("c1", "c1", 1000, 600);
     c1->Divide(2,1,0,0);
     TPad * pad1_1 = (TPad *) c1->cd(1);
-    pad1_1->SetTopMargin(0.08);
+    pad1_1->SetTopMargin(0.05);
     TH1D * h1 = new TH1D("h1", "", 200, 0, 79);
     h1->GetYaxis()->SetRangeUser(-0.0006, 0.0026);
     h1->GetYaxis()->SetNdivisions(508);
     h1->GetYaxis()->SetDecimals();
     h1->SetXTitle("Centrality (%)");
-    h1->SetYTitle("|v_{1}^{odd}(p_{T})  pol0 fit|");
+    h1->SetYTitle("|v_{1}^{odd}(p_{T}) pol0 fit|");
     h1->GetXaxis()->SetTitleOffset(1.10);
     h1->GetXaxis()->CenterTitle();
     h1->GetYaxis()->CenterTitle();
     h1->GetYaxis()->SetTitleSize(0.06);
-    h1->GetYaxis()->SetTitleOffset(1.4);
+    h1->GetYaxis()->SetTitleOffset(1.5);
     TGaxis::SetMaxDigits(3);
     h1->Draw();
     gN1HFgSUB2_pt_tight->Draw("same p");
     gN1HFgSUB2_pt_loose->Draw("same p");
     TLegend * leg1_0 = new TLegend(0.26, 0.75, 0.47, 0.89);
-    SetLegend(leg1_0, 24);
+    SetLegend(leg1_0, 28);
     leg1_0->AddEntry(gN1HFgSUB2_pt_loose, "loose", "p");
     leg1_0->AddEntry(gN1HFgSUB2_pt_tight, "tight", "p");
     leg1_0->Draw();
 
     TPad * pad1_2 = (TPad *) c1->cd(2);
-    pad1_2->SetTopMargin(0.08);
+    pad1_2->SetTopMargin(0.05);
     pad1_2->SetRightMargin(0.02);
     TH1D * h1_2 = (TH1D *) h1->Clone("h1_2");
     h1_2->GetXaxis()->SetRangeUser(0.5, 79);
@@ -324,35 +321,31 @@ void fig_syst_fits() {
     gN1HFgSUB2_pt_narrow->Draw("same p");
     gN1HFgSUB2_pt_wide->Draw("same p");
     TLegend * leg1_1 = new TLegend(0.06, 0.75, 0.27, 0.89);
-    SetLegend(leg1_1, 24);
+    SetLegend(leg1_1, 28);
     leg1_1->AddEntry(gN1HFgSUB2_pt_wide, "wide", "p");
     leg1_1->AddEntry(gN1HFgSUB2_pt_narrow, "narrow", "p");
     leg1_1->Draw();
-    TPaveText * tx1 = new TPaveText(0.84, 0.94, 0.99, 0.98, "NDC");
-    SetTPaveTxt(tx1, 24);
-    tx1->AddText("#eta_{C} = 0");
-    tx1->Draw();
 
-    c1->Print("../fig_syst_fits_v1odd_pt.pdf","pdf");
-
+    c1->Print("plots/systSummary_N1HFgSUB2_pt.pdf","pdf");
+    c1->Print("plots/systSummary_N1HFgSUB2_pt.png","png");
 
 
 
     TCanvas * c2 = new TCanvas("c2", "c2", 1000, 600);
     c2->Divide(2,1,0,0);
     TPad * pad2_1 = (TPad *) c2->cd(1);
-    pad2_1->SetTopMargin(0.08);
+    pad2_1->SetTopMargin(0.05);
     TH1D * h2 = new TH1D("h2", "", 200, 0, 79);
     h2->GetYaxis()->SetRangeUser(-0.0048, 0.0082);
     h2->GetYaxis()->SetNdivisions(508);
     h2->GetYaxis()->SetDecimals();
     h2->SetXTitle("Centrality (%)");
-    h2->SetYTitle("|v_{1}^{even}(#eta)  pol0 fit|");
+    h2->SetYTitle("|v_{1}^{even}(#eta) pol0 fit|");
     h2->GetXaxis()->SetTitleOffset(1.10);
     h2->GetXaxis()->CenterTitle();
     h2->GetYaxis()->CenterTitle();
     h2->GetYaxis()->SetTitleSize(0.06);
-    h2->GetYaxis()->SetTitleOffset(1.4);
+    h2->GetYaxis()->SetTitleOffset(1.5);
     TGaxis::SetMaxDigits(3);
     h2->Draw();
     gN1EVENSUB2_tight->Draw("same p");
@@ -360,7 +353,7 @@ void fig_syst_fits() {
     leg0_0->Draw();
 
     TPad * pad2_2 = (TPad *) c2->cd(2);
-    pad2_2->SetTopMargin(0.08);
+    pad2_2->SetTopMargin(0.05);
     pad2_2->SetRightMargin(0.02);
     TH1D * h2_2 = (TH1D *) h2->Clone("h2_2");
     h2_2->GetXaxis()->SetRangeUser(0.5, 79);
@@ -373,29 +366,26 @@ void fig_syst_fits() {
     gN1EVENSUB2_narrow->Draw("same p");
     gN1EVENSUB2_wide->Draw("same p");
     leg0_1->Draw();
-    TPaveText * tx2 = new TPaveText(0.84, 0.94, 0.99, 0.98, "NDC");
-    SetTPaveTxt(tx2, 24);
-    tx2->AddText("#eta_{C} = 0");
-    tx2->Draw();
 
-    c2->Print("../fig_syst_fits_v1even_eta.pdf","pdf");
+    c2->Print("plots/systSummary_N1EVENSUB2_eta.pdf","pdf");
+    c2->Print("plots/systSummary_N1EVENSUB2_eta.png","png");
 
 
     TCanvas * c3 = new TCanvas("c3", "c3", 1000, 600);
     c3->Divide(2,1,0,0);
     TPad * pad3_1 = (TPad *) c3->cd(1);
-    pad3_1->SetTopMargin(0.08);
+    pad3_1->SetTopMargin(0.05);
     TH1D * h3 = new TH1D("h3", "", 200, 0, 79);
     h3->GetYaxis()->SetRangeUser(-0.0011, 0.0032);
     h3->GetYaxis()->SetNdivisions(508);
     h3->GetYaxis()->SetDecimals();
     h3->SetXTitle("Centrality (%)");
-    h3->SetYTitle("|v_{1}^{even}(p_{T})  pol0 fit|");
+    h3->SetYTitle("|v_{1}^{even}(p_{T}) pol0 fit|");
     h3->GetXaxis()->SetTitleOffset(1.10);
     h3->GetXaxis()->CenterTitle();
     h3->GetYaxis()->CenterTitle();
     h3->GetYaxis()->SetTitleSize(0.06);
-    h3->GetYaxis()->SetTitleOffset(1.4);
+    h3->GetYaxis()->SetTitleOffset(1.5);
     TGaxis::SetMaxDigits(3);
     h3->Draw();
     gN1EVENSUB2_pt_tight->Draw("same p");
@@ -403,7 +393,7 @@ void fig_syst_fits() {
     leg1_0->Draw();
 
     TPad * pad3_2 = (TPad *) c3->cd(2);
-    pad3_2->SetTopMargin(0.08);
+    pad3_2->SetTopMargin(0.05);
     pad3_2->SetRightMargin(0.02);
     TH1D * h3_2 = (TH1D *) h3->Clone("h3_2");
     h3_2->GetXaxis()->SetRangeUser(0.5, 79);
@@ -416,11 +406,7 @@ void fig_syst_fits() {
     gN1EVENSUB2_pt_narrow->Draw("same p");
     gN1EVENSUB2_pt_wide->Draw("same p");
     leg1_1->Draw();
-    TPaveText * tx3 = new TPaveText(0.84, 0.94, 0.99, 0.98, "NDC");
-    SetTPaveTxt(tx3, 24);
-    tx3->AddText("#eta_{C} = 0");
-    tx3->Draw();
 
-    c3->Print("../fig_syst_fits_v1even_pt.pdf","pdf");
-
+    c3->Print("plots/systSummary_N1EVENSUB2_pt.pdf","pdf");
+    c3->Print("plots/systSummary_N1EVENSUB2_pt.png","png");
 }
