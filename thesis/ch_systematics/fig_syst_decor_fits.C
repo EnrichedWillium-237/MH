@@ -281,7 +281,7 @@ void fig_syst_decor_fits() {
     tx0->AddText("#eta_{C} = #eta_{ROI}");
     tx0->Draw();
 
-    c0->Print("../fig_syst_fits_v1odd_eta.pdf","pdf");
+    c0->Print("../fig_syst_decor_fits_v1odd_eta.pdf","pdf");
 
 
     TCanvas * c1 = new TCanvas("c1", "c1", 1000, 600);
@@ -332,8 +332,7 @@ void fig_syst_decor_fits() {
     tx1->AddText("#eta_{C} = #eta_{ROI}");
     tx1->Draw();
 
-    c1->Print("../fig_syst_fits_v1odd_pt.pdf","pdf");
-
+    c1->Print("../fig_syst_decor_fits_v1odd_pt.pdf","pdf");
 
 
 
@@ -377,7 +376,7 @@ void fig_syst_decor_fits() {
     tx2->AddText("#eta_{C} = 0");
     tx2->Draw();
 
-    c2->Print("../fig_syst_fits_v1even_eta.pdf","pdf");
+    c2->Print("../fig_syst_decor_fits_v1even_eta.pdf","pdf");
 
 
     TCanvas * c3 = new TCanvas("c3", "c3", 1000, 600);
