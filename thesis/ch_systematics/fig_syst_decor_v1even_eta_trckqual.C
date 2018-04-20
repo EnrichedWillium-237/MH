@@ -17,7 +17,7 @@ static const int ncbins = 13;
 static const int cmin[] = {0,  5, 10, 15, 20, 25, 30, 35, 40, 50, 60,   0, 20,  60};
 static const int cmax[] = {5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70,  20, 60, 100};
 
-TFile * fin = new TFile("../../data/MH_hists_master.root","read");
+TFile * fin = new TFile("../../data/MH_hists_decor.root","read");
 
 TGraphErrors * gint_N1EVENSUB3[ncbins];
 TGraphErrors * gint_N1EVENSUB3_tight[ncbins];
@@ -75,7 +75,6 @@ void fig_syst_decor_v1even_eta_trckqual() {
 
         gint_N1EVENSUB3[cbin] = (TGraphErrors *) fin->Get(Form("%s/gint",tag.data()));
         gint_N1EVENSUB3_tight[cbin] = (TGraphErrors *) fin->Get(Form("tight2/N1EVENSUB3_decor/0.4_2.4/%d_%d/gint",cmin[cbin],cmax[cbin]));
-        cout<<gint_N1EVENSUB3_tight[cbin]<<endl;
         gint_N1EVENSUB3_loose[cbin] = (TGraphErrors *) fin->Get(Form("loose/N1EVENSUB3_decor/0.4_2.4/%d_%d/gint",cmin[cbin],cmax[cbin]));
 
         ratio_gint_N1EVENSUB3_tight[cbin] = (TGraphErrors *) fin->Get(Form("%s/Ratio_tight2_N1EVENSUB3_decor_0.4_2.4_%d_%d_gint",tag.data(),cmin[cbin],cmax[cbin]));
@@ -233,17 +232,17 @@ void fig_syst_decor_v1even_eta_trckqual() {
         fitTight_diff_p1[cbin] = 0.001 * fit_diff_tight->GetParameter(1);
         fitTight_diff_p1_err[cbin] = 0.001 * fit_diff_tight->GetParError(1);
 
-        // cN1EVENSUB3_gint_trackQuality[cbin]->Print(Form("plots/N1EVENSUB3/cN1EVENSUB3_gint_trackQuality_%d_%d.pdf",cmin[cbin],cmax[cbin]),"pdf");
-        // cN1EVENSUB3_gint_trackQuality[cbin]->Close();
+        cN1EVENSUB3_gint_trackQuality[cbin]->Print(Form("plots/N1EVENSUB3/cN1EVENSUB3_decor_gint_trackQuality_%d_%d.pdf",cmin[cbin],cmax[cbin]),"pdf");
+        cN1EVENSUB3_gint_trackQuality[cbin]->Close();
 
     }
 
     cout<<"cmin\tcmax\tloose diff p0\t\tloose diff p1\t\ttight diff p0\t\ttight diff p1"<<endl;
     for (int cbin = 0; cbin<ncbins; cbin++) {
-        cout<<cmin[cbin]<<"\t"<<cmax[cbin]<<"\t"<<fitLoose_diff_p0[cbin]<<" +/- "<<fitLoose_diff_p0_err[cbin]<<"\t"
-        <<fitLoose_diff_p1[cbin]<<" +/- "<<fitLoose_diff_p1_err[cbin]<<"\t"
-        <<fitTight_diff_p0[cbin]<<" +/- "<<fitTight_diff_p0_err[cbin]<<"\t"
-        <<fitTight_diff_p1[cbin]<<" +/- "<<fitTight_diff_p1_err[cbin]<<"\t"<<endl;
+        cout<<cmin[cbin]<<"\t"<<cmax[cbin]<<"\t"<<fitLoose_diff_p0[cbin]<<"\t"<<fitLoose_diff_p0_err[cbin]<<"\t"
+        <<fitLoose_diff_p1[cbin]<<"\t"<<fitLoose_diff_p1_err[cbin]<<"\t"
+        <<fitTight_diff_p0[cbin]<<"\t"<<fitTight_diff_p0_err[cbin]<<"\t"
+        <<fitTight_diff_p1[cbin]<<"\t"<<fitTight_diff_p1_err[cbin]<<"\t"<<endl;
     }
 
 
