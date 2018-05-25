@@ -278,7 +278,7 @@ namespace hi{
    "trackmid7",   "trackm7",   "trackp7", "trackm722", "trackm718",
    "trackm714", "trackm710", "trackm706", "trackm702", "trackp702",
    "trackp706", "trackp710", "trackp714", "trackp718", "trackp722"
-
+   
   };
 
   enum Detectors {Tracker, HF, Castor};
@@ -322,7 +322,7 @@ namespace hi{
      Tracker,   Tracker,   Tracker,   Tracker,   Tracker,
      Tracker,   Tracker,   Tracker,   Tracker,   Tracker,
      Tracker,   Tracker,   Tracker,   Tracker,   Tracker
-
+   
   };
 
   const int  EPOrder[]  = {
@@ -364,7 +364,7 @@ namespace hi{
              7,           7,           7,           7,           7,
              7,           7,           7,           7,           7,
              7,           7,           7,           7,           7
-
+   
   };
 
   const double  EPEtaMin1[]  = {
@@ -406,7 +406,7 @@ namespace hi{
          -0.80,       -0.50,        0.00,       -2.40,       -2.00,
          -1.60,       -1.20,       -0.80,       -0.40,        0.00,
           0.40,        0.80,        1.20,        1.60,        2.00
-
+   
   };
 
   const double  EPEtaMax1[]  = {
@@ -448,7 +448,7 @@ namespace hi{
           0.80,        0.00,        0.50,       -2.00,       -1.60,
          -1.20,       -0.80,       -0.40,        0.00,        0.40,
           0.80,        1.20,        1.60,        2.00,        2.40
-
+   
   };
 
   const double  EPEtaMin2[]  = {
@@ -490,7 +490,7 @@ namespace hi{
           0.00,        0.00,        0.00,        0.00,        0.00,
           0.00,        0.00,        0.00,        0.00,        0.00,
           0.00,        0.00,        0.00,        0.00,        0.00
-
+   
   };
 
   const double  EPEtaMax2[]  = {
@@ -532,7 +532,7 @@ namespace hi{
           0.00,        0.00,        0.00,        0.00,        0.00,
           0.00,        0.00,        0.00,        0.00,        0.00,
           0.00,        0.00,        0.00,        0.00,        0.00
-
+   
   };
 
   const double  minTransverse[]  = {
@@ -574,7 +574,7 @@ namespace hi{
           0.30,        0.30,        0.30,        0.30,        0.30,
           0.30,        0.30,        0.30,        0.30,        0.30,
           0.30,        0.30,        0.30,        0.30,        0.30
-
+   
   };
 
   const double  maxTransverse[]  = {
@@ -616,7 +616,7 @@ namespace hi{
           3.00,        3.00,        3.00,        3.00,        3.00,
           3.00,        3.00,        3.00,        3.00,        3.00,
           3.00,        3.00,        3.00,        3.00,        3.00
-
+   
   };
 
   const std::string  ResCalcType[]  = {
@@ -658,7 +658,7 @@ namespace hi{
         "3sub",      "3sub",      "3sub",      "3sub",      "3sub",
         "3sub",      "3sub",      "3sub",      "3sub",      "3sub",
         "3sub",      "3sub",      "3sub",      "3sub",      "3sub"
-
+   
   };
 
   const std::string  MomConsWeight[]  = {
@@ -700,7 +700,7 @@ namespace hi{
           "no",        "no",        "no",        "no",        "no",
           "no",        "no",        "no",        "no",        "no",
           "no",        "no",        "no",        "no",        "no"
-
+   
   };
 
   const int  RCMate1[]  = {
@@ -742,7 +742,7 @@ namespace hi{
         HFm7,      HFp7,      HFp7,      HFm7,      HFm7,
         HFm7,      HFm7,      HFm7,      HFm7,      HFm7,
         HFm7,      HFm7,      HFm7,      HFm7,      HFm7
-
+   
   };
 
   const int  RCMate2[]  = {
@@ -784,7 +784,7 @@ namespace hi{
         HFp7,      HFm7,      HFm7,      HFp7,      HFp7,
         HFp7,      HFp7,      HFp7,      HFp7,      HFp7,
         HFp7,      HFp7,      HFp7,      HFp7,      HFp7
-
+   
   };
 
   static const int NumEPNames = 190;

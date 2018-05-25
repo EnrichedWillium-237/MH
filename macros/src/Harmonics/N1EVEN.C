@@ -1,4 +1,4 @@
-TGraphErrors * N1EVEN( int replay, int bin, double eMin, double eMax, double &ymin, double &ymax, TGraphErrors * &g,TGraphErrors * &gA, TGraphErrors * &gB, TGraphErrors * &gSpec, TGraphErrors * &gint, TGraphErrors * &gintA, TGraphErrors * &gintB , double &vint, double &vinte, double &vintA, double &vintAe, double &vintB, double &vintBe ) {
+TGraphErrors * N1EVEN( int replay, int bin, double eMin, double eMax, double & ymin, double & ymax, TGraphErrors * &g,TGraphErrors * &gA, TGraphErrors * &gB, TGraphErrors * &gSpec, TGraphErrors * &gint, TGraphErrors * &gintA, TGraphErrors * &gintB , double & vint, double & vinte, double & vintA, double & vintAe, double & vintB, double & vintBe) {
     fin = new TFile(rootFile.data(),"r");
     int epindx = -1;
     TGraphErrors * gtmp;
@@ -15,10 +15,10 @@ TGraphErrors * N1EVEN( int replay, int bin, double eMin, double eMax, double &ym
     string lepA = "";
     string lepB = "";
     string pref = "trk ";
-    if (sTrackOrientation == Type_pPb && ANALS[replay][0].find("MCp")!=std::string::npos) pref = "p-side ";
-    if (sTrackOrientation == Type_pPb && ANALS[replay][0].find("MCm")!=std::string::npos) pref = "Pb-side ";
+    if (sTrackOrientation==Type_pPb && ANALS[replay][0].find("MCp")!=std::string::npos) pref = "p-side ";
+    if (sTrackOrientation==Type_pPb && ANALS[replay][0].find("MCm")!=std::string::npos) pref = "Pb-side ";
     int nrep = replay;
-    if (replay == N1EVENSUB2 || replay == N1EVENSUB3) {
+    if (replay==N1EVENSUB2 || replay==N1EVENSUB3) {
         nrep = pRef2;
         if (eMax>=0) {
             epindx = trackm122mc;
@@ -84,7 +84,7 @@ TGraphErrors * N1EVEN( int replay, int bin, double eMin, double eMax, double &ym
     //
     // Start with eta distribution
     //
-    if (replay == N1EVENSUB2 || replay == N1EVENSUB3) {
+    if (replay==N1EVENSUB2 || replay==N1EVENSUB3) {
         if (Decor)ioff=1;
         for (int i = 0+ioff; i<12-ioff; i++) {
             double EtaMin = -2.4 + 0.4*i;
@@ -93,10 +93,10 @@ TGraphErrors * N1EVEN( int replay, int bin, double eMin, double eMax, double &ym
             if (fabs(EtaMax)<0.001) EtaMax = 0.;
             if (i<6) {
 	            int rep = pRef2;
-	            if (replay==N1EVENSUB3) rep = pRef3;
-	            gtmp = GetVNPt( rep, bin, trackp122mc, EtaMin, EtaMax, gtmp, gtmp, gtmp, vint, vinte, vintA, vintAe, vintB, vintBe, false );
-	            gint->GetX()[i-ioff] = gint->GetX()[i];
-	            gintA->GetX()[i-ioff] = gintA->GetX()[i];
+            	if (replay==N1EVENSUB3) rep = pRef3;
+            	gtmp = GetVNPt( rep, bin, trackp122mc, EtaMin, EtaMax, gtmp, gtmp, gtmp, vint, vinte, vintA, vintAe, vintB, vintBe, false );
+            	gint->GetX()[i-ioff] = gint->GetX()[i];
+            	gintA->GetX()[i-ioff] = gintA->GetX()[i];
             	gintB->GetX()[i-ioff] = gintB->GetX()[i];
             	gint->GetY()[i-ioff] = vintA;
             	gint->GetEY()[i-ioff] = vintAe;
@@ -109,9 +109,9 @@ TGraphErrors * N1EVEN( int replay, int bin, double eMin, double eMax, double &ym
             	gintB->SetTitle(lepB.data());
             } else {
 	            int rep = mRef2;
-	            if (replay == N1EVENSUB3) rep = mRef3;
-	            gtmp = GetVNPt( rep, bin, trackm122mc, EtaMin, EtaMax, gtmp, gtmp, gtmp, vint, vinte, vintA, vintAe, vintB, vintBe, false );
-	            gint->GetX()[i-ioff] = gint->GetX()[i];
+	            if (replay==N1EVENSUB3) rep = mRef3;
+            	gtmp = GetVNPt( rep, bin, trackm122mc, EtaMin, EtaMax, gtmp, gtmp, gtmp, vint, vinte, vintA, vintAe, vintB, vintBe, false);
+            	gint->GetX()[i-ioff] = gint->GetX()[i];
             	gintA->GetX()[i-ioff] = gintA->GetX()[i];
             	gintB->GetX()[i-ioff] = gintB->GetX()[i];
             	gint->GetY()[i-ioff] = vintA;
@@ -131,7 +131,7 @@ TGraphErrors * N1EVEN( int replay, int bin, double eMin, double eMax, double &ym
             double EtaMax = EtaMin+0.4;
             if (fabs(EtaMin)<0.001) EtaMin = 0.;
             if (fabs(EtaMax)<0.001) EtaMax = 0.;
-            gtmp = GetVNPt( replay, bin, epindx, EtaMin, EtaMax, gtmp, gtmp, gtmp, vint, vinte, vintA, vintAe, vintB, vintBe, false );
+            gtmp = GetVNPt( replay, bin, epindx, EtaMin, EtaMax, gtmp, gtmp, gtmp, vint, vinte, vintA, vintAe, vintB, vintBe, false);
             gint->GetY()[i] = vint;
             gint->GetEY()[i] = vinte;
             gintA->GetY()[i]=vintA;
@@ -149,8 +149,8 @@ TGraphErrors * N1EVEN( int replay, int bin, double eMin, double eMax, double &ym
     //
     // Now do requested calculation
     //
-    if (replay!=N1EVENSUB3  && replay !=N1EVENSUB2){
-    g = GetVNPt( replay, bin, epindx, eMin, eMax, gA, gB, gSpec, vint, vinte, vintA, vintAe, vintB, vintBe, false );
+    if (replay != N1EVENSUB3  && replay !=N1EVENSUB2){
+        g = GetVNPt( replay, bin,epindx, eMin, eMax, gA, gB, gSpec, vint, vinte, vintA, vintAe, vintB, vintBe, false);
         g->SetTitle("NOGOOD");
         gB->SetTitle(lepB.data());
         if (replay!=N1MCm22SUB2 && replay!=N1MCp22SUB2) gB->SetTitle("NOGOOD");
@@ -169,10 +169,10 @@ TGraphErrors * N1EVEN( int replay, int bin, double eMin, double eMax, double &ym
         if (eMin*eMax>0) {
             if (eMin < 0 ) {
 	            settype = pRef2;
-	            if (replay == N1EVENSUB3) settype=pRef3;
+	            if (replay==N1EVENSUB3) settype=pRef3;
             } else {
 	            settype = mRef2;
-	            if (replay == N1EVENSUB3) settype=mRef3;
+	            if (replay==N1EVENSUB3) settype=mRef3;
             }
             g = GetVNPt( settype, bin, epindx, eMin, eMax, gA, gB, gSpec, vint, vinte, vintA, vintAe, vintB, vintBe, false );
             g->SetTitle("NOGOOD");
@@ -182,10 +182,10 @@ TGraphErrors * N1EVEN( int replay, int bin, double eMin, double eMax, double &ym
             ymax = setYmax(gA);
         } else {
             settype = pRef2;
-            if (replay == N1EVENSUB3) settype=pRef3;
+            if (replay==N1EVENSUB3) settype=pRef3;
             g = GetVNPt( settype, bin, epindx, eMin, 0., gA, gB, gSpec, vint, vinte, vintA, vintAe, vintB, vintBe, false );
             settype = mRef2;
-            if (replay == N1EVENSUB3) settype=mRef3;
+            if (replay==N1EVENSUB3) settype=mRef3;
             g2 = GetVNPt( settype, bin, epindx, 0., eMax, gA2, gB2, gSpec, vint, vinte, vintA, vintAe, vintB, vintBe, false );
             for (int i = 0; i<g->GetN(); i++) {
 	            g->GetY()[i] = (g->GetY()[i]+g2->GetY()[i])/2.;
