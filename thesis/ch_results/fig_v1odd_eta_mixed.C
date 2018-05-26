@@ -46,11 +46,12 @@ TGraphErrors * N1HFgSUB3[ncbins];
 TGraphErrors * N1HFgSUB3_syst[ncbins];
 TGraphErrors * N1HFgSUB3_decor[ncbins];
 TGraphErrors * N1HFgSUB3_decor_syst[ncbins];
+TGraphErrors * N112CombinedSUB2[ncbins];
 
 const double syst_v1odd_eta[ncbins] = {2.6e-4, 2.6e-4, 2.6e-4, 2.6e-4, 2.6e-4, 4.0e-4, 4.0e-4, 4.0e-4, 4.0e-4, 7.8e-4, 7.8e-4};
 const double syst_v1odd_eta_decor[ncbins] = {0.9e-4, 0.9e-4, 0.9e-4, 0.9e-4, 0.9e-4, 1.3e-4, 1.3e-4, 1.3e-4, 1.3e-4, 1.5e-4, 1.5e-4};
 
-void fig_v1odd_eta() {
+void fig_v1odd_eta_mixed() {
 
     for (int cbin = 0; cbin<ncbins; cbin++) {
         N1HFgSUB3[cbin] = (TGraphErrors *) fin->Get(Form("default/N1HFgSUB3/-2.0_2.0/%d_%d/gint",cmin[cbin],cmax[cbin]));
@@ -69,30 +70,38 @@ void fig_v1odd_eta() {
         N1HFgSUB3_decor[cbin]->RemovePoint(0);
         N1HFgSUB3_decor[cbin]->RemovePoint(N1HFgSUB3_decor[cbin]->GetN()-1);
 
+        N112CombinedSUB2[cbin] = (TGraphErrors *) fin->Get(Form("default/N112CombinedSUB2/-2.0_2.0/%d_%d/gint",cmin[cbin],cmax[cbin]));
+        N112CombinedSUB2[cbin]->SetMarkerStyle(33);
+        N112CombinedSUB2[cbin]->SetMarkerSize(1.7);
+        N112CombinedSUB2[cbin]->SetMarkerColor(kGreen+2);
+        N112CombinedSUB2[cbin]->SetLineColor(kGreen+2);
+        N112CombinedSUB2[cbin]->RemovePoint(0);
+        N112CombinedSUB2[cbin]->RemovePoint(N112CombinedSUB2[cbin]->GetN()-1);
+
         //-- systematics
         Double_t x[50], y[50], xerr[50], ysyst[50];
         int num = N1HFgSUB3[cbin]->GetN();
         for (int j = 0; j<num; j++) {
             N1HFgSUB3[cbin]->GetPoint(j, x[j], y[j]);
-            xerr[j] = 0.2;
+            xerr[j] = 0.15;
             // ysyst[j] = syst_v1odd_eta[i]*ebinmid[j];
             ysyst[j] = syst_v1odd_eta[cbin];
         }
         N1HFgSUB3_syst[cbin] = new TGraphErrors(num, x, y, xerr, ysyst);
-        N1HFgSUB3_syst[cbin]->SetLineColor(kGray+1);
-        N1HFgSUB3_syst[cbin]->SetFillColor(kGray+1);
+        N1HFgSUB3_syst[cbin]->SetLineColor(kBlue-10);
+        N1HFgSUB3_syst[cbin]->SetFillColor(kBlue-10);
 
         Double_t xd[50], yd[50], xderr[50], ydsyst[50];
         int numd = N1HFgSUB3_decor[cbin]->GetN();
         for (int j = 0; j<num; j++) {
             N1HFgSUB3_decor[cbin]->GetPoint(j, xd[j], yd[j]);
-            xderr[j] = 0.2;
+            xderr[j] = 0.15;
             // ydsyst[j] = syst_v1odd_eta_decor[i]*ebinmid[j];
             ydsyst[j] = syst_v1odd_eta_decor[cbin];
         }
         N1HFgSUB3_decor_syst[cbin] = new TGraphErrors(numd, xd, yd, xderr, ydsyst);
-        N1HFgSUB3_decor_syst[cbin]->SetLineColor(kGray);
-        N1HFgSUB3_decor_syst[cbin]->SetFillColor(kGray);
+        N1HFgSUB3_decor_syst[cbin]->SetLineColor(kGray+1);
+        N1HFgSUB3_decor_syst[cbin]->SetFillColor(kGray+1);
         //--
     }
 
@@ -188,12 +197,11 @@ void fig_v1odd_eta() {
     pad0[11]->Draw();
     pad0[11]->cd();
 
-    TPaveText * tx0_CMS = new TPaveText(0.04, 0.33, 0.61, 0.94, "NDC");
+    TPaveText * tx0_CMS = new TPaveText(0.03, 0.40, 0.60, 0.87, "NDC");
     SetTPaveTxt(tx0_CMS, 20);
     tx0_CMS->AddText("#bf{CMS}");
     tx0_CMS->AddText("PbPb #sqrt{s_{NN}} = 5.02 TeV");
     tx0_CMS->AddText("0.3 < p_{T} < 3.0 GeV/c");
-    tx0_CMS->AddText("#eta_{C} = 0");
     tx0_CMS->Draw();
 
     h0 = new TH1D("h0", "h0", 100, -2.4, 2.4);
@@ -205,26 +213,36 @@ void fig_v1odd_eta() {
     h0->GetYaxis()->SetNdivisions(508);
     h0->GetXaxis()->CenterTitle();
     h0->GetYaxis()->CenterTitle();
-    h0->GetXaxis()->SetTitleFont(43);
-    h0->GetXaxis()->SetTitleSize(22);
-    h0->GetXaxis()->SetTitleOffset(2.7);
-    h0->GetXaxis()->SetLabelFont(43);
-    h0->GetXaxis()->SetLabelSize(17);
-    h0->GetXaxis()->SetLabelOffset(0.018);
-    h0->GetYaxis()->SetTitleFont(43);
-    h0->GetYaxis()->SetTitleSize(22);
-    h0->GetYaxis()->SetTitleOffset(3.7);
-    h0->GetYaxis()->SetLabelFont(43);
-    h0->GetYaxis()->SetLabelSize(16);
-    h0->GetYaxis()->SetLabelOffset(0.010);
-    h0->GetYaxis()->SetRangeUser(-0.045, 0.045);
+    h0->GetXaxis()->SetTitleSize(0.09);
+    h0->GetXaxis()->SetLabelSize(0.07);
+    h0->GetXaxis()->SetTitleOffset(1.00);
+    h0->GetYaxis()->SetTitleSize(0.09);
+    h0->GetYaxis()->SetLabelSize(0.06);
+    h0->GetYaxis()->SetTitleOffset(1.2);
+    h0->GetYaxis()->SetRangeUser(-0.025, 0.025);
 
     for (int cbin = 0; cbin<11; cbin++) {
         pad0[cbin]->cd();
         TH1D * htmp = (TH1D *) h0->Clone(Form("h0_%d",cbin));
+        if (cbin == 7) {
+            htmp->GetXaxis()->SetTitleSize(0.08);
+            htmp->GetXaxis()->SetTitleOffset(1.10);
+            htmp->GetXaxis()->SetLabelSize(0.06);
+            htmp->GetXaxis()->SetLabelOffset(0.019);
+        }
+        if (cbin == 8) {
+            htmp->GetXaxis()->SetTitleSize(0.08);
+            htmp->GetXaxis()->SetTitleOffset(1.10);
+            htmp->GetXaxis()->SetLabelSize(0.06);
+            htmp->GetXaxis()->SetLabelOffset(0.019);
+            htmp->GetYaxis()->SetTitleSize(0.07);
+            htmp->GetYaxis()->SetTitleOffset(1.50);
+            htmp->GetYaxis()->SetLabelSize(0.05);
+        }
         htmp->Draw();
-        N1HFgSUB3_syst[cbin]->Draw("same 2");
-        N1HFgSUB3[cbin]->Draw("same p");
+        N1HFgSUB3_decor_syst[cbin]->Draw("same 2");
+        N1HFgSUB3_decor[cbin]->Draw("same p");
+        N112CombinedSUB2[cbin]->Draw("same p");
 
         TPaveText * tx0_cent;
         if (cbin == 0) tx0_cent = new TPaveText(0.48, 0.76, 0.74, 0.88, "NDC");
@@ -240,6 +258,12 @@ void fig_v1odd_eta() {
         tx0_cent->AddText(Form("%d - %d%%",cmin[cbin],cmax[cbin]));
         tx0_cent->Draw();
     }
-    c0->Print("../figures/fig_v1odd_eta.pdf","pdf");
+    pad0[0]->cd();
+    TLegend * leg0 = new TLegend(0.39, 0.05, 0.70, 0.25);
+    SetLegend(leg0, 20);
+    leg0->AddEntry(N112CombinedSUB2[0],"  Mixed EP","lp");
+    leg0->AddEntry(N1HFgSUB3_decor[0],"  SP #eta_{C} = #eta_{ROI}","lp");
+    leg0->Draw();
+    c0->Print("../figures/fig_v1odd_eta_mixed.pdf","pdf");
 
 }
