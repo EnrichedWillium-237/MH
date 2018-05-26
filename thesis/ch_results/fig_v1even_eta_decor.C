@@ -174,7 +174,7 @@ void fig_v1even_eta_decor() {
     c0->cd();
     pad0[10] = new TPad("pad0_10", "pad0_10", 0.5, 0.00, 0.721, 0.38);
     pad0[10]->SetLeftMargin(0);
-    pad0[10]->SetRightMargin(0.001);
+    pad0[10]->SetRightMargin(0.005);
     pad0[10]->SetTopMargin(0);
     pad0[10]->SetBottomMargin(0.18);
     pad0[10]->Draw();
