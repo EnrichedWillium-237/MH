@@ -103,7 +103,7 @@ void combine() {
     for (int i = 0; i<num; i++) {
         x[i] = hALICE0_0->GetBinCenter(i+1);
         y[i] = hALICE0_0->GetBinContent(i+1);
-        // xerr[i] = 0.5*hALICE0_0->GetBinWidth(i+1);
+        xerr[i] = 0.5*hALICE0_0->GetBinWidth(i+1);
         yerr[i] = hALICE0_0->GetBinError(i+1);
     }
     TGraphErrors * gALICE0_0 = new TGraphErrors(num, x, y, 0, yerr);
@@ -117,7 +117,7 @@ void combine() {
     for (int i = 0; i<num; i++) {
         x[i] = hALICE1_0->GetBinCenter(i+1);
         y[i] = hALICE1_0->GetBinContent(i+1);
-        // xerr[i] = 0.5*hALICE1_0->GetBinWidth(i+1);
+        xerr[i] = 0.5*hALICE1_0->GetBinWidth(i+1);
         yerr[i] = hALICE1_0->GetBinError(i+1);
     }
     TGraphErrors * gALICE1_0 = new TGraphErrors(num, x, y, 0, yerr);
@@ -137,7 +137,7 @@ void combine() {
     for (int i = 0; i<num; i++) {
         x[i] = hALICE1_1->GetBinCenter(i+1);
         y[i] = hALICE1_1->GetBinContent(i+1);
-        // xerr[i] = 0.5*hALICE1_1->GetBinWidth(i+1);
+        xerr[i] = 0.5*hALICE1_1->GetBinWidth(i+1);
         yerr[i] = hALICE1_1->GetBinError(i+1);
     }
     TGraphErrors * gALICE1_1 = new TGraphErrors(num, x, y, 0, yerr);
@@ -152,7 +152,7 @@ void combine() {
     for (int i = 0; i<num; i++) {
         x[i] = hATLAS2_0->GetBinCenter(i+1);
         y[i] = hATLAS2_0->GetBinContent(i+1);
-        // xerr[i] = 0.5*hATLAS2_0->GetBinWidth(i+1);
+        xerr[i] = 0.5*hATLAS2_0->GetBinWidth(i+1);
         yerr[i] = hATLAS2_0->GetBinError(i+1);
     }
     TGraphErrors * gATLAS2_0 = new TGraphErrors(num, x, y, 0, yerr);
@@ -166,7 +166,7 @@ void combine() {
     for (int i = 0; i<num; i++) {
         x[i] = hATLAS2_1->GetBinCenter(i+1);
         y[i] = hATLAS2_1->GetBinContent(i+1);
-        // xerr[i] = 0.5*hATLAS2_1->GetBinWidth(i+1);
+        xerr[i] = 0.5*hATLAS2_1->GetBinWidth(i+1);
         yerr[i] = hATLAS2_1->GetBinError(i+1);
     }
     TGraphErrors * gATLAS2_1 = new TGraphErrors(num, x, y, 0, yerr);
@@ -180,7 +180,7 @@ void combine() {
     for (int i = 0; i<num; i++) {
         x[i] = hATLAS2_2->GetBinCenter(i+1);
         y[i] = hATLAS2_2->GetBinContent(i+1);
-        // xerr[i] = 0.5*hATLAS2_2->GetBinWidth(i+1);
+        xerr[i] = 0.5*hATLAS2_2->GetBinWidth(i+1);
         yerr[i] = hATLAS2_2->GetBinError(i+1);
     }
     TGraphErrors * gATLAS2_2 = new TGraphErrors(num, x, y, 0, yerr);
@@ -194,29 +194,42 @@ void combine() {
     for (int i = 0; i<num; i++) {
         x[i] = hATLAS2_3->GetBinCenter(i+1);
         y[i] = hATLAS2_3->GetBinContent(i+1);
-        // xerr[i] = 0.5*hATLAS2_3->GetBinWidth(i+1);
+        xerr[i] = 0.5*hATLAS2_3->GetBinWidth(i+1);
         yerr[i] = hATLAS2_3->GetBinError(i+1);
     }
     TGraphErrors * gATLAS2_3 = new TGraphErrors(num, x, y, 0, yerr);
-    gATLAS2_3->SetName("ATLAS_v1even_pT_2TeV_30_40");
+    gATLAS2_3->SetName("ATLAS_v1even_pT_2TeV_20_30");
     gATLAS2_3->GetXaxis()->SetTitle("p_{T} (GeV/c)");
     gATLAS2_3->GetYaxis()->SetTitle("v_{1}^{even}");
     gATLAS2_3->Write();
 
-    TH1D * hATLAS2_4 = (TH1D *) fin2->Get("ATLAS_v1even_2PC_PbPb_40_50");
+    TH1D * hATLAS2_4 = (TH1D *) fin2->Get("ATLAS_v1even_2PC_PbPb_30_40");
     num = hATLAS2_4->GetNbinsX();
     for (int i = 0; i<num; i++) {
         x[i] = hATLAS2_4->GetBinCenter(i+1);
         y[i] = hATLAS2_4->GetBinContent(i+1);
-        // xerr[i] = 0.5*hATLAS2_4->GetBinWidth(i+1);
+        xerr[i] = 0.5*hATLAS2_4->GetBinWidth(i+1);
         yerr[i] = hATLAS2_4->GetBinError(i+1);
     }
     TGraphErrors * gATLAS2_4 = new TGraphErrors(num, x, y, 0, yerr);
-    gATLAS2_4->SetName("ATLAS_v1even_pT_2TeV_40_50");
+    gATLAS2_4->SetName("ATLAS_v1even_pT_2TeV_30_40");
     gATLAS2_4->GetXaxis()->SetTitle("p_{T} (GeV/c)");
     gATLAS2_4->GetYaxis()->SetTitle("v_{1}^{even}");
     gATLAS2_4->Write();
 
+    TH1D * hATLAS2_5 = (TH1D *) fin2->Get("ATLAS_v1even_2PC_PbPb_40_50");
+    num = hATLAS2_5->GetNbinsX();
+    for (int i = 0; i<num; i++) {
+        x[i] = hATLAS2_5->GetBinCenter(i+1);
+        y[i] = hATLAS2_5->GetBinContent(i+1);
+        xerr[i] = 0.5*hATLAS2_5->GetBinWidth(i+1);
+        yerr[i] = hATLAS2_5->GetBinError(i+1);
+    }
+    TGraphErrors * gATLAS2_5 = new TGraphErrors(num, x, y, 0, yerr);
+    gATLAS2_5->SetName("ATLAS_v1even_pT_2TeV_40_50");
+    gATLAS2_5->GetXaxis()->SetTitle("p_{T} (GeV/c)");
+    gATLAS2_5->GetYaxis()->SetTitle("v_{1}^{even}");
+    gATLAS2_5->Write();
 
     // fout->Close();
 
