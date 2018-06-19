@@ -107,6 +107,10 @@ TGraphErrors * N1( int replay, int bin, double eMin, double eMax, double & ymin,
     if (replay==N1HFgSUB2) {
         A = N1HFp1gSUB2;
         B = N1HFm1gSUB2;
+        epindxA = HFp1g;
+        epindxB = HFm1g;
+        cout<<"A: "<<A<<"\tB: "<<B<<endl;
+        cout<<"epindxA: "<<epindxA<<"\tepindxB: "<<epindxB<<endl;
         Decor = false;
     } else if (replay == N1HFgSUB3) {
         A = N1HFp1gSUB3;
