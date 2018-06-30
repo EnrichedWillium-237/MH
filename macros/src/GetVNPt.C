@@ -217,10 +217,10 @@ TGraphErrors * GetVNPt( int replay, int bin, int epindx, double etamin, double e
     }
     ptav->Divide(ptcnt);
 
-    int ietamin1=0;
-    int ietamax1=0;
-    int ietamin2=0;
-    int ietamax2=0;
+    int ietamin1 = 0;
+    int ietamax1 = 0;
+    int ietamin2 = 0;
+    int ietamax2 = 0;
     double sign = 1.;
     if (replay==N1HFp1gSUB2 || replay==N1HFp1gSUB3) sign=-1.;
     if (replay==N112ASUB2 || replay==N112ASUB3) sign=-1.;
@@ -272,8 +272,8 @@ TGraphErrors * GetVNPt( int replay, int bin, int epindx, double etamin, double e
         int epmin = 0;
         int epmax = 0;
         if (iorder == 1 ) {
-                epmin = HFm1;
-                epmax = HFp1f;
+            epmin = HFm1;
+            epmax = HFp1f;
         } else if (iorder == 2) {
             epmin = HFm2;
             epmax = HFp2f;
@@ -369,23 +369,6 @@ TGraphErrors * GetVNPt( int replay, int bin, int epindx, double etamin, double e
         }
     }
 
-    ///////////////////////////////////////
-    // Output some histograms for debugging
-    // TDirectory * dhold=0;
-    // if (etamin==-0.8 && etamax==0.8) {
-    //   dhold = gDirectory;
-    //   TFile * ftest = new TFile("ftest.root","recreate");
-    //   ftest->cd();
-    //   qA->Write();
-    //   qB->Write();
-    //   qA1->Write();
-    //   qB1->Write();
-    //   TH2D * qAbB = (TH2D *) qA->Clone("qAbB");
-    //   qAbB->Divide(qB);
-    //   qAbB->Write();
-    // }
-    ///////////////////////////////////////
-
     for (int i = 0; i<10; i++) {
         qAe1[i] = (TH1D *) qAe[i]->ProjectionX(Form("qAe1_%d",i),ietamin1,ietamax1);
         qBe1[i] = (TH1D *) qBe[i]->ProjectionX(Form("qBe1_%d",i),ietamin2,ietamax2);
@@ -429,13 +412,6 @@ TGraphErrors * GetVNPt( int replay, int bin, int epindx, double etamin, double e
         // }
         ///////////////////////////////////////
     }
-
-    ///////////////////////////////////////
-    // Output some histograms for debugging
-    // if (etamin==-0.8 && etamax==0.8) {
-    //   dhold->cd();
-    // }
-    ///////////////////////////////////////
 
     TH2D * hsEff;
     if (etamin*etamax<0) {
@@ -553,12 +529,12 @@ TGraphErrors * GetVNPt( int replay, int bin, int epindx, double etamin, double e
             vne->Scale(1./(ebinsA+ebinsA));
 
             for (int j = 0; j<vne->GetNbinsX(); j++) {
-                vnm[j]+= vne->GetBinContent(j+1);
-                vnAm[j]+= vnAe->GetBinContent(j+1);
-                vnBm[j]+= vnBe->GetBinContent(j+1);
+                vnm[j] += vne->GetBinContent(j+1);
+                vnAm[j] += vnAe->GetBinContent(j+1);
+                vnBm[j] += vnBe->GetBinContent(j+1);
                 vn2[j] += pow(vne->GetBinContent(j+1),2);
-                vnA2[j]+= pow(vnAe->GetBinContent(j+1),2);
-                vnB2[j]+= pow(vnBe->GetBinContent(j+1),2);
+                vnA2[j] += pow(vnAe->GetBinContent(j+1),2);
+                vnB2[j] += pow(vnBe->GetBinContent(j+1),2);
             }
             vnAe->Delete();
             vnBe->Delete();
