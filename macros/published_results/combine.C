@@ -19,6 +19,7 @@ TFile * fin3 = new TFile("PRL_101_252301.root","read");
 TFile * fin4 = new TFile("PRL_111_232302.root","read");
 TFile * fin5 = new TFile("PRL_92_062301.root","read");
 TFile * fin6 = new TFile("PRL_97_012301.root","read");
+TFile * fin7 = new TFile("STAR_v1even.root","read");
 TFile * fout;
 
 void combine() {
@@ -230,6 +231,20 @@ void combine() {
     gATLAS2_5->GetXaxis()->SetTitle("p_{T} (GeV/c)");
     gATLAS2_5->GetYaxis()->SetTitle("v_{1}^{even}");
     gATLAS2_5->Write();
+
+
+    // STAR v1even
+    TGraphErrors * STAR_v1even_200GeV_0_10 = (TGraphErrors *) fin7->Get("STAR_v1even_200GeV_0_10");
+    STAR_v1even_200GeV_0_10->SetName("STAR_v1even_200GeV_0_10");
+    STAR_v1even_200GeV_0_10->GetXaxis()->SetTitle("p_{T} (GeV/c)");
+    STAR_v1even_200GeV_0_10->GetYaxis()->SetTitle("v_{1}^{even}");
+    STAR_v1even_200GeV_0_10->Write();
+
+    TGraphErrors * STAR_v1even_62GeV_0_10 = (TGraphErrors *) fin7->Get("STAR_v1even_62GeV_0_10");
+    STAR_v1even_62GeV_0_10->SetName("STAR_v1even_62GeV_0_10");
+    STAR_v1even_62GeV_0_10->GetXaxis()->SetTitle("p_{T} (GeV/c)");
+    STAR_v1even_62GeV_0_10->GetYaxis()->SetTitle("v_{1}^{even}");
+    STAR_v1even_62GeV_0_10->Write();
 
     // fout->Close();
 
