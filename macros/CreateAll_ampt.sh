@@ -96,26 +96,6 @@ root -l -q -b 'GetVN.C+("../MH_AMPT.root","N112FSUB3",1.2,1.6,false,-1)'
 root -l -q -b 'GetVN.C+("../MH_AMPT.root","N112GSUB3",1.2,1.6,false,-1)'
 root -l -q -b 'GetVN.C+("../MH_AMPT.root","N112CombinedSUB3",1.2,1.6,false,-1)'
 
-###
-
-root -l -q -b 'GetVN.C+("../MH_AMPT.root","N1EVENSUB2",-2.4,-0.4,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_AMPT.root","N1EVENSUB2",0.4,2.4,false,-1)'
-
-root -l -q -b 'GetVN.C+("../MH_AMPT.root","N1EVENSUB2",-1.6,-1.2,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_AMPT.root","N1EVENSUB2",1.2,1.6,false,-1)'
-
-root -l -q -b 'GetVN.C+("../MH_AMPT.root","N1EVENSUB3",-2.4,-0.4,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_AMPT.root","N1EVENSUB3",0.4,2.4,false,-1)'
-
-root -l -q -b 'GetVN.C+("../MH_AMPT.root","N1EVENSUB3",-1.6,-1.2,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_AMPT.root","N1EVENSUB3",1.2,1.6,false,-1)'
-
-root -l -q -b 'GetVN.C+("../MH_AMPT.root","N112MCASUB3",-2.4,-0.4,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_AMPT.root","N112MCASUB3",0.4,2.4,false,-1)'
-
-root -l -q -b 'GetVN.C+("../MH_AMPT.root","N112MCASUB3",-1.6,-1.2,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_AMPT.root","N112MCASUB3",1.2,1.6,false,-1)'
-
 ## repeat but with decorrelation correction
 
 root -l -q -b 'GetVN.C+("../MH_AMPT.root","N1SUB3",-1.6,-1.2,true,-1)'
@@ -151,11 +131,3 @@ root -l -q -b 'GetVN.C+("../MH_AMPT.root","N112ESUB3",1.2,1.6,true,-1)'
 root -l -q -b 'GetVN.C+("../MH_AMPT.root","N112FSUB3",1.2,1.6,true,-1)'
 root -l -q -b 'GetVN.C+("../MH_AMPT.root","N112GSUB3",1.2,1.6,true,-1)'
 root -l -q -b 'GetVN.C+("../MH_AMPT.root","N112CombinedSUB3",1.2,1.6,true,-1)'
-
-###
-
-root -l -q -b 'GetVN.C+("../MH_AMPT.root","N1EVENSUB3",-1.6,-1.2,true,-1)'
-root -l -q -b 'GetVN.C+("../MH_AMPT.root","N1EVENSUB3",1.2,1.6,true,-1)'
-
-root -l -q -b 'GetVN.C+("../MH_AMPT.root","N112MCASUB3",-1.6,-1.2,true,-1)'
-root -l -q -b 'GetVN.C+("../MH_AMPT.root","N112MCASUB3",1.2,1.6,true,-1)'
