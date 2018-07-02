@@ -427,7 +427,7 @@ void fig_comp_v1even_pT() {
     leg1_1->AddEntry(ALICE_v1even_pT_c5_80," 5-80%","pl");
     leg1_1->Draw();
 
-    c1->Print("../figures/fig_v1even_compare_ALICE_SP.pdf","pdf");
+    c1->Print("../figures/fig_v1even_compare_ALICE_SP.png","png");
 
 
 
@@ -472,7 +472,7 @@ void fig_comp_v1even_pT() {
     leg2_1->AddEntry(ALICE_v1even_pT_c5_80," 5-80%  (#times 35)","pl");
     leg2_1->Draw();
 
-    c2->Print("../figures/fig_v1even_compare_ALICE_SP_scaled.pdf","pdf");
+    c2->Print("../figures/fig_v1even_compare_ALICE_SP_scaled.png","png");
 
 
 
