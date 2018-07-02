@@ -42,49 +42,50 @@ void SetTPaveTxt2( TPaveText * txtemplate, int txtsize ) {
 
 TFile * fin = new TFile("../../data/vnPlots.root","read");
 TH1D * h0;
-TGraphErrors * N1AEVENSUB3[ncbins];
-TGraphErrors * N1BEVENSUB3[ncbins];
-TGraphErrors * N1EVENSUB3[ncbins];
-TGraphErrors * N1EVENSUB3_syst[ncbins];
+TGraphErrors * N1AHFgSUB3[ncbins];
+TGraphErrors * N1BHFgSUB3[ncbins];
+TGraphErrors * N1HFgSUB3[ncbins];
+TGraphErrors * N1HFgSUB3_syst[ncbins];
 
-const double syst_v1even_pt[ncbins] = {2.4e-4, 2.4e-4, 2.4e-4, 2.4e-4, 2.4e-4, 2.4e-4, 2.4e-4, 2.4e-4, 2.4e-4, 2.4e-4, 2.4e-4};
+const double syst_v1odd_pt = 3.2e-4;
 
-void fig_v1even_pT() {
+void fig_v1odd_SP_pT() {
 
     for (int cbin = 0; cbin<ncbins; cbin++) {
         // Average negative and positive side v1even
-        N1AEVENSUB3[cbin] = (TGraphErrors *) fin->Get(Form("default/N1EVENSUB3/-2.4_-0.4/%d_%d/gA",cmin[cbin],cmax[cbin]));
-        N1BEVENSUB3[cbin] = (TGraphErrors *) fin->Get(Form("default/N1EVENSUB3/0.4_2.4/%d_%d/gA",cmin[cbin],cmax[cbin]));
-        int num =  N1AEVENSUB3[cbin]->GetN();
+        N1AHFgSUB3[cbin] = (TGraphErrors *) fin->Get(Form("default/N1HFgSUB3/-2.0_0.0/%d_%d/g",cmin[cbin],cmax[cbin]));
+        N1BHFgSUB3[cbin] = (TGraphErrors *) fin->Get(Form("default/N1HFgSUB3/0.0_2.0/%d_%d/g",cmin[cbin],cmax[cbin]));
+        int num =  N1AHFgSUB3[cbin]->GetN();
         double xvalA[50], xvalB[50], yvalA[50], yvalB[50], yerrA[50], yerrB[50];
         for (int j = 0; j<num; j++) {
-            N1AEVENSUB3[cbin]->GetPoint(j, xvalA[j], yvalA[j]);
-            yerrA[j] = N1AEVENSUB3[cbin]->GetErrorY(j);
-            N1BEVENSUB3[cbin]->GetPoint(j, xvalB[j], yvalB[j]);
-            yerrB[j] = N1BEVENSUB3[cbin]->GetErrorY(j);
+            N1AHFgSUB3[cbin]->GetPoint(j, xvalA[j], yvalA[j]);
+            yerrA[j] = N1AHFgSUB3[cbin]->GetErrorY(j);
+            N1BHFgSUB3[cbin]->GetPoint(j, xvalB[j], yvalB[j]);
+            yerrB[j] = N1BHFgSUB3[cbin]->GetErrorY(j);
 
+            yvalA[j]*=-1.;
             yvalA[j] = 0.5*(yvalA[j] + yvalB[j]);
             yerrA[j] = 0.5*sqrt( pow(yerrA[j],2) + pow(yerrB[j],2) );
         }
 
-        N1EVENSUB3[cbin] = new TGraphErrors(num, xvalA, yvalA, 0, yerrA);
+        N1HFgSUB3[cbin] = new TGraphErrors(num, xvalA, yvalA, 0, yerrA);
 
-        N1EVENSUB3[cbin]->SetMarkerStyle(21);
-        N1EVENSUB3[cbin]->SetMarkerSize(1.1);
-        N1EVENSUB3[cbin]->SetMarkerColor(kBlue);
-        N1EVENSUB3[cbin]->SetLineColor(kBlue);
+        N1HFgSUB3[cbin]->SetMarkerStyle(21);
+        N1HFgSUB3[cbin]->SetMarkerSize(1.1);
+        N1HFgSUB3[cbin]->SetMarkerColor(kBlue);
+        N1HFgSUB3[cbin]->SetLineColor(kBlue);
 
         //-- systematics
         Double_t x[50], y[50], xerr[50], ysyst[50];
-        num = N1EVENSUB3[cbin]->GetN();
+        num = N1HFgSUB3[cbin]->GetN();
         for (int j = 0; j<num; j++) {
-            N1EVENSUB3[cbin]->GetPoint(j, x[j], y[j]);
+            N1HFgSUB3[cbin]->GetPoint(j, x[j], y[j]);
             xerr[j] = 0.5*(pmax[j] - pmin[j]);
-            ysyst[j] = syst_v1even_pt[cbin];
+            ysyst[j] = syst_v1odd_pt;
         }
-        N1EVENSUB3_syst[cbin] = new TGraphErrors(num, x, y, xerr, ysyst);
-        N1EVENSUB3_syst[cbin]->SetLineColor(kGray+1);
-        N1EVENSUB3_syst[cbin]->SetFillColor(kGray+1);
+        N1HFgSUB3_syst[cbin] = new TGraphErrors(num, x, y, xerr, ysyst);
+        N1HFgSUB3_syst[cbin]->SetLineColor(kGray+1);
+        N1HFgSUB3_syst[cbin]->SetFillColor(kGray+1);
         //--
     }
 
@@ -184,14 +185,14 @@ void fig_v1even_pT() {
     SetTPaveTxt(tx0_CMS, 20);
     tx0_CMS->AddText("#bf{CMS}");
     tx0_CMS->AddText("PbPb #sqrt{s_{NN}} = 5.02 TeV");
-    tx0_CMS->AddText("0.4 < |#eta| < 2.4");
+    tx0_CMS->AddText("0.0 < |#eta| < 2.0");
     tx0_CMS->AddText("#eta_{C} = 0");
     tx0_CMS->Draw();
 
-    h0 = new TH1D("h0", "h0", 100, 0.001, 7.9);
+    h0 = new TH1D("h0", "h0", 100, 0.001, 7.8);
     h0->SetStats(0);
     h0->SetXTitle("p_{T} (GeV/c)");
-    h0->SetYTitle("v_{1}^{even}");
+    h0->SetYTitle("v_{1}^{odd}");
     h0->GetYaxis()->SetDecimals();
     h0->GetXaxis()->SetNdivisions(508);
     h0->GetYaxis()->SetNdivisions(507);
@@ -205,33 +206,33 @@ void fig_v1even_pT() {
     h0->GetXaxis()->SetLabelOffset(0.018);
     h0->GetYaxis()->SetTitleFont(43);
     h0->GetYaxis()->SetTitleSize(22);
-    h0->GetYaxis()->SetTitleOffset(3.2);
+    h0->GetYaxis()->SetTitleOffset(3.76);
     h0->GetYaxis()->SetLabelFont(43);
     h0->GetYaxis()->SetLabelSize(16);
     h0->GetYaxis()->SetLabelOffset(0.010);
-    h0->GetYaxis()->SetRangeUser(-0.04, 0.22);
+    h0->GetYaxis()->SetRangeUser(-0.14, 0.06);
 
     for (int cbin = 0; cbin<11; cbin++) {
         pad0[cbin]->cd();
         TH1D * htmp = (TH1D *) h0->Clone(Form("h0_%d",cbin));
         htmp->Draw();
-        N1EVENSUB3_syst[cbin]->Draw("same 2");
-        N1EVENSUB3[cbin]->Draw("same p");
+        N1HFgSUB3_syst[cbin]->Draw("same 2");
+        N1HFgSUB3[cbin]->Draw("same p");
 
         TPaveText * tx0_cent;
-        if (cbin == 0) tx0_cent = new TPaveText(0.28, 0.79, 0.48, 0.90, "NDC");
-        else if (cbin == 1 || cbin == 2) tx0_cent = new TPaveText(0.08, 0.79, 0.34, 0.90, "NDC");
-        else if (cbin == 3) tx0_cent = new TPaveText(0.07, 0.79, 0.30, 0.90, "NDC");
-        else if (cbin == 4) tx0_cent = new TPaveText(0.30, 0.82, 0.50, 0.91, "NDC");
-        else if (cbin == 5 || cbin == 6) tx0_cent = new TPaveText(0.11, 0.82, 0.37, 0.91, "NDC");
-        else if (cbin == 7) tx0_cent = new TPaveText(0.07, 0.86, 0.30, 0.95, "NDC");
-        else if (cbin == 8) tx0_cent = new TPaveText(0.30, 0.85, 0.50, 0.95, "NDC");
-        else if (cbin == 9 || cbin == 10) tx0_cent = new TPaveText(0.11, 0.85, 0.31, 0.95, "NDC");
+        if (cbin == 0) tx0_cent = new TPaveText(0.47, 0.05, 0.74, 0.18, "NDC");
+        else if (cbin == 1 || cbin == 2) tx0_cent = new TPaveText(0.37, 0.05, 0.63, 0.18, "NDC");
+        else if (cbin == 3) tx0_cent = new TPaveText(0.27, 0.05, 0.53, 0.18, "NDC");
+        else if (cbin == 4) tx0_cent = new TPaveText(0.47, 0.07, 0.74, 0.19, "NDC");
+        else if (cbin == 5 || cbin == 6) tx0_cent = new TPaveText(0.37, 0.07, 0.63, 0.19, "NDC");
+        else if (cbin == 7) tx0_cent = new TPaveText(0.27, 0.23, 0.53, 0.36, "NDC");
+        else if (cbin == 8) tx0_cent = new TPaveText(0.47, 0.23, 0.74, 0.34, "NDC");
+        else if (cbin == 9 || cbin == 10) tx0_cent = new TPaveText(0.37, 0.23, 0.63, 0.34, "NDC");
         else tx0_cent = new TPaveText(0.0, 0.0, 0.01, 0.01, "NDC");
         SetTPaveTxt2(tx0_cent, 20);
         tx0_cent->AddText(Form("%d - %d%%",cmin[cbin],cmax[cbin]));
         tx0_cent->Draw();
     }
-    c0->Print("../figures/fig_v1even_pT.pdf","pdf");
+    c0->Print("../figures/fig_v1odd_SP_pT.pdf","pdf");
 
 }
