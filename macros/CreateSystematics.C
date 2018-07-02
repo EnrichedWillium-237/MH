@@ -17,7 +17,7 @@ using namespace std;
 
 double maxR(double val);
 
-TCanvas * CreateSystematics2( string replay = "", TGraphErrors * gDefault = 0, TGraphErrors * gSys1 = 0, string stattype1 = "", TGraphErrors * gSys2 = 0, string stattype2 = "", string etarange = "", string centrange = "", string xlabel = "", string ylabel = "", string title = "" );
+TCanvas * CreateSystematics2( string replay = "", TGraphErrors * gDefault = 0, TGraphErrors * gSys1 = 0, string stattype1 = "", TGraphErrors * gSys2 = 0, string stattype2 = "", string etarange = "", string centrange = "", string xlabel = "", string ylabel = "", string title = "", TGraphErrors * gRatio = 0, TGraphErrors * gRatioABS = 0 );
 
 void CreateSystematics( string name = "vnPlots.root" ) {
     TFile * fin = new TFile(name.data(),"update");
@@ -114,9 +114,17 @@ void CreateSystematics( string name = "vnPlots.root" ) {
                   		    string s2 = Form("%s/%s",stight.data(),subsubsubbase.data());
                   		    TGraphErrors * gSys1 = (TGraphErrors *) fin->Get(Form("%s/%s",sloose.data(),subsubsubbase.data()));
                       		TGraphErrors * gSys2 = (TGraphErrors *) fin->Get(Form("%s/%s",stight.data(),subsubsubbase.data()));
+                            TGraphErrors * gRatio = (TGraphErrors *) gSys1->Clone("Ratio");
+                            TGraphErrors * gRatioABS = (TGraphErrors *) gSys1->Clone("RatioABS");
                     		if (gSys1==0 || gSys2==0) cout<<"ERROR: "<<s1<<"\t"<<gSys1<<"\t"<<s2<<"\t"<<gSys2<<endl;
-                     		TCanvas * can =  CreateSystematics2(base2,g, gSys1,"loose", gSys2, "tight", subbase, subsubbase,"p_{T} (GeV/c)", ytitle, subsubsubbase.data());
+                     		TCanvas * can =  CreateSystematics2(base2,g, gSys1,"loose", gSys2, "tight", subbase, subsubbase,"p_{T} (GeV/c)", ytitle, subsubsubbase.data(), gRatio, gRatioABS);
                       		syserrdir->cd();
+                            gRatio->SetName(Form("ratio_%s_trackQuality_pT_%s_%s",subsubsubbase.data(),subbase.data(),subsubbase.data()));
+                            gRatio->GetXaxis()->SetTitle("p_{T} (GeV/c)");
+                            gRatio->Write();
+                            gRatioABS->SetName(Form("ratioABS_%s_trackQuality_pT_%s_%s",subsubsubbase.data(),subbase.data(),subsubbase.data()));
+                            gRatioABS->GetXaxis()->SetTitle("p_{T} (GeV/c)");
+                            gRatioABS->Write();
                       		can->Write();
                       		can->Close();
       	                }
@@ -125,9 +133,17 @@ void CreateSystematics( string name = "vnPlots.root" ) {
                   		    string s2 = Form("%s/%s",snarrow.data(),subsubsubbase.data());
                       		TGraphErrors * gSys1 = (TGraphErrors *) fin->Get(Form("%s/%s",swide.data(),subsubsubbase.data()));
                       		TGraphErrors * gSys2 = (TGraphErrors *) fin->Get(Form("%s/%s",snarrow.data(),subsubsubbase.data()));
+                            TGraphErrors * gRatio = (TGraphErrors *) gSys1->Clone("Ratio");
+                            TGraphErrors * gRatioABS = (TGraphErrors *) gSys1->Clone("RatioABS");
                     		if (gSys1==0 || gSys2==0) cout<<"ERROR: "<<s1<<"\t"<<gSys1<<"\t"<<s2<<"\t"<<gSys2<<endl;
-                      		TCanvas * can =  CreateSystematics2(base2,g, gSys1,"wide", gSys2, "narrow", subbase, subsubbase,"p_{T} (GeV/c)", ytitle, subsubsubbase.data());
+                      		TCanvas * can =  CreateSystematics2(base2,g, gSys1,"wide", gSys2, "narrow", subbase, subsubbase,"p_{T} (GeV/c)", ytitle, subsubsubbase.data(), gRatio, gRatioABS);
                       		syserrdir->cd();
+                            gRatio->SetName(Form("ratio_vtxRange_pT_%s_%s",subbase.data(),subsubbase.data()));
+                            gRatio->GetXaxis()->SetTitle("p_{T} (GeV/c)");
+                            gRatio->Write();
+                            gRatioABS->SetName(Form("ratioABS_vtxRange_pT_%s_%s",subbase.data(),subsubbase.data()));
+                            gRatioABS->GetXaxis()->SetTitle("p_{T} (GeV/c)");
+                            gRatioABS->Write();
                       		can->Write();
                       		can->Close();
       	                 }
@@ -139,9 +155,17 @@ void CreateSystematics( string name = "vnPlots.root" ) {
                       		 string s2 = Form("%s/%s",stight.data(),subsubsubbase.data());
                       		 TGraphErrors * gSys1 = (TGraphErrors *) fin->Get(Form("%s/%s",sloose.data(),subsubsubbase.data()));
                       		 TGraphErrors * gSys2 = (TGraphErrors *) fin->Get(Form("%s/%s",stight.data(),subsubsubbase.data()));
+                             TGraphErrors * gRatio = (TGraphErrors *) gSys1->Clone("Ratio");
+                             TGraphErrors * gRatioABS = (TGraphErrors *) gSys1->Clone("RatioABS");
                     		 if (gSys1==0 || gSys2==0) cout<<"ERROR: "<<s1<<"\t"<<gSys1<<"\t"<<s2<<"\t"<<gSys2<<endl;
-                      		 TCanvas * can =  CreateSystematics2(base2,g, gSys1,"loose", gSys2, "tight", subbase, subsubbase,"#eta", ytitle, subsubsubbase.data());
+                      		 TCanvas * can =  CreateSystematics2(base2,g, gSys1,"loose", gSys2, "tight", subbase, subsubbase,"#eta", ytitle, subsubsubbase.data(), gRatio, gRatioABS);
                       		 syserrdir->cd();
+                             gRatio->SetName(Form("ratio_%s_trackQuality_eta_%s_%s",subsubsubbase.data(),subbase.data(),subsubbase.data()));
+                             gRatio->GetXaxis()->SetTitle("#eta");
+                             gRatio->Write();
+                             gRatioABS->SetName(Form("ratioABS_%s_trackQuality_eta_%s_%s",subsubsubbase.data(),subbase.data(),subsubbase.data()));
+                             gRatioABS->GetXaxis()->SetTitle("#eta");
+                             gRatioABS->Write();
                       		 can->Write();
                       		 can->Close();
       	                 }
@@ -150,9 +174,17 @@ void CreateSystematics( string name = "vnPlots.root" ) {
                   		     string s2 = Form("%s/%s",snarrow.data(),subsubsubbase.data());
                      		 TGraphErrors * gSys1 = (TGraphErrors *) fin->Get(Form("%s/%s",swide.data(),subsubsubbase.data()));
                       		 TGraphErrors * gSys2 = (TGraphErrors *) fin->Get(Form("%s/%s",snarrow.data(),subsubsubbase.data()));
+                             TGraphErrors * gRatio = (TGraphErrors *) gSys1->Clone("Ratio");
+                             TGraphErrors * gRatioABS = (TGraphErrors *) gSys1->Clone("RatioABS");
                     		 if (gSys1==0 || gSys2==0) cout<<"ERROR: "<<s1<<"\t"<<gSys1<<"\t"<<s2<<"\t"<<gSys2<<endl;
-                      		 TCanvas * can =  CreateSystematics2(base2,g, gSys1,"wide", gSys2, "narrow", subbase, subsubbase,"#eta", ytitle, subsubsubbase.data());
+                      		 TCanvas * can =  CreateSystematics2(base2,g, gSys1,"wide", gSys2, "narrow", subbase, subsubbase,"#eta", ytitle, subsubsubbase.data(), gRatio, gRatioABS);
                       		 syserrdir->cd();
+                             gRatio->SetName(Form("ratio_%s_vtxRange_eta_%s_%s",subsubsubbase.data(),subbase.data(),subsubbase.data()));
+                             gRatio->GetXaxis()->SetTitle("#eta");
+                             gRatio->Write();
+                             gRatioABS->SetName(Form("ratioABS_%s_vtxRange_eta_%s_%s",subsubsubbase.data(),subbase.data(),subsubbase.data()));
+                             gRatioABS->GetXaxis()->SetTitle("#eta");
+                             gRatioABS->Write();
                       		 can->Write();
                       		 can->Close();
                   	    }
@@ -213,7 +245,7 @@ double maxR( double val ) {
     return ret;
 }
 
-TCanvas *  CreateSystematics2( string replay, TGraphErrors * gDefault, TGraphErrors * gSys1, string systype1, TGraphErrors * gSys2, string systype2, string etarange, string centrange, string xlabel, string ylabel, string title ) {
+TCanvas *  CreateSystematics2( string replay, TGraphErrors * gDefault, TGraphErrors * gSys1, string systype1, TGraphErrors * gSys2, string systype2, string etarange, string centrange, string xlabel, string ylabel, string title, TGraphErrors * gRatio, TGraphErrors * gRatioABS ) {
     string gname = "trackQuality";
     if (systype2=="wide"||systype2=="narrow") gname = "vtxRange";
     string rep2 = systype2;
@@ -312,8 +344,8 @@ TCanvas *  CreateSystematics2( string replay, TGraphErrors * gDefault, TGraphErr
     }
     leg->AddEntry(gDefault,"default","lp");
     leg->Draw();
-    TGraphErrors * gRatio = (TGraphErrors *) gSys1->Clone("Ratio");
-    TGraphErrors * gRatioABS = (TGraphErrors *) gSys1->Clone("RatioABS");
+    // TGraphErrors * gRatio = (TGraphErrors *) gSys1->Clone("Ratio");
+    // TGraphErrors * gRatioABS = (TGraphErrors *) gSys1->Clone("RatioABS");
     for (int i = 0; i<gSys1->GetN(); i++) {
         if (gDefault->GetY()[i]!=0) {
             double y1 = gSys1->GetY()[i];
