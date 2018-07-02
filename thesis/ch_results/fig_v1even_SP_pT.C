@@ -73,18 +73,19 @@ void fig_v1even_SP_pT() {
         N1EVENSUB3[cbin]->SetMarkerSize(1.1);
         N1EVENSUB3[cbin]->SetMarkerColor(kBlue);
         N1EVENSUB3[cbin]->SetLineColor(kBlue);
+        N1EVENSUB3[cbin]->SetFillColor(kBlue-9);
 
         //-- systematics
         Double_t x[50], y[50], xerr[50], ysyst[50];
         num = N1EVENSUB3[cbin]->GetN();
         for (int j = 0; j<num; j++) {
             N1EVENSUB3[cbin]->GetPoint(j, x[j], y[j]);
-            xerr[j] = 0.5*(pmax[j] - pmin[j]);
+            xerr[j] = 0.18;
             ysyst[j] = syst_v1even_pt[cbin];
         }
         N1EVENSUB3_syst[cbin] = new TGraphErrors(num, x, y, xerr, ysyst);
-        N1EVENSUB3_syst[cbin]->SetLineColor(kGray+1);
-        N1EVENSUB3_syst[cbin]->SetFillColor(kGray+1);
+        N1EVENSUB3_syst[cbin]->SetLineColor(kBlue-9);
+        N1EVENSUB3_syst[cbin]->SetFillColor(kBlue-9);
         //--
     }
 

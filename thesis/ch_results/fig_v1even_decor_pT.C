@@ -93,34 +93,36 @@ void fig_v1even_decor_pT() {
         N1EVENSUB3[cbin]->SetMarkerSize(1.1);
         N1EVENSUB3[cbin]->SetMarkerColor(kBlue);
         N1EVENSUB3[cbin]->SetLineColor(kBlue);
+        N1EVENSUB3[cbin]->SetFillColor(kBlue-9);
 
         N1EVENSUB3_decor[cbin]->SetMarkerStyle(20);
         N1EVENSUB3_decor[cbin]->SetMarkerSize(1.2);
         N1EVENSUB3_decor[cbin]->SetMarkerColor(kRed);
         N1EVENSUB3_decor[cbin]->SetLineColor(kRed);
+        N1EVENSUB3_decor[cbin]->SetFillColor(kRed-9);
 
         //-- systematics
         Double_t x[50], y[50], xerr[50], ysyst[50];
         num = N1EVENSUB3[cbin]->GetN();
         for (int j = 0; j<num; j++) {
             N1EVENSUB3[cbin]->GetPoint(j, x[j], y[j]);
-            xerr[j] = 0.5*(pmax[j] - pmin[j]);
+            xerr[j] = 0.18;
             ysyst[j] = syst_v1even_pt[cbin];
         }
         N1EVENSUB3_syst[cbin] = new TGraphErrors(num, x, y, xerr, ysyst);
-        N1EVENSUB3_syst[cbin]->SetLineColor(kGray+1);
-        N1EVENSUB3_syst[cbin]->SetFillColor(kGray+1);
+        N1EVENSUB3_syst[cbin]->SetLineColor(kBlue-9);
+        N1EVENSUB3_syst[cbin]->SetFillColor(kBlue-9);
 
         Double_t xd[50], yd[50], xderr[50], ydsyst[50];
         numd = N1EVENSUB3_decor[cbin]->GetN();
         for (int j = 0; j<num; j++) {
             N1EVENSUB3_decor[cbin]->GetPoint(j, xd[j], yd[j]);
-            xderr[j] = 0.5*(pmax[j] - pmin[j]);
+            xderr[j] = 0.18;
             ydsyst[j] = syst_v1even_pt_decor[cbin];
         }
         N1EVENSUB3_decor_syst[cbin] = new TGraphErrors(numd, xd, yd, xderr, ydsyst);
-        N1EVENSUB3_decor_syst[cbin]->SetLineColor(kGray);
-        N1EVENSUB3_decor_syst[cbin]->SetFillColor(kGray);
+        N1EVENSUB3_decor_syst[cbin]->SetLineColor(kRed-9);
+        N1EVENSUB3_decor_syst[cbin]->SetFillColor(kRed-9);
         //--
     }
 
@@ -281,8 +283,8 @@ void fig_v1even_decor_pT() {
     TLegend * leg0 = new TLegend(0.59, 0.67, 0.90, 0.90);
     // TLegend * leg0 = new TLegend(0.45, 0.66, 0.77, 0.89);
     SetLegend(leg0, 20);
-    leg0->AddEntry(N1EVENSUB3[0],"  #eta_{C} = 0","lp");
-    leg0->AddEntry(N1EVENSUB3_decor[0],"  #eta_{C} = #eta_{ROI}","lp");
+    leg0->AddEntry(N1EVENSUB3[0],"  #eta_{C} = 0","lpf");
+    leg0->AddEntry(N1EVENSUB3_decor[0],"  #eta_{C} = #eta_{ROI}","lpf");
     leg0->Draw();
 
     c0->Print("../figures/fig_v1even_decor_pT.pdf","pdf");

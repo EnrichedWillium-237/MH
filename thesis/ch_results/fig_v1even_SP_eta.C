@@ -62,12 +62,12 @@ void fig_v1even_SP_eta() {
         int num = N1EVENSUB3[cbin]->GetN();
         for (int j = 0; j<num; j++) {
             N1EVENSUB3[cbin]->GetPoint(j, x[j], y[j]);
-            xerr[j] = 0.2;
+            xerr[j] = 0.15;
             ysyst[j] = syst_v1even_eta[cbin];
         }
         N1EVENSUB3_syst[cbin] = new TGraphErrors(num, x, y, xerr, ysyst);
-        N1EVENSUB3_syst[cbin]->SetLineColor(kGray+1);
-        N1EVENSUB3_syst[cbin]->SetFillColor(kGray+1);
+        N1EVENSUB3_syst[cbin]->SetLineColor(kBlue-10);
+        N1EVENSUB3_syst[cbin]->SetFillColor(kBlue-10);
         //--
     }
 

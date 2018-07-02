@@ -57,6 +57,7 @@ void fig_v1even_decor_eta() {
         N1EVENSUB3[cbin]->SetMarkerSize(1.1);
         N1EVENSUB3[cbin]->SetMarkerColor(kBlue);
         N1EVENSUB3[cbin]->SetLineColor(kBlue);
+        N1EVENSUB3[cbin]->SetFillColor(kBlue-9);
         N1EVENSUB3[cbin]->RemovePoint(5);
         N1EVENSUB3[cbin]->RemovePoint(5);
 
@@ -65,6 +66,7 @@ void fig_v1even_decor_eta() {
         N1EVENSUB3_decor[cbin]->SetMarkerSize(1.2);
         N1EVENSUB3_decor[cbin]->SetMarkerColor(kRed);
         N1EVENSUB3_decor[cbin]->SetLineColor(kRed);
+        N1EVENSUB3_decor[cbin]->SetFillColor(kRed-9);
         N1EVENSUB3_decor[cbin]->RemovePoint(4);
         N1EVENSUB3_decor[cbin]->RemovePoint(4);
 
@@ -73,23 +75,23 @@ void fig_v1even_decor_eta() {
         int num = N1EVENSUB3[cbin]->GetN();
         for (int j = 0; j<num; j++) {
             N1EVENSUB3[cbin]->GetPoint(j, x[j], y[j]);
-            xerr[j] = 0.2;
+            xerr[j] = 0.15;
             ysyst[j] = syst_v1even_eta[cbin];
         }
         N1EVENSUB3_syst[cbin] = new TGraphErrors(num, x, y, xerr, ysyst);
-        N1EVENSUB3_syst[cbin]->SetLineColor(kGray+1);
-        N1EVENSUB3_syst[cbin]->SetFillColor(kGray+1);
+        N1EVENSUB3_syst[cbin]->SetLineColor(kBlue-10);
+        N1EVENSUB3_syst[cbin]->SetFillColor(kBlue-10);
 
         Double_t xd[50], yd[50], xderr[50], ydsyst[50];
         int numd = N1EVENSUB3_decor[cbin]->GetN();
         for (int j = 0; j<num; j++) {
             N1EVENSUB3_decor[cbin]->GetPoint(j, xd[j], yd[j]);
-            xderr[j] = 0.2;
+            xderr[j] = 0.15;
             ydsyst[j] = syst_v1even_eta_decor[cbin];
         }
         N1EVENSUB3_decor_syst[cbin] = new TGraphErrors(numd, xd, yd, xderr, ydsyst);
-        N1EVENSUB3_decor_syst[cbin]->SetLineColor(kGray);
-        N1EVENSUB3_decor_syst[cbin]->SetFillColor(kGray);
+        N1EVENSUB3_decor_syst[cbin]->SetLineColor(kRed-9);
+        N1EVENSUB3_decor_syst[cbin]->SetFillColor(kRed-9);
         //--
     }
 
@@ -241,8 +243,8 @@ void fig_v1even_decor_eta() {
     pad0[0]->cd();
     TLegend * leg0 = new TLegend(0.45, 0.66, 0.77, 0.89);
     SetLegend(leg0, 20);
-    leg0->AddEntry(N1EVENSUB3[0],"  #eta_{C} = 0","lp");
-    leg0->AddEntry(N1EVENSUB3_decor[0],"  #eta_{C} = #eta_{ROI}","lp");
+    leg0->AddEntry(N1EVENSUB3[0],"  #eta_{C} = 0","lpf");
+    leg0->AddEntry(N1EVENSUB3_decor[0],"  #eta_{C} = #eta_{ROI}","lpf");
     leg0->Draw();
 
     c0->Print("../figures/fig_v1even_decor_eta.pdf","pdf");

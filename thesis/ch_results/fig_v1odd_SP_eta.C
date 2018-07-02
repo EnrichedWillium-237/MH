@@ -58,6 +58,7 @@ void fig_v1odd_SP_eta() {
         N1HFgSUB3[cbin]->SetMarkerSize(1.1);
         N1HFgSUB3[cbin]->SetMarkerColor(kBlue);
         N1HFgSUB3[cbin]->SetLineColor(kBlue);
+        N1HFgSUB3[cbin]->SetFillColor(kBlue-9);
         N1HFgSUB3[cbin]->RemovePoint(0);
         N1HFgSUB3[cbin]->RemovePoint(N1HFgSUB3[cbin]->GetN()-1);
 
@@ -66,6 +67,7 @@ void fig_v1odd_SP_eta() {
         N1HFgSUB3_decor[cbin]->SetMarkerSize(1.2);
         N1HFgSUB3_decor[cbin]->SetMarkerColor(kRed);
         N1HFgSUB3_decor[cbin]->SetLineColor(kRed);
+        N1HFgSUB3_decor[cbin]->SetFillColor(kRed-9);
         N1HFgSUB3_decor[cbin]->RemovePoint(0);
         N1HFgSUB3_decor[cbin]->RemovePoint(N1HFgSUB3_decor[cbin]->GetN()-1);
 
@@ -74,25 +76,25 @@ void fig_v1odd_SP_eta() {
         int num = N1HFgSUB3[cbin]->GetN();
         for (int j = 0; j<num; j++) {
             N1HFgSUB3[cbin]->GetPoint(j, x[j], y[j]);
-            xerr[j] = 0.2;
+            xerr[j] = 0.15;
             // ysyst[j] = syst_v1odd_eta[i]*ebinmid[j];
             ysyst[j] = syst_v1odd_eta[cbin];
         }
         N1HFgSUB3_syst[cbin] = new TGraphErrors(num, x, y, xerr, ysyst);
-        N1HFgSUB3_syst[cbin]->SetLineColor(kGray+1);
-        N1HFgSUB3_syst[cbin]->SetFillColor(kGray+1);
+        N1HFgSUB3_syst[cbin]->SetLineColor(kBlue-10);
+        N1HFgSUB3_syst[cbin]->SetFillColor(kBlue-10);
 
         Double_t xd[50], yd[50], xderr[50], ydsyst[50];
         int numd = N1HFgSUB3_decor[cbin]->GetN();
         for (int j = 0; j<num; j++) {
             N1HFgSUB3_decor[cbin]->GetPoint(j, xd[j], yd[j]);
-            xderr[j] = 0.2;
+            xderr[j] = 0.15;
             // ydsyst[j] = syst_v1odd_eta_decor[i]*ebinmid[j];
             ydsyst[j] = syst_v1odd_eta_decor[cbin];
         }
         N1HFgSUB3_decor_syst[cbin] = new TGraphErrors(numd, xd, yd, xderr, ydsyst);
-        N1HFgSUB3_decor_syst[cbin]->SetLineColor(kGray);
-        N1HFgSUB3_decor_syst[cbin]->SetFillColor(kGray);
+        N1HFgSUB3_decor_syst[cbin]->SetLineColor(kRed-9);
+        N1HFgSUB3_decor_syst[cbin]->SetFillColor(kRed-9);
         //--
     }
 

@@ -74,25 +74,24 @@ void fig_comp_v1odd_eta() {
 
     for (int cbin = 0; cbin<ncbins; cbin++) {
         N1HFgSUB3[cbin] = (TGraphErrors *) fin->Get(Form("default/N1HFgSUB3/0.0_2.0/%d_%d/gint",cmin[cbin],cmax[cbin]));
-        cout<<N1HFgSUB3[cbin]<<endl;
         N1HFgSUB3[cbin]->SetMarkerStyle(21);
         N1HFgSUB3[cbin]->SetMarkerSize(1.2);
         N1HFgSUB3[cbin]->SetMarkerColor(kBlue);
         N1HFgSUB3[cbin]->SetLineColor(kBlue);
+        N1HFgSUB3[cbin]->SetFillColor(kBlue-9);
         N1HFgSUB3[cbin]->RemovePoint(0);
         N1HFgSUB3[cbin]->RemovePoint(N1HFgSUB3[cbin]->GetN()-1);
 
         N1HFgSUB3_decor[cbin] = (TGraphErrors *) fin->Get(Form("default/N1HFgSUB3_decor/1.2_1.6/%d_%d/gint",cmin[cbin],cmax[cbin]));
-        cout<<N1HFgSUB3_decor[cbin]<<endl;
         N1HFgSUB3_decor[cbin]->SetMarkerStyle(20);
         N1HFgSUB3_decor[cbin]->SetMarkerSize(1.2);
         N1HFgSUB3_decor[cbin]->SetMarkerColor(kRed);
         N1HFgSUB3_decor[cbin]->SetLineColor(kRed);
+        N1HFgSUB3_decor[cbin]->SetFillColor(kRed-9);
         N1HFgSUB3_decor[cbin]->RemovePoint(0);
         N1HFgSUB3_decor[cbin]->RemovePoint(N1HFgSUB3_decor[cbin]->GetN()-1);
 
         N112ASUB3[cbin] = (TGraphErrors *) fin->Get(Form("default/N112ASUB3/0.0_2.0/%d_%d/gint",cmin[cbin],cmax[cbin]));
-        cout<<N112ASUB3[cbin]<<endl;
         N112ASUB3[cbin]->SetMarkerStyle(33);
         N112ASUB3[cbin]->SetMarkerSize(1.7);
         N112ASUB3[cbin]->SetMarkerColor(kGreen+2);
@@ -122,8 +121,8 @@ void fig_comp_v1odd_eta() {
             ydsyst[j] = syst_v1odd_eta_decor[cbin];
         }
         N1HFgSUB3_decor_syst[cbin] = new TGraphErrors(numd, xd, yd, xderr, ydsyst);
-        N1HFgSUB3_decor_syst[cbin]->SetLineColor(kGray);
-        N1HFgSUB3_decor_syst[cbin]->SetFillColor(kGray);
+        N1HFgSUB3_decor_syst[cbin]->SetLineColor(kRed-9);
+        N1HFgSUB3_decor_syst[cbin]->SetFillColor(kRed-9);
         //--
     }
 
@@ -270,7 +269,7 @@ void fig_comp_v1odd_eta() {
     TLegend * leg0_2 = new TLegend(0.21, 0.19, 0.42, 0.32);
     SetLegend(leg0_2, 18);
     leg0_2->AddEntry(ALICE_v1odd_eta_2TeV_10_60,"ALICE ZDC","p");
-    leg0_2->AddEntry(N1HFgSUB3[12],"CMS #eta_{C} = 0, 5.02 TeV","p");
+    leg0_2->AddEntry(N1HFgSUB3[12],"CMS #eta_{C} = 0, 5.02 TeV","lpf");
     leg0_2->Draw();
 
     c0->Print("../figures/fig_v1odd_compare_SP.pdf","pdf");
@@ -294,7 +293,7 @@ void fig_comp_v1odd_eta() {
 
     TLegend * leg1_0 = new TLegend(0.20, 0.19, 0.50, 0.33);
     SetLegend(leg1_0, 20);
-    leg1_0->AddEntry(N1HFgSUB3_decor[12],"CMS #eta_{C} = #eta_{ROI}, 5.02 TeV","p");
+    leg1_0->AddEntry(N1HFgSUB3_decor[12],"CMS #eta_{C} = #eta_{ROI}, 5.02 TeV","lpf");
     leg1_0->AddEntry(ALICE_v1odd_eta_2TeV_10_60,"ALICE ZDC, 2.76 TeV","p");
     leg1_0->Draw();
 

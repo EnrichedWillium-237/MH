@@ -114,39 +114,42 @@ void fig_v1odd_mixed_pT() {
         N1HFgSUB3[cbin]->SetMarkerSize(1.1);
         N1HFgSUB3[cbin]->SetMarkerColor(kBlue);
         N1HFgSUB3[cbin]->SetLineColor(kBlue);
+        N1HFgSUB3[cbin]->SetFillColor(kBlue-9);
 
         N1HFgSUB3_decor[cbin]->SetMarkerStyle(20);
         N1HFgSUB3_decor[cbin]->SetMarkerSize(1.2);
         N1HFgSUB3_decor[cbin]->SetMarkerColor(kRed);
         N1HFgSUB3_decor[cbin]->SetLineColor(kRed);
+        N1HFgSUB3_decor[cbin]->SetFillColor(kRed-9);
 
         N112SUB3[cbin]->SetMarkerStyle(33);
         N112SUB3[cbin]->SetMarkerSize(1.7);
         N112SUB3[cbin]->SetMarkerColor(kGreen+2);
         N112SUB3[cbin]->SetLineColor(kGreen+2);
+        N112SUB3[cbin]->SetFillColor(kGreen-8);
 
         //-- systematics
         Double_t x[50], y[50], xerr[50], ysyst[50];
         num = N1HFgSUB3[cbin]->GetN();
         for (int j = 0; j<num; j++) {
             N1HFgSUB3[cbin]->GetPoint(j, x[j], y[j]);
-            xerr[j] = 0.5*(pmax[j] - pmin[j]);
+            xerr[j] = 0.18;
             ysyst[j] = syst_v1odd_pt;
         }
         N1HFgSUB3_syst[cbin] = new TGraphErrors(num, x, y, xerr, ysyst);
-        N1HFgSUB3_syst[cbin]->SetLineColor(kGray+1);
-        N1HFgSUB3_syst[cbin]->SetFillColor(kGray+1);
+        N1HFgSUB3_syst[cbin]->SetLineColor(kBlue-9);
+        N1HFgSUB3_syst[cbin]->SetFillColor(kBlue-9);
 
         Double_t xd[50], yd[50], xderr[50], ydsyst[50];
         numd = N1HFgSUB3_decor[cbin]->GetN();
         for (int j = 0; j<num; j++) {
             N1HFgSUB3_decor[cbin]->GetPoint(j, xd[j], yd[j]);
-            xderr[j] = 0.5*(pmax[j] - pmin[j]);
+            xderr[j] = 0.18;
             ydsyst[j] = syst_v1odd_pt_decor;
         }
         N1HFgSUB3_decor_syst[cbin] = new TGraphErrors(numd, xd, yd, xderr, ydsyst);
-        N1HFgSUB3_decor_syst[cbin]->SetLineColor(kGray);
-        N1HFgSUB3_decor_syst[cbin]->SetFillColor(kGray);
+        N1HFgSUB3_decor_syst[cbin]->SetLineColor(kRed-9);
+        N1HFgSUB3_decor_syst[cbin]->SetFillColor(kRed-9);
         //--
     }
 
@@ -299,9 +302,9 @@ void fig_v1odd_mixed_pT() {
     pad0[0]->cd();
     TLegend * leg0 = new TLegend(0.55, 0.034, 0.86, 0.48);
     SetLegend(leg0, 20);
-    leg0->AddEntry(N1HFgSUB3[0],"  #eta_{C} = 0","lp");
-    leg0->AddEntry(N1HFgSUB3_decor[0],"  #eta_{C} = #eta_{ROI}","lp");
-    leg0->AddEntry(N112SUB3[0],"  Mixed SP","lp");
+    leg0->AddEntry(N1HFgSUB3[0],"  #eta_{C} = 0","lpf");
+    leg0->AddEntry(N1HFgSUB3_decor[0],"  #eta_{C} = #eta_{ROI}","lpf");
+    leg0->AddEntry(N112SUB3[0],"  Mixed SP","lpf");
     leg0->Draw();
 
     c0->Print("../figures/fig_v1odd_mixed_pT.pdf","pdf");

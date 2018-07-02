@@ -91,8 +91,8 @@ void fig_v1odd_decor_eta() {
             ydsyst[j] = syst_v1odd_eta_decor[cbin];
         }
         N1HFgSUB3_decor_syst[cbin] = new TGraphErrors(numd, xd, yd, xderr, ydsyst);
-        N1HFgSUB3_decor_syst[cbin]->SetLineColor(kGray+1);
-        N1HFgSUB3_decor_syst[cbin]->SetFillColor(kGray+1);
+        N1HFgSUB3_decor_syst[cbin]->SetLineColor(kRed-9);
+        N1HFgSUB3_decor_syst[cbin]->SetFillColor(kRed-9);
         //--
     }
 

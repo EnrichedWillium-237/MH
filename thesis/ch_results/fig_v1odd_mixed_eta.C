@@ -59,6 +59,7 @@ void fig_v1odd_mixed_eta() {
         N1HFgSUB3[cbin]->SetMarkerSize(1.1);
         N1HFgSUB3[cbin]->SetMarkerColor(kBlue);
         N1HFgSUB3[cbin]->SetLineColor(kBlue);
+        N1HFgSUB3[cbin]->SetFillColor(kBlue-9);
         N1HFgSUB3[cbin]->RemovePoint(0);
         N1HFgSUB3[cbin]->RemovePoint(N1HFgSUB3[cbin]->GetN()-1);
 
@@ -67,6 +68,7 @@ void fig_v1odd_mixed_eta() {
         N1HFgSUB3_decor[cbin]->SetMarkerSize(1.2);
         N1HFgSUB3_decor[cbin]->SetMarkerColor(kRed);
         N1HFgSUB3_decor[cbin]->SetLineColor(kRed);
+        N1HFgSUB3_decor[cbin]->SetFillColor(kRed-9);
         N1HFgSUB3_decor[cbin]->RemovePoint(0);
         N1HFgSUB3_decor[cbin]->RemovePoint(N1HFgSUB3_decor[cbin]->GetN()-1);
 
@@ -75,6 +77,7 @@ void fig_v1odd_mixed_eta() {
         N112ASUB3[cbin]->SetMarkerSize(1.7);
         N112ASUB3[cbin]->SetMarkerColor(kGreen+2);
         N112ASUB3[cbin]->SetLineColor(kGreen+2);
+        N112ASUB3[cbin]->SetFillColor(kGreen-8);
         N112ASUB3[cbin]->RemovePoint(0);
         N112ASUB3[cbin]->RemovePoint(N112ASUB3[cbin]->GetN()-1);
 
@@ -100,8 +103,8 @@ void fig_v1odd_mixed_eta() {
             ydsyst[j] = syst_v1odd_eta_decor[cbin];
         }
         N1HFgSUB3_decor_syst[cbin] = new TGraphErrors(numd, xd, yd, xderr, ydsyst);
-        N1HFgSUB3_decor_syst[cbin]->SetLineColor(kGray+1);
-        N1HFgSUB3_decor_syst[cbin]->SetFillColor(kGray+1);
+        N1HFgSUB3_decor_syst[cbin]->SetLineColor(kRed-9);
+        N1HFgSUB3_decor_syst[cbin]->SetFillColor(kRed-9);
         //--
     }
 
@@ -261,8 +264,8 @@ void fig_v1odd_mixed_eta() {
     pad0[0]->cd();
     TLegend * leg0 = new TLegend(0.39, 0.04, 0.70, 0.33);
     SetLegend(leg0, 20);
-    leg0->AddEntry(N1HFgSUB3_decor[0],"  SP #eta_{C} = #eta_{ROI}","lp");
-    leg0->AddEntry(N112ASUB3[0],"  Mixed SP","lp");
+    leg0->AddEntry(N1HFgSUB3_decor[0],"  SP #eta_{C} = #eta_{ROI}","lpf");
+    leg0->AddEntry(N112ASUB3[0],"  Mixed SP","lpf");
     leg0->Draw();
 
     c0->Print("../figures/fig_v1odd_mixed_eta.pdf","pdf");

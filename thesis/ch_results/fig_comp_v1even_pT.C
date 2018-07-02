@@ -52,22 +52,24 @@ TGraphErrors * ATLAS_v1even_pT_20_30;
 TGraphErrors * ATLAS_v1even_pT_30_40;
 TGraphErrors * ATLAS_v1even_pT_40_50;
 TGraphErrors * ALICE_v1even_pT_c5_80;
+TGraphErrors * STAR_v1even_62GeV_0_10;
+TGraphErrors * STAR_v1even_200GeV_0_10;
 TGraphErrors * N1AEVENSUB3[ncbins];
 TGraphErrors * N1BEVENSUB3[ncbins];
 TGraphErrors * N1EVENSUB3[ncbins];
 TGraphErrors * N1EVENSUB3_syst[ncbins];
 
+TGraphErrors * N1AEVENSUB3_0_10;
+TGraphErrors * N1BEVENSUB3_0_10;
+TGraphErrors * N1EVENSUB3_0_10;
+TGraphErrors * N1EVENSUB3_0_10_syst;
+
 TGraphErrors * N1AEVENSUB3_5_80;
 TGraphErrors * N1BEVENSUB3_5_80;
 TGraphErrors * N1EVENSUB3_5_80;
 TGraphErrors * N1EVENSUB3_5_80_syst;
-TGraphErrors * N1AEVENSUB3_decor_5_80;
-TGraphErrors * N1BEVENSUB3_decor_5_80;
-TGraphErrors * N1EVENSUB3_decor_5_80;
-TGraphErrors * N1EVENSUB3_decor_5_80_syst;
 
 const double syst_v1even_pt[ncbins] = {2.4e-4, 2.4e-4, 2.4e-4, 2.4e-4, 2.4e-4, 2.4e-4};
-const double syst_v1even_pt_decor[ncbins] = {6.6e-4, 6.6e-4, 6.6e-4, 6.6e-4, 6.6e-4, 6.6e-4};
 
 void fig_comp_v1even_pT() {
 
@@ -93,28 +95,63 @@ void fig_comp_v1even_pT() {
         N1EVENSUB3[cbin]->SetMarkerSize(1.3);
         N1EVENSUB3[cbin]->SetMarkerColor(kBlue);
         N1EVENSUB3[cbin]->SetLineColor(kBlue);
+        N1EVENSUB3[cbin]->SetFillColor(kBlue-9);
 
         //-- systematics
         Double_t x[50], y[50], xerr[50], ysyst[50];
         num = N1EVENSUB3[cbin]->GetN();
         for (int j = 0; j<num; j++) {
             N1EVENSUB3[cbin]->GetPoint(j, x[j], y[j]);
-            xerr[j] = 0.5*(pmax[j] - pmin[j]);
+            xerr[j] = 0.18;
             ysyst[j] = syst_v1even_pt[cbin];
         }
         N1EVENSUB3_syst[cbin] = new TGraphErrors(num, x, y, xerr, ysyst);
-        N1EVENSUB3_syst[cbin]->SetLineColor(kGray+1);
-        N1EVENSUB3_syst[cbin]->SetFillColor(kGray+1);
+        N1EVENSUB3_syst[cbin]->SetLineColor(kBlue-9);
+        N1EVENSUB3_syst[cbin]->SetFillColor(kBlue-9);
         //--
 
     }
 
 
+    //---- results for 0 to 10% centrality
+    N1AEVENSUB3_0_10 = (TGraphErrors *) fin->Get("default/N1EVENSUB3/-2.4_-0.4/0_10/gA");
+    N1BEVENSUB3_0_10 = (TGraphErrors *) fin->Get("default/N1EVENSUB3/0.4_2.4/0_10/gA");
+    int num =  N1AEVENSUB3_0_10->GetN();
+    double xvalA[50], xvalB[50], yvalA[50], yvalB[50], yerrA[50], yerrB[50];
+    for (int j = 0; j<num; j++) {
+        N1AEVENSUB3_0_10->GetPoint(j, xvalA[j], yvalA[j]);
+        yerrA[j] = N1AEVENSUB3_0_10->GetErrorY(j);
+        N1BEVENSUB3_0_10->GetPoint(j, xvalB[j], yvalB[j]);
+        yerrB[j] = N1BEVENSUB3_0_10->GetErrorY(j);
+
+        yvalA[j] = 0.5*(yvalA[j] + yvalB[j]);
+        yerrA[j] = 0.5*sqrt( pow(yerrA[j],2) + pow(yerrB[j],2) );
+    }
+    N1EVENSUB3_0_10 = new TGraphErrors(num, xvalA, yvalA, 0, yerrA);
+
+    N1EVENSUB3_0_10->SetMarkerStyle(21);
+    N1EVENSUB3_0_10->SetMarkerSize(1.3);
+    N1EVENSUB3_0_10->SetMarkerColor(kBlue);
+    N1EVENSUB3_0_10->SetLineColor(kBlue);
+    N1EVENSUB3_0_10->SetFillColor(kBlue-9);
+
+    Double_t x[50], y[50], xerr[50], ysyst[50];
+    num = N1EVENSUB3_0_10->GetN();
+    for (int j = 0; j<num; j++) {
+        N1EVENSUB3_0_10->GetPoint(j, x[j], y[j]);
+        // xerr[j] = 0.20*(pmax[j] - pmin[j]);
+        xerr[j] = 0.09;
+        ysyst[j] = syst_v1even_pt[0];
+    }
+    N1EVENSUB3_0_10_syst = new TGraphErrors(num, x, y, xerr, ysyst);
+    N1EVENSUB3_0_10_syst->SetLineColor(kBlue-9);
+    N1EVENSUB3_0_10_syst->SetFillColor(kBlue-9);
+
+
     //---- results for 5 to 80% centrality
     N1AEVENSUB3_5_80 = (TGraphErrors *) fin->Get("default/N1EVENSUB3/-2.4_-0.4/5_80/gA");
     N1BEVENSUB3_5_80 = (TGraphErrors *) fin->Get("default/N1EVENSUB3/0.4_2.4/5_80/gA");
-    int num =  N1AEVENSUB3_5_80->GetN();
-    double xvalA[50], xvalB[50], yvalA[50], yvalB[50], yerrA[50], yerrB[50];
+    num =  N1AEVENSUB3_5_80->GetN();
     for (int j = 0; j<num; j++) {
         N1AEVENSUB3_5_80->GetPoint(j, xvalA[j], yvalA[j]);
         yerrA[j] = N1AEVENSUB3_5_80->GetErrorY(j);
@@ -125,56 +162,24 @@ void fig_comp_v1even_pT() {
         yerrA[j] = 0.5*sqrt( pow(yerrA[j],2) + pow(yerrB[j],2) );
     }
 
-    N1AEVENSUB3_decor_5_80 = (TGraphErrors *) fin->Get("default/N1EVENSUB3_decor/-1.6_-1.2/5_80/gA");
-    N1BEVENSUB3_decor_5_80 = (TGraphErrors *) fin->Get("default/N1EVENSUB3_decor/1.2_1.6/5_80/gA");
-    int numd =  N1AEVENSUB3_decor_5_80->GetN();
-    double xvalAd[50], xvalBd[50], yvalAd[50], yvalBd[50], yerrAd[50], yerrBd[50];
-    for (int j = 0; j<numd; j++) {
-        N1AEVENSUB3_decor_5_80->GetPoint(j, xvalAd[j], yvalAd[j]);
-        yerrAd[j] = N1AEVENSUB3_decor_5_80->GetErrorY(j);
-        N1BEVENSUB3_decor_5_80->GetPoint(j, xvalBd[j], yvalBd[j]);
-        yerrBd[j] = N1BEVENSUB3_decor_5_80->GetErrorY(j);
-
-        yvalAd[j] = 0.5*(yvalAd[j] + yvalBd[j]);
-        yerrAd[j] = 0.5*sqrt( pow(yerrAd[j],2) + pow(yerrBd[j],2) );
-    }
-
     N1EVENSUB3_5_80 = new TGraphErrors(num, xvalA, yvalA, 0, yerrA);
-    N1EVENSUB3_decor_5_80 = new TGraphErrors(numd, xvalAd, yvalAd, 0, yerrAd);
 
     N1EVENSUB3_5_80->SetMarkerStyle(21);
     N1EVENSUB3_5_80->SetMarkerSize(1.3);
     N1EVENSUB3_5_80->SetMarkerColor(kBlue);
     N1EVENSUB3_5_80->SetLineColor(kBlue);
-    N1EVENSUB3_5_80->SetFillColor(kGray+1);
+    N1EVENSUB3_5_80->SetFillColor(kBlue-9);
 
-    N1EVENSUB3_decor_5_80->SetMarkerStyle(20);
-    N1EVENSUB3_decor_5_80->SetMarkerSize(1.2);
-    N1EVENSUB3_decor_5_80->SetMarkerColor(kRed);
-    N1EVENSUB3_decor_5_80->SetLineColor(kRed);
-    N1EVENSUB3_5_80->SetFillColor(kGray);
-
-    Double_t x[50], y[50], xerr[50], ysyst[50];
     num = N1EVENSUB3_5_80->GetN();
     for (int j = 0; j<num; j++) {
         N1EVENSUB3_5_80->GetPoint(j, x[j], y[j]);
-        xerr[j] = 0.5*(pmax[j] - pmin[j]);
+        // xerr[j] = 0.20*(pmax[j] - pmin[j]);
+        xerr[j] = 0.12;
         ysyst[j] = syst_v1even_pt[0];
     }
     N1EVENSUB3_5_80_syst = new TGraphErrors(num, x, y, xerr, ysyst);
-    N1EVENSUB3_5_80_syst->SetLineColor(kGray+1);
-    N1EVENSUB3_5_80_syst->SetFillColor(kGray+1);
-
-    Double_t xd[50], yd[50], xderr[50], ydsyst[50];
-    numd = N1EVENSUB3_decor_5_80->GetN();
-    for (int j = 0; j<num; j++) {
-        N1EVENSUB3_decor_5_80->GetPoint(j, xd[j], yd[j]);
-        xderr[j] = 0.5*(pmax[j] - pmin[j]);
-        ydsyst[j] = syst_v1even_pt_decor[0];
-    }
-    N1EVENSUB3_decor_5_80_syst = new TGraphErrors(numd, xd, yd, xderr, ydsyst);
-    N1EVENSUB3_decor_5_80_syst->SetLineColor(kGray);
-    N1EVENSUB3_decor_5_80_syst->SetFillColor(kGray);
+    N1EVENSUB3_5_80_syst->SetLineColor(kBlue-9);
+    N1EVENSUB3_5_80_syst->SetFillColor(kBlue-9);
     //----
 
 
@@ -220,6 +225,18 @@ void fig_comp_v1even_pT() {
     ALICE_v1even_pT_c5_80->SetMarkerSize(1.3);
     ALICE_v1even_pT_c5_80->SetMarkerColor(kMagenta);
     ALICE_v1even_pT_c5_80->SetLineColor(kMagenta);
+
+    STAR_v1even_62GeV_0_10 = (TGraphErrors *) fdata->Get("v1even/STAR_v1even_62GeV_0_10");
+    STAR_v1even_62GeV_0_10->SetMarkerStyle(30);
+    STAR_v1even_62GeV_0_10->SetMarkerSize(1.9);
+    STAR_v1even_62GeV_0_10->SetMarkerColor(kBlack);
+    STAR_v1even_62GeV_0_10->SetLineColor(kBlack);
+
+    STAR_v1even_200GeV_0_10 = (TGraphErrors *) fdata->Get("v1even/STAR_v1even_200GeV_0_10");
+    STAR_v1even_200GeV_0_10->SetMarkerStyle(29);
+    STAR_v1even_200GeV_0_10->SetMarkerSize(1.9);
+    STAR_v1even_200GeV_0_10->SetMarkerColor(kRed);
+    STAR_v1even_200GeV_0_10->SetLineColor(kRed);
 
 
     TCanvas * c0 = new TCanvas("c0", "c0", 1100, 730);
@@ -314,7 +331,7 @@ void fig_comp_v1even_pT() {
             txt0_0->Draw();
             TLegend * leg0_1 = new TLegend(0.27, 0.76, 0.45, 0.87);
             SetLegend(leg0_1, 20);
-            leg0_1->AddEntry(ATLAS_v1even_pT_05_10,"  ATLAS PbPb 2.76 TeV","p f");
+            leg0_1->AddEntry(ATLAS_v1even_pT_05_10,"  ATLAS PbPb 2.76 TeV","pf");
             leg0_1->Draw();
         }
         if (cbin == 1) {
@@ -386,7 +403,7 @@ void fig_comp_v1even_pT() {
     pad1->SetBottomMargin(0.15);
     pad1->SetLeftMargin(0.15);
     pad1->SetRightMargin(0.08);
-    h1 = new TH1D("h1", "h1", 100, 0.001, 6.0);
+    h1 = new TH1D("h1", "h1", 1000, 0.0, 6.0);
     h1->SetStats(0);
     h1->SetXTitle("p_{T} (GeV/c)");
     h1->SetYTitle("v_{1}^{even}");
@@ -410,21 +427,19 @@ void fig_comp_v1even_pT() {
     h1->GetYaxis()->SetRangeUser(-0.03, 0.20);
     h1->Draw();
     N1EVENSUB3_5_80_syst->Draw("same 2");
-    // N1EVENSUB3_decor_5_80_syst->Draw("same 2");
     ALICE_v1even_pT_c5_80->Draw("same p");
     N1EVENSUB3_5_80->Draw("same p");
-    // N1EVENSUB3_decor_5_80->Draw("same p");
 
     TLegend * leg1_0 = new TLegend(0.19, 0.81, 0.39, 0.93);
     SetLegend(leg1_0, 18);
     leg1_0->SetHeader("#bf{CMS}  PbPb #sqrt{s_{NN}} = 5.02 TeV  0.4<|#eta|<2.4");
-    leg1_0->AddEntry(N1EVENSUB3_5_80," 5-80%  #eta_{C} = 0","p f");
+    leg1_0->AddEntry(N1EVENSUB3_5_80," 5-80%  #eta_{C} = 0","lpf");
     leg1_0->Draw();
 
     TLegend * leg1_1 = new TLegend(0.19, 0.69, 0.39, 0.79);
     SetLegend(leg1_1, 18);
     leg1_1->SetHeader("ALICE PbPb #sqrt{s_{NN}} = 2.76 TeV  |#eta|<0.8");
-    leg1_1->AddEntry(ALICE_v1even_pT_c5_80," 5-80%","pl");
+    leg1_1->AddEntry(ALICE_v1even_pT_c5_80," 5-80%","p");
     leg1_1->Draw();
 
     c1->Print("../figures/fig_v1even_compare_ALICE_SP.pdf","pdf");
@@ -463,17 +478,50 @@ void fig_comp_v1even_pT() {
     TLegend * leg2_0 = new TLegend(0.19, 0.81, 0.39, 0.93);
     SetLegend(leg2_0, 18);
     leg2_0->SetHeader("#bf{CMS}  PbPb #sqrt{s_{NN}} = 5.02 TeV  0.4<|#eta|<2.4");
-    leg2_0->AddEntry(N1EVENSUB3_5_80," 5-80%  #eta_{C} = 0","p f");
+    leg2_0->AddEntry(N1EVENSUB3_5_80," 5-80%  #eta_{C} = 0","lpf");
     leg2_0->Draw();
 
     TLegend * leg2_1 = new TLegend(0.19, 0.69, 0.39, 0.79);
     SetLegend(leg2_1, 18);
     leg2_1->SetHeader("ALICE (scaled) PbPb #sqrt{s_{NN}} = 2.76 TeV  |#eta|<0.8");
-    leg2_1->AddEntry(ALICE_v1even_pT_c5_80," 5-80%  (#times 35)","pl");
+    leg2_1->AddEntry(ALICE_v1even_pT_c5_80," 5-80%  (#times 35)","p");
     leg2_1->Draw();
 
     c2->Print("../figures/fig_v1even_compare_ALICE_SP_scaled.pdf","pdf");
 
+
+
+    TCanvas * c3 = new TCanvas("c3", "c3", 600, 550);
+    TPad * pad3 = (TPad *) c3->cd();
+    pad3->SetTopMargin(0.05);
+    pad3->SetBottomMargin(0.15);
+    pad3->SetLeftMargin(0.15);
+    pad3->SetRightMargin(0.08);
+    pad3->Draw();
+    TH1D * h3 = (TH1D *) h1->Clone("h3");
+    h3->GetXaxis()->SetRangeUser(0.0, 3.5);
+    h3->GetYaxis()->SetRangeUser(-0.03, 0.15);
+    h3->Draw();
+    N1EVENSUB3_0_10_syst->Draw("same 2");
+    // STAR_v1even_62GeV_0_10->Draw("same p");
+    STAR_v1even_200GeV_0_10->Draw("same p");
+    N1EVENSUB3_0_10->Draw("same p");
+
+    TLegend * leg3_0 = new TLegend(0.19, 0.81, 0.39, 0.93);
+    SetLegend(leg3_0, 18);
+    leg3_0->SetHeader("#bf{CMS}  PbPb #sqrt{s_{NN}} = 5.02 TeV  0.4<|#eta|<2.4");
+    leg3_0->AddEntry(N1EVENSUB3_5_80," 0-10%  #eta_{C} = 0","lpf");
+    leg3_0->Draw();
+
+    TLegend * leg3_1 = new TLegend(0.19, 0.69, 0.39, 0.79);
+    SetLegend(leg3_1, 18);
+    STAR_v1even_200GeV_0_10->SetMarkerColor(kBlack);
+    STAR_v1even_200GeV_0_10->SetLineColor(kBlack);
+    leg3_1->SetHeader("STAR  AuAu #sqrt{s_{NN}} = 200 GeV");
+    leg3_1->AddEntry(STAR_v1even_200GeV_0_10," 0-10%","p");
+    leg3_1->Draw();
+
+    c3->Print("../figures/fig_v1even_compare_STAR_SP.pdf","pdf");
 
 
 }
