@@ -12,9 +12,9 @@
 
 using namespace std;
 
-static const int ncbins = 6;
-static const int cmin[] = { 0, 10, 20, 30, 40, 50};
-static const int cmax[] = {10, 20, 30, 40, 50, 60};
+static const int ncbins = 11;
+static const int cmin[] = {0,  5, 10, 15, 20, 25, 30, 35, 40, 50, 60};
+static const int cmax[] = {5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70};
 static const double ebinmid[] = {-2.2, -1.8, -1.4, -1.0, -0.6, -0.2, 0.2, 0.6, 1.0, 1.4, 1.8, 2.2};
 
 void SetTPaveTxt( TPaveText * txtemplate, int txtsize ) {
@@ -34,7 +34,6 @@ void SetLegend( TLegend * legtemplate, int legsize ) {
 
 TFile * fin = new TFile("../../data/vnPlots.root","read");
 TH1D * h0;
-TH1D * h1;
 TGraphErrors * N1HFgSUB2[ncbins];
 TGraphErrors * N1HFgSUB3[ncbins];
 TGraphErrors * N1HFgRatio[ncbins];
@@ -84,10 +83,10 @@ void fig_syst_v1odd_2SE_3SE_eta() {
     }
 
 
-    TCanvas * c0 = new TCanvas("c0", "c0", 830, 580);
-    TPad * pad0[6];
+    TCanvas * c0 = new TCanvas("c0", "c0", 1100, 580);
+    TPad * pad0[12];
     c0->cd();
-    pad0[0] = new TPad("pad0_0", "pad0_0", 0.0, 0.5, 0.38, 1.0);
+    pad0[0] = new TPad("pad0_0", "pad0_0", 0.0, 0.5, 0.17, 1.0);
     pad0[0]->SetLeftMargin(0.22);
     pad0[0]->SetTopMargin(0.15);
     pad0[0]->SetBottomMargin(0);
@@ -95,7 +94,7 @@ void fig_syst_v1odd_2SE_3SE_eta() {
     pad0[0]->Draw();
 
     c0->cd();
-    pad0[1] = new TPad("pad0_1", "pad0_1", 0.38, 0.5, 0.69, 1.0);
+    pad0[1] = new TPad("pad0_1", "pad0_1", 0.17, 0.5, 0.34, 1.0);
     pad0[1]->SetLeftMargin(0);
     pad0[1]->SetRightMargin(0);
     pad0[1]->SetTopMargin(0.15);
@@ -103,25 +102,24 @@ void fig_syst_v1odd_2SE_3SE_eta() {
     pad0[1]->Draw();
 
     c0->cd();
-    pad0[2] = new TPad("pad0_2", "pad0_2", 0.69, 0.5, 1.0, 1.0);
+    pad0[2] = new TPad("pad0_2", "pad0_2", 0.34, 0.5, 0.49, 1.0);
     pad0[2]->SetLeftMargin(0);
-    pad0[2]->SetRightMargin(0.05);
+    pad0[2]->SetRightMargin(0);
     pad0[2]->SetTopMargin(0.15);
     pad0[2]->SetBottomMargin(0);
     pad0[2]->Draw();
 
     c0->cd();
-    pad0[3] = new TPad("pad0_3", "pad0_3", 0.0, 0, 0.38, 0.5);
-    pad0[3]->SetLeftMargin(0.22);
-    pad0[3]->SetRightMargin(0);
-    pad0[3]->SetTopMargin(0);
-    pad0[3]->SetBottomMargin(0.18);
-    pad0[3]->SetGrid();
+    pad0[3] = new TPad("pad0_3", "pad0_3", 0.49, 0.5, 0.66, 1.0);
+    pad0[3]->SetLeftMargin(0);
+    pad0[3]->SetRightMargin(0.20);
+    pad0[3]->SetTopMargin(0.15);
+    pad0[3]->SetBottomMargin(0);
     pad0[3]->Draw();
 
     c0->cd();
-    pad0[4] = new TPad("pad0_4", "pad0_4", 0.38, 0, 0.69, 0.5);
-    pad0[4]->SetLeftMargin(0);
+    pad0[4] = new TPad("pad0_4", "pad0_4", 0.66, 0, 0.84, 0.5);
+    pad0[4]->SetLeftMargin(0.22);
     pad0[4]->SetRightMargin(0);
     pad0[4]->SetTopMargin(0);
     pad0[4]->SetBottomMargin(0.18);
@@ -129,13 +127,31 @@ void fig_syst_v1odd_2SE_3SE_eta() {
     pad0[4]->Draw();
 
     c0->cd();
-    pad0[5] = new TPad("pad0_5", "pad0_5", 0.69, 0, 1.0, 0.5);
+    pad0[5] = new TPad("pad0_5", "pad0_5", 0.84, 0, 1.0, 0.5);
     pad0[5]->SetLeftMargin(0);
-    pad0[5]->SetRightMargin(0.05);
+    pad0[5]->SetRightMargin(0);
     pad0[5]->SetTopMargin(0);
     pad0[5]->SetBottomMargin(0.18);
     pad0[5]->SetGrid();
     pad0[5]->Draw();
+
+    c0->cd();
+    pad0[6] = new TPad("pad0_6", "pad0_6", 0.50, 0, 0.72, 0.5);
+    pad0[6]->SetLeftMargin(0);
+    pad0[6]->SetRightMargin(0);
+    pad0[6]->SetTopMargin(0);
+    pad0[6]->SetBottomMargin(0.18);
+    pad0[6]->SetGrid();
+    pad0[6]->Draw();
+
+    c0->cd();
+    pad0[7] = new TPad("pad0_3", "pad0_3", 0.72, 0, 0.99, 0.5);
+    pad0[7]->SetLeftMargin(0);
+    pad0[7]->SetRightMargin(0.20);
+    pad0[7]->SetTopMargin(0);
+    pad0[7]->SetBottomMargin(0.18);
+    pad0[7]->SetGrid();
+    pad0[7]->Draw();
 
     h0 = new TH1D("h0", "h0", 100, -2.4, 2.4);
     h0->SetStats(0);
@@ -154,56 +170,80 @@ void fig_syst_v1odd_2SE_3SE_eta() {
     h0->GetXaxis()->SetLabelOffset(0.018);
     h0->GetYaxis()->SetTitleFont(43);
     h0->GetYaxis()->SetTitleSize(22);
-    h0->GetYaxis()->SetTitleOffset(3.0);
+    h0->GetYaxis()->SetTitleOffset(2.7);
     h0->GetYaxis()->SetLabelFont(43);
     h0->GetYaxis()->SetLabelSize(16);
     h0->GetYaxis()->SetLabelOffset(0.010);
     h0->GetYaxis()->SetRangeUser(-0.045, 0.045);
 
-    for (int cbin = 0; cbin<3; cbin++) {
+    for (int cbin = 0; cbin<6; cbin++) {
         pad0[cbin]->cd();
         TH1D * htmp = (TH1D *) h0->Clone(Form("h0_%d",cbin));
         htmp->Draw();
         N1HFgSUB3[cbin]->Draw("same p");
-        N1HFgSUB2[cbin]->Draw("same p");
-        if (cbin == 0) {
-            TPaveText * tx0_c0 = new TPaveText(0.52, 0.67, 0.72, 0.77, "NDC");
-            SetTPaveTxt(tx0_c0, 18);
-            tx0_c0->AddText(Form("%d - %d%%",cmin[cbin],cmax[cbin]));
-            tx0_c0->Draw();
 
-            TLegend * leg0 = new TLegend(0.30, 0.04, 0.69, 0.32);
-            SetLegend(leg0, 18);
-            leg0->SetHeader("#eta_{C} = 0");
-            leg0->AddEntry(N1HFgSUB2[cbin], "2 subevent v_{1}^{odd}", "p");
-            leg0->AddEntry(N1HFgSUB3[cbin], "3 subevent v_{1}^{odd}", "p");
-            leg0->Draw();
-        }
-        if (cbin == 1) {
-            TPaveText * tx0_c1 = new TPaveText(0.40, 0.67, 0.60, 0.77, "NDC");
-            SetTPaveTxt(tx0_c1, 18);
-            tx0_c1->AddText(Form("%d - %d%%",cmin[cbin],cmax[cbin]));
-            tx0_c1->Draw();
-        }
-        if (cbin == 2) {
-            TPaveText * tx0_c2 = new TPaveText(0.40, 0.67, 0.60, 0.77, "NDC");
-            SetTPaveTxt(tx0_c2, 18);
-            tx0_c2->AddText(Form("%d - %d%%",cmin[cbin],cmax[cbin]));
-            tx0_c2->Draw();
-        }
-    }
-    TLine * ln0 = new TLine(-2.4, 1.0, 2.4, 1.0);
-    for (int cbin = 3; cbin<6; cbin++) {
-        pad0[cbin+3]->cd();
-        TH1D * htmp = (TH1D *) h0->Clone(Form("h0_%d",cbin));
-        htmp->SetYTitle("v_{1}^{odd} Ratio: Sub3/Sub2");
-        htmp->GetYaxis()->SetRangeUser(0.35, 1.65);
-        htmp->Draw();
-        ln0->Draw();
-        N1HFgRatio[cbin]->Draw("same p");
-    }
-
-    c0->Print("../figures/fig_syst_v1odd_2SE_3SE_ratio_eta_0_30.pdf","pdf");
+    // //     if (cbin == 0) {
+    // //         TPaveText * tx0_CMS_0 = new TPaveText(0.21, 0.86, 0.37, 0.95, "NDC");
+    // //         SetTPaveTxt(tx0_CMS_0, 18);
+    // //         tx0_CMS_0->AddText("#bf{CMS}  PbPb #sqrt{s_{NN}} = 5.02 TeV");
+    // //         tx0_CMS_0->Draw();
+    // //
+    // //         TPaveText * tx0_c0 = new TPaveText(0.51, 0.71, 0.71, 0.81, "NDC");
+    // //         SetTPaveTxt(tx0_c0, 18);
+    // //         tx0_c0->AddText(Form("%d - %d%%",cmin[cbin],cmax[cbin]));
+    // //         tx0_c0->Draw();
+    // //
+    // //         TLegend * leg0 = new TLegend(0.26, 0.05, 0.64, 0.25);
+    // //         SetLegend(leg0, 18);
+    // //         leg0->AddEntry(N1HFgSUB2[cbin], "2 subevent v_{1}^{odd}", "p");
+    // //         leg0->AddEntry(N1HFgSUB3[cbin], "3 subevent v_{1}^{odd}", "p");
+    // //         leg0->Draw();
+    // //     }
+    // //
+    // //     if (cbin == 1) {
+    // //         TPaveText * tx0_CMS_1 = new TPaveText(0.0, 0.86, 0.16, 0.95, "NDC");
+    // //         SetTPaveTxt(tx0_CMS_1, 18);
+    // //         tx0_CMS_1->AddText("0.3 < p_{T} < 3.0 GeV/c  ");
+    // //         tx0_CMS_1->Draw();
+    // //
+    // //         TPaveText * tx0_c1 = new TPaveText(0.40, 0.71, 0.60, 0.81, "NDC");
+    // //         SetTPaveTxt(tx0_c1, 18);
+    // //         tx0_c1->AddText(Form("%d - %d%%",cmin[cbin],cmax[cbin]));
+    // //         tx0_c1->Draw();
+    // //     }
+    // //
+    // //     if (cbin == 2) {
+    // //         TPaveText * tx0_CMS_2 = new TPaveText(0.0, 0.86, 0.16, 0.95, "NDC");
+    // //         SetTPaveTxt(tx0_CMS_2, 18);
+    // //         tx0_CMS_2->AddText("#eta_{C} = 0");
+    // //         tx0_CMS_2->Draw();
+    // //
+    // //         TPaveText * tx0_c2 = new TPaveText(0.40, 0.71, 0.60, 0.81, "NDC");
+    // //         SetTPaveTxt(tx0_c2, 18);
+    // //         tx0_c2->AddText(Form("%d - %d%%",cmin[cbin],cmax[cbin]));
+    // //         tx0_c2->Draw();
+    // //     }
+    // //
+    // //     if (cbin == 3) {
+    // //         TPaveText * tx0_c3 = new TPaveText(0.30, 0.71, 0.50, 0.81, "NDC");
+    // //         SetTPaveTxt(tx0_c3, 18);
+    // //         tx0_c3->AddText(Form("%d - %d%%",cmin[cbin],cmax[cbin]));
+    // //         tx0_c3->Draw();
+    // //     }
+    // //
+    // // }
+    // // TLine * ln0 = new TLine(-2.4, 1.0, 2.4, 1.0);
+    // // for (int cbin = 4; cbin<8; cbin++) {
+    // //     pad0[cbin]->cd();
+    // //     TH1D * htmp = (TH1D *) h0->Clone(Form("h0_%d",cbin));
+    // //     htmp->SetYTitle("v_{1}^{odd} Ratio: Sub3/Sub2");
+    // //     htmp->GetYaxis()->SetRangeUser(0.35, 1.65);
+    // //     htmp->Draw();
+    // //     ln0->Draw();
+    // //     N1HFgRatio[cbin-4]->Draw("same p");
+    // // }
+    //
+    // c0->Print("../figures/fig_syst_v1odd_2SE_3SE_eta_0-20.pdf","pdf");
 
 
 
