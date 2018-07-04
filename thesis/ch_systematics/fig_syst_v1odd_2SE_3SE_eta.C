@@ -327,6 +327,4 @@ void fig_syst_v1odd_2SE_3SE_eta() {
 
     c1->Print("../figures/fig_syst_v1odd_2SE_3SE_ratio_eta_30_60.pdf","pdf");
 
-
-
 }
