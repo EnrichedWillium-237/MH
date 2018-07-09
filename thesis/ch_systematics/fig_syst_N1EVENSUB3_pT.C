@@ -38,66 +38,66 @@ TH1D * h0;
 TH1D * h1;
 TH1D * h2;
 TH1D * h3;
-TGraphErrors * N1HFgSUB3[ncbins];
-TGraphErrors * N1HFgSUB3_tight[ncbins];
-TGraphErrors * N1HFgSUB3_loose[ncbins];
-TGraphErrors * N1HFgSUB3_Diff_tight[ncbins];
-TGraphErrors * N1HFgSUB3_Diff_loose[ncbins];
+TGraphErrors * N1EVENSUB3[ncbins];
+TGraphErrors * N1EVENSUB3_tight[ncbins];
+TGraphErrors * N1EVENSUB3_loose[ncbins];
+TGraphErrors * N1EVENSUB3_Diff_tight[ncbins];
+TGraphErrors * N1EVENSUB3_Diff_loose[ncbins];
 
-TGraphErrors * N1HFgSUB3_narrow[ncbins];
-TGraphErrors * N1HFgSUB3_wide[ncbins];
-TGraphErrors * N1HFgSUB3_Diff_narrow[ncbins];
-TGraphErrors * N1HFgSUB3_Diff_wide[ncbins];
+TGraphErrors * N1EVENSUB3_narrow[ncbins];
+TGraphErrors * N1EVENSUB3_wide[ncbins];
+TGraphErrors * N1EVENSUB3_Diff_narrow[ncbins];
+TGraphErrors * N1EVENSUB3_Diff_wide[ncbins];
 
-void fig_syst_N1HFgSUB3_pT() {
+void fig_syst_N1EVENSUB3_pT() {
 
     for (int cbin = 0; cbin<ncbins; cbin++) {
-        N1HFgSUB3[cbin] = (TGraphErrors *) fin->Get(Form("default/N1HFgSUB3/0.0_2.0/%d_%d/g",cmin[cbin],cmax[cbin]));
-        N1HFgSUB3[cbin]->SetMarkerStyle(21);
-        N1HFgSUB3[cbin]->SetMarkerSize(1.2);
-        N1HFgSUB3[cbin]->SetMarkerColor(kBlue);
-        N1HFgSUB3[cbin]->SetLineColor(kBlue);
+        N1EVENSUB3[cbin] = (TGraphErrors *) fin->Get(Form("default/N1EVENSUB3/0.4_2.4/%d_%d/gA",cmin[cbin],cmax[cbin]));
+        N1EVENSUB3[cbin]->SetMarkerStyle(21);
+        N1EVENSUB3[cbin]->SetMarkerSize(1.2);
+        N1EVENSUB3[cbin]->SetMarkerColor(kBlue);
+        N1EVENSUB3[cbin]->SetLineColor(kBlue);
 
-        N1HFgSUB3_tight[cbin] = (TGraphErrors *) fin->Get(Form("tight2/N1HFgSUB3/0.0_2.0/%d_%d/g",cmin[cbin],cmax[cbin]));
-        N1HFgSUB3_tight[cbin]->SetMarkerStyle(20);
-        N1HFgSUB3_tight[cbin]->SetMarkerSize(1.3);
-        N1HFgSUB3_tight[cbin]->SetMarkerColor(kGreen+2);
-        N1HFgSUB3_tight[cbin]->SetLineColor(kGreen+2);
+        N1EVENSUB3_tight[cbin] = (TGraphErrors *) fin->Get(Form("tight2/N1EVENSUB3/0.4_2.4/%d_%d/gA",cmin[cbin],cmax[cbin]));
+        N1EVENSUB3_tight[cbin]->SetMarkerStyle(20);
+        N1EVENSUB3_tight[cbin]->SetMarkerSize(1.3);
+        N1EVENSUB3_tight[cbin]->SetMarkerColor(kGreen+2);
+        N1EVENSUB3_tight[cbin]->SetLineColor(kGreen+2);
 
-        N1HFgSUB3_loose[cbin] = (TGraphErrors *) fin->Get(Form("loose/N1HFgSUB3/0.0_2.0/%d_%d/g",cmin[cbin],cmax[cbin]));
-        N1HFgSUB3_loose[cbin]->SetMarkerStyle(25);
-        N1HFgSUB3_loose[cbin]->SetMarkerSize(1.2);
-        N1HFgSUB3_loose[cbin]->SetMarkerColor(kRed);
-        N1HFgSUB3_loose[cbin]->SetLineColor(kRed);
+        N1EVENSUB3_loose[cbin] = (TGraphErrors *) fin->Get(Form("loose/N1EVENSUB3/0.4_2.4/%d_%d/gA",cmin[cbin],cmax[cbin]));
+        N1EVENSUB3_loose[cbin]->SetMarkerStyle(25);
+        N1EVENSUB3_loose[cbin]->SetMarkerSize(1.2);
+        N1EVENSUB3_loose[cbin]->SetMarkerColor(kRed);
+        N1EVENSUB3_loose[cbin]->SetLineColor(kRed);
 
-        N1HFgSUB3_narrow[cbin] = (TGraphErrors *) fin->Get(Form("narrow/N1HFgSUB3/0.0_2.0/%d_%d/g",cmin[cbin],cmax[cbin]));
-        N1HFgSUB3_narrow[cbin]->SetMarkerStyle(20);
-        N1HFgSUB3_narrow[cbin]->SetMarkerSize(1.3);
-        N1HFgSUB3_narrow[cbin]->SetMarkerColor(kGreen+2);
-        N1HFgSUB3_narrow[cbin]->SetLineColor(kGreen+2);
+        N1EVENSUB3_narrow[cbin] = (TGraphErrors *) fin->Get(Form("narrow/N1EVENSUB3/0.4_2.4/%d_%d/gA",cmin[cbin],cmax[cbin]));
+        N1EVENSUB3_narrow[cbin]->SetMarkerStyle(20);
+        N1EVENSUB3_narrow[cbin]->SetMarkerSize(1.3);
+        N1EVENSUB3_narrow[cbin]->SetMarkerColor(kGreen+2);
+        N1EVENSUB3_narrow[cbin]->SetLineColor(kGreen+2);
 
-        N1HFgSUB3_wide[cbin] = (TGraphErrors *) fin->Get(Form("wide/N1HFgSUB3/0.0_2.0/%d_%d/g",cmin[cbin],cmax[cbin]));
-        N1HFgSUB3_wide[cbin]->SetMarkerStyle(25);
-        N1HFgSUB3_wide[cbin]->SetMarkerSize(1.2);
-        N1HFgSUB3_wide[cbin]->SetMarkerColor(kRed);
-        N1HFgSUB3_wide[cbin]->SetLineColor(kRed);
+        N1EVENSUB3_wide[cbin] = (TGraphErrors *) fin->Get(Form("wide/N1EVENSUB3/0.4_2.4/%d_%d/gA",cmin[cbin],cmax[cbin]));
+        N1EVENSUB3_wide[cbin]->SetMarkerStyle(25);
+        N1EVENSUB3_wide[cbin]->SetMarkerSize(1.2);
+        N1EVENSUB3_wide[cbin]->SetMarkerColor(kRed);
+        N1EVENSUB3_wide[cbin]->SetLineColor(kRed);
 
         // compute differences
-        int num = N1HFgSUB3[cbin]->GetN();
+        int num = N1EVENSUB3[cbin]->GetN();
         double xval[50], y0[50], y1[50], y2[50], y0e[50], y1e[50], y2e[50];
         double y3[50], y4[50], y3e[50], y4e[50];
         for (int i = 0; i<num; i++) {
-            N1HFgSUB3[cbin]->GetPoint(i, xval[i], y0[i]);
-            N1HFgSUB3_tight[cbin]->GetPoint(i, xval[i], y1[i]);
-            N1HFgSUB3_loose[cbin]->GetPoint(i, xval[i], y2[i]);
-            N1HFgSUB3_narrow[cbin]->GetPoint(i, xval[i], y3[i]);
-            N1HFgSUB3_wide[cbin]->GetPoint(i, xval[i], y4[i]);
+            N1EVENSUB3[cbin]->GetPoint(i, xval[i], y0[i]);
+            N1EVENSUB3_tight[cbin]->GetPoint(i, xval[i], y1[i]);
+            N1EVENSUB3_loose[cbin]->GetPoint(i, xval[i], y2[i]);
+            N1EVENSUB3_narrow[cbin]->GetPoint(i, xval[i], y3[i]);
+            N1EVENSUB3_wide[cbin]->GetPoint(i, xval[i], y4[i]);
 
-            y0e[i] = N1HFgSUB3[cbin]->GetErrorY(i);
-            y1e[i] = N1HFgSUB3_tight[cbin]->GetErrorY(i);
-            y2e[i] = N1HFgSUB3_loose[cbin]->GetErrorY(i);
-            y3e[i] = N1HFgSUB3_narrow[cbin]->GetErrorY(i);
-            y4e[i] = N1HFgSUB3_wide[cbin]->GetErrorY(i);
+            y0e[i] = N1EVENSUB3[cbin]->GetErrorY(i);
+            y1e[i] = N1EVENSUB3_tight[cbin]->GetErrorY(i);
+            y2e[i] = N1EVENSUB3_loose[cbin]->GetErrorY(i);
+            y3e[i] = N1EVENSUB3_narrow[cbin]->GetErrorY(i);
+            y4e[i] = N1EVENSUB3_wide[cbin]->GetErrorY(i);
 
             y1[i] = fabs(y1[i] - y0[i]) * 1000.;
             y2[i] = fabs(y2[i] - y0[i]) * 1000.;
@@ -145,29 +145,29 @@ void fig_syst_N1HFgSUB3_pT() {
             y3e[i] = sqrt( y3e[i] );
             y4e[i] = sqrt( y4e[i] );
         }
-        N1HFgSUB3_Diff_tight[cbin] = new TGraphErrors(num, xval, y1, 0, y1e);
-        N1HFgSUB3_Diff_tight[cbin]->SetMarkerStyle(20);
-        N1HFgSUB3_Diff_tight[cbin]->SetMarkerSize(1.3);
-        N1HFgSUB3_Diff_tight[cbin]->SetMarkerColor(kGreen+2);
-        N1HFgSUB3_Diff_tight[cbin]->SetLineColor(kGreen+2);
+        N1EVENSUB3_Diff_tight[cbin] = new TGraphErrors(num, xval, y1, 0, y1e);
+        N1EVENSUB3_Diff_tight[cbin]->SetMarkerStyle(20);
+        N1EVENSUB3_Diff_tight[cbin]->SetMarkerSize(1.3);
+        N1EVENSUB3_Diff_tight[cbin]->SetMarkerColor(kGreen+2);
+        N1EVENSUB3_Diff_tight[cbin]->SetLineColor(kGreen+2);
 
-        N1HFgSUB3_Diff_loose[cbin] = new TGraphErrors(num, xval, y2, 0, y2e);
-        N1HFgSUB3_Diff_loose[cbin]->SetMarkerStyle(25);
-        N1HFgSUB3_Diff_loose[cbin]->SetMarkerSize(1.2);
-        N1HFgSUB3_Diff_loose[cbin]->SetMarkerColor(kRed);
-        N1HFgSUB3_Diff_loose[cbin]->SetLineColor(kRed);
+        N1EVENSUB3_Diff_loose[cbin] = new TGraphErrors(num, xval, y2, 0, y2e);
+        N1EVENSUB3_Diff_loose[cbin]->SetMarkerStyle(25);
+        N1EVENSUB3_Diff_loose[cbin]->SetMarkerSize(1.2);
+        N1EVENSUB3_Diff_loose[cbin]->SetMarkerColor(kRed);
+        N1EVENSUB3_Diff_loose[cbin]->SetLineColor(kRed);
 
-        N1HFgSUB3_Diff_narrow[cbin] = new TGraphErrors(num, xval, y3, 0, y3e);
-        N1HFgSUB3_Diff_narrow[cbin]->SetMarkerStyle(20);
-        N1HFgSUB3_Diff_narrow[cbin]->SetMarkerSize(1.3);
-        N1HFgSUB3_Diff_narrow[cbin]->SetMarkerColor(kGreen+2);
-        N1HFgSUB3_Diff_narrow[cbin]->SetLineColor(kGreen+2);
+        N1EVENSUB3_Diff_narrow[cbin] = new TGraphErrors(num, xval, y3, 0, y3e);
+        N1EVENSUB3_Diff_narrow[cbin]->SetMarkerStyle(20);
+        N1EVENSUB3_Diff_narrow[cbin]->SetMarkerSize(1.3);
+        N1EVENSUB3_Diff_narrow[cbin]->SetMarkerColor(kGreen+2);
+        N1EVENSUB3_Diff_narrow[cbin]->SetLineColor(kGreen+2);
 
-        N1HFgSUB3_Diff_wide[cbin] = new TGraphErrors(num, xval, y4, 0, y4e);
-        N1HFgSUB3_Diff_wide[cbin]->SetMarkerStyle(25);
-        N1HFgSUB3_Diff_wide[cbin]->SetMarkerSize(1.2);
-        N1HFgSUB3_Diff_wide[cbin]->SetMarkerColor(kRed);
-        N1HFgSUB3_Diff_wide[cbin]->SetLineColor(kRed);
+        N1EVENSUB3_Diff_wide[cbin] = new TGraphErrors(num, xval, y4, 0, y4e);
+        N1EVENSUB3_Diff_wide[cbin]->SetMarkerStyle(25);
+        N1EVENSUB3_Diff_wide[cbin]->SetMarkerSize(1.2);
+        N1EVENSUB3_Diff_wide[cbin]->SetMarkerColor(kRed);
+        N1EVENSUB3_Diff_wide[cbin]->SetLineColor(kRed);
     }
 
     int setbin = 4;
@@ -191,7 +191,7 @@ void fig_syst_N1HFgSUB3_pT() {
     h0 = new TH1D("h0", "h0", 100, 0, 8);
     h0->SetStats(0);
     h0->SetXTitle("p_{T} (GeV/c)");
-    h0->SetYTitle("v_{1}^{odd}");
+    h0->SetYTitle("v_{1}^{even}");
     h0->GetYaxis()->SetDecimals();
     h0->GetXaxis()->SetNdivisions(508);
     h0->GetYaxis()->SetNdivisions(508);
@@ -209,22 +209,22 @@ void fig_syst_N1HFgSUB3_pT() {
     h0->GetYaxis()->SetLabelFont(43);
     h0->GetYaxis()->SetLabelSize(19);
     h0->GetYaxis()->SetLabelOffset(0.010);
-    h0->GetYaxis()->SetRangeUser(-0.045, 0.02);
+    h0->GetYaxis()->SetRangeUser(-0.03, 0.2);
 
     pad0->cd();
     h0->Draw();
-    N1HFgSUB3[setbin]->Draw("same p");
-    N1HFgSUB3_tight[setbin]->Draw("same p");
-    N1HFgSUB3_loose[setbin]->Draw("same p");
+    N1EVENSUB3[setbin]->Draw("same p");
+    N1EVENSUB3_tight[setbin]->Draw("same p");
+    N1EVENSUB3_loose[setbin]->Draw("same p");
     TLegend * leg0 = new TLegend(0.73, 0.71, 0.90, 0.91);
     SetLegend(leg0, 20);
-    leg0->AddEntry(N1HFgSUB3_loose[setbin]," loose","p");
-    leg0->AddEntry(N1HFgSUB3_tight[setbin]," tight","p");
-    leg0->AddEntry(N1HFgSUB3[setbin]," default","p");
+    leg0->AddEntry(N1EVENSUB3_loose[setbin]," loose","p");
+    leg0->AddEntry(N1EVENSUB3_tight[setbin]," tight","p");
+    leg0->AddEntry(N1EVENSUB3[setbin]," default","p");
     leg0->Draw();
     TPaveText * txt0_0 = new TPaveText(0.21, 0.77, 0.41, 0.90, "NDC");
     SetTPaveTxt(txt0_0, 22);
-    txt0_0->AddText("|#eta| < 2.0");
+    txt0_0->AddText("0.4 < |#eta| < 2.4");
     txt0_0->AddText(Form("%d - %d%%",cmin[setbin],cmax[setbin]));
     txt0_0->Draw();
 
@@ -233,14 +233,14 @@ void fig_syst_N1HFgSUB3_pT() {
     h1->SetYTitle("|v_{1} - v_{1}{default}| #times 1000");
     h1->GetYaxis()->SetTitleSize(22);
     h1->GetYaxis()->SetTitleOffset(2.45);
-    h1->GetYaxis()->SetRangeUser(-2.2, 2.2);
+    h1->GetYaxis()->SetRangeUser(-5.5, 5.5);
     h1->Draw();
-    N1HFgSUB3_Diff_tight[setbin]->Draw("same p");
-    N1HFgSUB3_Diff_loose[setbin]->Draw("same p");
+    N1EVENSUB3_Diff_tight[setbin]->Draw("same p");
+    N1EVENSUB3_Diff_loose[setbin]->Draw("same p");
     TF1 * ftight = new TF1("ftight", "pol0", fitmin, fitmax);
-    N1HFgSUB3_Diff_tight[setbin]->Fit(ftight, "0", "", fitmin, fitmax);
+    N1EVENSUB3_Diff_tight[setbin]->Fit(ftight, "0", "", fitmin, fitmax);
     TF1 * floose = new TF1("floose", "pol0", fitmin, fitmax);
-    N1HFgSUB3_Diff_loose[setbin]->Fit(floose, "0", "", fitmin, fitmax);
+    N1EVENSUB3_Diff_loose[setbin]->Fit(floose, "0", "", fitmin, fitmax);
     TPaveText * txt0_1 = new TPaveText(0.19, 0.27, 0.53, 0.54, "NDC");
     SetTPaveTxt(txt0_1, 18);
     txt0_1->AddText(Form("pol0 fits (%0.1f - %0.1f GeV/c)",fitmin,fitmax));
@@ -248,7 +248,7 @@ void fig_syst_N1HFgSUB3_pT() {
     txt0_1->AddText(Form("tight: %0.3f #pm %0.3f",ftight->GetParameter(0),ftight->GetParError(0)));
     txt0_1->Draw();
 
-    c0->Print("../figures/fig_syst_N1HFgSUB3_trkCuts_eta.pdf","pdf");
+    c0->Print("../figures/fig_syst_N1EVENSUB3_trkCuts_eta.pdf","pdf");
 
 
     //--
@@ -269,30 +269,30 @@ void fig_syst_N1HFgSUB3_pT() {
     pad2->cd();
     h2 = (TH1D *) h0->Clone("h2");
     h2->Draw();
-    N1HFgSUB3[setbin]->Draw("same p");
-    N1HFgSUB3_narrow[setbin]->Draw("same p");
-    N1HFgSUB3_wide[setbin]->Draw("same p");
+    N1EVENSUB3[setbin]->Draw("same p");
+    N1EVENSUB3_narrow[setbin]->Draw("same p");
+    N1EVENSUB3_wide[setbin]->Draw("same p");
     TLegend * leg1 = new TLegend(0.73, 0.71, 0.90, 0.91);
     SetLegend(leg1, 20);
-    leg1->AddEntry(N1HFgSUB3_wide[setbin]," wide","p");
-    leg1->AddEntry(N1HFgSUB3_narrow[setbin]," narrow","p");
-    leg1->AddEntry(N1HFgSUB3[setbin]," default","p");
+    leg1->AddEntry(N1EVENSUB3_wide[setbin]," wide","p");
+    leg1->AddEntry(N1EVENSUB3_narrow[setbin]," narrow","p");
+    leg1->AddEntry(N1EVENSUB3[setbin]," default","p");
     leg1->Draw();
     TPaveText * txt1_0 = new TPaveText(0.21, 0.77, 0.41, 0.90, "NDC");
     SetTPaveTxt(txt1_0, 22);
-    txt1_0->AddText("|#eta| < 2.0");
+    txt1_0->AddText("0.4 < |#eta| < 2.4");
     txt1_0->AddText(Form("%d - %d%%",cmin[setbin],cmax[setbin]));
     txt1_0->Draw();
 
     pad3->cd();
     h3 = (TH1D *) h1->Clone("h3");
     h3->Draw();
-    N1HFgSUB3_Diff_narrow[setbin]->Draw("same p");
-    N1HFgSUB3_Diff_wide[setbin]->Draw("same p");
+    N1EVENSUB3_Diff_narrow[setbin]->Draw("same p");
+    N1EVENSUB3_Diff_wide[setbin]->Draw("same p");
     TF1 * fnarrow = new TF1("fnarrow", "pol0", fitmin, fitmax);
-    N1HFgSUB3_Diff_narrow[setbin]->Fit(fnarrow, "0", "", 0.3, 3);
+    N1EVENSUB3_Diff_narrow[setbin]->Fit(fnarrow, "0", "", 0.3, 3);
     TF1 * fwide = new TF1("fwide", "pol0", fitmin, fitmax);
-    N1HFgSUB3_Diff_wide[setbin]->Fit(fwide, "0", "", fitmin, fitmax);
+    N1EVENSUB3_Diff_wide[setbin]->Fit(fwide, "0", "", fitmin, fitmax);
     TPaveText * txt1_1 = new TPaveText(0.19, 0.27, 0.53, 0.54, "NDC");
     SetTPaveTxt(txt1_1, 18);
     txt1_1->AddText(Form("pol0 fits (%0.1f - %0.1f GeV/c)",fitmin,fitmax));
@@ -300,7 +300,7 @@ void fig_syst_N1HFgSUB3_pT() {
     txt1_1->AddText(Form("narrow: %0.3f #pm %0.3f",fnarrow->GetParameter(0),fnarrow->GetParError(0)));
     txt1_1->Draw();
 
-    c1->Print("../figures/fig_syst_N1HFgSUB3_vtxCuts_eta.pdf","pdf");
+    c1->Print("../figures/fig_syst_N1EVENSUB3_vtxCuts_eta.pdf","pdf");
 
 
 
@@ -314,22 +314,22 @@ void fig_syst_N1HFgSUB3_pT() {
     TF1 * ffit_narrow[ncbins];
     TF1 * ffit_wide[ncbins];
     for (int cbin = 0; cbin<ncbins; cbin++) {
-        gfit_tight[cbin] = (TGraphErrors *) N1HFgSUB3_Diff_tight[cbin]->Clone();
+        gfit_tight[cbin] = (TGraphErrors *) N1EVENSUB3_Diff_tight[cbin]->Clone();
         ffit_tight[cbin] = new TF1(Form("ffit_tight_%d",cbin), "pol0", fitmin, fitmax);
         gfit_tight[cbin]->Fit(Form("ffit_tight_%d",cbin), "0", "", fitmin, fitmax);
         gfit_tight[cbin]->Delete();
 
-        gfit_loose[cbin] = (TGraphErrors *) N1HFgSUB3_Diff_loose[cbin]->Clone();
+        gfit_loose[cbin] = (TGraphErrors *) N1EVENSUB3_Diff_loose[cbin]->Clone();
         ffit_loose[cbin] = new TF1(Form("ffit_loose_%d",cbin), "pol0", fitmin, fitmax);
         gfit_loose[cbin]->Fit(Form("ffit_loose_%d",cbin), "0", "", fitmin, fitmax);
         gfit_loose[cbin]->Delete();
 
-        gfit_narrow[cbin] = (TGraphErrors *) N1HFgSUB3_Diff_narrow[cbin]->Clone();
+        gfit_narrow[cbin] = (TGraphErrors *) N1EVENSUB3_Diff_narrow[cbin]->Clone();
         ffit_narrow[cbin] = new TF1(Form("ffit_narrow_%d",cbin), "pol0", fitmin, fitmax);
         gfit_narrow[cbin]->Fit(Form("ffit_narrow_%d",cbin), "0", "", fitmin, fitmax);
         gfit_narrow[cbin]->Delete();
 
-        gfit_wide[cbin] = (TGraphErrors *) N1HFgSUB3_Diff_wide[cbin]->Clone();
+        gfit_wide[cbin] = (TGraphErrors *) N1EVENSUB3_Diff_wide[cbin]->Clone();
         ffit_wide[cbin] = new TF1(Form("ffit_wide_%d",cbin), "pol0", fitmin, fitmax);
         gfit_wide[cbin]->Fit(Form("ffit_wide_%d",cbin), "0", "", fitmin, fitmax);
         gfit_wide[cbin]->Delete();
