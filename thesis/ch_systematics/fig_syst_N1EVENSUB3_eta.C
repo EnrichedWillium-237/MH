@@ -240,7 +240,7 @@ void fig_syst_N1EVENSUB3_eta() {
 
     pad1->cd();
     h1 = (TH1D *) h0->Clone("h1");
-    h1->SetYTitle("v_{1} - v_{1}{default} #times 1000");
+    h1->SetYTitle("|v_{1} - v_{1}{default}| #times 1000");
     h1->GetYaxis()->SetTitleSize(22);
     h1->GetYaxis()->SetTitleOffset(2.45);
     h1->GetYaxis()->SetRangeUser(-2.8, 2.8);

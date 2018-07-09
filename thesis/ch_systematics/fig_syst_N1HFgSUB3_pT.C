@@ -248,7 +248,7 @@ void fig_syst_N1HFgSUB3_pT() {
     txt0_1->AddText(Form("tight: %0.3f #pm %0.3f",ftight->GetParameter(0),ftight->GetParError(0)));
     txt0_1->Draw();
 
-    c0->Print("../figures/fig_syst_N1HFgSUB3_trkCuts_eta.pdf","pdf");
+    c0->Print("../figures/fig_syst_N1HFgSUB3_trkCuts_pT.pdf","pdf");
 
 
     //--
@@ -300,7 +300,7 @@ void fig_syst_N1HFgSUB3_pT() {
     txt1_1->AddText(Form("narrow: %0.3f #pm %0.3f",fnarrow->GetParameter(0),fnarrow->GetParError(0)));
     txt1_1->Draw();
 
-    c1->Print("../figures/fig_syst_N1HFgSUB3_vtxCuts_eta.pdf","pdf");
+    c1->Print("../figures/fig_syst_N1HFgSUB3_vtxCuts_pT.pdf","pdf");
 
 
 
