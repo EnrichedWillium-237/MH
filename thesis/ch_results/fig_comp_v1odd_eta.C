@@ -67,10 +67,9 @@ TGraphErrors * STAR_v1odd_eta_ZDC_200GeV_40_80;
 TGraphErrors * STAR_v1odd_eta_3PC_200GeV_10_70;
 TGraphErrors * ALICE_v1odd_eta_2TeV_10_60;
 
-void fig_comp_v1odd_eta() {
+# include "systematics.h"
 
-    const double syst_v1odd_eta[ncbins] = {2.6e-4, 2.6e-4, 2.6e-4, 2.6e-4, 2.6e-4, 4.0e-4, 4.0e-4, 4.0e-4, 4.0e-4, 7.8e-4, 7.8e-4,  5.2E-4, 8.41e-4};
-    const double syst_v1odd_eta_decor[ncbins] = {0.9e-4, 0.9e-4, 0.9e-4, 0.9e-4, 0.9e-4, 1.3e-4, 1.3e-4, 1.3e-4, 1.3e-4, 1.5e-4, 1.5e-4,  1.8e-4, 2.75e-4};
+void fig_comp_v1odd_eta() {
 
     for (int cbin = 0; cbin<ncbins; cbin++) {
         N1HFgSUB3[cbin] = (TGraphErrors *) fin->Get(Form("default/N1HFgSUB3/0.0_2.0/%d_%d/gint",cmin[cbin],cmax[cbin]));
@@ -105,8 +104,7 @@ void fig_comp_v1odd_eta() {
         for (int j = 0; j<num; j++) {
             N1HFgSUB3[cbin]->GetPoint(j, x[j], y[j]);
             xerr[j] = 0.15;
-            // ysyst[j] = syst_v1odd_eta[i]*ebinmid[j];
-            ysyst[j] = syst_v1odd_eta[cbin];
+            ysyst[j] = getSyst( "N1HFgSUB3", "eta", cbin );
         }
         N1HFgSUB3_syst[cbin] = new TGraphErrors(num, x, y, xerr, ysyst);
         N1HFgSUB3_syst[cbin]->SetLineColor(kBlue-10);
@@ -117,8 +115,8 @@ void fig_comp_v1odd_eta() {
         for (int j = 0; j<num; j++) {
             N1HFgSUB3_decor[cbin]->GetPoint(j, xd[j], yd[j]);
             xderr[j] = 0.15;
-            // ydsyst[j] = syst_v1odd_eta_decor[i]*ebinmid[j];
-            ydsyst[j] = syst_v1odd_eta_decor[cbin];
+            ydsyst[j] = getSyst( "N1HFgSUB3_decor", "eta", cbin );
+            ydsyst[j] = syst_N1HFgSUB3_decor_eta[3];
         }
         N1HFgSUB3_decor_syst[cbin] = new TGraphErrors(numd, xd, yd, xderr, ydsyst);
         N1HFgSUB3_decor_syst[cbin]->SetLineColor(kRed-9);

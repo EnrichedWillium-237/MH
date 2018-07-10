@@ -46,8 +46,7 @@ TGraphErrors * N1EVENSUB3_syst[ncbins];
 TGraphErrors * N1EVENSUB3_decor[ncbins];
 TGraphErrors * N1EVENSUB3_decor_syst[ncbins];
 
-const double syst_v1even_eta[ncbins] = {11.5e-4, 11.5e-4, 11.5e-4, 11.5e-4, 16.2e-4, 16.2e-4, 16.2e-4, 16.2e-4, 16.2e-4, 20.1e-4, 20.1e-4};
-const double syst_v1even_eta_decor[ncbins] = {13.3e-4, 13.3e-4, 13.3e-4, 13.3e-4, 13.3e-4, 17.8e-4, 17.8e-4, 17.8e-4, 17.8e-4, 17.8e-4, 17.8e-4};
+# include "systematics.h"
 
 void fig_v1even_decor_eta() {
 
@@ -76,7 +75,7 @@ void fig_v1even_decor_eta() {
         for (int j = 0; j<num; j++) {
             N1EVENSUB3[cbin]->GetPoint(j, x[j], y[j]);
             xerr[j] = 0.15;
-            ysyst[j] = syst_v1even_eta[cbin];
+            ysyst[j] = getSyst( "N1HFgSUB3", "eta", cbin );
         }
         N1EVENSUB3_syst[cbin] = new TGraphErrors(num, x, y, xerr, ysyst);
         N1EVENSUB3_syst[cbin]->SetLineColor(kBlue-10);
@@ -87,7 +86,7 @@ void fig_v1even_decor_eta() {
         for (int j = 0; j<num; j++) {
             N1EVENSUB3_decor[cbin]->GetPoint(j, xd[j], yd[j]);
             xderr[j] = 0.15;
-            ydsyst[j] = syst_v1even_eta_decor[cbin];
+            ydsyst[j] = getSyst( "N1HFgSUB3_decor", "eta", cbin );
         }
         N1EVENSUB3_decor_syst[cbin] = new TGraphErrors(numd, xd, yd, xderr, ydsyst);
         N1EVENSUB3_decor_syst[cbin]->SetLineColor(kRed-9);

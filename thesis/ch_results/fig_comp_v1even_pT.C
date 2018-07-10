@@ -69,42 +69,7 @@ TGraphErrors * N1BEVENSUB3_5_80;
 TGraphErrors * N1EVENSUB3_5_80;
 TGraphErrors * N1EVENSUB3_5_80_syst;
 
-const double syst_v1even_pt[ncbins] = {2.4e-4, 2.4e-4, 2.4e-4, 2.4e-4, 2.4e-4, 2.4e-4};
-# include "../../data/systematics.h"
-
-double getSyst( TGraphErrors * g, string dep, int centbin ) {
-    double syst = 0;
-    int x = 0;
-    if (cmin[centbin]>31) x = 1;
-    if (cmin[centbin]>61) x = 2;
-    TString name = g->GetName();
-    if (name.Contains("N1HFg") && !name.Contains("decor")) {
-        if (dep == "eta") syst = syst_N1HFgSUB3_eta[x];
-        if (dep == "pt0") syst = syst_N1HFgSUB3_pt0[x];
-        if (dep == "pt1") syst = syst_N1HFgSUB3_pt1[x];
-    }
-    if (name.Contains("N1HFg") && name.Contains("decor")) {
-        if (dep == "eta") syst = syst_N1HFgSUB3_decor_eta[x];
-        if (dep == "pt0") syst = syst_N1HFgSUB3_decor_pt0[x];
-        if (dep == "pt1") syst = syst_N1HFgSUB3_decor_pt1[x];
-    }
-    if (name.Contains("N112A") ) {
-        if (dep == "eta") syst = syst_N112ASUB3_eta[x];
-        if (dep == "pt0") syst = syst_N112ASUB3_pt0[x];
-        if (dep == "pt1") syst = syst_N112ASUB3_pt1[x];
-    }
-    if (name.Contains("N1EVEN") && !name.Contains("decor")) {
-        if (dep == "eta") syst = syst_N1EVENSUB3_eta[x];
-        if (dep == "pt0") syst = syst_N1EVENSUB3_pt0[x];
-        if (dep == "pt1") syst = syst_N1EVENSUB3_pt1[x];
-    }
-    if (name.Contains("N1EVEN") && name.Contains("decor")) {
-        if (dep == "eta") syst = syst_N1EVENSUB3_decor_eta[x];
-        if (dep == "pt0") syst = syst_N1EVENSUB3_decor_pt0[x];
-        if (dep == "pt1") syst = syst_N1EVENSUB3_decor_pt1[x];
-    }
-    return syst;
-}
+# include "systematics.h"
 
 void fig_comp_v1even_pT() {
 
@@ -125,8 +90,6 @@ void fig_comp_v1even_pT() {
         }
 
         N1EVENSUB3[cbin] = new TGraphErrors(num, xvalA, yvalA, 0, yerrA);
-        N1EVENSUB3[cbin]->SetName(Form("N1EVENSUB3_0.4_2.4_%d_%d",cmin[cbin],cmax[cbin]));
-
         N1EVENSUB3[cbin]->SetMarkerStyle(21);
         N1EVENSUB3[cbin]->SetMarkerSize(1.3);
         N1EVENSUB3[cbin]->SetMarkerColor(kBlue);
@@ -139,8 +102,8 @@ void fig_comp_v1even_pT() {
         for (int j = 0; j<num; j++) {
             N1EVENSUB3[cbin]->GetPoint(j, x[j], y[j]);
             xerr[j] = 0.18;
-            if (x[j]<3) ysyst[j] = getSyst( N1EVENSUB3[cbin], "pt0", cbin );
-            if (x[j]>3) ysyst[j] = getSyst( N1EVENSUB3[cbin], "pt1", cbin );
+            if (x[j]<3) ysyst[j] = getSyst( "N1EVEN", "pt0", cbin );
+            if (x[j]>3) ysyst[j] = getSyst( "N1EVEN", "pt1", cbin );
         }
         N1EVENSUB3_syst[cbin] = new TGraphErrors(num, x, y, xerr, ysyst);
         N1EVENSUB3_syst[cbin]->SetLineColor(kBlue-9);
@@ -177,8 +140,8 @@ void fig_comp_v1even_pT() {
     for (int j = 0; j<num; j++) {
         N1EVENSUB3_0_10->GetPoint(j, x[j], y[j]);
         xerr[j] = 0.09;
-        if (x[j]<3) ysyst[j] = getSyst( N1EVENSUB3[1], "pt0", 1 );
-        if (x[j]>3) ysyst[j] = getSyst( N1EVENSUB3[1], "pt1", 1 );
+        if (x[j]<3) ysyst[j] = getSyst( "N1EVEN", "pt0", 1 );
+        if (x[j]>3) ysyst[j] = getSyst( "N1EVEN", "pt1", 1 );
     }
     N1EVENSUB3_0_10_syst = new TGraphErrors(num, x, y, xerr, ysyst);
     N1EVENSUB3_0_10_syst->SetLineColor(kBlue-9);
@@ -211,8 +174,8 @@ void fig_comp_v1even_pT() {
     for (int j = 0; j<num; j++) {
         N1EVENSUB3_5_80->GetPoint(j, x[j], y[j]);
         xerr[j] = 0.12;
-        if (x[j]<3) ysyst[j] = syst_N1EVENSUB3_pt0[3];
-        else ysyst[j] = syst_N1EVENSUB3_pt0[4];
+        if (x[j]<3) ysyst[j] = syst_N1EVENSUB3_pt0[4];
+        else ysyst[j] = syst_N1EVENSUB3_pt1[4];
     }
     N1EVENSUB3_5_80_syst = new TGraphErrors(num, x, y, xerr, ysyst);
     N1EVENSUB3_5_80_syst->SetLineColor(kBlue-9);
