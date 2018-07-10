@@ -47,7 +47,7 @@ TGraphErrors * N1BEVENSUB3[ncbins];
 TGraphErrors * N1EVENSUB3[ncbins];
 TGraphErrors * N1EVENSUB3_syst[ncbins];
 
-const double syst_v1even_pt[ncbins] = {2.4e-4, 2.4e-4, 2.4e-4, 2.4e-4, 2.4e-4, 2.4e-4, 2.4e-4, 2.4e-4, 2.4e-4, 2.4e-4, 2.4e-4};
+# include "systematics.h"
 
 void fig_v1even_SP_pT() {
 
@@ -81,7 +81,8 @@ void fig_v1even_SP_pT() {
         for (int j = 0; j<num; j++) {
             N1EVENSUB3[cbin]->GetPoint(j, x[j], y[j]);
             xerr[j] = 0.18;
-            ysyst[j] = syst_v1even_pt[cbin];
+            if (x[j]<3) ysyst[j] = getSyst( "N1EVEN", "pt0", cbin );
+            if (x[j]>3) ysyst[j] = getSyst( "N1EVEN", "pt1", cbin );
         }
         N1EVENSUB3_syst[cbin] = new TGraphErrors(num, x, y, xerr, ysyst);
         N1EVENSUB3_syst[cbin]->SetLineColor(kBlue-9);

@@ -51,8 +51,7 @@ TGraphErrors * N1BHFgSUB3_decor[ncbins];
 TGraphErrors * N1HFgSUB3_decor[ncbins];
 TGraphErrors * N1HFgSUB3_decor_syst[ncbins];
 
-const double syst_v1odd_pt = 3.2e-4;
-const double syst_v1odd_pt_decor = 5.4e-4;
+# include "systematics.h"
 
 void fig_v1odd_decor_pT() {
 
@@ -109,7 +108,8 @@ void fig_v1odd_decor_pT() {
         for (int j = 0; j<num; j++) {
             N1HFgSUB3[cbin]->GetPoint(j, x[j], y[j]);
             xerr[j] = 0.18;
-            ysyst[j] = syst_v1odd_pt;
+            if (x[j]<3) ysyst[j] = getSyst( "N1HFgSUB3", "pt0", cbin );
+            if (x[j]>3) ysyst[j] = getSyst( "N1HFgSUB3", "pt1", cbin );
         }
         N1HFgSUB3_syst[cbin] = new TGraphErrors(num, x, y, xerr, ysyst);
         N1HFgSUB3_syst[cbin]->SetLineColor(kBlue-9);
@@ -120,7 +120,8 @@ void fig_v1odd_decor_pT() {
         for (int j = 0; j<num; j++) {
             N1HFgSUB3_decor[cbin]->GetPoint(j, xd[j], yd[j]);
             xderr[j] = 0.18;
-            ydsyst[j] = syst_v1odd_pt_decor;
+            if (x[j]<3) ydsyst[j] = getSyst( "N1HFgSUB3_decor", "pt0", cbin );
+            if (x[j]>3) ydsyst[j] = getSyst( "N1HFgSUB3_decor", "pt1", cbin );
         }
         N1HFgSUB3_decor_syst[cbin] = new TGraphErrors(numd, xd, yd, xderr, ydsyst);
         N1HFgSUB3_decor_syst[cbin]->SetLineColor(kRed-9);

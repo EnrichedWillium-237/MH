@@ -17,7 +17,7 @@ static const double syst_N112ASUB3_pt1[] = {2.850E-03, 4.767E-03, 1.036E-02,  3.
 
 static const double syst_N1HFgSUB3_decor_eta[] = {2.082E-04, 2.943E-04, 4.986E-04,  2.512E-04,  3.337E-04};
 static const double syst_N1HFgSUB3_decor_pt0[] = {6.522E-04, 1.030E-03, 1.169E-03,  8.412E-04,  9.506E-04};
-static const double syst_N1HFgSUB3_decor_pt1[] = {2.538E-03, 1.048E-02, 2.533E-02,  6.510E-03,  1.278E-02};
+static const double syst_N1HFgSUB3_decor_pt1[] = {2.538E-03, 0.548E-02, 2.533E-02,  6.510E-03,  1.278E-02};
 
 static const double syst_N1EVENSUB3_eta[] = {7.814E-04, 1.145E-03, 2.522E-03,  9.633E-04,  1.483E-03};
 static const double syst_N1EVENSUB3_pt0[] = {9.856E-04, 1.313E-03, 6.482E-03,  1.149E-03,  2.927E-03};

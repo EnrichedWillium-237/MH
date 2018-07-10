@@ -53,9 +53,9 @@ TGraphErrors * N1HFgSUB3_decor_syst[ncbins];
 TGraphErrors * N112ASUB3[ncbins];
 TGraphErrors * N112BSUB3[ncbins];
 TGraphErrors * N112SUB3[ncbins];
+TGraphErrors * N112SUB3_syst[ncbins];
 
-const double syst_v1odd_pt = 3.2e-4;
-const double syst_v1odd_pt_decor = 5.4e-4;
+# include "systematics.h"
 
 void fig_v1odd_mixed_pT() {
 
@@ -99,7 +99,7 @@ void fig_v1odd_mixed_pT() {
             N112ASUB3[cbin]->GetPoint(j, xvalAm[j], yvalAm[j]);
             yerrAm[j] = N112ASUB3[cbin]->GetErrorY(j);
             N112BSUB3[cbin]->GetPoint(j, xvalBm[j], yvalBm[j]);
-            yerrBd[j] = N112BSUB3[cbin]->GetErrorY(j);
+            yerrBm[j] = N112BSUB3[cbin]->GetErrorY(j);
 
             //yvalAm[j]*=-1.;
             yvalAm[j] = 0.5*(yvalAm[j] + yvalBm[j]);
@@ -134,22 +134,34 @@ void fig_v1odd_mixed_pT() {
         for (int j = 0; j<num; j++) {
             N1HFgSUB3[cbin]->GetPoint(j, x[j], y[j]);
             xerr[j] = 0.18;
-            ysyst[j] = syst_v1odd_pt;
+            if (x[j]<3) ysyst[j] = getSyst( "N1HFgSUB3", "pt0", cbin );
+            if (x[j]>3) ysyst[j] = getSyst( "N1HFgSUB3", "pt1", cbin );
         }
         N1HFgSUB3_syst[cbin] = new TGraphErrors(num, x, y, xerr, ysyst);
         N1HFgSUB3_syst[cbin]->SetLineColor(kBlue-9);
         N1HFgSUB3_syst[cbin]->SetFillColor(kBlue-9);
 
-        Double_t xd[50], yd[50], xderr[50], ydsyst[50];
         numd = N1HFgSUB3_decor[cbin]->GetN();
         for (int j = 0; j<num; j++) {
-            N1HFgSUB3_decor[cbin]->GetPoint(j, xd[j], yd[j]);
-            xderr[j] = 0.18;
-            ydsyst[j] = syst_v1odd_pt_decor;
+            N1HFgSUB3_decor[cbin]->GetPoint(j, x[j], y[j]);
+            xerr[j] = 0.18;
+            if (x[j]<3) ysyst[j] = getSyst( "N1HFgSUB3_decor", "pt0", cbin );
+            if (x[j]>3) ysyst[j] = getSyst( "N1HFgSUB3_decor", "pt1", cbin );
         }
-        N1HFgSUB3_decor_syst[cbin] = new TGraphErrors(numd, xd, yd, xderr, ydsyst);
+        N1HFgSUB3_decor_syst[cbin] = new TGraphErrors(numd, x, y, xerr, ysyst);
         N1HFgSUB3_decor_syst[cbin]->SetLineColor(kRed-9);
         N1HFgSUB3_decor_syst[cbin]->SetFillColor(kRed-9);
+
+        numm = N112SUB3[cbin]->GetN();
+        for (int j = 0; j<numm; j++) {
+            N112SUB3[cbin]->GetPoint(j, x[j], y[j]);
+            xerr[j] = 0.15;
+            if (x[j]<3) ysyst[j] = getSyst( "N112A", "pt0", cbin );
+            if (x[j]>3) ysyst[j] = getSyst( "N112A", "pt1", cbin );
+        }
+        N112SUB3_syst[cbin] = new TGraphErrors(numd, x, y, xerr, ysyst);
+        N112SUB3_syst[cbin]->SetLineColor(kGreen-8);
+        N112SUB3_syst[cbin]->SetFillColor(kGreen-8);
         //--
     }
 
@@ -281,6 +293,7 @@ void fig_v1odd_mixed_pT() {
         htmp->Draw();
         N1HFgSUB3_syst[cbin]->Draw("same 2");
         N1HFgSUB3_decor_syst[cbin]->Draw("same 2");
+        N112SUB3_syst[cbin]->Draw("same 2");
         N1HFgSUB3[cbin]->Draw("same p");
         N1HFgSUB3_decor[cbin]->Draw("same p");
         N112SUB3[cbin]->Draw("same p");
