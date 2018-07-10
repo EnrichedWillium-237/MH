@@ -21,8 +21,8 @@ static const double ebinmid[] = {-2.2, -1.8, -1.4, -1.0, -0.6, -0.2, 0.2, 0.6, 1
 static const int ntypes = 5;
 TString type[ntypes] = {"N1HFgSUB3", "N112ASUB3", "N1HFgSUB3_decor", "N1EVENSUB3", "N1EVENSUB3_decor"};
 TString erange[ntypes] = {"0.0_2.0", "0.0_2.0", "1.2_1.6", "0.4_2.4", "1.2_1.6"};
-double fitmin = 3.0;
-double fitmax = 8.0;
+double fitmin = 0.3;
+double fitmax = 3.0;
 
 void SetTPaveTxt( TPaveText * txtemplate, int txtsize ) {
     txtemplate->SetFillColor(0);
@@ -319,17 +319,15 @@ void tbl_syst_summary() {
     }
     cout<<"\n\n----------------------------------\n\n"<<endl;
     cout<<"Systematics summary by centrality bin "<<endl;
-    cout<<"\n track quality cuts"<<endl;
+    cout<<"\n track cuts\tvertex cuts"<<endl;
     for (int i = 0; i<ntypes; i++) {
         cout<<"\n"<<type[i].Data()<<"\n eta-dependence"<<endl;
         for (int cbin = 0; cbin<ncbins; cbin++) {
-            // cout<<cmin[cbin]<<" to "<<cmax[cbin]<<"\t"<<fitTrkCut_eta[i][cbin]->GetParameter(0)<<"\t"<<fitTrkCut_eta[i][cbin]->GetParError(0)<<endl;
-            cout<<fitTrkCut_eta[i][cbin]->GetParameter(0)<<"\t"<<fitTrkCut_eta[i][cbin]->GetParError(0)<<endl;
+            cout<<fitTrkCut_eta[i][cbin]->GetParameter(0)<<"\t"<<fitVtxCut_eta[i][cbin]->GetParameter(0)<<endl;
         }
         cout<<"\n pT-dependence ("<<fitmin<<" to "<<fitmax<<" GeV/c)"<<endl;
         for (int cbin = 0; cbin<ncbins; cbin++) {
-            // cout<<cmin[cbin]<<" to "<<cmax[cbin]<<"\t"<<fitTrkCut_pt[i][cbin]->GetParameter(0)<<"\t"<<fitTrkCut_pt[i][cbin]->GetParError(0)<<endl;
-            cout<<fitTrkCut_pt[i][cbin]->GetParameter(0)<<"\t"<<fitTrkCut_pt[i][cbin]->GetParError(0)<<endl;
+            cout<<fitTrkCut_pt[i][cbin]->GetParameter(0)<<"\t"<<fitVtxCut_pt[i][cbin]->GetParameter(0)<<endl;
         }
         cout<<"\n"<<endl;
     }
@@ -386,29 +384,176 @@ void tbl_syst_summary() {
     }
 
 
-    TCanvas * c0 = new TCanvas("c0", "c0", 600, 550);
-    c0->cd();
-    TH1D * h0 = new TH1D("h0", "", 100, 0, 70);
-    h0->SetXTitle("Centrality (%)");
-    h0->GetXaxis()->CenterTitle();
-    h0->GetXaxis()->SetTitleFont(43);
-    h0->GetXaxis()->SetTitleSize(26);
-    h0->GetXaxis()->SetTitleOffset(1.3);
-    h0->SetYTitle("Absolute systematic #times 1000");
-    h0->GetYaxis()->CenterTitle();
-    h0->GetYaxis()->SetTitleFont(43);
-    h0->GetYaxis()->SetTitleSize(26);
-    h0->GetYaxis()->SetTitleOffset(1.6);
-    h0->GetYaxis()->SetRangeUser(-0.1, 0.9);
-    h0->Draw();
+    TCanvas * c0_e = new TCanvas("c0_e", "c0_e", 600, 550);
+    c0_e->cd();
+    TH1D * h0_e = new TH1D("h0_e", "", 100, 0, 70);
+    h0_e->SetXTitle("Centrality (%)");
+    h0_e->GetXaxis()->CenterTitle();
+    h0_e->GetXaxis()->SetTitleFont(43);
+    h0_e->GetXaxis()->SetTitleSize(26);
+    h0_e->GetXaxis()->SetTitleOffset(1.3);
+    h0_e->SetYTitle("Absolute systematic #times 1000");
+    h0_e->GetYaxis()->CenterTitle();
+    h0_e->GetYaxis()->SetTitleFont(43);
+    h0_e->GetYaxis()->SetTitleSize(26);
+    h0_e->GetYaxis()->SetTitleOffset(1.6);
+    h0_e->GetYaxis()->SetRangeUser(-0.1, 0.9);
+    h0_e->Draw();
     gN1_eta_trkCut[0]->Draw("same p");
     gN1_eta_vtxCut[0]->Draw("same p");
-    TLegend * leg0 = new TLegend(0.21, 0.72, 0.41, 0.91);
-    SetLegend(leg0, 20);
-    leg0->SetHeader("v_{1}^{odd}(#eta)  #eta_{C} = 0");
-    leg0->AddEntry(gN1_eta_trkCut[0], "Track quality", "p");
-    leg0->AddEntry(gN1_eta_vtxCut[0], "Vertex selection", "p");
-    leg0->Draw();
+    TLegend * leg0_e = new TLegend(0.21, 0.72, 0.41, 0.91);
+    SetLegend(leg0_e, 20);
+    leg0_e->SetHeader("v_{1}^{odd}(#eta)  #eta_{C} = 0");
+    leg0_e->AddEntry(gN1_eta_trkCut[0], "Track quality", "p");
+    leg0_e->AddEntry(gN1_eta_vtxCut[0], "Vertex selection", "p");
+    leg0_e->Draw();
+    c0_e->Print("../figures/fig_syst_summary_N1HFgSUB3_eta.pdf","pdf");
+
+
+    TCanvas * c0_p = new TCanvas("c0_p", "c0_p", 600, 550);
+    c0_p->cd();
+    TH1D * h0_p = (TH1D *) h0_e->Clone("h0_p");
+    h0_p->GetYaxis()->SetRangeUser(0, 0.8);
+    h0_p->Draw();
+    gN1_pt_trkCut[0]->Draw("same p");
+    gN1_pt_vtxCut[0]->Draw("same p");
+    TLegend * leg0_p = new TLegend(0.21, 0.72, 0.41, 0.91);
+    SetLegend(leg0_p, 20);
+    leg0_p->SetHeader(Form("v_{1}^{even}(p_{T})  #eta_{C} = 0  %0.1f < p_{T} < %0.1f",fitmin,fitmax));
+    leg0_p->AddEntry(gN1_eta_trkCut[1], "Track quality", "p");
+    leg0_p->AddEntry(gN1_eta_vtxCut[1], "Vertex selection", "p");
+    leg0_p->Draw();
+    c0_p->Print("../figures/fig_syst_summary_N1HFgSUB3_pT.pdf","pdf");
+
+
+    TCanvas * c1_e = new TCanvas("c1_e", "c1_e", 600, 550);
+    c1_e->cd();
+    TH1D * h1_e = (TH1D *) h0_e->Clone("h1_e");
+    h1_e->GetYaxis()->SetRangeUser(-1.5, 4);
+    h1_e->Draw();
+    gN1_eta_vtxCut[1]->Draw("same p");
+    gN1_eta_trkCut[1]->Draw("same p");
+    TLegend * leg1_e = new TLegend(0.21, 0.72, 0.41, 0.91);
+    SetLegend(leg1_e, 20);
+    leg1_e->SetHeader("v_{1}^{odd}(#eta)  mixed");
+    leg1_e->AddEntry(gN1_eta_trkCut[1], "Track quality", "p");
+    leg1_e->AddEntry(gN1_eta_vtxCut[1], "Vertex selection", "p");
+    leg1_e->Draw();
+    c1_e->Print("../figures/fig_syst_summary_N112ASUB3_eta.pdf","pdf");
+
+
+    TCanvas * c1_p = new TCanvas("c1_p", "c1_p", 600, 550);
+    c1_p->cd();
+    TH1D * h1_p = (TH1D *) h0_p->Clone("h1_p");
+    h1_p->GetYaxis()->SetRangeUser(0, 6);
+    h1_p->Draw();
+    gN1_pt_vtxCut[1]->Draw("same p");
+    gN1_pt_trkCut[1]->Draw("same p");
+    TLegend * leg1_p = new TLegend(0.21, 0.72, 0.41, 0.91);
+    SetLegend(leg1_p, 20);
+    leg1_p->SetHeader(Form("v_{1}^{even}(p_{T})  mixed  %0.1f < p_{T} < %0.1f",fitmin,fitmax));
+    leg1_p->AddEntry(gN1_pt_trkCut[1], "Track quality", "p");
+    leg1_p->AddEntry(gN1_pt_vtxCut[1], "Vertex selection", "p");
+    leg1_p->Draw();
+    c1_p->Print("../figures/fig_syst_summary_N112ASUB3_pT.pdf","pdf");
+
+
+    TCanvas * c2_e = new TCanvas("c2_e", "c2_e", 600, 550);
+    c2_e->cd();
+    TH1D * h2_e = (TH1D *) h0_e->Clone("h2_e");
+    h2_e->GetYaxis()->SetRangeUser(-1, 2.5);
+    h2_e->Draw();
+    gN1_eta_vtxCut[2]->Draw("same p");
+    gN1_eta_trkCut[2]->Draw("same p");
+    TLegend * leg2_e = new TLegend(0.21, 0.72, 0.41, 0.91);
+    SetLegend(leg2_e, 20);
+    leg2_e->SetHeader("v_{1}^{odd}(#eta)  #eta_{C} = #eta_{ROI}");
+    leg2_e->AddEntry(gN1_eta_trkCut[2], "Track quality", "p");
+    leg2_e->AddEntry(gN1_eta_vtxCut[2], "Vertex selection", "p");
+    leg2_e->Draw();
+    c2_e->Print("../figures/fig_syst_summary_N1HFgSUB3_decor_eta.pdf","pdf");
+
+
+    TCanvas * c2_p = new TCanvas("c2_p", "c2_p", 600, 550);
+    c2_p->cd();
+    TH1D * h2_p = (TH1D *) h0_p->Clone("h2_p");
+    h2_p->GetYaxis()->SetRangeUser(-0.3, 3);
+    h2_p->Draw();
+    gN1_pt_vtxCut[2]->Draw("same p");
+    gN1_pt_trkCut[2]->Draw("same p");
+    TLegend * leg2_p = new TLegend(0.21, 0.72, 0.41, 0.91);
+    SetLegend(leg2_p, 20);
+    leg2_p->SetHeader(Form("v_{1}^{even}(p_{T})  #eta_{C} = #eta_{ROI}  %0.1f < p_{T} < %0.1f",fitmin,fitmax));
+    leg2_p->AddEntry(gN1_pt_trkCut[2], "Track quality", "p");
+    leg2_p->AddEntry(gN1_pt_vtxCut[2], "Vertex selection", "p");
+    leg2_p->Draw();
+    c2_p->Print("../figures/fig_syst_summary_N1HFgSUB3_decor_pT.pdf","pdf");
+
+
+    TCanvas * c3_e = new TCanvas("c3_e", "c3_e", 600, 550);
+    c3_e->cd();
+    TH1D * h3_e = (TH1D *) h0_e->Clone("h3_e");
+    h3_e->GetYaxis()->SetRangeUser(0, 4);
+    h3_e->Draw();
+    gN1_eta_vtxCut[3]->Draw("same p");
+    gN1_eta_trkCut[3]->Draw("same p");
+    TLegend * leg3_e = new TLegend(0.21, 0.72, 0.41, 0.91);
+    SetLegend(leg3_e, 20);
+    leg3_e->SetHeader("v_{1}^{even}(#eta)  #eta_{C} = 0");
+    leg3_e->AddEntry(gN1_eta_trkCut[3], "Track quality", "p");
+    leg3_e->AddEntry(gN1_eta_vtxCut[3], "Vertex selection", "p");
+    leg3_e->Draw();
+    c3_e->Print("../figures/fig_syst_summary_N1EVENSUB3_eta.pdf","pdf");
+
+
+    TCanvas * c3_p = new TCanvas("c3_p", "c3_p", 600, 550);
+    c3_p->cd();
+    TH1D * h3_p = (TH1D *) h0_p->Clone("h3_p");
+    h3_p->GetYaxis()->SetRangeUser(0, 8);
+    h3_p->Draw();
+    gN1_pt_vtxCut[3]->Draw("same p");
+    gN1_pt_trkCut[3]->Draw("same p");
+    TLegend * leg3_p = new TLegend(0.21, 0.72, 0.41, 0.91);
+    SetLegend(leg3_p, 20);
+    leg3_p->SetHeader(Form("v_{1}^{even}(p_{T})  #eta_{C} = 0  %0.1f < p_{T} < %0.1f",fitmin,fitmax));
+    leg3_p->AddEntry(gN1_pt_trkCut[2], "Track quality", "p");
+    leg3_p->AddEntry(gN1_pt_vtxCut[2], "Vertex selection", "p");
+    leg3_p->Draw();
+    c3_p->Print("../figures/fig_syst_summary_N1EVENSUB3_pT.pdf","pdf");
+
+
+    TCanvas * c4_e = new TCanvas("c4_e", "c4_e", 600, 550);
+    c4_e->cd();
+    TH1D * h4_e = (TH1D *) h0_e->Clone("h4_e");
+    h4_e->GetYaxis()->SetRangeUser(0, 7);
+    h4_e->Draw();
+    gN1_eta_vtxCut[4]->Draw("same p");
+    gN1_eta_trkCut[4]->Draw("same p");
+    TLegend * leg4_e = new TLegend(0.21, 0.72, 0.41, 0.91);
+    SetLegend(leg4_e, 20);
+    leg4_e->SetHeader("v_{1}^{even}(#eta)  #eta_{C} = #eta_{ROI}");
+    leg4_e->AddEntry(gN1_eta_trkCut[4], "Track quality", "p");
+    leg4_e->AddEntry(gN1_eta_vtxCut[4], "Vertex selection", "p");
+    leg4_e->Draw();
+    c4_e->Print("../figures/fig_syst_summary_N1EVENSUB3_decor_eta.pdf","pdf");
+
+
+    TCanvas * c4_p = new TCanvas("c4_p", "c4_p", 600, 550);
+    c4_p->cd();
+    TH1D * h4_p = (TH1D *) h0_p->Clone("h4_p");
+    h4_p->GetYaxis()->SetRangeUser(0, 30);
+    h4_p->Draw();
+    gN1_pt_vtxCut[4]->Draw("same p");
+    gN1_pt_trkCut[4]->Draw("same p");
+    TLegend * leg4_p = new TLegend(0.21, 0.72, 0.41, 0.91);
+    SetLegend(leg4_p, 20);
+    leg4_p->SetHeader(Form("v_{1}^{even}(p_{T})  #eta_{C} = #eta_{ROI}  %0.1f < p_{T} < %0.1f",fitmin,fitmax));
+    leg4_p->AddEntry(gN1_pt_trkCut[4], "Track quality", "p");
+    leg4_p->AddEntry(gN1_pt_vtxCut[4], "Vertex selection", "p");
+    leg4_p->Draw();
+    c4_p->Print("../figures/fig_syst_summary_N1EVENSUB3_decor_pT.pdf","pdf");
+
+
 
 
 }
