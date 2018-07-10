@@ -194,19 +194,19 @@ TGraphErrors * GetVNPt( int replay, int bin, int epindx, double etamin, double e
             }
             if (replay==N112ASUB2 || replay==N112ASUB3 ||replay==N112BSUB2 || replay==N112BSUB3 ||replay==N112CSUB2 || replay==N112CSUB3 ||replay==N112DSUB2 || replay==N112DSUB3 ||replay==N112CombinedSUB2 || replay==N112CombinedSUB3|| replay==N112ESUB2 || replay==N112ESUB3 ||replay==N112FSUB2 || replay==N112FSUB3 ||replay==N112GSUB2 || replay==N112GSUB3 ||replay==N112HSUB2 || replay==N112HSUB3||replay==N112MCASUB2 || replay==N112MCASUB3) {
 	            qBA2 += ((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qBA2",crange.data(),strip.data())))->GetBinContent(1);
-	            qBAcnt2+=((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qBAcnt2",crange.data(),strip.data())))->GetBinContent(1);
+	            qBAcnt2 += ((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qBAcnt2",crange.data(),strip.data())))->GetBinContent(1);
             	qCA2 += ((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCA2",crange.data(),strip.data())))->GetBinContent(1);
-                qCAcnt2+=((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCAcnt2",crange.data(),strip.data())))->GetBinContent(1);
+                qCAcnt2 += ((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCAcnt2",crange.data(),strip.data())))->GetBinContent(1);
             	qCB2 += ((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCB2",crange.data(),strip.data())))->GetBinContent(1);
             	qCBcnt2+=((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/qCBcnt2",crange.data(),strip.data())))->GetBinContent(1);
 
 	            for (int i = 0; i<10; i++) {
                 	qBAe2[i] += ((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qBA2_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
-                	qBAecnt2[i]+=((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qBAcnt2_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
+                	qBAecnt2[i] += ((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qBAcnt2_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
                 	qCAe2[i] += ((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCA2_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
-                	qCAecnt2[i]+=((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCAcnt2_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
+                	qCAecnt2[i] += ((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCAcnt2_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
                 	qCBe2[i] += ((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCB2_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
-                	qCBecnt2[i]+=((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCBcnt2_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
+                	qCBecnt2[i]+= ((TH1D *) fin->Get(Form("vnanalyzer/Harmonics/%s/%s/SubEvents/qCBcnt2_%d",crange.data(),strip.data(),i+1)))->GetBinContent(1);
 	            }
             }
         }
@@ -430,7 +430,7 @@ TGraphErrors * GetVNPt( int replay, int bin, int epindx, double etamin, double e
         vn = (TH1D *) vnA->Clone("vn");
         vn->SetDirectory(0);
         vn->Add(vnB,sign);
-        //vn->Scale(sign);
+        // vn->Scale(-1.);
         vnA->Scale(1./ebinsA);
         vnB->Scale(1./ebinsB);
         vn->Scale(1./(ebinsA+ebinsB));
@@ -599,10 +599,10 @@ TGraphErrors * GetVNPt( int replay, int bin, int epindx, double etamin, double e
         double pt = xpt->GetBinContent(i);
         if (sp->GetBinContent(i)<10) break;
         if (pt>=0.3 && pt < 12.) {
-            x[npt]=pt;
-            y[npt]=vn->GetBinContent(i);
-            yA[npt]=vnA->GetBinContent(i);
-            yB[npt]=vnB->GetBinContent(i);
+            x[npt] = pt;
+            y[npt] = vn->GetBinContent(i);
+            yA[npt] = vnA->GetBinContent(i);
+            yB[npt] = vnB->GetBinContent(i);
             ex[npt] = 0;
             ey[npt] = vn->GetBinError(i);
             eyA[npt] = vnA->GetBinError(i);
@@ -646,12 +646,12 @@ TGraphErrors * GetVNPt( int replay, int bin, int epindx, double etamin, double e
     gspec->SetMarkerColor(kBlue);
     gspec->SetLineColor(kBlue);
     gspec->SetLineWidth(2);
-    gA = new TGraphErrors(npt,x,yA,ex,eyA);
+    gA = new TGraphErrors(npt, x, yA, ex, eyA);
     gA->SetMarkerStyle(28);
     gA->SetMarkerColor(kMagenta);
     gA->SetLineColor(kMagenta);
     gA->SetLineWidth(2);
-    gB = new TGraphErrors(npt,x,yB,ex,eyB);
+    gB = new TGraphErrors(npt, x, yB, ex, eyB);
     gB->SetMarkerStyle(28);
     gB->SetMarkerColor(kCyan+2);
     gB->SetLineColor(kCyan+2);

@@ -195,12 +195,12 @@ void CreateSystematics( string name = "vnPlots.root" ) {
       	        }
                 if (lsubsub->At(subsubindx)==lsubsub->Last()) {break;}
       	        ++subsubindx;
-      	    }
-      	    if (lsub->At(subindx)==lsub->Last()) {break;}
-      	    ++subindx;
-        }
-        if (l->At(indx)==l->Last()) {break;}
-        ++indx;
+      	     }
+      	     if (lsub->At(subindx)==lsub->Last()) {break;}
+      	     ++subindx;
+            }
+            if (l->At(indx)==l->Last()) {break;}
+            ++indx;
         }
     }
     cout<<"return"<<endl;
@@ -247,7 +247,11 @@ double maxR( double val ) {
 
 TCanvas *  CreateSystematics2( string replay, TGraphErrors * gDefault, TGraphErrors * gSys1, string systype1, TGraphErrors * gSys2, string systype2, string etarange, string centrange, string xlabel, string ylabel, string title, TGraphErrors * gRatio, TGraphErrors * gRatioABS ) {
     string gname = "trackQuality";
-    if (systype2=="wide"||systype2=="narrow") gname = "vtxRange";
+    if (systype2=="tight2") gname = "trackQuality_tight";
+    if (systype2=="loose") gname = "trackQuality_loose";
+    // if (systype2=="wide"||systype2=="narrow") gname = "vtxRange";
+    if (systype2=="wide") gname = "vtxRange_wide";
+    if (systype2=="narrow") gname = "vtxRange_narrow";
     string rep2 = systype2;
     string canname = title+"_"+gname;
     TCanvas * c = new TCanvas(canname.data(), canname.data(), 1200, 900);
