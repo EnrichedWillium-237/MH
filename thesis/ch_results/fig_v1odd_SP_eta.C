@@ -15,7 +15,6 @@ using namespace std;
 static const int ncbins = 11;
 static const int cmin[] = {0,  5, 10, 15, 20, 25, 30, 35, 40, 50, 60};
 static const int cmax[] = {5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70};
-static const double ebinmid[] = {-2.2, -1.8, -1.4, -1.0, -0.6, -0.2, 0.2, 0.6, 1.0, 1.4, 1.8, 2.2};
 
 void SetTPaveTxt( TPaveText * txtemplate, int txtsize ) {
     txtemplate->SetFillColor(0);

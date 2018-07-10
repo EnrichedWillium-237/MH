@@ -553,7 +553,4 @@ void tbl_syst_summary() {
     leg4_p->Draw();
     c4_p->Print("../figures/fig_syst_summary_N1EVENSUB3_decor_pT.pdf","pdf");
 
-
-
-
 }
