@@ -1,6 +1,6 @@
 
-static const int cminCent[] = {0,  5, 10, 15, 20, 25, 30, 35, 40, 50, 60,  0, 20};
-static const int cmaxCent[] = {5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70, 20, 60};
+static const int cminCent[50] = {0,  5, 10, 15, 20, 25, 30, 35, 40, 50, 60,   0, 10, 20, 30,   0, 20,   5};
+static const int cmaxCent[50] = {5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70,  10, 20, 30, 40,  20, 60,  80};
 
 // Total systematic uncertainty
 // Uncertainty binned in the following: 0 - 30%, 30 - 60%, 60 - 70%, with two extra bins for 20 - 60% and 5 - 80%
@@ -13,11 +13,11 @@ static const double syst_N1HFgSUB3_pt1[] = {1.124E-03, 1.915E-03, 3.538E-03,  1.
 
 static const double syst_N112ASUB3_eta[] = {4.011E-04, 6.163E-04, 1.278E-03,  5.087E-04,  7.650E-04};
 static const double syst_N112ASUB3_pt0[] = {5.586E-04, 1.363E-03, 4.210E-03,  9.609E-04,  2.044E-03};
-static const double syst_N112ASUB3_pt1[] = {2.850E-03, 4.767E-03, 1.036E-02,  3.808E-03,  5.991E-03};
+static const double syst_N112ASUB3_pt1[] = {2.850E-03, 4.767E-03, 1.036E-02,  1.808E-03,  5.991E-03};
 
 static const double syst_N1HFgSUB3_decor_eta[] = {2.082E-04, 2.943E-04, 4.986E-04,  2.512E-04,  3.337E-04};
 static const double syst_N1HFgSUB3_decor_pt0[] = {6.522E-04, 1.030E-03, 1.169E-03,  8.412E-04,  9.506E-04};
-static const double syst_N1HFgSUB3_decor_pt1[] = {2.538E-03, 0.548E-02, 2.533E-02,  6.510E-03,  1.278E-02};
+static const double syst_N1HFgSUB3_decor_pt1[] = {2.538E-03, 0.548E-02, 2.533E-02,  2.110E-03,  1.278E-02};
 
 static const double syst_N1EVENSUB3_eta[] = {7.814E-04, 1.145E-03, 2.522E-03,  9.633E-04,  1.483E-03};
 static const double syst_N1EVENSUB3_pt0[] = {9.856E-04, 1.313E-03, 6.482E-03,  1.149E-03,  2.927E-03};
@@ -32,6 +32,8 @@ double getSyst( TString type, string dep, int centbin ) {
     int x = 0;
     if (cminCent[centbin]>31) x = 1;
     if (cminCent[centbin]>61) x = 2;
+    if (cminCent[centbin]<29 && cmaxCent[centbin]>51) x = 3;
+    if (cminCent[centbin]<9  && cmaxCent[centbin]>71) x = 4;
     if (type.Contains("N1HFg") && !type.Contains("decor")) {
         if (dep == "eta") syst = syst_N1HFgSUB3_eta[x];
         if (dep == "pt0") syst = syst_N1HFgSUB3_pt0[x];
