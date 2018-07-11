@@ -33,13 +33,6 @@ void SetLegend( TLegend * legtemplate, int legsize ) {
     legtemplate->SetTextSize(legsize);
 }
 
-void SetTPaveTxt2( TPaveText * txtemplate, int txtsize ) {
-    txtemplate->SetFillColor(0);
-    txtemplate->SetBorderSize(0);
-    txtemplate->SetTextFont(43);
-    txtemplate->SetTextSize(txtsize);
-}
-
 TFile * fin = new TFile("../../data/vnPlots.root","read");
 TFile * fdata = new TFile("../../data/published_results.root","read");
 
