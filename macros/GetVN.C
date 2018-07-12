@@ -79,7 +79,7 @@ double VNINTMAX = 0;
 # include "src/Harmonics.h"
 
 TH1D * h = 0;
-void GetVNCreate( int replay , int bin, TGraphErrors * & gint, TGraphErrors * & gintA, TGraphErrors *& gintB, bool plotit = true, bool NumOnly = false, bool DenomOnly = false) {
+void GetVNCreate( int replay, int bin, TGraphErrors * & gint, TGraphErrors * & gintA, TGraphErrors *& gintB, bool plotit = true, bool NumOnly = false, bool DenomOnly = false) {
     TH1D * hspec = 0;
     string cname = ANALS[replay][0]+"_"+to_string(cmin[bin])+"_"+to_string(cmax[bin])+Form("_eta_%03.1f_%03.1f",EtaMin,EtaMax);
     h = new TH1D("h", "h", 100, 0, PTMAX);
@@ -304,7 +304,7 @@ void GetVN( string rootfile = "../MH.root", string name = "N2SUB3", double minet
     string maindir = tag;
     tout = new TFile("vnPlots.root","UPDATE");
     TDirectory * mdir;
-    if ((mdir=(TDirectory *) tout->Get(maindir.data()))==NULL) mdir=  tout->mkdir(maindir.data());
+    if ((mdir=(TDirectory *) tout->Get(maindir.data()))==NULL) mdir = tout->mkdir(maindir.data());
     mdir->cd();
 
     centRef = new TH1I(Form("centRef_%s",nlabel.data()),Form("centRef_%s",nlabel.data()),ncentbins,centRefBins);
@@ -353,7 +353,7 @@ void GetVN( string rootfile = "../MH.root", string name = "N2SUB3", double minet
     }
     string subname = name.data();
     if (Decor) subname+="_decor";
-    if ((toutsub=(TDirectory *) mdir->Get(subname.data()))!=NULL ) {
+    if ((toutsub=(TDirectory *) mdir->Get(subname.data()))!=NULL) {
         cout<<subname<<" exists"<<endl;
     } else {
         toutsub = mdir->mkdir(subname.data());
