@@ -1,32 +1,7 @@
 #!/bin/sh
 
-root -l -q -b 'GetVN.C+("../MH_wide.root","N1SUB2",-2.0,0.0,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N1HFcSUB2",-2.0,0.0,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N1HFdSUB2",-2.0,0.0,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N1HFeSUB2",-2.0,0.0,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N1HFfSUB2",-2.0,0.0,false,-1)'
 root -l -q -b 'GetVN.C+("../MH_wide.root","N1HFgSUB2",-2.0,0.0,false,-1)'
-
-root -l -q -b 'GetVN.C+("../MH_wide.root","N1SUB2",0.0,2.0,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N1HFcSUB2",0.0,2.0,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N1HFdSUB2",0.0,2.0,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N1HFeSUB2",0.0,2.0,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N1HFfSUB2",0.0,2.0,false,-1)'
 root -l -q -b 'GetVN.C+("../MH_wide.root","N1HFgSUB2",0.0,2.0,false,-1)'
-
-root -l -q -b 'GetVN.C+("../MH_wide.root","N1SUB2",-1.6,-1.2,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N1HFcSUB2",-1.6,-1.2,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N1HFdSUB2",-1.6,-1.2,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N1HFeSUB2",-1.6,-1.2,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N1HFfSUB2",-1.6,-1.2,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N1HFgSUB2",-1.6,-1.2,false,-1)'
-
-root -l -q -b 'GetVN.C+("../MH_wide.root","N1SUB2",1.2,1.6,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N1HFcSUB2",1.2,1.6,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N1HFdSUB2",1.2,1.6,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N1HFeSUB2",1.2,1.6,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N1HFfSUB2",1.2,1.6,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N1HFgSUB2",1.2,1.6,false,-1)'
 
 ###
 
@@ -44,18 +19,7 @@ root -l -q -b 'GetVN.C+("../MH_wide.root","N1HFeSUB3",0.0,2.0,false,-1)'
 root -l -q -b 'GetVN.C+("../MH_wide.root","N1HFfSUB3",0.0,2.0,false,-1)'
 root -l -q -b 'GetVN.C+("../MH_wide.root","N1HFgSUB3",0.0,2.0,false,-1)'
 
-root -l -q -b 'GetVN.C+("../MH_wide.root","N1SUB3",-1.6,-1.2,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N1HFcSUB3",-1.6,-1.2,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N1HFdSUB3",-1.6,-1.2,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N1HFeSUB3",-1.6,-1.2,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N1HFfSUB3",-1.6,-1.2,false,-1)'
 root -l -q -b 'GetVN.C+("../MH_wide.root","N1HFgSUB3",-1.6,-1.2,false,-1)'
-
-root -l -q -b 'GetVN.C+("../MH_wide.root","N1SUB3",1.2,1.6,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N1HFcSUB3",1.2,1.6,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N1HFdSUB3",1.2,1.6,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N1HFeSUB3",1.2,1.6,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N1HFfSUB3",1.2,1.6,false,-1)'
 root -l -q -b 'GetVN.C+("../MH_wide.root","N1HFgSUB3",1.2,1.6,false,-1)'
 
 ###
@@ -79,22 +43,7 @@ root -l -q -b 'GetVN.C+("../MH_wide.root","N112GSUB3",0.0,2.0,false,-1)'
 root -l -q -b 'GetVN.C+("../MH_wide.root","N112CombinedSUB3",0.0,2.0,false,-1)'
 
 root -l -q -b 'GetVN.C+("../MH_wide.root","N112ASUB3",-1.6,-1.2,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N112BSUB3",-1.6,-1.2,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N112CSUB3",-1.6,-1.2,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N112DSUB3",-1.6,-1.2,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N112ESUB3",-1.6,-1.2,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N112FSUB3",-1.6,-1.2,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N112GSUB3",-1.6,-1.2,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N112CombinedSUB3",-1.6,-1.2,false,-1)'
-
 root -l -q -b 'GetVN.C+("../MH_wide.root","N112ASUB3",1.2,1.6,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N112BSUB3",1.2,1.6,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N112CSUB3",1.2,1.6,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N112DSUB3",1.2,1.6,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N112ESUB3",1.2,1.6,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N112FSUB3",1.2,1.6,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N112GSUB3",1.2,1.6,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N112CombinedSUB3",1.2,1.6,false,-1)'
 
 ###
 
@@ -110,52 +59,17 @@ root -l -q -b 'GetVN.C+("../MH_wide.root","N1EVENSUB3",0.4,2.4,false,-1)'
 root -l -q -b 'GetVN.C+("../MH_wide.root","N1EVENSUB3",-1.6,-1.2,false,-1)'
 root -l -q -b 'GetVN.C+("../MH_wide.root","N1EVENSUB3",1.2,1.6,false,-1)'
 
-root -l -q -b 'GetVN.C+("../MH_wide.root","N112MCASUB3",-2.4,-0.4,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N112MCASUB3",0.4,2.4,false,-1)'
-
-root -l -q -b 'GetVN.C+("../MH_wide.root","N112MCASUB3",-1.6,-1.2,false,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N112MCASUB3",1.2,1.6,false,-1)'
-
 ## repeat but with decorrelation correction
 
-root -l -q -b 'GetVN.C+("../MH_wide.root","N1SUB3",-1.6,-1.2,true,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N1HFcSUB3",-1.6,-1.2,true,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N1HFdSUB3",-1.6,-1.2,true,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N1HFeSUB3",-1.6,-1.2,true,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N1HFfSUB3",-1.6,-1.2,true,-1)'
 root -l -q -b 'GetVN.C+("../MH_wide.root","N1HFgSUB3",-1.6,-1.2,true,-1)'
-
-root -l -q -b 'GetVN.C+("../MH_wide.root","N1SUB3",1.2,1.6,true,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N1HFcSUB3",1.2,1.6,true,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N1HFdSUB3",1.2,1.6,true,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N1HFeSUB3",1.2,1.6,true,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N1HFfSUB3",1.2,1.6,true,-1)'
 root -l -q -b 'GetVN.C+("../MH_wide.root","N1HFgSUB3",1.2,1.6,true,-1)'
 
 ###
 
 root -l -q -b 'GetVN.C+("../MH_wide.root","N112ASUB3",-1.6,-1.2,true,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N112BSUB3",-1.6,-1.2,true,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N112CSUB3",-1.6,-1.2,true,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N112DSUB3",-1.6,-1.2,true,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N112ESUB3",-1.6,-1.2,true,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N112FSUB3",-1.6,-1.2,true,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N112GSUB3",-1.6,-1.2,true,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N112CombinedSUB3",-1.6,-1.2,true,-1)'
-
 root -l -q -b 'GetVN.C+("../MH_wide.root","N112ASUB3",1.2,1.6,true,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N112BSUB3",1.2,1.6,true,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N112CSUB3",1.2,1.6,true,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N112DSUB3",1.2,1.6,true,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N112ESUB3",1.2,1.6,true,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N112FSUB3",1.2,1.6,true,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N112GSUB3",1.2,1.6,true,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N112CombinedSUB3",1.2,1.6,true,-1)'
 
 ###
 
 root -l -q -b 'GetVN.C+("../MH_wide.root","N1EVENSUB3",-1.6,-1.2,true,-1)'
 root -l -q -b 'GetVN.C+("../MH_wide.root","N1EVENSUB3",1.2,1.6,true,-1)'
-
-root -l -q -b 'GetVN.C+("../MH_wide.root","N112MCASUB3",-1.6,-1.2,true,-1)'
-root -l -q -b 'GetVN.C+("../MH_wide.root","N112MCASUB3",1.2,1.6,true,-1)'
