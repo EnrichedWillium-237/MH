@@ -82,12 +82,9 @@ TGraphErrors * ErrorPlot( string name, bool pt, bool ratio, int order, TGraphErr
     f0->SetLineColor(color);
     f1->SetLineColor(color);
     f2->SetLineColor(color);
-    // g->Fit(f0,"qR");
-    // g->Fit(f1,"qR+");
-    // g->Fit(f2,"qR+");
-    g->Fit(f0,"0qR");
-    g->Fit(f1,"0qR+");
-    g->Fit(f2,"0qR+");
+    g->Fit(f0,"qR");
+    g->Fit(f1,"qR+");
+    g->Fit(f2,"qR+");
 
     double xs[100],ymins[100],ymaxs[100];
     for (int i = 0; i<n; i++) {
@@ -156,8 +153,5 @@ TGraphErrors * ErrorPlot( string name, bool pt, bool ratio, int order, TGraphErr
     gmin->SetTitle(gminN.data());
     gmax->SetName(gmaxN.data());
     gmax->SetTitle(gmaxN.data());
-    f0->Delete();
-    f1->Delete();
-    f2->Delete();
     return g;
 }

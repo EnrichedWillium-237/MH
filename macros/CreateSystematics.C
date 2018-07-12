@@ -345,12 +345,8 @@ TCanvas *  CreateSystematics2( string replay, TGraphErrors * gDefault, TGraphErr
     lr2->SetTextFont(43);
     lr2->SetTextSize(26);
     if (title.find("gint")==std::string::npos) lr2->Draw();
-    // gSys1->Draw("p");
-    // gDefault->Draw("p");
-    TGraphErrors * gSys1_0 = (TGraphErrors *) gSys1->Clone();
-    gSys1_0->Draw("p");
-    TGraphErrors * gDefault_0 = (TGraphErrors *) gDefault->Clone();
-    gDefault_0->Draw("p");
+    gSys1->Draw("p");
+    gDefault->Draw("p");
     TLegend * leg = new TLegend(0.75, 0.75, 0.89, 0.95);
     leg->SetBorderSize(0);
     leg->SetFillColor(kWhite);
@@ -358,9 +354,7 @@ TCanvas *  CreateSystematics2( string replay, TGraphErrors * gDefault, TGraphErr
     leg->SetTextSize(24);
     leg->AddEntry(gSys1,systype1.data(),"lp");
     if (gSys2) {
-        // gSys2->Draw("p");
-        TGraphErrors * gSys2_0 = (TGraphErrors *) gSys2->Clone();
-        gSys2_0->Draw("p");
+        gSys2->Draw("p");
         leg->AddEntry(gSys2,systype2.data(),"lp");
     }
     leg->AddEntry(gDefault,"default","lp");
@@ -427,14 +421,8 @@ TCanvas *  CreateSystematics2( string replay, TGraphErrors * gDefault, TGraphErr
     hrline->SetLineColor(kBlack);
     hrline->SetLineWidth(1);
     hrline->Draw();
-    // gRatio->Draw("p");
-    TGraphErrors * gRatio_0 = (TGraphErrors *) gRatio->Clone();
-    gRatio_0->Draw("p");
-    // if (gSys2) gRatio2->Draw("p");
-    if (gSys2) {
-        TGraphErrors * gRatio2_0 = (TGraphErrors *) gRatio2->Clone();
-        gRatio2_0->Draw("p");
-    }
+    gRatio->Draw("p");
+    if (gSys2 ) gRatio2->Draw("p");
     gDiff->ComputeRange(xminSys1,yminSys1,xmaxSys1,ymaxSys1);
     if (gSys2) gDiff2->ComputeRange(xminSys2,yminSys2,xmaxSys2,ymaxSys2);
     //==============================================================================
@@ -461,25 +449,13 @@ TCanvas *  CreateSystematics2( string replay, TGraphErrors * gDefault, TGraphErr
     } else {
         hpercentint->Draw();
     }
-    // grshade0->Draw("f");
-    // grmin0->Draw("l");
-    // grmax0->Draw("l");
-    TGraphErrors * grshade0_0 = (TGraphErrors*) grshade0->Clone();
-    grshade0_0->Draw("f");
-    TGraphErrors * grmin0_0 = (TGraphErrors*) grmin0->Clone();
-    grmin0_0->Draw("l");
-    TGraphErrors * grmax0_0 = (TGraphErrors*) grmax0->Clone();
-    grmax0_0->Draw("l");
+    grshade0->Draw("f");
+    grmin0->Draw("l");
+    grmax0->Draw("l");
     if (gSys2) {
-        // grshade1->Draw("f");
-        // grmin1->Draw("l");
-        // grmax1->Draw("l");
-        TGraphErrors * grshade1_0 = (TGraphErrors*) grshade1->Clone();
-        grshade1_0->Draw("f");
-        TGraphErrors * grmin1_0 = (TGraphErrors*) grmin1->Clone();
-        grmin1_0->Draw("l");
-        TGraphErrors * grmax1_0 = (TGraphErrors*) grmax1->Clone();
-        grmax1_0->Draw("l");
+        grshade1->Draw("f");
+        grmin1->Draw("l");
+        grmax1->Draw("l");
     }
     //=========================================================================================
     c->cd(5);
@@ -507,14 +483,8 @@ TCanvas *  CreateSystematics2( string replay, TGraphErrors * gDefault, TGraphErr
     hd->GetYaxis()->CenterTitle(1);
     gPad->SetGrid(1,1);
     hd->Draw();
-    // gDiff->Draw("p");
-    TGraphErrors * gDiff_0 = (TGraphErrors *) gDiff->Clone();
-    gDiff_0->Draw("p");
-    // if (gSys2) gDiff2->Draw("p");
-    if (gSys2) {
-        TGraphErrors * gDiff2_0 = (TGraphErrors *) gDiff2->Clone();
-        gDiff2_0->Draw("p");
-    }
+    gDiff->Draw("p");
+    if (gSys2) gDiff2->Draw("p");
 
     //==============================================================================
     c->cd(6);
@@ -540,25 +510,13 @@ TCanvas *  CreateSystematics2( string replay, TGraphErrors * gDefault, TGraphErr
         hdifferrint->Draw();
     }
 
-    // gdshade0->Draw("f");
-    // gdmin0->Draw("l");
-    // gdmax0->Draw("l");
-    TGraphErrors * gdshade0_0 = (TGraphErrors*) gdshade0->Clone();
-    gdshade0_0->Draw("f");
-    TGraphErrors * gdmin0_0 = (TGraphErrors*) gdmin0->Clone();
-    gdmin0_0->Draw("l");
-    TGraphErrors * gdmax0_0 = (TGraphErrors*) gdmax0->Clone();
-    gdmax0_0->Draw("l");
+    gdshade0->Draw("f");
+    gdmin0->Draw("l");
+    gdmax0->Draw("l");
     if (gSys2) {
-        // gdshade1->Draw("f");
-        // gdmin1->Draw("l");
-        // gdmax1->Draw("l");
-        TGraphErrors * gdshade1_0 = (TGraphErrors*) gdshade1->Clone();
-        gdshade1_0->Draw("f");
-        TGraphErrors * gdmin1_0 = (TGraphErrors*) gdmin1->Clone();
-        gdmin1_0->Draw("l");
-        TGraphErrors * gdmax1_0 = (TGraphErrors*) gdmax1->Clone();
-        gdmax1_0->Draw("l");
+        gdshade1->Draw("f");
+        gdmin1->Draw("l");
+        gdmax1->Draw("l");
     }
     string outdir = Form("systematics/%s",replay.data());
     FILE * ftest = fopen(outdir.data(),"r");
@@ -567,10 +525,10 @@ TCanvas *  CreateSystematics2( string replay, TGraphErrors * gDefault, TGraphErr
     } else {
         fclose(ftest);
     }
-    // if (title.find("int")!=std::string::npos) {
-    //     c->Print(Form("systematics/%s/%s_%s_%s.pdf",replay.data(),gname.data(),title.data(),centrange.data()),"pdf");
-    // } else {
-    //     c->Print(Form("systematics/%s/%s_%s_%s_%s.pdf",replay.data(),gname.data(),title.data(),etarange.data(),centrange.data()),"pdf");
-    // }
+    if (title.find("int")!=std::string::npos) {
+        c->Print(Form("systematics/%s/%s_%s_%s.pdf",replay.data(),gname.data(),title.data(),centrange.data()),"pdf");
+    } else {
+        c->Print(Form("systematics/%s/%s_%s_%s_%s.pdf",replay.data(),gname.data(),title.data(),etarange.data(),centrange.data()),"pdf");
+    }
     return c;
 }

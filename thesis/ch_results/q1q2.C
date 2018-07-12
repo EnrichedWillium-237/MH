@@ -110,7 +110,7 @@ void q1q2( string rootfile = "/mnt/c/Users/willj/macros/v1flow/2015_PbPb/MH/MH.r
     h0->GetXaxis()->SetLabelSize(21);
     h0->GetYaxis()->SetLabelSize(21);
     h0->GetYaxis()->SetRangeUser(0, 0.00035);
-    if (mh && Q2 == "HF") h0->GetYaxis()->SetRangeUser(0, 0.00035);
+    // if (mh && Q2 == "HF") h0->GetYaxis()->SetRangeUser(0, 0.00035);
     if (ampt && Q2 == "track222") h0->GetYaxis()->SetRangeUser(0, 0.00010);
     if (ampt && Q2 == "HF") h0->GetYaxis()->SetRangeUser(0, 0.000035);
     h0->Draw();

@@ -92,7 +92,7 @@ void fig_v1odd_mixed_pT() {
         }
 
         N112ASUB3[cbin] = (TGraphErrors *) fin->Get(Form("default/N112ASUB3/-1.6_-1.2/%d_%d/g",cmin[cbin],cmax[cbin]));
-        N112BSUB3[cbin] = (TGraphErrors *) fin->Get(Form("default/N112BSUB3/1.2_1.6/%d_%d/g",cmin[cbin],cmax[cbin]));
+        N112BSUB3[cbin] = (TGraphErrors *) fin->Get(Form("default/N112ASUB3/1.2_1.6/%d_%d/g",cmin[cbin],cmax[cbin]));
         int numm =  N112ASUB3[cbin]->GetN();
         double xvalAm[50], xvalBm[50], yvalAm[50], yvalBm[50], yerrAm[50], yerrBm[50];
         for (int j = 0; j<num; j++) {
