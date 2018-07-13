@@ -77,6 +77,8 @@ void CreateSystematics( string name = "vnPlots.root" ) {
         while (true) {
             string base2 = l->At(indx)->GetName();
             cout<<"******************************** "<<base2<<" **************************************"<<endl;
+            bool iseven = false;
+            if (base2=="N1EVENSUB2" || base2=="N1EVENSUB3" || base2=="N1EVENSUB3_decor") iseven = true;
             TDirectory * subdir = (TDirectory *) defaultDir->Get(base2.data());
             TList * lsub = (TList *) subdir->GetListOfKeys();
             int subindx = 0;
@@ -119,7 +121,7 @@ void CreateSystematics( string name = "vnPlots.root" ) {
                             ytitle = ((TH1D *) subsubsubdir->Get("h"))->GetYaxis()->GetTitle();
                             ytitle=ytitle.substr(0,ytitle.find("}")+1);
                         }
-      	                if (subsubsubbase=="g") {
+      	                if ((!iseven && subsubsubbase=="g") || (iseven && subsubsubbase=="gA")) {
                             TGraphErrors * g = (TGraphErrors *) subsubsubdir->Get(subsubsubbase.data());
 	                        if (tightFound && looseFound) {
                           		string s1 = Form("%s/%s",sloose.data(),subsubsubbase.data());
