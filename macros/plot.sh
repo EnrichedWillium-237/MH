@@ -1,0 +1,8 @@
+root -l -b -q 'GetVN.C("../MH.root","N112ASUB2",1.2,1.6,false,-1,6.,-0.02,0.06,-0.01,0.02)'
+root -l -b -q 'GetVN.C("../MH.root","N112BSUB2",1.2,1.6,false,-1,6.,-0.02,0.06,-0.01,0.02)'
+root -l -b -q 'GetVN.C("../MH.root","N112CSUB2",1.2,1.6,false,-1,6.,-0.02,0.06,-0.01,0.02)'
+root -l -b -q 'GetVN.C("../MH.root","N112DSUB2",1.2,1.6,false,-1,6.,-0.02,0.06,-0.01,0.02)'
+root -l -b -q 'GetVN.C("../MH.root","N112ASUB3",1.2,1.6,false,-1,6.,-0.02,0.06,-0.01,0.02)'
+root -l -b -q 'GetVN.C("../MH.root","N112BSUB3",1.2,1.6,false,-1,6.,-0.02,0.06,-0.01,0.02)'
+root -l -b -q 'GetVN.C("../MH.root","N112CSUB3",1.2,1.6,false,-1,6.,-0.02,0.06,-0.01,0.02)'
+root -l -b -q 'GetVN.C("../MH.root","N112DSUB3",1.2,1.6,false,-1,6.,-0.02,0.06,-0.01,0.02)'

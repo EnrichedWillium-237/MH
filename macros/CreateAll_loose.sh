@@ -19,7 +19,15 @@ root -l -q -b 'GetVN.C+("../MH_loose.root","N1HFeSUB3",0.0,2.0,false,-1)'
 root -l -q -b 'GetVN.C+("../MH_loose.root","N1HFfSUB3",0.0,2.0,false,-1)'
 root -l -q -b 'GetVN.C+("../MH_loose.root","N1HFgSUB3",0.0,2.0,false,-1)'
 
+root -l -q -b 'GetVN.C+("../MH_loose.root","N1HFcSUB3",-1.6,-1.2,false,-1)'
+root -l -q -b 'GetVN.C+("../MH_loose.root","N1HFdSUB3",-1.6,-1.2,false,-1)'
+root -l -q -b 'GetVN.C+("../MH_loose.root","N1HFeSUB3",-1.6,-1.2,false,-1)'
+root -l -q -b 'GetVN.C+("../MH_loose.root","N1HFfSUB3",-1.6,-1.2,false,-1)'
 root -l -q -b 'GetVN.C+("../MH_loose.root","N1HFgSUB3",-1.6,-1.2,false,-1)'
+root -l -q -b 'GetVN.C+("../MH_loose.root","N1HFcSUB3",1.2,1.6,false,-1)'
+root -l -q -b 'GetVN.C+("../MH_loose.root","N1HFdSUB3",1.2,1.6,false,-1)'
+root -l -q -b 'GetVN.C+("../MH_loose.root","N1HFeSUB3",1.2,1.6,false,-1)'
+root -l -q -b 'GetVN.C+("../MH_loose.root","N1HFfSUB3",1.2,1.6,false,-1)'
 root -l -q -b 'GetVN.C+("../MH_loose.root","N1HFgSUB3",1.2,1.6,false,-1)'
 
 ###
@@ -61,7 +69,15 @@ root -l -q -b 'GetVN.C+("../MH_loose.root","N1EVENSUB3",1.2,1.6,false,-1)'
 
 ## repeat but with decorrelation correction
 
+root -l -q -b 'GetVN.C+("../MH_loose.root","N1HFcSUB3",-1.6,-1.2,true,-1)'
+root -l -q -b 'GetVN.C+("../MH_loose.root","N1HFdSUB3",-1.6,-1.2,true,-1)'
+root -l -q -b 'GetVN.C+("../MH_loose.root","N1HFeSUB3",-1.6,-1.2,true,-1)'
+root -l -q -b 'GetVN.C+("../MH_loose.root","N1HFfSUB3",-1.6,-1.2,true,-1)'
 root -l -q -b 'GetVN.C+("../MH_loose.root","N1HFgSUB3",-1.6,-1.2,true,-1)'
+root -l -q -b 'GetVN.C+("../MH_loose.root","N1HFcSUB3",1.2,1.6,true,-1)'
+root -l -q -b 'GetVN.C+("../MH_loose.root","N1HFdSUB3",1.2,1.6,true,-1)'
+root -l -q -b 'GetVN.C+("../MH_loose.root","N1HFeSUB3",1.2,1.6,true,-1)'
+root -l -q -b 'GetVN.C+("../MH_loose.root","N1HFfSUB3",1.2,1.6,true,-1)'
 root -l -q -b 'GetVN.C+("../MH_loose.root","N1HFgSUB3",1.2,1.6,true,-1)'
 
 ###
