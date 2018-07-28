@@ -1,20 +1,20 @@
 enum TrackType {typeUndefined = 0, ppReco = 1, HIReco, Pixel, MC};
-string TrackTypeNames[]={"Undefined","ppReco","HIReco","Pixel","MC"};
+string TrackTypeNames[] = {"Undefined", "ppReco", "HIReco", "Pixel", "MC"};
 enum TrackQuality {qualityUndefined = 0, loose = 1, normal, tight, narrow, wide};
-string TrackQualityNames[]={"qualityUndefined","loose","normal","tight","narrow","wide"};
+string TrackQualityNames[] = {"qualityUndefined", "loose", "normal", "tight", "narrow", "wide"};
 
 enum TrackReaction {reacUndefined = 0, pp = 1, pPb, XeXe, PbPb};
-string TrackReactionNames[]={"reacUndefined","pp","pPb","XeXe","PbPb"};
+string TrackReactionNames[] = {"reacUndefined", "pp", "pPb", "XeXe", "PbPb"};
 enum TrackOrientation {orientationUndefined = 0, Type_pPb = 1, Type_Pbp };
-string TrackOrientationNames[]={"orientationUndefined","Type_pPb","Type_Pbp"};
+string TrackOrientationNames[] = {"orientationUndefined", "Type_pPb", "Type_Pbp"};
 TrackType sTrackType;
 TrackQuality sTrackQuality;
 TrackReaction sTrackReaction;
 TrackOrientation sTrackOrientation;
 
-static const  double cb[14] = {0, 5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70, 80, 100};
-static const  double cbe[6] = {0, 5, 10, 30, 50, 100};
-static const  double cbeXeXe[6] = {0, 10, 30, 50, 70, 100};
+static const double cb[14] = {0, 5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70, 80, 100};
+static const double cbe[6] = {0, 5, 10, 30, 50, 100};
+static const double cbeXeXe[6] = {0, 10, 30, 50, 70, 100};
 TH1I * cen = NULL;
 TH1I * cene = NULL;
 TH1I * ceneXeXe = NULL;
@@ -132,13 +132,17 @@ TrackType SetTracking() {
     if (sTrackReaction==PbPb) {
         if (sTrackType == Pixel && sTrackQuality == normal) {
             fakeFile = new TFile("EffAndFake/PbPb/FakeRatesPixelPbPb_tight.root");
-            effFile = new TFile("EffAndFake/PbPb/EffCorrectionsPixelPbPb_tight.root");
+            if (EPOS) {
+                effFile = new TFile("EffAndFake/PbPb/EffCorrectionsPixelPbPb_EposTight.root");
+            } else {
+                effFile = new TFile("EffAndFake/PbPb/EffCorrectionsPixelPbPb_tight.root");
+            }
         }
-        if (sTrackType == Pixel && sTrackQuality == tight){
+        if (sTrackType == Pixel && sTrackQuality == tight) {
             fakeFile = new TFile("EffAndFake/PbPb/FakeRatesPixelPbPb_tight.root");
             effFile = new TFile("EffAndFake/PbPb/EffCorrectionsPixelPbPb_TightB.root");
         }
-        if (sTrackType == Pixel && sTrackQuality == loose){
+        if (sTrackType == Pixel && sTrackQuality == loose) {
             fakeFile = new TFile("EffAndFake/PbPb/FakeRatesPixelPbPb_loose.root");
             effFile = new TFile("EffAndFake/PbPb/EffCorrectionsPixelPbPb_loose.root");
         }
@@ -173,49 +177,50 @@ TrackType SetTracking() {
         cout<<"Efficiency file not found."<<endl;
     }
     cen = new TH1I("cen", "cen", 13, cb);
-    cene = new TH1I("cene", "cene", 5, cbe);
-    ceneXeXe = new TH1I("ceneXeXe","ceneXeXe",5,cbeXeXe);
+    cene = new TH1I("cene", "cene", 5,  cbe);
+    ceneXeXe = new TH1I("ceneXeXe", "ceneXeXe", 5, cbeXeXe);
     cen->SetDirectory(0);
     cene->SetDirectory(0);
     ceneXeXe->SetDirectory(0);
     if (sTrackType==MC) effFile = NULL;
     return sTrackType;
+}
+
+double FakeAndEff( int cent, double pt, double emin, double emax, double &eff ) {
+    eff = 1.;
+    if (sTrackType==MC) {
+        return 0;
     }
-    double FakeAndEff(int cent, double pt, double emin, double emax, double &eff) {
-        eff = 1.;
-        if (sTrackType==MC) {
-            return 0;
+    double val = 0;
+    double holdemin = emin;
+    double holdemax = emax;
+    emax = emax - 0.002;
+    if (sTrackReaction==pPb && sTrackOrientation==Type_pPb) {
+        double hold = emax;
+        emax = -emin-0.001;
+        if (emin>0) emax = -emin+0.001;
+        emin = -hold;
+    }
+    if (sTrackType == typeUndefined) return 0.;
+    int ib = cen->FindBin(cent)-1;
+    int ibe = cene->FindBin(cent)-1;
+    if (sTrackReaction==XeXe) ibe = ceneXeXe->FindBin(cent)-1;
+    if (effFile!=NULL) {
+        string re = "Eff_"+to_string((int)cbe[ibe])+"_"+to_string((int)cbe[ibe+1]);
+        if (sTrackReaction==pPb) re = "rTotalEff3D_0";
+        if (sTrackReaction==XeXe) re = "rTotalEff3D_"+to_string((int)cbeXeXe[ibe])+"_"+to_string((int)cbeXeXe[ibe+1]);
+        TH2D * he = (TH2D *) effFile->Get(re.data());
+        int ptbin = he->GetYaxis()->FindBin(pt);
+        if (pt>he->GetYaxis()->GetXmax()) ptbin = he->GetYaxis()->GetLast();
+        int etabinmin = he->GetXaxis()->FindBin(emin+0.001);
+        int etabinmax = he->GetXaxis()->FindBin(emax-0.001);
+        eff = 0;
+        for (int i = etabinmin; i<=etabinmax; i++) {
+            eff += he->GetBinContent(i,ptbin);
         }
-        double val = 0;
-        double holdemin = emin;
-        double holdemax = emax;
-        emax = emax - 0.002;
-        if (sTrackReaction==pPb && sTrackOrientation==Type_pPb) {
-            double hold = emax;
-            emax = -emin-0.001;
-            if (emin>0) emax = -emin+0.001;
-            emin = -hold;
-        }
-        if (sTrackType == typeUndefined) return 0.;
-        int ib = cen->FindBin(cent)-1;
-        int ibe = cene->FindBin(cent)-1;
-        if (sTrackReaction==XeXe) ibe = ceneXeXe->FindBin(cent)-1;
-        if (effFile!=NULL) {
-            string re = "Eff_"+to_string((int)cbe[ibe])+"_"+to_string((int)cbe[ibe+1]);
-            if (sTrackReaction==pPb) re = "rTotalEff3D_0";
-            if (sTrackReaction==XeXe) re = "rTotalEff3D_"+to_string((int)cbeXeXe[ibe])+"_"+to_string((int)cbeXeXe[ibe+1]);
-            TH2D * he = (TH2D *) effFile->Get(re.data());
-            int ptbin = he->GetYaxis()->FindBin(pt);
-            if (pt>he->GetYaxis()->GetXmax()) ptbin = he->GetYaxis()->GetLast();
-            int etabinmin = he->GetXaxis()->FindBin(emin+0.001);
-            int etabinmax = he->GetXaxis()->FindBin(emax-0.001);
-            eff = 0;
-            for (int i = etabinmin; i<=etabinmax; i++) {
-                eff += he->GetBinContent(i,ptbin);
-            }
-            eff/=(double)(etabinmax-etabinmin+1);
-            he->Delete();
-        }
+        eff /=(double)(etabinmax-etabinmin+1);
+        he->Delete();
+    }
 
     if (fakeFile!=NULL) {
         string rc = "hfak_"+to_string((int)cb[ib])+"_"+to_string((int)cb[ib+1]);
@@ -230,12 +235,11 @@ TrackType SetTracking() {
         for (int i = etabinmin; i<=etabinmax; i++) {
             val += hf->GetBinContent(i,ptbin);
         }
-        val/=(double)(etabinmax-etabinmin+1);
+        val /=(double)(etabinmax-etabinmin+1);
         hf->Delete();
     }
-    return val ;
+    return val;
 }
-
 
 TH2D * ptcntEff( TH2D * ptcnt, double cent ) {
     TH2D * hsEff = (TH2D *) ptcnt->Clone("ptcntEff");
@@ -253,5 +257,5 @@ TH2D * ptcntEff( TH2D * ptcnt, double cent ) {
         }
     }
     if (sTrackType==MC) cout<<"Set FakeAndEff = 0, 1 for MC calculation"<<endl;
-    return hsEff ;
+    return hsEff;
 }
