@@ -400,7 +400,7 @@ void fig_ampt_pT() {
     N1HFgSUB3[bin2_0]->Draw("same p");
     TPaveText * tx2_1 = new TPaveText(0.25, 0.79, 0.42, 0.88, "NDC");
     SetTPaveTxt(tx2_1,20);
-    tx2_1->AddText("#eta_{C} = 0");
+    tx2_1->AddText("(a)  #eta_{C} = 0");
     tx2_1->Draw();
     TPaveText * tx2_1_1 = new TPaveText(0.25, 0.22, 0.45, 0.28, "NDC");
     SetTPaveTxt(tx2_1_1,20);
@@ -417,12 +417,12 @@ void fig_ampt_pT() {
     N1HFgSUB3_decor[bin2_0]->Draw("same p");
     TPaveText * tx2_2 = new TPaveText(0.06, 0.79, 0.23, 0.88, "NDC");
     SetTPaveTxt(tx2_2,20);
-    tx2_2->AddText("#eta_{C} = #eta_{ROI}");
+    tx2_2->AddText("(b)  #eta_{C} = #eta_{ROI}");
     tx2_2->Draw();
     TLegend * leg2_2 = new TLegend(0.06, 0.22, 0.34, 0.36);
     SetLegend(leg2_2,20);
-    leg2_2->AddEntry(ampt_N1HFgSUB3_decor[bin2_0],"  AMPT", "f");
-    leg2_2->AddEntry(amptTRUE, "  AMPT true", "f");
+    leg2_2->AddEntry(ampt_N1HFgSUB3_decor[bin2_0],"  AMPT (analysis method)", "f");
+    leg2_2->AddEntry(amptTRUE, "  AMPT (true)", "f");
     leg2_2->Draw();
 
     TPad * pad2_3 = (TPad *) c2->cd(3);
@@ -436,7 +436,7 @@ void fig_ampt_pT() {
     N112SUB3[bin2_0]->Draw("same p");
     TPaveText * tx2_3 = new TPaveText(0.06, 0.79, 0.23, 0.88, "NDC");
     SetTPaveTxt(tx2_3,20);
-    tx2_3->AddText("Mixed");
+    tx2_3->AddText("(c)  Mixed");
     tx2_3->Draw();
 
     c2->Print("../figures/fig_ampt_pT_true.pdf","pdf");
