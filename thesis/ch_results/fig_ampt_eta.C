@@ -40,6 +40,7 @@ void SetTPaveTxt2( TPaveText * txtemplate, int txtsize ) {
 
 TFile * fin = new TFile("../../data/vnPlots.root","read");
 TFile * fdata = new TFile("../../data/published_results.root","read");
+TFile * ftrue = new TFile("../../data/vnAMPT_true.root","read");
 TH1D * h0;
 TGraphErrors * N1HFgSUB3[ncbins];
 TGraphErrors * N1HFgSUB3_syst[ncbins];
@@ -52,6 +53,14 @@ TGraphErrors * ALICE_v1odd_eta_2TeV_10_60;
 TGraphErrors * ampt_N1HFgASUB3[ncbins];
 TGraphErrors * ampt_N1HFgBSUB3[ncbins];
 TGraphErrors * ampt_N1HFgSUB3[ncbins];
+TGraphErrors * ampt_N1HFgASUB3_decor[ncbins];
+TGraphErrors * ampt_N1HFgBSUB3_decor[ncbins];
+TGraphErrors * ampt_N1HFgSUB3_decor[ncbins];
+TGraphErrors * ampt_N112ASUB3[ncbins];
+TGraphErrors * ampt_N112BSUB3[ncbins];
+TGraphErrors * ampt_N112SUB3[ncbins];
+
+TH1D * amptTRUE_hist;
 
 # include "systematics.h"
 
