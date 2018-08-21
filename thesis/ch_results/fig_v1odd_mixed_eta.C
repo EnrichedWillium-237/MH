@@ -273,7 +273,7 @@ void fig_v1odd_mixed_eta() {
     TLegend * leg0 = new TLegend(0.39, 0.04, 0.70, 0.33);
     SetLegend(leg0, 20);
     leg0->AddEntry(N1HFgSUB3_decor[0],"  SP #eta_{C} = #eta_{ROI}","lpf");
-    leg0->AddEntry(N112ASUB3[0],"  Mixed SP","lpf");
+    leg0->AddEntry(N112ASUB3[0],"  Mixed","lpf");
     leg0->Draw();
 
     c0->Print("../figures/fig_v1odd_mixed_eta.pdf","pdf");

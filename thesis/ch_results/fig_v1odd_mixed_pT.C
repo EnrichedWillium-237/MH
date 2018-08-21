@@ -317,7 +317,7 @@ void fig_v1odd_mixed_pT() {
     SetLegend(leg0, 20);
     leg0->AddEntry(N1HFgSUB3[0],"  #eta_{C} = 0","lpf");
     leg0->AddEntry(N1HFgSUB3_decor[0],"  #eta_{C} = #eta_{ROI}","lpf");
-    leg0->AddEntry(N112SUB3[0],"  Mixed SP","lpf");
+    leg0->AddEntry(N112SUB3[0],"  Mixed","lpf");
     leg0->Draw();
 
     c0->Print("../figures/fig_v1odd_mixed_pT.pdf","pdf");

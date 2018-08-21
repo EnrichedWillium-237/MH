@@ -132,7 +132,8 @@ void fig_ampt_eta() {
             ampt_N1HFgBSUB3[cbin]->GetPoint(j, x[j], yB[j]);
             yBerr[j] = ampt_N1HFgBSUB3[cbin]->GetErrorY(j);
 
-            y[j] = 0.5*(yA[j] + yB[j]);
+            // y[j] = 0.5*(yA[j] + yB[j]);
+            y[j] = 0.5*(yA[j] - yB[j]);
             yerr[j] = 0.5*sqrt( pow(yAerr[j],2) + pow(yBerr[j],2) );
         }
         ampt_N1HFgSUB3[cbin] = new TGraphErrors(num, x, y, 0, yAerr);
@@ -191,7 +192,7 @@ void fig_ampt_eta() {
     SetLegend(leg0, 18);
     leg0->AddEntry(N1HFgSUB3[bin0],"  #eta_{C} = 0","lpf");
     leg0->AddEntry(N1HFgSUB3_decor[bin0],"  #eta_{C} = #eta_{ROI}","lpf");
-    leg0->AddEntry(N112ASUB3[bin0], "  mixed", "lpf");
+    leg0->AddEntry(N112ASUB3[bin0], "  Mixed", "lpf");
     leg0->AddEntry(ampt_N1HFgSUB3[0], "  AMPT", "f");
     leg0->Draw();
     TPaveText * tx0_1_cent = new TPaveText(0.50, 0.81, 0.64, 0.89, "NDC");

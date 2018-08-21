@@ -40,6 +40,7 @@ void SetTPaveTxt2( TPaveText * txtemplate, int txtsize ) {
 
 TFile * fin = new TFile("../../data/vnPlots.root","read");
 TFile * fdata = new TFile("../../data/published_results.root","read");
+TFile * ftrue = new TFile("../../data/vnAMPT_true.root","read");
 TH1D * h0;
 TGraphErrors * N1AHFgSUB3[ncbins];
 TGraphErrors * N1BHFgSUB3[ncbins];
@@ -58,6 +59,14 @@ TGraphErrors * ALICE_v1odd_pT_2TeV_5_80;
 TGraphErrors * ampt_N1HFgASUB3[ncbins];
 TGraphErrors * ampt_N1HFgBSUB3[ncbins];
 TGraphErrors * ampt_N1HFgSUB3[ncbins];
+TGraphErrors * ampt_N1HFgASUB3_decor[ncbins];
+TGraphErrors * ampt_N1HFgBSUB3_decor[ncbins];
+TGraphErrors * ampt_N1HFgSUB3_decor[ncbins];
+TGraphErrors * ampt_N112ASUB3[ncbins];
+TGraphErrors * ampt_N112BSUB3[ncbins];
+TGraphErrors * ampt_N112SUB3[ncbins];
+
+TH1D * amptTRUE_hist;
 
 # include "systematics.h"
 
@@ -169,16 +178,17 @@ void fig_ampt_pT() {
         //--
 
         // fix event plane weighting on AMPT calculation
-        ampt_N1HFgASUB3[cbin] = (TGraphErrors *) fin->Get(Form("AMPT/N1HFgSUB3/0.0_2.0/%d_%d/gA",cmin[cbin],cmax[cbin]));
-        ampt_N1HFgBSUB3[cbin] = (TGraphErrors *) fin->Get(Form("AMPT/N1HFgSUB3/0.0_2.0/%d_%d/gB",cmin[cbin],cmax[cbin]));
         double yA[50], yAerr[50], yB[50], yBerr[50], yerr[50];
+        ampt_N1HFgASUB3[cbin] = (TGraphErrors *) fin->Get(Form("AMPT/N1HFgSUB3/1.2_1.6/%d_%d/gA",cmin[cbin],cmax[cbin]));
+        ampt_N1HFgBSUB3[cbin] = (TGraphErrors *) fin->Get(Form("AMPT/N1HFgSUB3/-1.6_-1.2/%d_%d/gA",cmin[cbin],cmax[cbin]));
         for (int j = 0; j<num; j++) {
             ampt_N1HFgASUB3[cbin]->GetPoint(j, x[j], yA[j]);
             yAerr[j] = ampt_N1HFgASUB3[cbin]->GetErrorY(j);
             ampt_N1HFgBSUB3[cbin]->GetPoint(j, x[j], yB[j]);
             yBerr[j] = ampt_N1HFgBSUB3[cbin]->GetErrorY(j);
 
-            y[j] = 0.5*(yA[j] + yB[j]);
+            // y[j] = 0.5*(yA[j] + yB[j]);
+            y[j] = 0.5*(yA[j] - yB[j]);
             yerr[j] = 0.5*sqrt( pow(yAerr[j],2) + pow(yBerr[j],2) );
         }
         ampt_N1HFgSUB3[cbin] = new TGraphErrors(num, x, y, 0, yerr);
@@ -187,13 +197,69 @@ void fig_ampt_pT() {
         ampt_N1HFgSUB3[cbin]->SetMarkerColor(kOrange-4);
         ampt_N1HFgSUB3[cbin]->SetLineColor(kOrange-4);
         ampt_N1HFgSUB3[cbin]->SetFillColor(kOrange-4);
+
+        ampt_N1HFgASUB3_decor[cbin] = (TGraphErrors *) fin->Get(Form("AMPT/N1HFgSUB3_decor/1.2_1.6/%d_%d/gA",cmin[cbin],cmax[cbin]));
+        ampt_N1HFgBSUB3_decor[cbin] = (TGraphErrors *) fin->Get(Form("AMPT/N1HFgSUB3_decor/-1.6_-1.2/%d_%d/gA",cmin[cbin],cmax[cbin]));
+        for (int j = 0; j<num; j++) {
+            ampt_N1HFgASUB3_decor[cbin]->GetPoint(j, x[j], yA[j]);
+            yAerr[j] = ampt_N1HFgASUB3_decor[cbin]->GetErrorY(j);
+            ampt_N1HFgBSUB3_decor[cbin]->GetPoint(j, x[j], yB[j]);
+            yBerr[j] = ampt_N1HFgBSUB3_decor[cbin]->GetErrorY(j);
+
+            // y[j] = 0.5*(yA[j] + yB[j]);
+            y[j] = 0.5*(yA[j] - yB[j]);
+            yerr[j] = 0.5*sqrt( pow(yAerr[j],2) + pow(yBerr[j],2) );
+        }
+        ampt_N1HFgSUB3_decor[cbin] = new TGraphErrors(num, x, y, 0, yerr);
+        ampt_N1HFgSUB3_decor[cbin]->SetMarkerStyle(20);
+        ampt_N1HFgSUB3_decor[cbin]->SetMarkerSize(0.1);
+        ampt_N1HFgSUB3_decor[cbin]->SetMarkerColor(kOrange-4);
+        ampt_N1HFgSUB3_decor[cbin]->SetLineColor(kOrange-4);
+        ampt_N1HFgSUB3_decor[cbin]->SetFillColor(kOrange-4);
+
+        ampt_N112ASUB3[cbin] = (TGraphErrors *) fin->Get(Form("AMPT/N112ASUB3_decor/1.2_1.6/%d_%d/gA",cmin[cbin],cmax[cbin]));
+        ampt_N112BSUB3[cbin] = (TGraphErrors *) fin->Get(Form("AMPT/N112ASUB3_decor/-1.6_-1.2/%d_%d/gA",cmin[cbin],cmax[cbin]));
+        for (int j = 0; j<num; j++) {
+            ampt_N112ASUB3[cbin]->GetPoint(j, x[j], yA[j]);
+            yAerr[j] = ampt_N112ASUB3[cbin]->GetErrorY(j);
+            ampt_N112BSUB3[cbin]->GetPoint(j, x[j], yB[j]);
+            yBerr[j] = ampt_N112BSUB3[cbin]->GetErrorY(j);
+
+            // y[j] = 0.5*(yA[j] + yB[j]);
+            y[j] = 0.5*(yA[j] - yB[j]);
+            yerr[j] = 0.5*sqrt( pow(yAerr[j],2) + pow(yBerr[j],2) );
+        }
+        ampt_N112SUB3[cbin] = new TGraphErrors(num, x, y, 0, yerr);
+        ampt_N112SUB3[cbin]->SetMarkerStyle(20);
+        ampt_N112SUB3[cbin]->SetMarkerSize(0.1);
+        ampt_N112SUB3[cbin]->SetMarkerColor(kOrange-4);
+        ampt_N112SUB3[cbin]->SetLineColor(kOrange-4);
+        ampt_N112SUB3[cbin]->SetFillColor(kOrange-4);
     }
+
+    // true AMPT calculation
+    TGraphErrors * amptTRUE;
+    amptTRUE_hist = (TH1D *) ftrue->Get("20_60/v1_pT");
+    int num = amptTRUE_hist->GetNbinsX();
+    double x[num-1], y[num-1], ye[num-1];
+    for (int i = 1; i<=num; i++) {
+        x[i-1] = amptTRUE_hist->GetBinCenter(i);
+        y[i-1] = amptTRUE_hist->GetBinContent(i);
+        ye[i-1] = amptTRUE_hist->GetBinError(i);
+    }
+    amptTRUE = new TGraphErrors(num-1, x, y, 0, ye);
+    amptTRUE->SetMarkerStyle(20);
+    amptTRUE->SetMarkerSize(0.1);
+    amptTRUE->SetMarkerColor(kCyan-2);
+    amptTRUE->SetLineColor(kCyan-2);
+    amptTRUE->SetFillColor(kCyan-2);
 
     ALICE_v1odd_pT_2TeV_5_80 = (TGraphErrors *) fdata->Get("v1odd/ALICE_v1odd_pT_2TeV_5_80");
     ALICE_v1odd_pT_2TeV_5_80->SetMarkerStyle(33);
     ALICE_v1odd_pT_2TeV_5_80->SetMarkerSize(2.1);
     ALICE_v1odd_pT_2TeV_5_80->SetMarkerColor(kMagenta);
     ALICE_v1odd_pT_2TeV_5_80->SetLineColor(kMagenta);
+
 
 
     TCanvas * c0 = new TCanvas("c0", "c0", 1000, 450);
@@ -212,8 +278,8 @@ void fig_ampt_pT() {
     h0->GetXaxis()->CenterTitle();
     h0->GetYaxis()->CenterTitle();
     h0->GetXaxis()->SetTitleFont(43);
-    h0->GetXaxis()->SetTitleSize(24);
-    h0->GetXaxis()->SetTitleOffset(1.2);
+    h0->GetXaxis()->SetTitleSize(22);
+    h0->GetXaxis()->SetTitleOffset(1.35);
     h0->GetXaxis()->SetLabelFont(43);
     h0->GetXaxis()->SetLabelSize(18);
     h0->GetXaxis()->SetLabelOffset(0.018);
@@ -237,7 +303,7 @@ void fig_ampt_pT() {
     SetLegend(leg0, 18);
     leg0->AddEntry(N1HFgSUB3[bin0],"  #eta_{C} = 0","lpf");
     leg0->AddEntry(N1HFgSUB3_decor[bin0],"  #eta_{C} = #eta_{ROI}","lpf");
-    leg0->AddEntry(N112SUB3[bin0], "  mixed", "lpf");
+    leg0->AddEntry(N112SUB3[bin0], "  Mixed", "lpf");
     leg0->AddEntry(ampt_N1HFgSUB3[0], "  AMPT", "f");
     leg0->Draw();
     TPaveText * tx0_1_cent = new TPaveText(0.50, 0.81, 0.64, 0.89, "NDC");
@@ -283,6 +349,7 @@ void fig_ampt_pT() {
     c0->Print("../figures/fig_ampt_pT.pdf","pdf");
 
 
+
     TCanvas * c1 = new TCanvas("c1", "c1", 600, 550);
     c1->cd();
     TH1D * h1 = (TH1D *) h0->Clone("h1");
@@ -313,5 +380,65 @@ void fig_ampt_pT() {
     tx1_0->Draw();
 
     c1->Print("../figures/fig_ampt_pT_ALICE.pdf","pdf");
+
+
+
+    int bin2_0 = 16;
+
+    TCanvas * c2 = new TCanvas("c2", "c2", 1000, 450);
+    c2->Divide(3,1,0,0);
+
+    TPad * pad2_1 = (TPad *) c2->cd(1);
+    pad2_1->SetTopMargin(0.08);
+    pad2_1->SetBottomMargin(0.17);
+    TH1D * h2 = (TH1D *) h0->Clone("h2");
+    h2->GetYaxis()->SetRangeUser(-0.06, 0.03);
+    h2->Draw();
+    ampt_N1HFgSUB3[bin2_0]->Draw("same E3");
+    amptTRUE->Draw("same E3");
+    N1HFgSUB3_syst[bin2_0]->Draw("same 2");
+    N1HFgSUB3[bin2_0]->Draw("same p");
+    TPaveText * tx2_1 = new TPaveText(0.25, 0.79, 0.42, 0.88, "NDC");
+    SetTPaveTxt(tx2_1,20);
+    tx2_1->AddText("#eta_{C} = 0");
+    tx2_1->Draw();
+    TPaveText * tx2_1_1 = new TPaveText(0.25, 0.22, 0.45, 0.28, "NDC");
+    SetTPaveTxt(tx2_1_1,20);
+    tx2_1_1->AddText(Form("%d - %d%%",cmin[bin2_0],cmax[bin2_0]));
+    tx2_1_1->Draw();
+
+    TPad * pad2_2 = (TPad *) c2->cd(2);
+    pad2_2->SetTopMargin(0.08);
+    pad2_2->SetBottomMargin(0.17);
+    h2->Draw();
+    ampt_N1HFgSUB3_decor[bin2_0]->Draw("same E3");
+    amptTRUE->Draw("same E3");
+    N1HFgSUB3_decor_syst[bin2_0]->Draw("same 2");
+    N1HFgSUB3_decor[bin2_0]->Draw("same p");
+    TPaveText * tx2_2 = new TPaveText(0.06, 0.79, 0.23, 0.88, "NDC");
+    SetTPaveTxt(tx2_2,20);
+    tx2_2->AddText("#eta_{C} = #eta_{ROI}");
+    tx2_2->Draw();
+    TLegend * leg2_2 = new TLegend(0.06, 0.22, 0.34, 0.36);
+    SetLegend(leg2_2,20);
+    leg2_2->AddEntry(ampt_N1HFgSUB3_decor[bin2_0],"  AMPT", "f");
+    leg2_2->AddEntry(amptTRUE, "  AMPT true", "f");
+    leg2_2->Draw();
+
+    TPad * pad2_3 = (TPad *) c2->cd(3);
+    pad2_3->SetRightMargin(0.01);
+    pad2_3->SetTopMargin(0.08);
+    pad2_3->SetBottomMargin(0.17);
+    h2->Draw();
+    ampt_N112SUB3[bin2_0]->Draw("same E3");
+    amptTRUE->Draw("same E3");
+    N112SUB3_syst[bin2_0]->Draw("same 2");
+    N112SUB3[bin2_0]->Draw("same p");
+    TPaveText * tx2_3 = new TPaveText(0.06, 0.79, 0.23, 0.88, "NDC");
+    SetTPaveTxt(tx2_3,20);
+    tx2_3->AddText("Mixed");
+    tx2_3->Draw();
+
+    c2->Print("../figures/fig_ampt_pT_true.pdf","pdf");
 
 }

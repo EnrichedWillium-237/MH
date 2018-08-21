@@ -187,7 +187,7 @@ void fig_v1odd_SP_pT() {
     SetTPaveTxt(tx0_CMS, 20);
     tx0_CMS->AddText("#bf{CMS}");
     tx0_CMS->AddText("PbPb #sqrt{s_{NN}} = 5.02 TeV");
-    tx0_CMS->AddText("0.0 < |#eta| < 2.0");
+    tx0_CMS->AddText("|#eta| < 2.0");
     tx0_CMS->AddText("#eta_{C} = 0");
     tx0_CMS->Draw();
 

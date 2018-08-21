@@ -295,4 +295,23 @@ void fig_comp_v1odd_eta() {
     c1->Print("../figures/fig_v1odd_compare_decor.pdf","pdf");
 
 
+
+    TCanvas * c2 = new TCanvas("c2", "c2", 510, 500);
+    c2->cd();
+    TH1D * h0_2 = (TH1D *) h0->Clone("h0_2");
+    // h0_2->GetYaxis()->SetRangeUser(-0.005, 0.005);
+    h0_2->Draw();
+    STAR_v1odd_eta_ZDC_62GeV_10_70->Draw("same p");
+    N1HFgSUB3[12]->Draw("same p");
+
+    TLegend * leg2_0 = new TLegend(0.21, 0.19, 0.47, 0.41);
+    SetLegend(leg2_0, 20);
+    leg2_0->SetHeader("10 - 70%");
+    leg2_0->AddEntry(N1HFgSUB3[12],"CMS PbPb #sqrt{s_{NN}} = 5.02 TeV","lpf");
+    leg2_0->AddEntry(STAR_v1odd_eta_ZDC_62GeV_10_70,"STAR AuAu #sqrt{s_{NN}} = 62.4 GeV","p");
+    leg2_0->Draw();
+
+    c2->Print("../figures/fig_v1odd_compare_STAR.pdf","pdf");
+
+
 }
